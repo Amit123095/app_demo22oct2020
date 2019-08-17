@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
@@ -195,32 +196,37 @@ public class FaxActivity extends AppCompatActivity implements View.OnClickListen
             }
 
             try {
-                JSONObject jObj = new JSONObject(responce);
+                if (!responce.equals("")) {
+                    JSONObject jObj = new JSONObject(responce);
 
-                JSONObject jObj1 = jObj.getJSONObject("response");
+                    JSONObject jObj1 = jObj.getJSONObject("response");
 
-                String errorcode = jObj1.optString("errorCode");
+                    String errorcode = jObj1.optString("errorCode");
 
-                if (errorcode.equalsIgnoreCase("0")) {
+                    if (errorcode.equalsIgnoreCase("0")) {
 
-                    String respmsg = jObj1.optString("respMsg");
-                    Log.v("RES", respmsg);
-                    System.out.println("" + respmsg);
-                    CustomDialog.createCustomDialog(context, "Note", respmsg)
+                        String respmsg = jObj1.optString("respMsg");
+                        Log.v("RES", respmsg);
+                        System.out.println("" + respmsg);
+                        CustomDialog.createCustomDialog(context, "Note", respmsg)
+                                .show();
+
+                    } else {
+
+                        String errormsg = jObj1.optString("errorMsg");
+                        System.out.println("" + errormsg);
+                        CustomDialog.createCustomDialog(context, "Note", errormsg)
+                                .show();
+
+                    }
+                }else{
+                    CustomDialog.createCustomDialog(context, "Note", "Unable to send fax, Please try again later!")
                             .show();
-
-                } else {
-
-                    String errormsg = jObj1.optString("errorMsg");
-                    System.out.println("" + errormsg);
-                    CustomDialog.createCustomDialog(context, "Note", errormsg)
-                            .show();
-
                 }
-
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+              //  Toast.makeText(context,"server issue",Toast.LENGTH_SHORT).show();
             }
         }
     }

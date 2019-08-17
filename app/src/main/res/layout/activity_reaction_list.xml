@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/colorOnesGray"
+    android:layout_height="match_parent"
+    tools:context="com.mindyourlovedone.healthcare.Connections.RelationActivity">
+    <RelativeLayout
+        android:id="@+id/headers"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimension70dp"
+        android:background="@color/colorNewHereBlue"
+        android:gravity="center_vertical"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="@dimen/dimension40dp"
+            android:layout_height="@dimen/dimension50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/backward_arrow" />
+
+        <ImageView
+            android:id="@+id/imgHome"
+            android:layout_width="@dimen/dimension25dp"
+            android:layout_height="@dimen/dimension25dp"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imgBack"
+            android:src="@drawable/homes" />
+
+        <TextView
+            android:id="@+id/txtTitles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/dimension20dp"
+            android:gravity="center_horizontal"
+            android:text="Select Relationship"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:fontFamily="@font/lato"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/dimension22dp" />
+
+        <TextView
+            android:id="@+id/txtSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dimension15dp"
+            android:text="Save"
+            android:textAllCaps="true"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/dimension20dp"
+            android:textStyle="bold"
+           />
+
+        <ImageView
+            android:id="@+id/imgDots"
+            android:layout_width="@dimen/dimension30dp"
+            android:layout_height="@dimen/dimension30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dimension15dp"
+            android:src="@drawable/info_white"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:layout_marginTop="@dimen/dimension10dp"
+        android:divider="@null"
+        android:id="@+id/listRelation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/headers"
+        android:layout_marginBottom="@dimen/dimension10dp"
+        ></ListView>
+
+
+</RelativeLayout>

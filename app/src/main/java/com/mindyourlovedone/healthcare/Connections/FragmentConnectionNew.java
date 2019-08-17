@@ -70,7 +70,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
    // FloatingActionButton fab;
     ImageView fab;
     LinearLayout llSelf;
-    ImageView imgSelfFolder, imgSelf;
+    ImageView imgSelfFolder, imgSelf, imgBacks;
     ArrayList<RelativeConnection> connectionList;
     TextView txtAdd, txtMsg, txtFTU, txtStep1, txtStep2, txtStep3, txtStep4, txtStep22, txtStep55, txtStep555, txtStep5, txtStep6, txtStep7, txtStep8;
     //RelativeLayout llAddConn;
@@ -174,6 +174,8 @@ txtYour.setVisibility(View.VISIBLE);
         llSelf = rootview.findViewById(R.id.llSelf);
         imgSelfFolder = rootview.findViewById(R.id.imgSelfFolder);
         imgSelf = rootview.findViewById(R.id.imgSelf);
+        imgBacks= getActivity().findViewById(R.id.imgBacks);
+        imgBacks.setVisibility(View.GONE);
         txtUser = rootview.findViewById(R.id.txtUser);
         txtRelation = rootview.findViewById(R.id.txtRelation);
 

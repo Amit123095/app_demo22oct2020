@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.IndexMenu.FragmentOverview;
 import com.mindyourlovedone.healthcare.InsuranceHealthCare.SpecialistsActivity;
@@ -67,7 +68,7 @@ public class FragmentDashboard extends Fragment implements View.OnClickListener,
     String[] Relationship = {"Aunt", "Brother", "Cousin", "Dad", "Daughter", "Father-in-law", "Friend", "GrandDaughter", "GrandFather", "GrandMother", "GrandSon", "Husband", "Mom", "Mother-in-law", "Neighbor", "Nephew", "Niece", "Sister", "Son", "Uncle", "Wife", "Other"};
     ImageLoader imageLoader;
     DisplayImageOptions displayImageOptions;
-
+ImageView imgBacks;
 
     @Nullable
     @Override
@@ -293,6 +294,7 @@ public class FragmentDashboard extends Fragment implements View.OnClickListener,
         imgProfile.setOnClickListener(this);
         imgPdf.setOnClickListener(this);
         imgRight.setOnClickListener(this);
+        imgBacks.setOnClickListener(this);
         //  rlInsurance.setOnClickListener(this);
         //  rlEmergency.setOnClickListener(this);
 //        imgShareLocation.setOnClickListener(this);
@@ -300,7 +302,8 @@ public class FragmentDashboard extends Fragment implements View.OnClickListener,
     }
 
     private void initUI() {
-
+        imgBacks= getActivity().findViewById(R.id.imgBacks);
+        imgBacks.setVisibility(View.VISIBLE);
         txtTitle = getActivity().findViewById(R.id.txtTitle);
         txtTitle.setVisibility(View.GONE);
         txtTitle.setText("");
@@ -359,7 +362,15 @@ public class FragmentDashboard extends Fragment implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.imgBacks:
+               /* Intent intentProfiles = new Intent(getActivity(), BaseActivity.class);
+                intentProfiles.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intentProfiles.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intentProfiles);*/
 
+                getActivity().onBackPressed();
+                imgBacks.setVisibility(View.GONE);
+                break;
             case R.id.rlEmergencyContact:
                 Intent intentOverview = new Intent(getActivity(), SpecialistsActivity.class);
                 intentOverview.putExtra("FROM", "Emergency");

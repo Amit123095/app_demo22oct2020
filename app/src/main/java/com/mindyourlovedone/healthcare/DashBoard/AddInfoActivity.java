@@ -10,6 +10,7 @@ import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.FileProvider;
@@ -62,6 +63,7 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
     public static final int RESULT_HOSPITAL = 400;
     private static final int RESULT_CONDITION = 500;
     private static final int RESULT_VACCINE = 700;
+    public static final int REQUEST_REACTION = 800;
     Context context = this;
     ImageView imgBack, imgInfo,imgHome;
     RelativeLayout llAddConn, rlInfo, rlPdf;
@@ -212,7 +214,11 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                 txttypeReaction.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        AlertDialog.Builder b = new AlertDialog.Builder(context);
+                        Intent i = new Intent(context, ReactionListActivity.class);
+                        i.putExtra("Category", "Reaction");
+                        i.putExtra("Selected",txttypeReaction.getText().toString());
+                        startActivityForResult(i, REQUEST_REACTION);
+                        /*AlertDialog.Builder b = new AlertDialog.Builder(context);
                         b.setTitle("Type");
 
                         b.setItems(reactionList, new DialogInterface.OnClickListener() {
@@ -230,7 +236,7 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                             }
 
                         });
-                        b.show();
+                        b.show();*/
 
                     }
                 });
@@ -954,6 +960,18 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                 txtOtherVaccine.setVisibility(View.GONE);
             }
         }
+
+        if (requestCode == REQUEST_REACTION && data != null) {
+            String relation = data.getExtras().getString("Category");;
+            txttypeReaction.setText(relation);
+            /*if (relation.equals("Other")) {
+                tilOtherRelation.setVisibility(View.VISIBLE);
+                txtOtherRelation.setVisibility(View.VISIBLE);
+            } else {
+                tilOtherRelation.setVisibility(View.GONE);
+                txtOtherRelation.setVisibility(View.GONE);
+            }*/
+        }
     }
 
     private void initComponent2() {
@@ -1494,4 +1512,5 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
             inm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
+
 }

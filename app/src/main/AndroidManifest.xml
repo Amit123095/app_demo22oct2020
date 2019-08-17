@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mindyourlovedone.healthcare.HomeActivity">
 
-
-
     <protected-broadcast android:name="com.motorola.motocare.INTENT_TRIGGER" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -42,8 +40,10 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/mylo_new_cropped_logo"
         android:supportsRtl="true"
-        android:theme="@style/MyMaterialTheme">
-        <activity android:name="com.mindyourlovedone.healthcare.Fragment.WebViewActivity"></activity>
+        android:theme="@style/MyMaterialTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name="com.mindyourlovedone.healthcare.DashBoard.ReactionListActivity"></activity>
+        <activity android:name="com.mindyourlovedone.healthcare.Fragment.WebViewActivity" />
         <activity android:name="com.mindyourlovedone.healthcare.Fragment.ADInfoActivity" />
         <activity android:name="com.mindyourlovedone.healthcare.Fragment.VideoActivity" />
         <activity android:name="com.mindyourlovedone.healthcare.Fragment.HelpFormActivity" />

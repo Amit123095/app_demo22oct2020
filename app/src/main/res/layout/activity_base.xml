@@ -61,16 +61,26 @@
                     android:layout_toRightOf="@+id/imgDrawer"
                     android:src="@drawable/pdf"
                     android:visibility="gone" />
+                <ImageView
+                    android:id="@+id/imgBacks"
+                    android:layout_width="@dimen/dimension45dp"
+                    android:layout_height="@dimen/dimension55dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dimension5dp"
+                    android:src="@drawable/backward_arrow"
+                    android:layout_toRightOf="@id/txtDrawer"
+                    android:visibility="gone"
+                    />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imgProfile"
                     android:layout_width="@dimen/dimension60dp"
                     android:layout_height="@dimen/dimension60dp"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/txtDrawer"
+                    android:layout_toRightOf="@+id/imgBacks"
                     android:layout_marginTop="@dimen/dimension2dp"
                     android:layout_marginBottom="@dimen/dimension2dp"
-                    android:layout_marginLeft="@dimen/dimension20dp"
+                    android:layout_marginLeft="@dimen/dimension10dp"
                     android:src="@drawable/ic_profiles"
 
                     android:visibility="gone"/>

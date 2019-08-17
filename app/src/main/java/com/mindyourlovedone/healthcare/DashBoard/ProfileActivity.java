@@ -2629,27 +2629,32 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
             }
         }
 
-        for (int i=0;i<phonelist.size();i++)
+       /* for (int i=0;i<phonelist.size();i++)
         {
-            if (phonelist.get(i).getContactType()=="" && phonelist.get(i).getValue()=="")
+            if (phonelist.get(i).getContactType().isEmpty() && phonelist.get(i).getValue().isEmpty())
             {
                 phonelist.remove(phonelist.get(i));
             }
-            // Log.d("TERE",phonelist.get(i).getContactType()+"-"+phonelist.get(i).getValue());
-        }
+
+        }*/
 
         for (int i=0;i<phonelist.size();i++)
         {
-            if (phonelist.get(i).getValue()==""&&phonelist.get(i).getContactType()=="")
+            if (phonelist.get(i).getValue().isEmpty()&&phonelist.get(i).getContactType().isEmpty())
             {
-                phonelist.remove(phonelist.get(i));
-            }else if (phonelist.get(i).getValue()==""&& !phonelist.get(i).getContactType().isEmpty())
+               // phonelist.remove(phonelist.get(i));
+                DialogManager.showAlert("Please add Phone number with Type", context);
+            }else if (phonelist.get(i).getValue()==""&& phonelist.get(i).getContactType()!="")
             {
-                DialogManager.showAlert("Please Select Phone number with Type", context);
+                DialogManager.showAlert("Please add Phone number with Type", context);
                 return false;
-            }else if (!phonelist.get(i).getValue().isEmpty()&& phonelist.get(i).getContactType().isEmpty())
+            }else if (phonelist.get(i).getContactType()==""&&phonelist.get(i).getValue()!="")
             {
-                DialogManager.showAlert("Please Select Phone number with Type", context);
+                DialogManager.showAlert("Please add Phone number with Type", context);
+                return false;
+            }else if (phonelist.get(i).getValue().length()<12||phonelist.get(i).getValue().length()>12)
+            {
+                DialogManager.showAlert("Phone number needs to be 10 digits", context);
                 return false;
             }
         }

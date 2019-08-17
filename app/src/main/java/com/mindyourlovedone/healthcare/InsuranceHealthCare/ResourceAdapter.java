@@ -66,12 +66,13 @@ public class ResourceAdapter extends BaseAdapter {
         } else {
             Toast.makeText(context, "Wrong dude..!!", Toast.LENGTH_SHORT).show();
         }*/
-        /*else {
+        else {
             holder = (Holders) convertView.getTag();
-        }*/
+        }
         ResourcesNew rn = resourcesNewList.get(position);
         holder.txtName.setText(rn.getName());
         holder.imgResources.setImageResource(rn.getResImage());
+
         return convertView;
     }
 

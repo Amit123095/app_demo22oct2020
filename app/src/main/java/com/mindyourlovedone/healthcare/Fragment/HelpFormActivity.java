@@ -108,12 +108,13 @@ public class HelpFormActivity extends AppCompatActivity {
         l11.setUrl("mylo_prescription_tracker.pdf");
         l11.setImage(R.drawable.pdf);
 
-        Links l12 = new Links();
+        //varsa commented
+        /*Links l12 = new Links();
         l12.setName("Mind Your Loved Ones App Wallet Cards");
        // l12.setUrl("http://mindyour-lovedones.com/MYLO/uploads/MYLO_App_Wallet_Card.pdf");
         l12.setUrl("wallet_card_new.pdf");
 
-        l12.setImage(R.drawable.pdf);
+        l12.setImage(R.drawable.pdf);*/
 
        /* Links l9=new Links();
         l9.setName("Center for Practical Bioethics, Caring Conversations");
@@ -145,7 +146,7 @@ public class HelpFormActivity extends AppCompatActivity {
         UrlList.add(l9);
         UrlList.add(l10);
         UrlList.add(l11);
-        UrlList.add(l12);
+     //   UrlList.add(l12);
        /* UrlList.add(l8);
         UrlList.add(l9);
         UrlList.add(l10);

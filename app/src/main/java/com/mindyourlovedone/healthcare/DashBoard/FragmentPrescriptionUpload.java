@@ -439,6 +439,12 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
 
 
         });
+        floatCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
 
