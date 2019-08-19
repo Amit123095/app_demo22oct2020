@@ -67,8 +67,8 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
     Context context = this;
     ImageView imgBack, imgInfo,imgHome;
     RelativeLayout llAddConn, rlInfo, rlPdf;
-    TextView txttype,txttypeReaction, txtSave, txtName, txtReaction, txtTreatment, txtTitle, txtAdd, txtDate, txtDoctor, txtDone, txtOtherVaccine, txtOtherReaction;
-    TextInputLayout tilTitle, tilReaction, tilTreatment, tilDate, tilDoctor, tilDone, tilOtherVaccine, tilOtherReaction,tilType22;
+    TextView txttype,txttypeReaction, txtSave, txtName, txtReaction, txtTreatment, txtTitle, txtAdd, txtDate,txtImmuniDate, txtDoctor, txtDone, txtOtherVaccine, txtOtherReaction;
+    TextInputLayout tilTitle, tilReaction, tilTreatment, tilDate,tilImmuniDate, tilDoctor, tilDone, tilOtherVaccine, tilOtherReaction,tilType22;
     String from, name, title;
     Boolean isAllergy, isHistory, isImplant;
     Preferences preferences;
@@ -270,6 +270,8 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                     fltypeReaction.setVisibility(View.VISIBLE);
                     tilReaction.setVisibility(View.GONE);
                     tilOtherReaction.setHint("Other Reaction");
+                    txtDate.setFocusable(false);
+                    txtDate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cal_c, 0);
                   //  txttypeReaction.setHint("Reaction");
                     break;
 
@@ -284,6 +286,8 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                     tilReaction.setVisibility(View.GONE);
                     tilOtherReaction.setHint("Other Reaction");
                     //txttypeReaction.setHint("Reaction");
+                    txtDate.setFocusable(false);
+                    txtDate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cal_c, 0);
                     break;
 
                 case "Implants":
@@ -305,6 +309,8 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                     txttype.setHint("Medical Implant");
                     fltypeReaction.setVisibility(View.GONE);
                     tilReaction.setVisibility(View.VISIBLE);
+                    txtDate.setFocusable(false);
+                    txtDate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cal_c, 0);
                     break;
 
                 case "ImplantUpdate":
@@ -327,6 +333,8 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                     txttype.setHint("Medical Implant");
                     fltypeReaction.setVisibility(View.GONE);
                     tilReaction.setVisibility(View.VISIBLE);
+                    txtDate.setFocusable(false);
+                    txtDate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cal_c, 0);
                     break;
 
                 case "Condition":
@@ -338,6 +346,8 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                     fltype.setVisibility(View.GONE);
                     fltypeReaction.setVisibility(View.GONE);
                     tilReaction.setVisibility(View.VISIBLE);
+                    txtDate.setFocusable(false);
+                    txtDate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cal_c, 0);
                     break;
 
                 case "ConditionUpdate":
@@ -349,6 +359,8 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                     fltype.setVisibility(View.GONE);
                     fltypeReaction.setVisibility(View.GONE);
                     tilReaction.setVisibility(View.VISIBLE);
+                    txtDate.setFocusable(false);
+                    txtDate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cal_c, 0);
                     break;
 
                 case "Hospital":
@@ -360,6 +372,8 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                     fltype.setVisibility(View.GONE);
                     fltypeReaction.setVisibility(View.GONE);
                     tilReaction.setVisibility(View.VISIBLE);
+                    txtDate.setFocusable(false);
+                    txtDate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cal_c, 0);
                     break;
 
                 case "HospitalUpdate":
@@ -371,6 +385,8 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                     fltype.setVisibility(View.GONE);
                     fltypeReaction.setVisibility(View.GONE);
                     tilReaction.setVisibility(View.VISIBLE);
+                    txtDate.setFocusable(false);
+                    txtDate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cal_c, 0);
 
                     break;
                 case "History":
@@ -384,6 +400,8 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                     tilReaction.setVisibility(View.VISIBLE);
                     tilOtherVaccine.setHint("Other History");
                     txttype.setHint("Surgical/Hospitalization History");
+                    txtDate.setFocusable(false);
+                    txtDate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cal_c, 0);
                     break;
 
                 case "HistoryUpdate":
@@ -397,6 +415,8 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                     tilReaction.setVisibility(View.VISIBLE);
                     tilOtherVaccine.setHint("Other History");
                     txttype.setHint("Surgical/Hospitalization History");
+                    txtDate.setFocusable(false);
+                    txtDate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cal_c, 0);
                     break;
 
                 case "Vaccine":
@@ -410,6 +430,8 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                     txttype.setHint("Immunization/Vaccine");
                     fltypeReaction.setVisibility(View.GONE);
                     tilReaction.setVisibility(View.VISIBLE);
+                    txtDate.setFocusable(true);
+                    txtDate.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                     break;
 
                 case "VaccineUpdate":
@@ -423,6 +445,8 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                     txttype.setHint("Immunization/Vaccine");
                     fltypeReaction.setVisibility(View.GONE);
                     tilType22.setVisibility(View.VISIBLE);
+                    txtDate.setFocusable(true);
+                    txtDate.setCompoundDrawablesWithIntrinsicBounds(0, 0,0, 0);
                     break;
             }
             switch (from) {
@@ -909,7 +933,8 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
         tilNote = findViewById(R.id.tilNote);
         tilNote.setHint("Note");
         txtDate = findViewById(R.id.txtDate);
-        txtDate.setFocusable(false);
+       // txtDate.setFocusable(false);
+       // txtImmuniDate = findViewById(R.id.txtImmuniDate);
         txtDoctor = findViewById(R.id.txtDoctor);
         txtDone = findViewById(R.id.txtDone);
         tilTreatment = findViewById(R.id.tilTreatment);

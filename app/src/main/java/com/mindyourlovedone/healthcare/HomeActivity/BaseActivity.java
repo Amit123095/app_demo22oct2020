@@ -122,7 +122,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
-    //    Crashlytics.getInstance().crash(); // Force a crash
+        //    Crashlytics.getInstance().crash(); // Force a crash
         pd = new ProgressDialog(this);//nikita
         pd.setTitle("Loading UI...");
         pd.show();
@@ -139,7 +139,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             //nikita -pdf
             Intent i = getIntent();
             if (i != null) {
-               Uri audoUri = i.getParcelableExtra(Intent.EXTRA_STREAM);
+                Uri audoUri = i.getParcelableExtra(Intent.EXTRA_STREAM);
 
                 if (audoUri != null) {
                     Log.v("URI", audoUri.toString());
@@ -524,17 +524,14 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 // dialogSharePdf.dismiss();
             }
         });
-
         dialogSharePdf.show();
         txtOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialogSharePdf.dismiss();
                 initComponent();
-
             }
         });
-
     }
 */
 
@@ -566,17 +563,13 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         if (preferences == null) {
             preferences = new Preferences(BaseActivity.this);
         }
-
         if (preferences.getREGISTERED() && preferences.isLogin()) {
-
         } else {
             Toast.makeText(getApplicationContext(), "You need to login first", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(BaseActivity.this, SplashNewActivity.class));
             finish();
         }
-
         From = preferences.getString(PrefConstants.FROM);
-
         i = getIntent();
         Log.v("URI", i.getExtras().toString());
         final Uri audoUri = i.getParcelableExtra(Intent.EXTRA_STREAM);
@@ -586,7 +579,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             builders.setTitle("");
             builders.setCancelable(false);
             builders.setItems(dialog_add, new DialogInterface.OnClickListener() {
-
                 public void onClick(DialogInterface dialog, int itemPos) {
                     switch (itemPos) {
                         case 0: // email
@@ -608,7 +600,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                             initUi();
                             external_flag = true;
                             break;*//*
-
                     }
                 }
             });
@@ -620,7 +611,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 /*
     private void addfile(Uri audoUri) {
         originPath = audoUri.toString();
-
         File f = new File(audoUri.getPath());
         originPath = f.getPath();
         originPath = originPath.replace("/root_path/", "");
@@ -869,7 +859,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.rlBackup:
                 Intent intentBackup = new Intent(context, DropboxLoginActivity.class);
-               // intentBackup.putExtra("c", 7);
+                // intentBackup.putExtra("c", 7);
                 intentBackup.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intentBackup.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentBackup);
@@ -986,7 +976,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     }
 
   /*  private void dialogCommingSoon() {
-
     }*/
 
 
@@ -1065,7 +1054,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             out.close();
             out = null;
             /*out = openFileOutput(file.getName(), Context.MODE_WORLD_READABLE);
-
             copyFiles(in, out);
             in.close();
             in = null;
@@ -1165,7 +1153,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-   @Override
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             try {
@@ -1232,5 +1220,4 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 }
-
 
