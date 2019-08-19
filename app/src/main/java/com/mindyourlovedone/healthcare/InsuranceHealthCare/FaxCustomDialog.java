@@ -6,11 +6,8 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -216,14 +213,14 @@ public class FaxCustomDialog extends Dialog implements
                     String respmsg = jObj1.optString("respMsg");
                     Log.v("RES", respmsg);
                     System.out.println("" + respmsg);
-                    CustomDialog.createCustomDialog(context, "Note", respmsg)
+                    CustomDialog.createCustomDialog(context, "Note", respmsg, "")
                             .show();
 
                 } else {
 
                     String errormsg = jObj1.optString("errorMsg");
                     System.out.println("" + errormsg);
-                    CustomDialog.createCustomDialog(context, "Note", errormsg)
+                    CustomDialog.createCustomDialog(context, "Note", errormsg, "")
                             .show();
 
                 }

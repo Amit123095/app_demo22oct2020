@@ -9,6 +9,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.mindyourlovedone.healthcare.DashBoard.FaxActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 
 /**
@@ -17,8 +18,8 @@ import com.mindyourlovedone.healthcare.HomeActivity.R;
 
 public class CustomDialog {
 
-    public static Dialog createCustomDialog(Context context, String title,
-                                            String message) {
+    public static Dialog createCustomDialog(final Context context, String title,
+                                            String message, final String s) {
         final Dialog custDialog = new Dialog(context);
 
         custDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -48,6 +49,13 @@ public class CustomDialog {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 custDialog.dismiss();
+                if (s.equalsIgnoreCase("close"))
+                {
+                    ((FaxActivity)context).finish();
+                }
+                else{
+
+                }
             }
         });
 

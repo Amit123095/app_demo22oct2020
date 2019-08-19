@@ -121,6 +121,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     // byte[] photoCard=null;
     ImageView imgRight, imgInfo, imgR;
     RelativeLayout llIndividual;
+    boolean isfinis;
     String has_card="No";
     //  Button floatingBtn;
     TextView txtPeople,txtAddPet, txtSignUp, txtLogin, txtForgotPassword, txtOther, txtOtherLanguage, txtMsg, txtSave;
@@ -2104,12 +2105,19 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                            @Override
                            public void onClick(DialogInterface dialog, int which) {
-                               txtSave.performClick();
-                               dialog.dismiss();
-                              // setValues();
-                               backflap=false;
-                               hideSoftKeyboard();
-                                finish();
+                               if (!connection.getName().equals(name) || !connection.getEmail().equals(address))
+                               {
+                                   isfinis=true;
+                               }
+                          hideSoftKeyboard();
+                          boolean s=  txtSave.performClick();
+                          backflap=false;
+                          dialog.dismiss();
+                               if (connection.getName().equals(name) || connection.getEmail().equals(address))
+                               {
+                               finish();
+                               }
+
                            }
                        });
 
@@ -2894,7 +2902,10 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                                     }
                                 }
                             }
-
+                            if (isfinis==true){
+                                isfinis=false;
+                                finish();
+                            }
                         }
                         //Toast.makeText(context, "You have edited connection Successfully", Toast.LENGTH_SHORT).show();
                         preferences.putString(PrefConstants.CONNECTED_NAME, name);
@@ -2951,6 +2962,10 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                                 }
                             }
                         }
+                        if (isfinis==true){
+                            isfinis=false;
+                            finish();
+                        }
                     }
                     // Toast.makeText(context, "You have edited connection Successfully", Toast.LENGTH_SHORT).show();
                     //   finish(); //Varsa
@@ -2958,6 +2973,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                 }
             }
+
         }
         //  }
        /* if (preferences.getInt(PrefConstants.CONNECTED_USERID)==preferences.getInt(PrefConstants.USER_ID)) {
@@ -3644,8 +3660,8 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
 
             if (!result.equals("")) {
 
-                if (result.equals("Exception")) {
-                    // ErrorDialog.errorDialog(context);
+                if (result.equalsIgnoreCase("Exception")) {
+                    Toast.makeText(context, "Unable to edit profile, Please try again later!", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.e("CreateUserAsynk", result);
 
@@ -3660,7 +3676,8 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                             Boolean flags = MyConnectionsQuery.updateMyConnectionsData(1, name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
                             if (flags == true) {
                                 Toast.makeText(context, "You have edited profile information successfully", Toast.LENGTH_SHORT).show();
-
+                               connection.setName(name);
+                               connection.setEmail(email);
                                 String mail = email;
                                 mail = mail.replace(".", "_");
                                 mail = mail.replace("@", "_");
@@ -3688,6 +3705,8 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
 
             }
             super.onPostExecute(result);
+
+
         }
 
     }

@@ -9,12 +9,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
@@ -208,19 +206,19 @@ public class FaxActivity extends AppCompatActivity implements View.OnClickListen
                         String respmsg = jObj1.optString("respMsg");
                         Log.v("RES", respmsg);
                         System.out.println("" + respmsg);
-                        CustomDialog.createCustomDialog(context, "Note", respmsg)
+                        CustomDialog.createCustomDialog(context, "Note", respmsg,"close")
                                 .show();
 
                     } else {
 
                         String errormsg = jObj1.optString("errorMsg");
                         System.out.println("" + errormsg);
-                        CustomDialog.createCustomDialog(context, "Note", errormsg)
+                        CustomDialog.createCustomDialog(context, "Note", errormsg, "")
                                 .show();
 
                     }
                 }else{
-                    CustomDialog.createCustomDialog(context, "Note", "Unable to send fax, Please try again later!")
+                    CustomDialog.createCustomDialog(context, "Note", "Unable to send fax, Please try again later!", "")
                             .show();
                 }
             } catch (JSONException e) {
