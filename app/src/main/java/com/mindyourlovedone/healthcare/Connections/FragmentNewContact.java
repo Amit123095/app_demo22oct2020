@@ -672,7 +672,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                                 Boolean flag = MyConnectionsQuery.insertMyConnectionsData(preferences.getInt(PrefConstants.USER_ID), name, email, address, mobile, phone, workphone, relation, imagepath, "", 1, 2, otherRelation, cardPath);
                                 if (flag == true) {
 
-                                    Toast.makeText(getActivity(), "You have added connection Successfully", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "You have added connection successfully", Toast.LENGTH_SHORT).show();
                                     getActivity().finish();
                                 } else {
                                     Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
@@ -711,7 +711,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                             MyConnectionsQuery m1 = new MyConnectionsQuery(getActivity(), dbHelper1);
                             Boolean flagg = MyConnectionsQuery.insertMyConnectionsData(connection.getId(), name, email, address, mobile, phone, workphone, relation, imagepath, "", 1, 2, otherRelation, cardPath, has_card);
                             if (flagg == true) {
-                                Toast.makeText(getActivity(), "You have added profile Successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "You have added profile successfully", Toast.LENGTH_SHORT).show();
                                 RelativeConnection con = MyConnectionsQuery.fetchConnectionRecordforImport(email);
                                 ContactDataQuery c = new ContactDataQuery(context, dbHelper1);
                                 boolean flagf = ContactDataQuery.deleteRecord("Personal Profile",-1);

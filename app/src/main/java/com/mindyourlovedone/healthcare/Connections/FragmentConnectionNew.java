@@ -826,7 +826,7 @@ rlSelf.setOnLongClickListener(new View.OnLongClickListener() {
         final FloatingActionButton floatfax = dialogview.findViewById(R.id.floatfax);
         floatfax.setImageResource(R.drawable.dropbox);
 TextView txtFax=dialogview.findViewById(R.id.txtfax);
-txtFax.setText("Add From Dropbox");
+txtFax.setText("Import from Dropbox");
         dialog.setContentView(dialogview);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());

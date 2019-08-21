@@ -157,7 +157,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if (PersonList.size() != 0) {
                         for (int i = 0; i < PersonList.size(); i++) {
                             if (username.equals(PersonList.get(i).getEmail()) && password.equals(PersonList.get(i).getPassword())) {
-                                Toast.makeText(context, "You have Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "You have Logged in successfully", Toast.LENGTH_SHORT).show();
                                 preferences.putString(PrefConstants.USER_EMAIL, PersonList.get(i).getEmail());
                                 preferences.putString(PrefConstants.USER_NAME, PersonList.get(i).getName());
                                // String saveThis = Base64.encodeToString(PersonList.get(i).getPhoto(), Base64.DEFAULT);
@@ -260,9 +260,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
                     Boolean flags = MyConnectionsQuery.insertMyConnectionsData(connection.getId(), name, username, "", "", "", "", "Self", "", "", 1, 2, "", "", has_card);
                     if (flags == true) {
-                        // Toast.makeText(context, "You have created db Successfully", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(context, "You have created db successfully", Toast.LENGTH_SHORT).show();
                     }
-                    //  Toast.makeText(context,"You have added profile Successfully",Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(context,"You have added profile successfully",Toast.LENGTH_SHORT).show();
                     preferences.putInt(PrefConstants.USER_ID, userid);
                     Intent signupIntent = new Intent(context, BaseActivity.class);
                     preferences.putString(PrefConstants.USER_EMAIL, username);

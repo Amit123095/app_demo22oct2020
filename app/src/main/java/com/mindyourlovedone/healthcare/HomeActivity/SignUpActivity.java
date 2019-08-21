@@ -659,7 +659,7 @@ CheckBox rbCheck;
                       Log.v("Path",imagepath);
                         Boolean flag = PersonalInfoQuery.insertPersonalInfoData(name, email, address, country, mobile, bdate, password, imagepath,"","","");
                         if (flag == true) {
-                            Toast.makeText(context, "You have registered Successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "You have registered successfully", Toast.LENGTH_SHORT).show();
                             Intent signupIntent = new Intent(context, BaseActivity.class);
                             preferences.putString(PrefConstants.USER_EMAIL, email);
 
@@ -805,7 +805,7 @@ CheckBox rbCheck;
         byte[] photo = baos.toByteArray();*//*
         Boolean flag = MyConnectionsQuery.insertMyConnectionsData(id, name, email, address, mobile, " ", "", "Self", imagepath, " ", 1, 2, "", "");
         if (flag == true) {
-            Toast.makeText(context, "You have added connection Successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "You have added connection successfully", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
         }
@@ -1028,9 +1028,9 @@ CheckBox rbCheck;
                     MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
                     Boolean flags = MyConnectionsQuery.insertMyConnectionsData(connection.getId(), name, email, "", "", "", "", "Self", "", "", 1, 2, "", "");
                     if (flags == true) {
-                        // Toast.makeText(context, "You have created db Successfully", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(context, "You have created db successfully", Toast.LENGTH_SHORT).show();
                     }
-                    //  Toast.makeText(context,"You have added profile Successfully",Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(context,"You have added profile successfully",Toast.LENGTH_SHORT).show();
                     preferences.putInt(PrefConstants.USER_ID, userid);
                     Intent signupIntent = new Intent(context, BaseActivity.class);
                     preferences.putString(PrefConstants.USER_EMAIL, email);
@@ -1300,9 +1300,9 @@ class CreateUserAsynk extends AsyncTask<Void, Void, String> {
                     MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
                     Boolean flags = MyConnectionsQuery.insertMyConnectionsData(connection.getId(), name, email, "", "", "", "", "Self", "", "", 1, 2, "", "", has_card);
                     if (flags == true) {
-                        // Toast.makeText(context, "You have created db Successfully", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(context, "You have created db successfully", Toast.LENGTH_SHORT).show();
                     }
-                    //  Toast.makeText(context,"You have added profile Successfully",Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(context,"You have added profile successfully",Toast.LENGTH_SHORT).show();
                     preferences.putInt(PrefConstants.USER_ID, userid);
                     Intent signupIntent = new Intent(context, ImpAgreementActivity.class);
                     preferences.putString(PrefConstants.USER_EMAIL, email);

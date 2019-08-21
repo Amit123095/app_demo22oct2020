@@ -508,9 +508,9 @@ else {
                         MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
                         Boolean flags = MyConnectionsQuery.updateMyConnectionsRelationData(1, relation, otherRelation);
                         if (flags == true) {
-                            Toast.makeText(context, "You have edited relation Successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "You have edited relation successfully", Toast.LENGTH_SHORT).show();
                         }
-                        Toast.makeText(context, "You have edited relation Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "You have edited relation successfully", Toast.LENGTH_SHORT).show();
                         Intent myIntent = new Intent(context, BaseActivity.class);
                         context.startActivity(myIntent);
                         ((BaseActivity) context).finish();

@@ -1101,7 +1101,7 @@ txtLogoutDropbox.setVisibility(View.GONE);
             } else {
                 copydbWholeBU(context);
             }
-            Toast.makeText(context, "Unzipped and restored files Successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Unzipped and restored files successfully", Toast.LENGTH_SHORT).show();
             //   Intent i=new Intent(context, FragmentConnectionNew.class); //Rahul Patil
             //   startActivity(i);                                           //Rahul Patil
 

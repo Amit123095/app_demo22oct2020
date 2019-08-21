@@ -88,7 +88,7 @@ Step 6. TO <b>DELETE</b> A PROFILE. <b>Long press</b> on the profile box. <br><b
     <string name="mRegistered">I"'"M REGISTERED</string>
     <string name="Agree">I agree to the Mind Your Loved Ones</string>
     <string name="PrivacyPolicy"><b><u>Privacy Policy</u></b></string>
-    <string name="UserAgreement"><b><u>User License Agreement</u></b></string>
+    <string name="UserAgreement"><b><u>End User License Agreement</u></b></string>
     <string name="And">&amp;</string>
     <string name="Next">Next</string>
     <string name="Signup">Sign up</string>
@@ -96,10 +96,10 @@ Step 6. TO <b>DELETE</b> A PROFILE. <b>Long press</b> on the profile box. <br><b
     <string name="AgreementText">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"'"s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
 
     <!--Important agreement text-->
-    <string name="Check1"><b>PRIVACY</b> - This App is Native to your Phone. This  means all information resides on your phone and NOT on our server. We do not have access to the information you input into the App. </string>
+    <string name="Check1"><b>PRIVACY</b> - This App is native to your Phone. This  means all information resides on your phone and NOT on our server. We do not have access to the information you input into the App. </string>
     <string name="Check2">This App will ask you for permission to access your contacts, photos, media and files and to make phone calls.  This is simply to provide the User with functionality for a good mobile experience. We do not have access to your information.</string>
     <string name="Check3">Mind Your Loved Ones (MYLO) records only your name and email address on our servers.</string>
-    <string name="Check4">Users must remember their user name and email address and should periodically backup their data. Instructions to do this are included in the App under “Settings”.</string>
+    <string name="Check4">Users must remember their user name and email address and should periodically backup their data. Instructions to do this are included in the App under “Menu”.</string>
     <string name="Check5">MYLO provides fax capability. It should only be used for medical emergencies to satisfy HIPAA requirements.
 </string>
 

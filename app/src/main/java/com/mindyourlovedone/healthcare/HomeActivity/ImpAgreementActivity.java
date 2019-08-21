@@ -426,9 +426,9 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
                             MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
                             Boolean flags = MyConnectionsQuery.insertMyConnectionsData(connection.getId(), name, email, "", "", "", "", "Self", "", "", 1, 2, "", "", has_card);
                             if (flags == true) {
-                                // Toast.makeText(context, "You have created db Successfully", Toast.LENGTH_SHORT).show();
+                                // Toast.makeText(context, "You have created db successfully", Toast.LENGTH_SHORT).show();
                             }
-                            //  Toast.makeText(context,"You have added profile Successfully",Toast.LENGTH_SHORT).show();
+                            //  Toast.makeText(context,"You have added profile successfully",Toast.LENGTH_SHORT).show();
                             preferences.putInt(PrefConstants.USER_ID, userid);
                             Intent signupIntent = new Intent(context, BaseActivity.class);
                             preferences.putString(PrefConstants.USER_EMAIL, email);

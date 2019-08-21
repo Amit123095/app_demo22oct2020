@@ -122,7 +122,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     ImageView imgRight, imgInfo, imgR;
     RelativeLayout llIndividual;
     boolean isfinis;
-    String has_card="No";
+    String has_card="";
     //  Button floatingBtn;
     TextView txtPeople,txtAddPet, txtSignUp, txtLogin, txtForgotPassword, txtOther, txtOtherLanguage, txtMsg, txtSave;
     ImageView imgHome,imgEdit, imgProfile, imgDone, imgAddpet, imgEditCard, imgCard;
@@ -131,13 +131,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     RelativeLayout rlPet, rlLive;
     String name = "", Email = "", email = "", phone = "", manager_phone = "", country = "", bdate = "", address = "", homePhone = "", workPhone = "", gender = "";
     String height = "", weight = "", profession = "", employed = "", religion = "", idnumber = "",people="";
-    String pet = "NO", veteran = "NO", english = "NO", live = "NO";
+    String pet = "", veteran = "", english = "", live = "";
     String eyes="", language="", marital_status="";
     String otherRelation;
     RadioGroup rgPet, rgVeteran, rgUnderstand, rgLive;
     RadioButton rbYes, rbNo, rbYesPet, rbNoPet, rbYess, rbNoo, rbYesLive, rbNoLive;
     CheckBox chkOther, chkChild, chkFriend, chkGrandParent, chkParent, chkSpouse, chkSibling;
-    String child = "NO", friend = "NO", grandParent = "NO", parent = "NO", spouse = "NO", other = "NO", sibling = "NO";
+    String child = "", friend = "", grandParent = "", parent = "", spouse = "", other = "", sibling = "";
     String liveOther = "";
     ListView ListPet;
     MySpinner spinner, spinnerRelation, spinnerEyes, spinnerLanguage, spinnerMarital;
@@ -1997,7 +1997,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                             {
                                 Boolean flag = PersonalInfoQuery.updatePersonalInfoData(preferences.getInt(PrefConstants.USER_ID), name, email, address, country, phone, bdate, imagepath,homePhone,gender,height,weight,eyes,profession,employed,language,marital_status,religion,veteran,idnumber,pet,manager_phone,cardpath,english,child,friend,grandParent,parent,spouse,other,liveOther,live,OtherLang);
                                 if (flag == true) {
-                                    Toast.makeText(context, "You have updated Successfully", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "You have updated successfully", Toast.LENGTH_SHORT).show();
                                     hideSoftKeyboard();
                                     preferences.putString(PrefConstants.USER_NAME,name);
                                     preferences.putString(PrefConstants.USER_PROFILEIMAGE,imagepath);
@@ -2017,7 +2017,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                                 else{
                                     Boolean flag = PersonalInfoQuery.updatePersonalInfoData(preferences.getInt(PrefConstants.USER_ID), name, email, address, country, phone, bdate, imagepath,homePhone,gender,height,weight,eyes,profession,employed,language,marital_status,religion,veteran,idnumber,pet,manager_phone,cardpath,english,child,friend,grandParent,parent,spouse,other,liveOther,live,OtherLang);
                                     if (flag == true) {
-                                        Toast.makeText(context, "You have updated Successfully", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, "You have updated successfully", Toast.LENGTH_SHORT).show();
                                         hideSoftKeyboard();
                                         preferences.putString(PrefConstants.USER_NAME,name);
                                         preferences.putString(PrefConstants.USER_PROFILEIMAGE,imagepath);
@@ -2651,7 +2651,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
             if (phonelist.get(i).getValue().isEmpty()&&phonelist.get(i).getContactType().isEmpty())
             {
                // phonelist.remove(phonelist.get(i));
-                DialogManager.showAlert("Please add Phone number with Type", context);
+              //  DialogManager.showAlert("Please add Phone number with Type", context);
             }else if (phonelist.get(i).getValue()==""&& phonelist.get(i).getContactType()!="")
             {
                 DialogManager.showAlert("Please add Phone number with Type", context);
@@ -2866,7 +2866,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
         int ids=preferences.getInt(PrefConstants.CONNECTED_USERID);
         Boolean flag = MyConnectionsQuery.updateMyConnectionsData(ids, name, email, address, phone,homePhone,workPhone,relation , imagepath,"", 1, 2, otherRelation,height,weight,eyes,profession,employed,language,marital_status,religion,veteran,idnumber,pet, manager_phone, cardpath, english,child,friend,grandParent,parent,spouse,other,liveOther,live, OtherLang,bdate,gender);
         if (flag == true) {
-            Toast.makeText(context, "You have edited connection Successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "You have edited connection successfully", Toast.LENGTH_SHORT).show();
             preferences.putString(PrefConstants.CONNECTED_NAME,name);
         } else {
             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
@@ -2907,7 +2907,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                                 finish();
                             }
                         }
-                        //Toast.makeText(context, "You have edited connection Successfully", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "You have edited connection successfully", Toast.LENGTH_SHORT).show();
                         preferences.putString(PrefConstants.CONNECTED_NAME, name);
                         preferences.putString(PrefConstants.CONNECTED_RELATION, relation);
                      //   finish(); //Varsa
@@ -2933,7 +2933,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                     Boolean flags = MyConnectionsQuery.updateMyConnectionsData(1, name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
                     if (flags == true) {
                         preferences.putString(PrefConstants.CONNECTED_PHOTO,imagepath);
-                        Toast.makeText(context, "You have edited profile data Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "You have edited profile data successfully", Toast.LENGTH_SHORT).show();
                         connection = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
                         preferences.putString(PrefConstants.CONNECTED_NAME, name);
                         preferences.putString(PrefConstants.CONNECTED_RELATION, relation);
@@ -2967,7 +2967,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                             finish();
                         }
                     }
-                    // Toast.makeText(context, "You have edited connection Successfully", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(context, "You have edited connection successfully", Toast.LENGTH_SHORT).show();
                     //   finish(); //Varsa
                 } else {
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
@@ -2979,7 +2979,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
        /* if (preferences.getInt(PrefConstants.CONNECTED_USERID)==preferences.getInt(PrefConstants.USER_ID)) {
             Boolean flag = MyConnectionsQuery.updateMyConnectionsData(preferences.getInt(PrefConstants.USER_ID), name, email, address, phone," "," ", "Self", imagepath," ", 1, 2, otherRelation,height,weight,eyes,profession,employed,language,marital_status,religion,veteran,idnumber,pet,manager_phone, cardpath,english,child,friend,grandParent,parent,spouse,other,liveOther,live,OtherLang);
             if (flag == true) {
-                Toast.makeText(context, "You have edited connection Successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "You have edited connection successfully", Toast.LENGTH_SHORT).show();
                 preferences.putString(PrefConstants.CONNECTED_NAME,name);
             } else {
                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
@@ -3689,7 +3689,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                                     preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
                                 }
                             }
-                            //  Toast.makeText(context, "You have edited connection Successfully", Toast.LENGTH_SHORT).show();
+                            //  Toast.makeText(context, "You have edited connection successfully", Toast.LENGTH_SHORT).show();
                             preferences.putString(PrefConstants.CONNECTED_NAME, name);
                             preferences.putString(PrefConstants.CONNECTED_RELATION,relation);
                             //   finish(); //Varsa

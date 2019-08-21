@@ -62,7 +62,7 @@ public class IndividualNew {
     String idNumber = "";
     String Bdate = "";
     String notes = "";
-    static int alone;
+     //int alone=0;
 
     public static void IndividualNewFont() {
         try {
@@ -75,6 +75,7 @@ public class IndividualNew {
     }
 
     public IndividualNew(RelativeConnection connection, ArrayList<Pet> Petlist, ArrayList<ContactData> phonelist, Image ppys) {
+
         try {
             // Font
             IndividualNewFont();
@@ -83,6 +84,7 @@ public class IndividualNew {
             messageInfo.add("Personal Profile");
             HeaderNew.addEmptyLine(1);
 
+            int alone=0;
 
             PdfPTable table;
             table = new PdfPTable(1);
@@ -592,6 +594,7 @@ public class IndividualNew {
 
                     messageInfo2.add("Do you have a business card:");
                     messageInfo2.add(card);
+
                     cell1 = new PdfPCell();
                     HeaderNew.cellDesign(cell1, table1, "Pet(s):", Pets);
                     table1.addCell(cell1);
@@ -602,6 +605,7 @@ public class IndividualNew {
                     cell1 = new PdfPCell();
                     HeaderNew.cellDesign(cell1, table1, "", "Empty");
                     table1.addCell(cell1);
+
                 }else{
                     cell1 = new PdfPCell();
                     HeaderNew.cellDesign (cell1, table1, "Do you have a business card:", card);
@@ -637,6 +641,7 @@ public class IndividualNew {
 
                     messageInfo2.add("Pet(s) :");
                     messageInfo2.add(Pets);
+
                 }else{
                     cell1 = new PdfPCell();
                     HeaderNew.cellDesignNoline(cell1, table1, "Do you have a business card:", card);
@@ -718,9 +723,9 @@ public class IndividualNew {
                     tableIN.setWidthPercentage(98);
                     tableIN.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
                     tableIN.setTableEvent(new RoundedBorder());
-                    tableIN.getDefaultCell().setPadding(2);
-                    tableIN.setKeepTogether(false);
-                    tableIN.setSplitLate(false);
+                    //tableIN.getDefaultCell().setPadding(2);
+                   // tableIN.setKeepTogether(false);
+                    //tableIN.setSplitLate(false);
 
 
                     Pet a = Petlist.get(i);
@@ -4081,7 +4086,7 @@ public class IndividualNew {
 
                     cellIN = new PdfPCell();
                     if (i == implantsList.size() - 1) {
-                        HeaderNew.cellDesignNoline(cellIN, tableIN, "Details and Serial Number", implant.getDetails());
+                        HeaderNew.cellDesign(cellIN, tableIN, "Details and Serial Number", implant.getDetails());
                     } else {
                         HeaderNew.cellDesign(cellIN, tableIN, "Details and Serial Number", implant.getDetails());
                     }
@@ -4216,9 +4221,9 @@ public class IndividualNew {
 
                     cellIN = new PdfPCell();
                     if (i == historList.size() - 1) {
-                        HeaderNew.cellDesignNoline(cellIN, tableIN, "Location", implant.getDone());
+                        HeaderNew.cellDesignNoline(cellIN, tableIN, "Treatment Location & Other Details", implant.getDone());
                     } else {
-                        HeaderNew.cellDesign(cellIN, tableIN, "Location", implant.getDone());
+                        HeaderNew.cellDesign(cellIN, tableIN, "Treatment Location & Other Details", implant.getDone());
                     }
                     cellIN.setBackgroundColor(WebColors.getRGBColor("#FBFBFB"));
                     cellIN.setPaddingTop(14);
@@ -4846,7 +4851,7 @@ public class IndividualNew {
 
 
                 cellIN = new PdfPCell();
-                HeaderNew.cellDesignNoline(cellIN, tableIN, "Are You a Organ Donor?", medInfo.getDonor());
+                HeaderNew.cellDesignNoline(cellIN, tableIN, "Are you an Organ Donor?", medInfo.getDonor());
                 cellIN.setBackgroundColor(WebColors.getRGBColor("#FBFBFB"));
                 cellIN.setPaddingTop(14);
                 tableIN.addCell(cellIN);

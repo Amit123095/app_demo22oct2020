@@ -463,7 +463,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                /* Toast.makeText(FilesActivity.this, message, Toast.LENGTH_SHORT)
                         .show();*/
                 final AlertDialog.Builder alert = new AlertDialog.Builder(FilesActivity.this);
-                alert.setTitle("Backup Stored Successfully");
+                alert.setTitle("Backup Stored successfully");
                 alert.setMessage(message);
                 alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override

@@ -1348,7 +1348,7 @@ String has_card="No";
                             {
                                 Boolean flag = PersonalInfoQuery.updatePersonalInfoData(preferences.getInt(PrefConstants.USER_ID), name, email, address, country, phone, bdate, imagepath,homePhone,gender,height,weight,eyes,profession,employed,language,marital_status,religion,veteran,idnumber,pet,manager_phone,cardpath,english,child,friend,grandParent,parent,spouse,other,liveOther,live,OtherLang);
                                 if (flag == true) {
-                                    Toast.makeText(getActivity(), "You have updated Successfully", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "You have updated successfully", Toast.LENGTH_SHORT).show();
                                     hideSoftKeyboard();
                                     preferences.putString(PrefConstants.USER_NAME,name);
                                     preferences.putString(PrefConstants.USER_PROFILEIMAGE,imagepath);
@@ -1368,7 +1368,7 @@ String has_card="No";
                                 else{
                                     Boolean flag = PersonalInfoQuery.updatePersonalInfoData(preferences.getInt(PrefConstants.USER_ID), name, email, address, country, phone, bdate, imagepath,homePhone,gender,height,weight,eyes,profession,employed,language,marital_status,religion,veteran,idnumber,pet,manager_phone,cardpath,english,child,friend,grandParent,parent,spouse,other,liveOther,live,OtherLang);
                                     if (flag == true) {
-                                        Toast.makeText(getActivity(), "You have updated Successfully", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), "You have updated successfully", Toast.LENGTH_SHORT).show();
                                         hideSoftKeyboard();
                                         preferences.putString(PrefConstants.USER_NAME,name);
                                         preferences.putString(PrefConstants.USER_PROFILEIMAGE,imagepath);
@@ -1916,7 +1916,7 @@ String has_card="No";
         int ids=preferences.getInt(PrefConstants.CONNECTED_USERID);
         Boolean flag = MyConnectionsQuery.updateMyConnectionsData(ids, name, email, address, phone,homePhone,workPhone,relation , imagepath,"", 1, 2, otherRelation,height,weight,eyes,profession,employed,language,marital_status,religion,veteran,idnumber,pet, manager_phone, cardpath, english,child,friend,grandParent,parent,spouse,other,liveOther,live, OtherLang,bdate,gender);
         if (flag == true) {
-            Toast.makeText(getActivity(), "You have edited connection Successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "You have edited connection successfully", Toast.LENGTH_SHORT).show();
             preferences.putString(PrefConstants.CONNECTED_NAME,name);
         } else {
             Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
@@ -1932,7 +1932,7 @@ String has_card="No";
         } else {
             Boolean flag = MyConnectionsQuery.updateMyConnectionsData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, "", has_card, "");
             if (flag == true) {
-                Toast.makeText(getActivity(), "You have edited connection Successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "You have edited connection successfully", Toast.LENGTH_SHORT).show();
                 preferences.putString(PrefConstants.CONNECTED_NAME, name);
             } else {
                 Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
@@ -1941,7 +1941,7 @@ String has_card="No";
        /* if (preferences.getInt(PrefConstants.CONNECTED_USERID)==preferences.getInt(PrefConstants.USER_ID)) {
             Boolean flag = MyConnectionsQuery.updateMyConnectionsData(preferences.getInt(PrefConstants.USER_ID), name, email, address, phone," "," ", "Self", imagepath," ", 1, 2, otherRelation,height,weight,eyes,profession,employed,language,marital_status,religion,veteran,idnumber,pet,manager_phone, cardpath,english,child,friend,grandParent,parent,spouse,other,liveOther,live,OtherLang);
             if (flag == true) {
-                Toast.makeText(getActivity(), "You have edited connection Successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "You have edited connection successfully", Toast.LENGTH_SHORT).show();
                 preferences.putString(PrefConstants.CONNECTED_NAME,name);
             } else {
                 Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
@@ -2348,7 +2348,7 @@ String has_card="No";
 
                 Boolean flag = MyConnectionsQuery.updateMyConnectionsData(1, "samiya", "samiya@gmail.com", "", "", "", "", "Self", "", "", 1, 2, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", has_card, "");
                 if (flag == true) {
-                    Toast.makeText(getActivity().getApplicationContext(), "You have edited connection Successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "You have edited connection successfully", Toast.LENGTH_SHORT).show();
                     //   preferences.putString(PrefConstants.CONNECTED_NAME,name);
 
                 } else {

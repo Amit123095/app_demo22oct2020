@@ -639,7 +639,7 @@ public class IabHelper {
             logDebug("Consuming sku: " + sku + ", token: " + token);
             int response = mService.consumePurchase(3, mContext.getPackageName(), token);
             if (response == BILLING_RESPONSE_RESULT_OK) {
-                logDebug("Successfully consumed sku: " + sku);
+                logDebug("successfully consumed sku: " + sku);
             } else {
                 logDebug("Error consuming consuming sku " + sku + ". " + getResponseDesc(response));
                 throw new IabException(response, "Error consuming sku " + sku);

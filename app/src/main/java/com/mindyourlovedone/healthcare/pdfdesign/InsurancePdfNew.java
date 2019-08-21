@@ -568,13 +568,13 @@ public class InsurancePdfNew {
 
             }
            // cell = new PdfPCell(new Phrase("Agent Phone:" + num));
-            cell = new PdfPCell();
+           /* cell = new PdfPCell();
             HeaderNew.cellDesign(cell,table1,"Agent Phone:",num);
             table.addCell(cell);
 
             messageInsurance.add(ctype+"Agent Phone:");
             messageInsurance.add(num);
-
+*/
             String agentemail = "";
             if (s.getAgent_email()!= null) {
                 agentemail = s.getAgent_email();
@@ -591,15 +591,26 @@ public class InsurancePdfNew {
                 if (s.getNote() != null) {
                     notes = s.getNote();
                 }
+
+            cell = new PdfPCell();
+            HeaderNew.cellDesign(cell, table1, "Notes:", notes);
+            table.addCell(cell);
+
+            messageInsurance.add("Notes");
+            messageInsurance.add(notes);
                // cell = new PdfPCell(new Phrase("Notes:" + notes));
+            String ascard = "";
+            if (s.getHas_card() != null) {
+                ascard = s.getHas_card();
+            }
             if (phonelists.size() != 0) {
 
                 cell = new PdfPCell();
-                HeaderNew.cellDesignNoline(cell, table1, "Notes:", notes);
+                HeaderNew.cellDesignNoline(cell, table1, "Do you have a business card?:", ascard);
                 table.addCell(cell);
 
-                messageInsurance.add("Notes");
-                messageInsurance.add(notes);
+                messageInsurance.add("Do you have a business card?");
+                messageInsurance.add(ascard);
 
                 cell = new PdfPCell();
                 HeaderNew.cellDesignNoline(cell, table, "", "Empty");
@@ -611,11 +622,11 @@ public class InsurancePdfNew {
             }
             else{
                 cell = new PdfPCell();
-                HeaderNew.cellDesignNoline(cell, table1, "Notes", notes);
+                HeaderNew.cellDesignNoline(cell, table1, "Do you have a business card?", ascard);
                 table.addCell(cell);
 
-                messageInsurance.add("Notes");
-                messageInsurance.add(notes);
+                messageInsurance.add("Do you have a business card?");
+                messageInsurance.add(ascard);
 
                 cell = new PdfPCell();
                 HeaderNew.cellDesign(cell, table, "", "Empty");
@@ -641,23 +652,23 @@ public class InsurancePdfNew {
                         if (j==phonelists.size())
                         {
                             cell = new PdfPCell();
-                            HeaderNew.cellDesignNoline(cell, table, "Contact" + j + ":", ctypes + " : " + nums);
+                            HeaderNew.cellDesignNoline(cell, table, "Agent Contact" + j + ":", ctypes + " : " + nums);
                             table.addCell(cell);
                         }
                         else{
                             cell = new PdfPCell();
-                            HeaderNew.cellDesign(cell, table, "Contact" + j + ":", ctypes + " : " + nums);
+                            HeaderNew.cellDesign(cell, table, "Agent Contact" + j + ":", ctypes + " : " + nums);
                             table.addCell(cell);
                         }
                     }
                     else {
                         if (j==phonelists.size()||j==phonelists.size()-1) {
                             cell = new PdfPCell();
-                            HeaderNew.cellDesignNoline(cell, table, "Contact" + j + ":", ctypes + " : " + nums);
+                            HeaderNew.cellDesignNoline(cell, table, "Agent Contact" + j + ":", ctypes + " : " + nums);
                             table.addCell(cell);
                         }else{
                             cell = new PdfPCell();
-                            HeaderNew.cellDesign(cell, table, "Contact" + j + ":", ctypes + " : " + nums);
+                            HeaderNew.cellDesign(cell, table, "Agent Contact" + j + ":", ctypes + " : " + nums);
                             table.addCell(cell);
                         }
 
