@@ -14,17 +14,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mindyourlovedone.healthcare.DashBoard.DropboxLoginActivity;
-import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
-import com.mindyourlovedone.healthcare.HomeActivity.BaseNewActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.InsuranceHealthCare.ContactUsAdapter;
-import com.mindyourlovedone.healthcare.InsuranceHealthCare.SettingAdapter;
 import com.mindyourlovedone.healthcare.model.Setting;
 
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Set;
 
 public class FragmentContactUs extends Fragment {
     View rootView;

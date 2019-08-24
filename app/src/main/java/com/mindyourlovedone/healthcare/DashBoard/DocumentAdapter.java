@@ -87,7 +87,13 @@ public class DocumentAdapter extends RecyclerSwipeAdapter<DocumentAdapter.ViewHo
 
 
         if (documentList.get(position).getType().equals("Other")) {
-            holder.txtDocHeader.setText(documentList.get(position).getType() + " - " + documentList.get(position).getOtherDoc());
+            if (documentList.get(position).getOtherDoc().equalsIgnoreCase(""))
+            {
+                holder.txtDocHeader.setText(documentList.get(position).getType());
+
+            }else{
+                holder.txtDocHeader.setText(documentList.get(position).getType() + " - " + documentList.get(position).getOtherDoc());
+            }
         } else {
             holder.txtDocHeader.setText(documentList.get(position).getType());
         }

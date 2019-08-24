@@ -305,18 +305,10 @@
             android:configChanges="keyboard|keyboardHidden|uiMode|screenLayout|orientation|screenSize|smallestScreenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".BaseNewActivity"
-            android:configChanges="keyboard|keyboardHidden|uiMode|screenLayout|orientation|screenSize|smallestScreenSize"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name="com.mindyourlovedone.healthcare.Activity.TransparentActivity"
             android:theme="@style/Theme.Transparent" />
         <activity
             android:name="com.mindyourlovedone.healthcare.Activity.RelationshipActivity"
-            android:configChanges="keyboard|keyboardHidden|uiMode|screenLayout|orientation|screenSize|smallestScreenSize"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.mindyourlovedone.healthcare.Activity.ChangePasswordActivity"
             android:configChanges="keyboard|keyboardHidden|uiMode|screenLayout|orientation|screenSize|smallestScreenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity
