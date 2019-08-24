@@ -830,7 +830,7 @@
                                 android:id="@+id/txtLastSeen"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Last Seen"
+                                android:hint="Last Meeting Date"
 
                                 android:imeOptions="actionNext"
 
@@ -1307,7 +1307,7 @@
                             android:id="@+id/txtHospitalLocation"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="In Network Status"
+                            android:hint="Network Status"
                             android:imeOptions="actionNext"
 
                             android:includeFontPadding="true"
@@ -1365,7 +1365,7 @@
                             android:id="@+id/txtHospitalLastSeen"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Last Seen"
+                            android:hint="Last Visit"
 
                             android:imeOptions="actionNext"
 
@@ -2476,7 +2476,7 @@ android:visibility="gone"
                             android:id="@+id/txtDoctorLastSeen"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Last Seen"
+                            android:hint="Last Visit"
                             android:imeOptions="actionNext"
 
                             android:includeFontPadding="true"
@@ -2505,7 +2505,7 @@ android:visibility="gone"
                             android:id="@+id/txtNetwork"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="In Network Status"
+                            android:hint="Network Status"
                             android:imeOptions="actionNext"
                             android:maxLength="30"
                             android:maxLines="1"

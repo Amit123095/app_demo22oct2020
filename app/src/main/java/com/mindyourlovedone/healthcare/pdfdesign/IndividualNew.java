@@ -2066,26 +2066,26 @@ public class IndividualNew {
                 if (s.getNetwork() != null) {
                     networkStatus = s.getNetwork();
                 }
-                cell = new PdfPCell(new Phrase("In Network Status:" + networkStatus));
+                cell = new PdfPCell(new Phrase("Network Status:" + networkStatus));
                 cell.setBorder(Rectangle.BOTTOM);
                 cell.setUseBorderPadding(true);
                 cell.setBorderWidthBottom(5);
                 cell.setBorderColorBottom(BaseColor.WHITE);
                 table.addCell(cell);
-                messagePhysician.add("In Network Status :");
+                messagePhysician.add("Network Status :");
                 messagePhysician.add(networkStatus);
 
                 String lastSeen = "";
                 if (s.getLastseen() != null) {
                     lastSeen = s.getLastseen();
                 }
-                cell = new PdfPCell(new Phrase("Last Seen:" + lastSeen));
+                cell = new PdfPCell(new Phrase("Last Visit:" + lastSeen));
                 cell.setBorder(Rectangle.BOTTOM);
                 cell.setUseBorderPadding(true);
                 cell.setBorderWidthBottom(5);
                 cell.setBorderColorBottom(BaseColor.WHITE);
                 table.addCell(cell);
-                messagePhysician.add("Last Seen :");
+                messagePhysician.add("Last Visit :");
                 messagePhysician.add(lastSeen);
 
                 String locator = "";
@@ -6059,22 +6059,22 @@ public class IndividualNew {
             if (s.getNetwork() != null) {
                 networkStatus = s.getNetwork();
             }
-            //   cell = new PdfPCell(new Phrase("In Network Status:" + networkStatus));
+            //   cell = new PdfPCell(new Phrase("Network Status:" + networkStatus));
             cell = new PdfPCell();
-            HeaderNew.cellDesign(cell, table1, "In Network Status:", networkStatus);
+            HeaderNew.cellDesign(cell, table1, "Network Status:", networkStatus);
             table.addCell(cell);
-            messagePhysician.add("In Network Status :");
+            messagePhysician.add("Network Status :");
             messagePhysician.add(networkStatus);
 
             String lastSeen = "";
             if (s.getLastseen() != null) {
                 lastSeen = s.getLastseen();
             }
-            // cell = new PdfPCell(new Phrase("Last Seen:" + lastSeen));
+            // cell = new PdfPCell(new Phrase("Last Visit:" + lastSeen));
             cell = new PdfPCell();
-            HeaderNew.cellDesign(cell, table1, "Last Seen:", lastSeen);
+            HeaderNew.cellDesign(cell, table1, "Last Visit:", lastSeen);
             table.addCell(cell);
-            messagePhysician.add("Last Seen :");
+            messagePhysician.add("Last Visit :");
             messagePhysician.add(lastSeen);
 
             String locator = "";

@@ -1084,18 +1084,18 @@ public class Individual {
             if (s.getNetwork() != null) {
                 networkStatus = s.getNetwork();
             }
-            Header.addTable("In Network Status :");
+            Header.addTable("Network Status :");
             Header.addTable(networkStatus);
-            messagePhysician.add("In Network Status :");
+            messagePhysician.add("Network Status :");
             messagePhysician.add(networkStatus);
 
             String lastSeen = "";
             if (s.getLastseen() != null) {
                 lastSeen = s.getLastseen();
             }
-            Header.addTable("Last Seen :");
+            Header.addTable("Last Visit :");
             Header.addTable(lastSeen);
-            messagePhysician.add("Last Seen :");
+            messagePhysician.add("Last Visit :");
             messagePhysician.add(lastSeen);
 
             String note = "";

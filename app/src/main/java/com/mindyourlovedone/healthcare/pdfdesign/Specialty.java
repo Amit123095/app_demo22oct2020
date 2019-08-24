@@ -212,26 +212,26 @@ public class Specialty {
                 if (s.getNetwork() != null) {
                     networkStatus = s.getNetwork();
                 }
-                cell = new PdfPCell(new Phrase("In Network Status:" + networkStatus));
+                cell = new PdfPCell(new Phrase("Network Status:" + networkStatus));
                 cell.setBorder(Rectangle.BOTTOM);
                 cell.setUseBorderPadding(true);
                 cell.setBorderWidthBottom(5);
                 cell.setBorderColorBottom(BaseColor.WHITE);
                 table.addCell(cell);
-                messageDoctor.add("In Network Status :");
+                messageDoctor.add("Network Status :");
                 messageDoctor.add(networkStatus);
 
                 String lastSeen = "";
                 if (s.getLastseen() != null) {
                     lastSeen = s.getLastseen();
                 }
-                cell = new PdfPCell(new Phrase("Last Seen:" + lastSeen));
+                cell = new PdfPCell(new Phrase("Last Visit:" + lastSeen));
                 cell.setBorder(Rectangle.BOTTOM);
                 cell.setUseBorderPadding(true);
                 cell.setBorderWidthBottom(5);
                 cell.setBorderColorBottom(BaseColor.WHITE);
                 table.addCell(cell);
-                messageDoctor.add("Last Seen :");
+                messageDoctor.add("Last Visit :");
                 messageDoctor.add(lastSeen);
 
                 String locator = "";
@@ -456,26 +456,26 @@ public class Specialty {
                 if (h.getLocation() != null) {
                     network = h.getLocation();
                 }
-                cell = new PdfPCell(new Phrase("In Network Status:" + network));
+                cell = new PdfPCell(new Phrase("Network Status:" + network));
                 cell.setBorder(Rectangle.BOTTOM);
                 cell.setUseBorderPadding(true);
                 cell.setBorderWidthBottom(5);
                 cell.setBorderColorBottom(BaseColor.WHITE);
                 table.addCell(cell);
-                messageHospital.add("In Network Status :");
+                messageHospital.add("Network Status :");
                 messageHospital.add(network);
 
                 String lastSeen = "";
                 if (h.getLastseen() != null) {
                     lastSeen = h.getLastseen();
                 }
-                cell = new PdfPCell(new Phrase("Last Seen:" + lastSeen));
+                cell = new PdfPCell(new Phrase("Last Visit:" + lastSeen));
                 cell.setBorder(Rectangle.BOTTOM);
                 cell.setUseBorderPadding(true);
                 cell.setBorderWidthBottom(5);
                 cell.setBorderColorBottom(BaseColor.WHITE);
                 table.addCell(cell);
-                messageHospital.add("Last Seen :");
+                messageHospital.add("Last Visit :");
                 messageHospital.add(lastSeen);
 
                 String locator = "";
@@ -1034,13 +1034,13 @@ public class Specialty {
                 if (f.getLastseen() != null) {
                     lastSeen = f.getLastseen();
                 }
-                cell = new PdfPCell(new Phrase("Last Seen:" + lastSeen));
+                cell = new PdfPCell(new Phrase("Last Visit:" + lastSeen));
                 cell.setBorder(Rectangle.BOTTOM);
                 cell.setUseBorderPadding(true);
                 cell.setBorderWidthBottom(5);
                 cell.setBorderColorBottom(BaseColor.WHITE);
                 table.addCell(cell);
-                messageFinance.add("Last Seen :");
+                messageFinance.add("Last Visit :");
                 messageFinance.add(lastSeen);
 
                 String note = "";
@@ -1289,26 +1289,26 @@ public class Specialty {
                 if (s.getNetwork() != null) {
                     networkStatus = s.getNetwork();
                 }
-                cell = new PdfPCell(new Phrase("In Network Status:" + networkStatus));
+                cell = new PdfPCell(new Phrase("Network Status:" + networkStatus));
                 cell.setBorder(Rectangle.BOTTOM);
                 cell.setUseBorderPadding(true);
                 cell.setBorderWidthBottom(5);
                 cell.setBorderColorBottom(BaseColor.WHITE);
                 table.addCell(cell);
-                messageDoctor.add("In Network Status :");
+                messageDoctor.add("Network Status :");
                 messageDoctor.add(networkStatus);
 
                 String lastSeen = "";
                 if (s.getLastseen() != null) {
                     lastSeen = s.getLastseen();
                 }
-                cell = new PdfPCell(new Phrase("Last Seen:" + lastSeen));
+                cell = new PdfPCell(new Phrase("Last Visit:" + lastSeen));
                 cell.setBorder(Rectangle.BOTTOM);
                 cell.setUseBorderPadding(true);
                 cell.setBorderWidthBottom(5);
                 cell.setBorderColorBottom(BaseColor.WHITE);
                 table.addCell(cell);
-                messageDoctor.add("Last Seen :");
+                messageDoctor.add("Last Visit :");
                 messageDoctor.add(lastSeen);
 
                 String locator = "";
@@ -1577,26 +1577,26 @@ public class Specialty {
                 if (h.getLocation() != null) {
                     network = h.getLocation();
                 }
-                cell = new PdfPCell(new Phrase("In Network Status:" + network));
+                cell = new PdfPCell(new Phrase("Network Status:" + network));
                 cell.setBorder(Rectangle.BOTTOM);
                 cell.setUseBorderPadding(true);
                 cell.setBorderWidthBottom(5);
                 cell.setBorderColorBottom(BaseColor.WHITE);
                 table.addCell(cell);
-                messageHospital.add("In Network Status :");
+                messageHospital.add("Network Status :");
                 messageHospital.add(network);
 
                 String lastSeen = "";
                 if (h.getLastseen() != null) {
                     lastSeen = h.getLastseen();
                 }
-                cell = new PdfPCell(new Phrase("Last Seen:" + lastSeen));
+                cell = new PdfPCell(new Phrase("Last Visit:" + lastSeen));
                 cell.setBorder(Rectangle.BOTTOM);
                 cell.setUseBorderPadding(true);
                 cell.setBorderWidthBottom(5);
                 cell.setBorderColorBottom(BaseColor.WHITE);
                 table.addCell(cell);
-                messageHospital.add("Last Seen :");
+                messageHospital.add("Last Visit :");
                 messageHospital.add(lastSeen);
 
                 String locator = "";
@@ -2081,13 +2081,13 @@ public class Specialty {
                 if (f.getLastseen() != null) {
                     lastSeen = f.getLastseen();
                 }
-                cell = new PdfPCell(new Phrase("Last Seen:" + lastSeen));
+                cell = new PdfPCell(new Phrase("Last Visit:" + lastSeen));
                 cell.setBorder(Rectangle.BOTTOM);
                 cell.setUseBorderPadding(true);
                 cell.setBorderWidthBottom(5);
                 cell.setBorderColorBottom(BaseColor.WHITE);
                 table.addCell(cell);
-                messageFinance.add("Last Seen :");
+                messageFinance.add("Last Visit :");
                 messageFinance.add(lastSeen);
 
                 String note = "";
