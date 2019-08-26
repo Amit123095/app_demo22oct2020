@@ -250,7 +250,7 @@ CheckBox rbCheck;
         txtPolicy4.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                CopyReadAssetss("eula.pdf");
+                CopyReadAssetss("eula_new.pdf");
                 return false;
             }
         });
@@ -458,7 +458,7 @@ CheckBox rbCheck;
         txtPolicy4.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                CopyReadAssetss("eula.pdf");
+                CopyReadAssetss("eula_new.pdf");
                 return false;
             }
         });

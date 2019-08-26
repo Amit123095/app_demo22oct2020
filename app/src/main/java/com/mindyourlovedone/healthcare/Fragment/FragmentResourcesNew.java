@@ -162,7 +162,7 @@ public class FragmentResourcesNew extends Fragment {
                         intentx.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         intentx.setData(Uri.parse("market://details?id=cn.wps.moffice_eng"));//varsa ("market://details?id=com.adobe.reader"));
                         intentx.setType(String.valueOf(Uri.parse("application/pdf")));
-                        ((BaseActivity) getActivity()).CopyReadAssetss("eula.pdf");
+                        ((BaseActivity) getActivity()).CopyReadAssetss("eula_new.pdf");
 
                         break;
                     case 7://Wallet Cards

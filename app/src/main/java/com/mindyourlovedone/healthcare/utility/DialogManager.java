@@ -47,7 +47,7 @@ public class DialogManager {
         this.fragmentSpecialist = fragmentSpecialist;
     }
 
-    public static void showAlert(String msg, Context context, View layout) {
+    /*public static void showAlert(String msg, Context context, View layout) {
         TextView text = layout.findViewById(R.id.txt_toast);
         text.setText(msg);
 
@@ -56,7 +56,7 @@ public class DialogManager {
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.setView(layout);
         toast.show();
-    }
+    }*/
 
     public static void showAlert(String msg, Context context) {
         if(context!=null) {

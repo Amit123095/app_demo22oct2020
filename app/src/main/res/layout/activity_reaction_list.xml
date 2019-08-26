@@ -58,7 +58,7 @@
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/dimension20dp"
             android:textStyle="bold"
-           />
+            />
 
         <ImageView
             android:id="@+id/imgDots"

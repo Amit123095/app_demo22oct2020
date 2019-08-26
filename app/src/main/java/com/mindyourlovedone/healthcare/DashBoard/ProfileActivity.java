@@ -679,7 +679,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     gender="Female";
                 }
                 else if (checkedId == R.id.rbTrans) {
-                    gender="Trans*";
+                    gender="Trans";
                 }
             }
         });
@@ -1175,11 +1175,11 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                     rbTrans.setChecked(false);
                     gender = "Female";
 
-                }else  if (connection.getGender().equalsIgnoreCase("Trans*")) {
+                }else  if (connection.getGender().equalsIgnoreCase("Trans")||connection.getGender().equalsIgnoreCase("Trans*")) {
                     rbMale.setChecked(false);
                     rbFemale.setChecked(false);
                     rbTrans.setChecked(true);
-                    gender = "Trans*";
+                    gender = "Trans";
 
                 }
             }
@@ -2147,7 +2147,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                 TextView textCancels = dialogview1.findViewById(R.id.txtCancel);
                 textOptions1.setText("Female");
                 textOptions2.setText("Male");
-                textOptions3.setText("Trans*");
+                textOptions3.setText("Trans");
                 dialogs.setContentView(dialogview1);
                 WindowManager.LayoutParams lps = new WindowManager.LayoutParams();
                 lps.copyFrom(dialogs.getWindow().getAttributes());
@@ -2175,7 +2175,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                 textOptions3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        txtGender.setText("Trans*");
+                        txtGender.setText("Trans");
                         dialogs.dismiss();
                     }
                 });

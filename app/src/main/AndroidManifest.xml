@@ -48,22 +48,8 @@
         <activity android:name="com.mindyourlovedone.healthcare.Fragment.VideoActivity" />
         <activity android:name="com.mindyourlovedone.healthcare.Fragment.HelpFormActivity" />
         <activity android:name="com.mindyourlovedone.healthcare.DashBoard.FaxActivity" />
-        <activity android:name=".SplashNActivity" />
         <activity android:name="com.mindyourlovedone.healthcare.Connections.RelationActivity" />
         <activity android:name="com.mindyourlovedone.healthcare.Connections.PhoneActivity" />
-        <activity
-            android:name=".SplashActivity"
-            android:configChanges="keyboard|keyboardHidden|uiMode|screenLayout|orientation|screenSize|smallestScreenSize"
-            android:windowSoftInputMode="stateHidden">
-
-            <!--
-             <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
-
-                 <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
-            -->
-        </activity>
 
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
@@ -304,9 +290,6 @@
             android:name=".ImpAgreementActivity"
             android:configChanges="keyboard|keyboardHidden|uiMode|screenLayout|orientation|screenSize|smallestScreenSize"
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.mindyourlovedone.healthcare.Activity.TransparentActivity"
-            android:theme="@style/Theme.Transparent" />
         <activity
             android:name="com.mindyourlovedone.healthcare.Activity.RelationshipActivity"
             android:configChanges="keyboard|keyboardHidden|uiMode|screenLayout|orientation|screenSize|smallestScreenSize"

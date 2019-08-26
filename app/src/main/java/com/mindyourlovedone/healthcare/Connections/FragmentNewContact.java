@@ -228,7 +228,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
     //    NonScrollListView listPrPhone,listDrPhone,listHospPhone,listPharmPhone,listFinPhone,listInsuPhone;
     public ArrayList<ContactData> phonelist = new ArrayList<>();
     public ArrayList<ContactData> Aphonelist = new ArrayList<>();
-    SpecialPhoneAdapter pd;
+
     FrameLayout flFront;
     RelativeLayout rlInsured;
     ScrollView scroll;

@@ -1423,7 +1423,7 @@ String has_card="No";
                 TextView textCancels = dialogview1.findViewById(R.id.txtCancel);
                 textOptions1.setText("Female");
                 textOptions2.setText("Male");
-                textOptions3.setText("Trans*");
+                textOptions3.setText("Trans");
                 dialogs.setContentView(dialogview1);
                 WindowManager.LayoutParams lps = new WindowManager.LayoutParams();
                 lps.copyFrom(dialogs.getWindow().getAttributes());
@@ -1451,7 +1451,7 @@ String has_card="No";
                 textOptions3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        txtGender.setText("Trans*");
+                        txtGender.setText("Trans");
                         dialogs.dismiss();
                     }
                 });

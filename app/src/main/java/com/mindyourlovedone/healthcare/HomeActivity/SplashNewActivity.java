@@ -642,7 +642,7 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
         img1 = findViewById(R.id.img1);
         img2 = findViewById(R.id.img2);
         img3 = findViewById(R.id.img3);
-        img4 = findViewById(R.id.img4);
+      //  img4 = findViewById(R.id.img4);
         imgForword = findViewById(R.id.imgForword);
         llBottom = findViewById(R.id.llBottom);
         llSplash = findViewById(R.id.llSplash);
