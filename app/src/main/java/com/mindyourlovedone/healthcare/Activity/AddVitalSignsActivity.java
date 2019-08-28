@@ -34,7 +34,6 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
     TextView txtTitle, txtLocation, txtDate, txtTime, txtBP, txtHeart, txtTemperature, txtPulseRate, txtRespRate, txtNote,txtOther,txtCol, txtSave;
     ImageView imgHome, imgBack;
     Context context = this;
-    boolean isEdit, isView, save = false;
     String location = "", Date = "", time = "", bp = "", heart = "", temperature = "", pulse = "", respiratory = "", note = "",oter = "",col = "";
     Preferences preferences;
     DBHelper dbHelper;
@@ -48,7 +47,14 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_vital_signs);
+        initComponent();
+        initUi();
+        initListener();
+        FragmentData();
+    }
 
+
+    private void initComponent() {
         try {
             Intent intent = getIntent();
             if (intent.getExtras() != null) {
@@ -73,46 +79,18 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
             e.printStackTrace();
         }
 
-        initComponent();
-        initUi();
-        initListener();
-        FragmentData();
-    }
-
-    private void FragmentData() {
-        fragmentVitalSigns = new FragmentVitalSigns();
-    }
-
-    private void initComponent() {
         preferences = new Preferences(context);
         dbHelper = new DBHelper(context, preferences.getString(PrefConstants.CONNECTED_USERDB));
         VitalQuery p = new VitalQuery(context, dbHelper);
     }
 
-    private void initListener() {
-        imgHome.setOnClickListener(this);
-        imgBack.setOnClickListener(this);
-        txtSave.setOnClickListener(this);
-        txtDate.setOnClickListener(this);
-        txtTime.setOnClickListener(this);
-    }
-
-
     private void initUi() {
         imgBack = findViewById(R.id.imgBack);
         imgHome = findViewById(R.id.imgHome);
         tilLocation = findViewById(R.id.tilLocation);
-        //tilLocation.setHintEnabled(false);
-        txtLocation = findViewById(R.id.txtLocation);
-      /*  txtLocation.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                tilLocation.setHintEnabled(true);
-                txtLocation.setFocusable(true);
 
-                return false;
-            }
-        });*/
+        txtLocation = findViewById(R.id.txtLocation);
+
 
         txtDate = findViewById(R.id.txtDate);
         txtTime = findViewById(R.id.txtTime);
@@ -183,6 +161,17 @@ colid=vi.getId();
 
     }
 
+    private void initListener() {
+        imgHome.setOnClickListener(this);
+        imgBack.setOnClickListener(this);
+        txtSave.setOnClickListener(this);
+        txtDate.setOnClickListener(this);
+        txtTime.setOnClickListener(this);
+    }
+    private void FragmentData() {
+        fragmentVitalSigns = new FragmentVitalSigns();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -225,58 +214,7 @@ colid=vi.getId();
                     Toast.makeText(context, "Im not here sorry..!!!", Toast.LENGTH_SHORT).show();
                 }
 
-              /*else if (isUpdate == true) {
-                    Boolean flag = VitalQuery.updateVitalData(vitalSigns.getId(), location, Date, time, bp, heart, temperature, pulse, respiratory, note);
-                    if (flag == true) {
-                        Toast.makeText(context, "Vital Signs Updated Succesfully", Toast.LENGTH_SHORT).show();
-                        DialogManager.closeKeyboard(AddVitalSignsActivity.this);
-                        clearData();
-                        finish();
-                    } else {
-                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-                    }
-                }*/
-
-
-               /*else {
-
-                    Intent i = getIntent();
-                    if (i.getExtras() != null) {
-
-                        boolean update = i.getExtras().getBoolean("IsEDIT");
-                        if (update == true) {
-                            Boolean flag = VitalQuery.updateVitalData(colid, location, Date, time, bp, heart, temperature, pulse, respiratory, note);
-                            if (flag == true) {
-                                Toast.makeText(context, "Vital Signs Updated Succesfully", Toast.LENGTH_SHORT).show();
-                                DialogManager.closeKeyboard(AddVitalSignsActivity.this);
-                                clearData();
-                                // fragmentVitalSigns.getData();
-                                //  fragmentVitalSigns.setListData();
-                                finish();
-                            } else {
-                                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-                            }
-                            finish();
-                        } else {
-                            Boolean flag = VitalQuery.insertVitalData(preferences.getInt(PrefConstants.CONNECTED_USERID), location, Date, time, bp, heart, temperature, pulse, respiratory, note);
-                            if (flag == true) {
-                                Toast.makeText(context, "Vital Signs Added Succesfully", Toast.LENGTH_SHORT).show();
-                                DialogManager.closeKeyboard(AddVitalSignsActivity.this);
-                                clearData();
-                                // fragmentVitalSigns.getData();
-                                // fragmentVitalSigns.setListData();
-                                finish();
-                            } else {
-                                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                    }
-
-                }*/
-
-
-                break;
+               break;
         }
     }
 
@@ -361,3 +299,52 @@ colid=vi.getId();
     }
 }
 
+/*else if (isUpdate == true) {
+                    Boolean flag = VitalQuery.updateVitalData(vitalSigns.getId(), location, Date, time, bp, heart, temperature, pulse, respiratory, note);
+                    if (flag == true) {
+                        Toast.makeText(context, "Vital Signs Updated Succesfully", Toast.LENGTH_SHORT).show();
+                        DialogManager.closeKeyboard(AddVitalSignsActivity.this);
+                        clearData();
+                        finish();
+                    } else {
+                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                    }
+                }*/
+
+
+               /*else {
+
+                    Intent i = getIntent();
+                    if (i.getExtras() != null) {
+
+                        boolean update = i.getExtras().getBoolean("IsEDIT");
+                        if (update == true) {
+                            Boolean flag = VitalQuery.updateVitalData(colid, location, Date, time, bp, heart, temperature, pulse, respiratory, note);
+                            if (flag == true) {
+                                Toast.makeText(context, "Vital Signs Updated Succesfully", Toast.LENGTH_SHORT).show();
+                                DialogManager.closeKeyboard(AddVitalSignsActivity.this);
+                                clearData();
+                                // fragmentVitalSigns.getData();
+                                //  fragmentVitalSigns.setListData();
+                                finish();
+                            } else {
+                                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                            }
+                            finish();
+                        } else {
+                            Boolean flag = VitalQuery.insertVitalData(preferences.getInt(PrefConstants.CONNECTED_USERID), location, Date, time, bp, heart, temperature, pulse, respiratory, note);
+                            if (flag == true) {
+                                Toast.makeText(context, "Vital Signs Added Succesfully", Toast.LENGTH_SHORT).show();
+                                DialogManager.closeKeyboard(AddVitalSignsActivity.this);
+                                clearData();
+                                // fragmentVitalSigns.getData();
+                                // fragmentVitalSigns.setListData();
+                                finish();
+                            } else {
+                                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                    }
+
+                }*/

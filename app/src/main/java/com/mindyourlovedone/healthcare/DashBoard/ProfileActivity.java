@@ -134,8 +134,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     String pet = "", veteran = "", english = "", live = "";
     String eyes="", language="", marital_status="";
     String otherRelation;
-    RadioGroup rgPet, rgVeteran, rgUnderstand, rgLive;
-    RadioButton rbYes, rbNo, rbYesPet, rbNoPet, rbYess, rbNoo, rbYesLive, rbNoLive;
     CheckBox chkOther, chkChild, chkFriend, chkGrandParent, chkParent, chkSpouse, chkSibling;
     String child = "", friend = "", grandParent = "", parent = "", spouse = "", other = "", sibling = "";
     String liveOther = "";
@@ -190,8 +188,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         initImageLoader();
         initUI();
         initListener();
-
-
     }
 
     private void initImageLoader() {
@@ -239,23 +235,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         String ss = preferences.getString(PrefConstants.CONNECTED_USERDB);
         dbHelper1 = new DBHelper(context, ss);
+
         PetQuery p = new PetQuery(context, dbHelper1);
         ContactDataQuery c=new ContactDataQuery(context,dbHelper1);
+        MyConnectionsQuery md = new MyConnectionsQuery(context, dbHelper1);con = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
 
-        /*if (preferences.getInt(PrefConstants.CONNECTED_USERID)==(preferences.getInt(PrefConstants.USER_ID)))
-        {
-            personalInfo = PersonalInfoQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        }
-        else {*/
-
-         MyConnectionsQuery md = new MyConnectionsQuery(context, dbHelper1);
-         con = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
         phonelist=ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID),-1,"Personal Profile");
         Originalphonelist=ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID),-1,"Personal Profile");
-        // }
+
         MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
         connection = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-
     }
 
 
@@ -288,8 +277,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         floatProfile = findViewById(R.id.floatProfile);
         floatOptions = findViewById(R.id.floatOptions);
         int user = preferences.getInt(PrefConstants.CONNECTED_USERID);
-      /*  imgR = findViewById(R.id.imgR);
-        imgR.setVisibility(View.VISIBLE);*/
+
       flrel=findViewById(R.id.flrel);
       txtRelation=findViewById(R.id.txtRelation);
       txtRelation.setFocusable(false);
@@ -315,34 +303,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 Intent i = new Intent(context, InstructionActivity.class);
                 i.putExtra("From", "Personal");
                 startActivity(i);
-               /* final Dialog customDialog;
-                customDialog = new Dialog(context);
-                customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                customDialog.setContentView(R.layout.dialog_living);
-                customDialog.setCancelable(false);
-                TextView txtNotes= (TextView) customDialog.findViewById(R.id.txtNotes);
-                String msg="To <b>add</b> information type responses.<br>" +
-                        "To <b>save</b> information click the check mark" +
-                        " on the <b>top right</b> side of the screen.<br><br>" +
-                        "To <b>edit</b> or <b>delete</b> information simply work on the screen and then save your edits by clicking on the <b>check mark</b> on the <b>top right</b> side of the screen." +
-                        "<br><br>" +
-                        "To <b>view a report</b> or to <b>email</b> or <b>fax</b> the data in each section click the <b>three dots</b> on the top right side of the screen.";
-                txtNotes.setText(Html.fromHtml(msg));
-                TextView txtNoteHeader= (TextView) customDialog.findViewById(R.id.txtNoteHeader);
-                txtNoteHeader.setText("Help");
-                TextView btnYes= (TextView) customDialog.findViewById(R.id.btnYes);
-                btnYes.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        customDialog.dismiss();
-                    }
-                });
-                customDialog.show();*/
+
             }
         });
-        /*txtMsg=findViewById(R.id.txtMsg);
 
-        txtMsg.setText(Html.fromHtml(msg));*/
         llIndividual = findViewById(R.id.llIndividual);
         rlCard = findViewById(R.id.rlCard);
         rlLive = findViewById(R.id.rlLive);
@@ -382,15 +346,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         ListPet = findViewById(R.id.ListPet);
         imgProfile = findViewById(R.id.imgProfile);
-/*
-        if (imgProfile.equals(R.color.colorOne))
-        {
-            Resources res = context.getResources();
-            final ImageView image = (ImageView) findViewById(R.id.imgProfile);
-            final int newColor = res.getColor(R.color.colorOne);
-            image.setColorFilter(newColor, PorterDuff.Mode.SRC_ATOP);
-        }
-*/
+
 
         imgCard = findViewById(R.id.imgCard);
         imgEditCard = findViewById(R.id.imgEditCard);
@@ -436,22 +392,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         txtIdNumber = findViewById(R.id.txtId);
         txtOther = findViewById(R.id.txtOther);
         tilOther = findViewById(R.id.tilOther);
-
-        rbYes = findViewById(R.id.rbYes);
-        rbNo = findViewById(R.id.rbNo);
-        rbYesPet = findViewById(R.id.rbYesPet);
-        rbNoPet = findViewById(R.id.rbNoPet);
-
-        rgLive = findViewById(R.id.rgLive);
-        rbYesLive = findViewById(R.id.rbYesLive);
-        rbNoLive = findViewById(R.id.rbNoLive);
-
-        rbYess = findViewById(R.id.rbYess);
-        rbNoo = findViewById(R.id.rbNoo);
-
-        rgPet = findViewById(R.id.rgPet);
-        rgVeteran = findViewById(R.id.rgVeteran);
-        rgUnderstand = findViewById(R.id.rgUnderstand);
 
         rgGender=findViewById(R.id.rgGender);
         rbMale=findViewById(R.id.rbMale);
@@ -633,41 +573,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-      /*  rgPet.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                if (checkedId == R.id.rbYesPet) {
-                    pet = "YES";
-                    rlPet.setVisibility(View.VISIBLE);
-
-                } else if (checkedId == R.id.rbNoPet) {
-                    pet = "NO";
-                    rlPet.setVisibility(View.GONE);
-                    boolean flag = PetQuery.deleteRecords(preferences.getInt(PrefConstants.CONNECTED_USERID));
-                    if (flag == true) {
-                        //  Toast.makeText(context,"Deleted",Toast.LENGTH_SHORT).show();
-                        setPetData();
-                        // ListPet.requestFocus();
-                    }
-                }
-            }
-        });*/
-
-        rgVeteran.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                if (checkedId == R.id.rbYes) {
-                    veteran = "YES";
-                    tilId.setVisibility(View.VISIBLE);
-
-                } else if (checkedId == R.id.rbNo) {
-                    veteran = "NO";
-                    tilId.setVisibility(View.GONE);
-                    idnumber = "";
-                    txtIdNumber.setText(idnumber);
-                }
-            }
-        });
 
         rgGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -684,45 +589,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-        rgLive.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                if (checkedId == R.id.rbYesLive) {
-                    live = "YES";
-                    rlLive.setVisibility(View.GONE);
-                    child = "NO";
-                    friend = "NO";
-                    grandParent = "NO";
-                    parent = "NO";
-                    spouse = "NO";
-                    other = "NO";
-                    sibling = "NO";
-                    liveOther = "";
-                    chkChild.setChecked(false);
-                    chkSibling.setChecked(false);
-                    chkFriend.setChecked(false);
-                    chkGrandParent.setChecked(false);
-                    chkParent.setChecked(false);
-                    chkSpouse.setChecked(false);
-                    chkOther.setChecked(false);
-                } else if (checkedId == R.id.rbNoLive) {
-                    live = "NO";
-                    rlLive.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-        rgUnderstand.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                if (checkedId == R.id.rbYess) {
-                    english = "YES";
-                    //tilId.setVisibility(View.VISIBLE);
-                } else if (checkedId == R.id.rbNoo) {
-                    english = "NO";
-                    //tilId.setVisibility(View.GONE);
-                }
-            }
-        });
         llIndividual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1184,23 +1050,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                 }
             }
             txtBdate.setText(connection.getDob());
-           /* int index = 0;
-            for (int i = 0; i < Relationship.length; i++) {
-                if (connection.getRelationType().equalsIgnoreCase(Relationship[i])) {
-                    index = i;
-                    spinnerRelation.setSelection(index + 1);
-                }
-            }*/  txtRelation.setText(connection.getRelationType());
-
-//            String photoCard = connection.getPhotoCard();
-//            File imgFile1 = new File(preferences.getString(PrefConstants.CONNECTED_PATH), photoCard);
-//            if (imgFile1.exists()) {
-//                           /* Bitmap myBitmap = BitmapFactory.decodeFile(imgFile1.getAbsolutePath());
-//                            imgCard.setImageBitmap(myBitmap);*/
-//                imgCard.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile1))));
-//
-//                //   imageLoaderCard.displayImage(String.valueOf(Uri.fromFile(imgFile1)), imgCard, displayImageOptionsCard);
-//            }
+          txtRelation.setText(connection.getRelationType());
 
             if (connection.getRelationType().equalsIgnoreCase("Other"))
             {
@@ -1362,14 +1212,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
             txtIdNumber.setText(connection.getIdnumber());
             int indexd = 0;
             txtBdate.setText(connection.getDob());
-            /*if (!connection.getEyes().equals("")) {
-                for (int i = 0; i < EyesList.length; i++) {
-                    if (connection.getEyes().equalsIgnoreCase(EyesList[i])) {
-                        indexd = i;
-                    }
-                }
-                spinnerEyes.setSelection(indexd + 1);
-            }*/
+
             if (connection.getEyes().equalsIgnoreCase("null"))
             {
                 txtSpinEye.setText("");
@@ -1377,22 +1220,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                 txtSpinEye.setText(connection.getEyes());
             }
 
-            /*if (!connection.getLanguage().equals("")) {
-                int indexs = 0;
-                for (int i = 0; i < LangList.length; i++) {
-                    if (connection.getLanguage().equalsIgnoreCase(LangList[i])) {
-                        indexs = i;
-                        if (connection.getLanguage().equals("Other")) {
-                            tilOtherLanguage.setVisibility(View.VISIBLE);
-                            txtOtherLanguage.setText(connection.getOtherLang());
-                        } else {
-                            tilOtherLanguage.setVisibility(View.GONE);
-                            txtOtherLanguage.setText("");
-                        }
-                    }
-                }
-                spinnerLanguage.setSelection(indexs + 1);
-            }*/  txtSpinLang.setText(connection.getLanguage());
+          txtSpinLang.setText(connection.getLanguage());
             if (connection.getLanguage().equalsIgnoreCase("Other"))
             {
                 tilOtherLanguage.setVisibility(View.VISIBLE);
@@ -1401,16 +1229,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                 tilOtherLanguage.setVisibility(View.GONE);
                 txtOtherLanguage.setText("");
             }
-//Shradha
-            /*if (!connection.getMarital_status().equals("")) {
-                int indexss = 0;
-                for (int i = 0; i < MaritalList.length; i++) {
-                    if (connection.getMarital_status().equalsIgnoreCase(MaritalList[i])) {
-                        indexss = i;
-                    }
-                }
-                spinnerMarital.setSelection(indexss + 1);
-            }*/
+
             if (connection.getMarital_status().equalsIgnoreCase("null"))
             {
                 txtSpinMarital.setText("");
@@ -1419,17 +1238,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                 txtSpinMarital.setText(connection.getMarital_status());
             }
 
-/*
-            if (connection.getMarital_status() != null) {
-                int indexss = 0;
-                for (int i = 0; i < MaritalList.length; i++) {
-                    if (connection.getMarital_status().equalsIgnoreCase(MaritalList[i])) {
-                        indexss = i;
-                    }
-                }
-                spinnerMarital.setSelection(indexss + 1);
-            }
-*/
+
             if (connection.getVeteran() != null) {
                 if (connection.getVeteran().equals("YES")) {
                     tbVeteran.setChecked(true);
@@ -1492,447 +1301,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                 startActivity(intentHome);
             }
         });
-       /* if (preferences.getInt(PrefConstants.CONNECTED_USERID)==(preferences.getInt(PrefConstants.USER_ID))) {
-            tilBdate.setVisibility(View.VISIBLE);
-           // spinner.setVisibility(View.VISIBLE);
-            txtGender.setVisibility(View.VISIBLE);
-            spinnerRelation.setVisibility(View.GONE);
-            txtWorkPhone.setVisibility(View.GONE);
-            tilWorkPhone.setVisibility(View.GONE);
-            txtHomePhone.setVisibility(View.VISIBLE);
-            if (personalInfo != null) {
-                txtGender.setText(personalInfo.getGender());
-                txtName.setText(personalInfo.getName());
-                txtEmail.setText(personalInfo.getEmail());
-                Email=personalInfo.getEmail();
-                txtAddress.setText(personalInfo.getAddress());
-                txtHomePhone.setText(personalInfo.getHomePhone());
-                txtOther.setText(personalInfo.getOther_person());
-             *//*   if (personalInfo.getLive() != null) {
-                    if (personalInfo.getLive().equals("YES")) {
-                        rbYes.setChecked(true);
 
-                    } else if (personalInfo.getLive().equals("NO")) {
-                        rbNo.setChecked(true);
-                        live = "NO";
-                        rlLive.setVisibility(View.VISIBLE);
-                    }
-                }*//*
-                if (personalInfo.getLive()!=null) {
-                    if (personalInfo.getLive().equals("YES")) {
-                        rbYesLive.setChecked(true);
-                        rbNoLive.setChecked(false);
-                        live = "YES";
-                        rlLive.setVisibility(View.GONE);
-                    } else {
-                        rbYesLive.setChecked(false);
-                        rbNoLive.setChecked(true);
-                        live = "NO";
-                        rlLive.setVisibility(View.VISIBLE);
-                    }
-                }
-                if (personalInfo.getChildren() != null) {
-                    if (personalInfo.getChildren().equals("YES")) {
-                        chkChild.setChecked(true);
-                        child = "YES";
-                    } else if (personalInfo.getChildren().equals("NO")) {
-                        chkChild.setChecked(false);
-                        child = "NO";
-                    }
-                }
-                if (personalInfo.getFriend() != null) {
-                    if (personalInfo.getFriend().equals("YES")) {
-                        chkFriend.setChecked(true);
-                        friend = "YES";
-                    } else if (personalInfo.getFriend().equals("NO")) {
-                        chkFriend.setChecked(false);
-                        friend = "NO";
-                    }
-                }
-
-                if (personalInfo.getGrand() != null) {
-                    if (personalInfo.getGrand().equals("YES")) {
-                        chkGrandParent.setChecked(true);
-                        grandParent = "YES";
-                    } else if (personalInfo.getGrand().equals("NO")) {
-                        chkGrandParent.setChecked(false);
-                        grandParent = "NO";
-                    }
-                }
-                if (personalInfo.getParents() != null) {
-                    if (personalInfo.getParents().equals("YES")) {
-                        chkParent.setChecked(true);
-                        parent = "YES";
-                    } else if (personalInfo.getParents().equals("NO")) {
-                        chkParent.setChecked(false);
-                        parent = "NO";
-                    }
-                }
-                if (personalInfo.getSpouse() != null) {
-                    if (personalInfo.getSpouse().equals("YES")) {
-                        chkSpouse.setChecked(true);
-                        spouse = "YES";
-                    } else if (personalInfo.getSpouse().equals("NO")) {
-                        chkSpouse.setChecked(false);
-                        spouse = "NO";
-                    }
-                }
-                if (personalInfo.getSign_other() != null) {
-                    if (personalInfo.getSign_other().equals("YES")) {
-                        chkOther.setChecked(true);
-                        other = "YES";
-                        tilOther.setVisibility(View.VISIBLE);
-                    } else if (personalInfo.getSign_other().equals("NO")) {
-                        chkOther.setChecked(false);
-                        other = "NO";
-                        tilOther.setVisibility(View.GONE);
-                    }
-                }
-
-*//*
-                if (personalInfo.getCountry()!=null) {
-                    int index = 0;
-                    for (int i = 0; i < countryList.length; i++) {
-                        if (personalInfo.getCountry().equals(countryList[i])) {
-                            index = i;
-                        }
-                    }
-                    spinner.setSelection(index);
-                }
-                else{
-                    spinner.setHint("Country");
-                }*//*
-                txtPhone.setText(personalInfo.getPhone());
-                txtBdate.setText(personalInfo.getDob());
-
-                txtHeight.setText(personalInfo.getHeight());
-                txtWeight.setText(personalInfo.getWeight());
-                txtProfession.setText(personalInfo.getProfession());
-                txtEmployed.setText(personalInfo.getEmployed());
-                txttelephone.setText(personalInfo.getManager_phone());
-                txtReligion.setText(personalInfo.getReligion());
-                txtIdNumber.setText(personalInfo.getIdnumber());
-
-                if (personalInfo.getEyes()!=null) {
-                    int index = 0;
-                    for (int i = 0; i < EyesList.length; i++) {
-                        if (personalInfo.getEyes().equalsIgnoreCase(EyesList[i])) {
-                            index = i;
-                        }
-                    }
-                    spinnerEyes.setSelection(index + 1);
-                }
-
-                if (personalInfo.getLanguage()!=null) {
-                    int indexs = 0;
-                    for (int i = 0; i < LangList.length; i++) {
-                        if (personalInfo.getLanguage().equalsIgnoreCase(LangList[i])) {
-                            indexs = i;
-                            if (personalInfo.getLanguage().equals("Other"))
-                            {
-                                tilOtherLanguage.setVisibility(View.VISIBLE);
-                                txtOtherLanguage.setText(personalInfo.getOtherLang());
-                            }
-                            else
-                            {
-                                tilOtherLanguage.setVisibility(View.GONE);
-                                txtOtherLanguage.setText("");
-                            }
-                        }
-                    }
-                    spinnerLanguage.setSelection(indexs + 1);
-                }
-                if (personalInfo.getMarital_status()!=null) {
-                    int indexss = 0;
-                    for (int i = 0; i < MaritalList.length; i++) {
-                        if (personalInfo.getMarital_status().equalsIgnoreCase(MaritalList[i])) {
-                            indexss = i;
-                        }
-                    }
-                    spinnerMarital.setSelection(indexss + 1);
-                }
-                if (personalInfo.getVeteran()!=null) {
-                    if (personalInfo.getVeteran().equals("YES")) {
-                        rbYes.setChecked(true);
-                        rbNo.setChecked(false);
-                    } else {
-                        rbYes.setChecked(false);
-                        rbNo.setChecked(true);
-                    }
-                }
-                if (personalInfo.getEnglish()!=null) {
-                    if (personalInfo.getEnglish().equals("YES")) {
-                        rbYess.setChecked(true);
-                        rbNoo.setChecked(false);
-                    } else {
-                        rbYess.setChecked(false);
-                        rbNoo.setChecked(true);
-                    }
-                }
-                if (personalInfo.getPet()!=null) {
-                    if (personalInfo.getPet().equals("YES")) {
-                        rbYesPet.setChecked(true);
-                        rbNoPet.setChecked(false);
-                    } else {
-                        rbYesPet.setChecked(false);
-                        rbNoPet.setChecked(true);
-                    }
-                }
-                imagepath=personalInfo.getPhoto();
-                if (!imagepath.equals("")) {
-                    File imgFile = new File(imagepath);
-                    if (imgFile.exists()) {
-                      *//*  Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                        imgProfile.setImageBitmap(myBitmap);*//*
-                        imageLoaderProfile.displayImage(String.valueOf(Uri.fromFile(imgFile)),imgProfile,displayImageOptionsProfile);
-                    }
-                }
-                else{
-                    imgProfile.setImageResource(R.drawable.ic_profile_defaults);
-                }
-              *//*  byte[] photo=personalInfo.getPhoto();
-                Bitmap bmp = BitmapFactory.decodeByteArray(photo, 0, photo.length);
-               imgProfile.setImageBitmap(bmp);*//*
-                cardpath=personalInfo.getPhotoCard();
-                if (!personalInfo.getPhotoCard().equals("")) {
-                    File imgFile1 = new File(personalInfo.getPhotoCard());
-                    if (imgFile1.exists()) {
-                       *//* Bitmap myBitmap = BitmapFactory.decodeFile(imgFile1.getAbsolutePath());
-                        imgCard.setImageBitmap(myBitmap);*//*
-                        imageLoaderCard.displayImage(String.valueOf(Uri.fromFile(imgFile1)),imgCard,displayImageOptionsCard);
-                    }
-                   *//* byte[] photoCard = personalInfo.getPhotoCard();
-                    Bitmap bmps = BitmapFactory.decodeByteArray(photoCard, 0, photoCard.length);*//*
-                   // imgCard.setImageBitmap(bmps);
-                    imgCard.setVisibility(View.VISIBLE);
-                    rlCard.setVisibility(View.VISIBLE);
-                    txtCard.setVisibility(View.GONE);
-                }
-                else{
-                    imgCard.setVisibility(View.GONE);
-                    rlCard.setVisibility(View.GONE);
-                    txtCard.setVisibility(View.VISIBLE);
-                }
-            }
-        }
-        else{
-            tilBdate.setVisibility(View.GONE);
-           // spinner.setVisibility(View.GONE);
-            txtWorkPhone.setVisibility(View.VISIBLE);
-            tilWorkPhone.setVisibility(View.VISIBLE);
-            spinnerRelation.setVisibility(View.VISIBLE);
-            txtGender.setVisibility(View.GONE);
-            if (connection != null) {
-                txtName.setText(connection.getName());
-                txtEmail.setText(connection.getEmail());
-                Email=connection.getEmail();
-                txtAddress.setText(connection.getAddress());
-                txtPhone.setText(connection.getMobile());
-                txtOtherRelation.setText(connection.getOtherRelation());
-                txtHomePhone.setText(connection.getPhone());
-                txtWorkPhone.setText(connection.getWorkPhone());
-                    int index = 0;
-                    for (int i = 0; i < Relationship.length; i++) {
-                        if (connection.getRelationType().equalsIgnoreCase(Relationship[i])) {
-                            index = i;
-                        }
-                    }
-                    spinnerRelation.setSelection(index+1);
-
-                txtOther.setText(connection.getOther_person());
-             *//*   if (personalInfo.getLive() != null) {
-                    if (personalInfo.getLive().equals("YES")) {
-                        rbYes.setChecked(true);
-
-                    } else if (personalInfo.getLive().equals("NO")) {
-                        rbNo.setChecked(true);
-                        live = "NO";
-                        rlLive.setVisibility(View.VISIBLE);
-                    }
-                }*//*
-                if (connection.getLive()!=null) {
-                    if (connection.getLive().equals("YES")) {
-                        rbYesLive.setChecked(true);
-                        rbNoLive.setChecked(false);
-                        live = "YES";
-                        rlLive.setVisibility(View.GONE);
-                    } else {
-                        rbYesLive.setChecked(false);
-                        rbNoLive.setChecked(true);
-                        live = "NO";
-                        rlLive.setVisibility(View.VISIBLE);
-                    }
-                }
-                if (connection.getChildren() != null) {
-                    if (connection.getChildren().equals("YES")) {
-                        chkChild.setChecked(true);
-                        child = "YES";
-                    } else if (connection.getChildren().equals("NO")) {
-                        chkChild.setChecked(false);
-                        child = "NO";
-                    }
-                }
-                if (connection.getFriend() != null) {
-                    if (connection.getFriend().equals("YES")) {
-                        chkFriend.setChecked(true);
-                        friend = "YES";
-                    } else if (connection.getFriend().equals("NO")) {
-                        chkFriend.setChecked(false);
-                        friend = "NO";
-                    }
-                }
-
-                if (connection.getGrand() != null) {
-                    if (connection.getGrand().equals("YES")) {
-                        chkGrandParent.setChecked(true);
-                        grandParent = "YES";
-                    } else if (connection.getGrand().equals("NO")) {
-                        chkGrandParent.setChecked(false);
-                        grandParent = "NO";
-                    }
-                }
-                if (connection.getParents() != null) {
-                    if (connection.getParents().equals("YES")) {
-                        chkParent.setChecked(true);
-                        parent = "YES";
-                    } else if (connection.getParents().equals("NO")) {
-                        chkParent.setChecked(false);
-                        parent = "NO";
-                    }
-                }
-                if (connection.getSpouse() != null) {
-                    if (connection.getSpouse().equals("YES")) {
-                        chkSpouse.setChecked(true);
-                        spouse = "YES";
-                    } else if (connection.getSpouse().equals("NO")) {
-                        chkSpouse.setChecked(false);
-                        spouse = "NO";
-                    }
-                }
-                if (connection.getSign_other() != null) {
-                    if (connection.getSign_other().equals("YES")) {
-                        chkOther.setChecked(true);
-                        other = "YES";
-                        tilOther.setVisibility(View.VISIBLE);
-                    } else if (connection.getSign_other().equals("NO")) {
-                        chkOther.setChecked(false);
-                        other = "NO";
-                        tilOther.setVisibility(View.GONE);
-                    }
-                }
-
-                imagepath=connection.getPhoto();
-                if (!imagepath.equals("")) {
-                    File imgFile = new File(imagepath);
-                    if (imgFile.exists()) {
-                       *//* Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                        imgProfile.setImageBitmap(myBitmap);*//*
-                        imageLoaderProfile.displayImage(String.valueOf(Uri.fromFile(imgFile)),imgProfile,displayImageOptionsProfile);
-                    }
-                }
-                else{
-                    imgProfile.setImageResource(R.drawable.ic_profile_defaults);
-                }
-              *//*  byte[] photo=personalInfo.getPhoto();
-                Bitmap bmp = BitmapFactory.decodeByteArray(photo, 0, photo.length);
-               imgProfile.setImageBitmap(bmp);*//*
-                cardpath=connection.getPhotoCard();
-                if (!connection.getPhotoCard().equals("")) {
-                    File imgFile1 = new File(connection.getPhotoCard());
-                    if (imgFile1.exists()) {
-                      *//*  Bitmap myBitmap = BitmapFactory.decodeFile(imgFile1.getAbsolutePath());
-                        imgCard.setImageBitmap(myBitmap);*//*
-                        imageLoaderCard.displayImage(String.valueOf(Uri.fromFile(imgFile1)),imgCard,displayImageOptionsCard);
-                    }
-                   *//* byte[] photoCard = personalInfo.getPhotoCard();
-                    Bitmap bmps = BitmapFactory.decodeByteArray(photoCard, 0, photoCard.length);*//*
-                    // imgCard.setImageBitmap(bmps);
-                    imgCard.setVisibility(View.VISIBLE);
-                    rlCard.setVisibility(View.VISIBLE);
-                    txtCard.setVisibility(View.GONE);
-                }
-                else{
-                    imgCard.setVisibility(View.GONE);
-                    rlCard.setVisibility(View.GONE);
-                    txtCard.setVisibility(View.VISIBLE);
-                }
-
-                txtHeight.setText(connection.getHeight());
-                txtWeight.setText(connection.getWeight());
-                txtProfession.setText(connection.getProfession());
-                txtEmployed.setText(connection.getEmployed());
-                txttelephone.setText(connection.getManager_phone());
-                txtReligion.setText(connection.getReligion());
-                txtIdNumber.setText(connection.getIdnumber());
-                int indexd = 0;
-
-                if (connection.getEyes()!=null) {
-                    for (int i = 0; i < EyesList.length; i++) {
-                        if (connection.getEyes().equalsIgnoreCase(EyesList[i])) {
-                            indexd = i;
-                        }
-                    }
-                    spinnerEyes.setSelection(indexd + 1);
-                }
-
-                if (connection.getLanguage()!=null) {
-                    int indexs = 0;
-                    for (int i = 0; i < LangList.length; i++) {
-                        if (connection.getLanguage().equalsIgnoreCase(LangList[i])) {
-                            indexs = i;
-                            if (connection.getLanguage().equals("Other"))
-                            {
-                                tilOtherLanguage.setVisibility(View.VISIBLE);
-                                txtOtherLanguage.setText(connection.getOtherLang());
-                            }
-                            else
-                            {
-                                tilOtherLanguage.setVisibility(View.GONE);
-                                txtOtherLanguage.setText("");
-                            }
-                        }
-                    }
-                    spinnerLanguage.setSelection(indexs + 1);
-                }
-
-                if (connection.getMarital_status()!=null) {
-                    int indexss = 0;
-                    for (int i = 0; i < MaritalList.length; i++) {
-                        if (connection.getMarital_status().equalsIgnoreCase(MaritalList[i])) {
-                            indexss = i;
-                        }
-                    }
-                    spinnerMarital.setSelection(indexss + 1);
-                }
-                if (connection.getVeteran()!=null) {
-                    if (connection.getVeteran().equals("YES")) {
-                        rbYes.setChecked(true);
-                        rbNo.setChecked(false);
-                    } else {
-                        rbYes.setChecked(false);
-                        rbNo.setChecked(true);
-                    }
-                }
-                if (connection.getEnglish()!=null) {
-                    if (connection.getEnglish().equals("YES")) {
-                        rbYess.setChecked(true);
-                        rbNoo.setChecked(false);
-                    } else {
-                        rbYess.setChecked(false);
-                        rbNoo.setChecked(true);
-                    }
-                }
-                if (connection.getPet()!=null) {
-                    if (connection.getPet().equals("YES")) {
-                        rbYesPet.setChecked(true);
-                        rbNoPet.setChecked(false);
-                    } else {
-                        rbYesPet.setChecked(false);
-                        rbNoPet.setChecked(true);
-                    }
-                }
-            }
-            }*/
     }
 
 
@@ -1950,91 +1319,17 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                 break;
 
             case R.id.txtSave:
-               /* for (int i = 0; i < phonelist.size(); i++) {
-                    ContactData c = phonelist.get(i);
-                    for (int k = 0; k < mTextViewListValue.size(); k++) {
-                        if (Integer.parseInt(mTextViewListValue.get(k).getTag().toString()) == c.getId()) {
-                            phonelist.get(i).setValue(mTextViewListValue.get(k).getText().toString());
-                        }
-                    }
-                }
 
-                for (int i=0;i<phonelist.size();i++)
-                {
-                    if (phonelist.get(i).getContactType()=="" && phonelist.get(i).getValue()=="")
-                    {
-                        phonelist.remove(phonelist.get(i));
-                    }
-                    // Log.d("TERE",phonelist.get(i).getContactType()+"-"+phonelist.get(i).getValue());
-                }*/
-
-               /* Bitmap bitmap = ((BitmapDrawable) imgProfile.getDrawable()).getBitmap();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);
-                byte[] photo = baos.toByteArray();
-
-                Bitmap bitmaps = ((BitmapDrawable) imgCard.getDrawable()).getBitmap();
-                ByteArrayOutputStream baoss = new ByteArrayOutputStream();
-                bitmaps.compress(Bitmap.CompressFormat.JPEG, 10, baoss);
-                if (imgCard.getVisibility()==View.VISIBLE)
-                {
-                    photoCard = baoss.toByteArray();
-                }else if(imgCard.getVisibility()==View.GONE){
-                    photoCard = null;
-                }*/
                 if (pet.equals("NO")) {
                     boolean flag = PetQuery.deleteRecords(preferences.getInt(PrefConstants.CONNECTED_USERID));
                     if (flag == true) {
-                        //  Toast.makeText(context,"Deleted",Toast.LENGTH_SHORT).show();
                         setPetData();
-                        // ListPet.requestFocus();
                     }
                 }
 
-               /* if (preferences.getInt(PrefConstants.CONNECTED_USERID)==(preferences.getInt(PrefConstants.USER_ID))) {
-                        if (validateUser()) {
-                            if (email.equals("")||email.equals(Email))
-                            {
-                                Boolean flag = PersonalInfoQuery.updatePersonalInfoData(preferences.getInt(PrefConstants.USER_ID), name, email, address, country, phone, bdate, imagepath,homePhone,gender,height,weight,eyes,profession,employed,language,marital_status,religion,veteran,idnumber,pet,manager_phone,cardpath,english,child,friend,grandParent,parent,spouse,other,liveOther,live,OtherLang);
-                                if (flag == true) {
-                                    Toast.makeText(context, "You have updated successfully", Toast.LENGTH_SHORT).show();
-                                    hideSoftKeyboard();
-                                    preferences.putString(PrefConstants.USER_NAME,name);
-                                    preferences.putString(PrefConstants.USER_PROFILEIMAGE,imagepath);
-                                    finish();
-                                    editToConnection(imagepath,cardpath);
-                                } else {
-                                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                            else{
-                                Boolean flags=MyConnectionsQuery.fetchEmailRecord(email);
-                                if (flags==true)
-                                {
-                                    Toast.makeText(context, "This email address is already registered by another profile, Please add another email address", Toast.LENGTH_SHORT).show();
-                                    txtEmail.setError("This email address is already registered by another profile, Please add another email address");
-                                }
-                                else{
-                                    Boolean flag = PersonalInfoQuery.updatePersonalInfoData(preferences.getInt(PrefConstants.USER_ID), name, email, address, country, phone, bdate, imagepath,homePhone,gender,height,weight,eyes,profession,employed,language,marital_status,religion,veteran,idnumber,pet,manager_phone,cardpath,english,child,friend,grandParent,parent,spouse,other,liveOther,live,OtherLang);
-                                    if (flag == true) {
-                                        Toast.makeText(context, "You have updated successfully", Toast.LENGTH_SHORT).show();
-                                        hideSoftKeyboard();
-                                        preferences.putString(PrefConstants.USER_NAME,name);
-                                        preferences.putString(PrefConstants.USER_PROFILEIMAGE,imagepath);
-                                        finish();
-                                        editToConnection(imagepath,cardpath);
-                                    } else {
-                                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else {*/
                 if (validateConnection()) {
                     if (email.equals("") || email.equals(Email)) {
                         editToConnection(imagepath, cardpath);
-
                     } else {
                         Boolean flags = MyConnectionsQuery.fetchEmailRecord(email);
                         if (flags == true) {
@@ -2042,12 +1337,8 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                             txtEmail.setError("This email address is already registered by another profile, Please add another email address");
                         } else {
                             editToConnection(imagepath, cardpath);
-
                         }
                     }
-
-
-                    //}
                 }
 
 
@@ -2067,23 +1358,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                 break;
 
             case R.id.imgBack:
-               /* for (int i = 0; i < phonelist.size(); i++) {
-                    ContactData c = phonelist.get(i);
-                    for (int k = 0; k < mTextViewListValue.size(); k++) {
-                        if (Integer.parseInt(mTextViewListValue.get(k).getTag().toString()) == c.getId()) {
-                            phonelist.get(i).setValue(mTextViewListValue.get(k).getText().toString());
-                        }
-                    }
-                }
 
-                for (int i=0;i<phonelist.size();i++)
-                {
-                    if (phonelist.get(i).getContactType()=="" && phonelist.get(i).getValue()=="")
-                    {
-                        phonelist.remove(phonelist.get(i));
-                    }
-                    // Log.d("TERE",phonelist.get(i).getContactType()+"-"+phonelist.get(i).getValue());
-                }*/
                if (validateConnection()) {
                 //   String contactchange1 = Originalphonelist.containsAll(phonelist) ? "Yes" : "No";
                    String contactchange2 = phonelist.containsAll(Originalphonelist) ? "Yes" : "No";
@@ -2192,101 +1467,6 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                 Intent ia = new Intent(context, InstructionActivity.class);
                 ia.putExtra("From", "Personal");
                 startActivity(ia);
-/*
-                final String RESULT = Environment.getExternalStorageDirectory()
-                        + "/mylopdf/";
-                File dirfile = new File(RESULT);
-                dirfile.mkdirs();
-                File file = new File(dirfile, "PersonalProfile.pdf");
-                if (file.exists()) {
-                    file.delete();
-                }
-                new Header().createPdfHeader(file.getAbsolutePath(),
-                        "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-                preferences.copyFile("ic_launcher.png", context);
-                Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-                Header.addEmptyLine(1);
-                Header.addusereNameChank("Personal Profile");//preferences.getString(PrefConstants.CONNECTED_NAME));
-                Header.addEmptyLine(1);
-                Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-                Paragraph p = new Paragraph(" ");
-                LineSeparator line = new LineSeparator();
-                line.setOffset(-4);
-                line.setLineColor(BaseColor.LIGHT_GRAY);
-                p.add(line);
-                try {
-                    Header.document.add(p);
-                } catch (DocumentException e) {
-                    e.printStackTrace();
-                }
-                Header.addEmptyLine(1);
-               *//* new Header().createPdfHeader(file.getAbsolutePath(),
-                        "Personal Profile");
-                Header.addusereNameChank(preferences.getString(PrefConstants.CONNECTED_NAME));
-                Header.addEmptyLine(2);*//*
-               *//* if (preferences.getInt(PrefConstants.CONNECTED_USERID)==(preferences.getInt(PrefConstants.USER_ID))) {
-                    final ArrayList<Pet> PetLists = PetQuery.fetchAllRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-                    final PersonalInfo personalInfoList =  PersonalInfoQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-                    new Individual(personalInfoList,PetLists);
-                }
-                else{*//*
-                final RelativeConnection personalInfoList = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-                final ArrayList<Pet> PetList = PetQuery.fetchAllRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-                final ArrayList<ContactData> phonelist=ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID),con.getId(),"Personal Profile");
-
-                new Individual(personalInfoList, PetList,phonelist);
-                // }
-
-                Header.document.close();
-
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-                builder.setTitle("");
-
-                builder.setItems(dialog_items, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int itemPos) {
-                        String path = Environment.getExternalStorageDirectory()
-                                + "/mylopdf"
-                                + "/PersonalProfile.pdf";
-                        switch (itemPos) {
-                            case 0: //View
-                                StringBuffer result = new StringBuffer();
-                               *//* if (preferences.getInt(PrefConstants.CONNECTED_USERID)==(preferences.getInt(PrefConstants.USER_ID))) {
-                                    result.append(new MessageString().getProfileUser());
-                                }else {*//*
-                                result.append(new MessageString().getProfileProfile());
-                                // }
-
-                                new PDFDocumentProcess(path,
-                                        context, result);
-
-                                System.out.println("\n" + result + "\n");
-                                break;
-
-                            case 1://Email
-                                File f = new File(path);
-                                preferences.emailAttachement(f, context, "Personal Profile");
-                                break;
-
-                          *//*  case 2://fax
-                              //  new FaxCustomDialog(context, path).show();
-                                break;*//*
-
-                            case 2://FTU
-                                Intent i = new Intent(context, InstructionActivity.class);
-                                i.putExtra("From", "Personal");
-                                startActivity(i);
-                                break;
-
-
-                        }
-                    }
-
-                });
-                builder.create().show();*/
                 break;
 
             case R.id.imgEdit:
@@ -2347,10 +1527,6 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                 dpd.show();
                 break;
 
-
-           /* case R.id.imgGoogleSignup:
-
-                break;*/
         }
     }
 
@@ -2364,44 +1540,10 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
             file.delete();
         }
 
-/// Old PDF
-     /*  new Header().createPdfHeader(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-        preferences.copyFile("ic_launcher.png", context);
-        preferences.copyFile("pp.png", context);
-        preferences.copyFile("pdflogo.png", context);
-        preferences.copyFile("calpdf.png", context);
-        preferences.copyFile("profpdf.png", context);
-          Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-         Header.addEmptyLine(1);
-        Header.addusereNameChank("Personal Profile");//preferences.getString(PrefConstants.CONNECTED_NAME));
-        Header.addEmptyLine(1);
-          Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-        Paragraph p = new Paragraph(" ");
-        LineSeparator line = new LineSeparator();
-        line.setOffset(-4);
-        line.setLineColor(BaseColor.LIGHT_GRAY);
-        p.add(line);
-        try {
-            Header.document.add(p);
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
-       Header.addEmptyLine(1);
-
-        final RelativeConnection personalInfoList = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        final ArrayList<Pet> PetList = PetQuery.fetchAllRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        final ArrayList<ContactData> phonelist=ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID),-1,"Personal Profile");
-
-        new Individual(personalInfoList, PetList, phonelist);
-         Header.document.close();
-*/
-
-          // Pdf New
-
+        // Pdf New
         Image pdflogo = null,calendar= null,profile= null,calendarWite= null,profileWite= null;
         pdflogo=preferences.addFile("pdflogo.png", context);
+
         calendar=preferences.addFile("calpdf.png", context);calendarWite=preferences.addFile("calpdf_wite.png", context);
         profile=preferences.addFile("profpdf.png", context); profileWite=preferences.addFile("profpdf_wite.png", context);
 
@@ -2585,28 +1727,6 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
         });
     }
 
-    private void dispatchTakePictureIntent(int resultCameraImage, String from) {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile(from);
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-                ex.printStackTrace();
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-               /* Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.infidigi.fotobuddies.fileprovider",
-                        photoFile);*/
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoFile.getAbsolutePath());
-                startActivityForResult(takePictureIntent, resultCameraImage);
-            }
-        }
-    }
 
     private File createImageFile(String from) throws IOException {
         // Create an image file name
@@ -2637,14 +1757,6 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
             }
         }
 
-       /* for (int i=0;i<phonelist.size();i++)
-        {
-            if (phonelist.get(i).getContactType().isEmpty() && phonelist.get(i).getValue().isEmpty())
-            {
-                phonelist.remove(phonelist.get(i));
-            }
-
-        }*/
 
         for (int i=0;i<phonelist.size();i++)
         {
@@ -2686,29 +1798,6 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
         marital_status=txtSpinMarital.getText().toString();
         language=txtSpinLang.getText().toString();
        OtherLang = txtOtherLanguage.getText().toString();
-       /* int i = spinnerRelation.getSelectedItemPosition();
-        if (i != 0)
-            relation = Relationship[i - 1];
-
-
-        int i1 = spinnerEyes.getSelectedItemPosition();
-        if (i1 != 0)
-            eyes = EyesList[i1 - 1];
-        int i2 = spinnerLanguage.getSelectedItemPosition();
-        if (i2 != 0)
-            language = LangList[i2 - 1];
-        if (language != null) {
-            if (language.equals("Other")) {
-                OtherLang = txtOtherLanguage.getText().toString();
-            } else {
-                OtherLang = "";
-            }
-        } else {
-            language = "";
-        }
-        int i3 = spinnerMarital.getSelectedItemPosition();
-        if (i3 != 0)
-            marital_status = MaritalList[i3 - 1];*/
 
         bdate = txtBdate.getText().toString().trim();
         homePhone = txtHomePhone.getText().toString().trim();
@@ -2739,25 +1828,13 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
         } else if (relation.equals("Other") && otherRelation.equals("")) {
             txtOtherRelation.setError("Please Enter Other Relation");
             DialogManager.showAlert("Please Enter Other Relation", context);
-        } /*else if (email.equals("")) {
+        } else if (email.equals("")) {
             txtEmail.setError("Please Enter email");
-            showAlert("Please Enter email",  context);
-        }*/ else if (!email.equals("") && !email.trim().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
+            DialogManager.showAlert("Please Enter email",  context);
+        } else if (!email.equals("") && !email.trim().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
             txtEmail.setError("Please enter valid email");
             DialogManager.showAlert("Please enter valid email", context);
-        } /*else if (height.length()!=0 && height.length()<5)
-        {
-            txtHeight.setError("Enter height");
-            showAlert("Enter correct height",  context);
-        }*/
-       /* else if (address.equals("")) {
-            txtAddress.setError("Please Enter Address");
-            showAlert("Please Enter Address",  context);
         }
-       else if (phone.equals("")) {
-            txtPhone.setError("Please Enter Phone");
-            showAlert("Please Enter Phone",  context);
-        }*/
         else if (phone.length() != 0 && phone.length() < 10) {
             txtPhone.setError("Phone number should be 10 digits");
             DialogManager.showAlert("Phone number should be 10 digits", context);
@@ -2765,13 +1842,6 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
             txttelephone.setError("Mobile number should be 10 digits");
             DialogManager.showAlert("Mobile number should be 10 digits", context);
         }
-      /*  else if (homePhone.equals("")) {
-            txtHomePhone.setError("Please Enter Phone");
-            showAlert("Please Enter Phone",  context);
-        }else if (homePhone.length() < 10) {
-            txtHomePhone.setError("Phone number should be 10 digits");
-            showAlert("Phone number should be 10 digits",  context);
-        }*/
         else {
             return true;
         }
@@ -2779,99 +1849,8 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
 
     }
 
-    private boolean validateUser() {
-        name = txtName.getText().toString().trim();
-        email = txtEmail.getText().toString().trim();
-        phone = txtPhone.getText().toString().trim();
-        bdate = txtBdate.getText().toString().trim();
-        homePhone = txtHomePhone.getText().toString().trim();
-        gender = txtGender.getText().toString().trim();
-        idnumber = txtIdNumber.getText().toString();
-        if (spinner.getSelectedItem() != null) {
-            country = spinner.getSelectedItem().toString();
-        } else {
-            country = "";
-        }
-        address = txtAddress.getText().toString().trim();
-
-        height = txtHeight.getText().toString();
-        weight = txtWeight.getText().toString();
-        profession = txtProfession.getText().toString();
-        people=txtPeople.getText().toString();
-        employed = txtEmployed.getText().toString();
-        manager_phone = txttelephone.getText().toString();
-        religion = txtReligion.getText().toString();
-        liveOther = txtOther.getText().toString();
-
-        int indexValue = spinnerEyes.getSelectedItemPosition();
-        if (indexValue != 0)
-            eyes = EyesList[indexValue - 1];
-
-        int indexValuex = spinnerLanguage.getSelectedItemPosition();
-        if (indexValuex != 0)
-            language = LangList[indexValuex - 1];
-        if (language != null) {
-            if (language.equals("Other")) {
-                OtherLang = txtOtherLanguage.getText().toString();
-            } else {
-                OtherLang = "";
-            }
-        } else {
-            language = "";
-        }
-
-        int indexValues = spinnerMarital.getSelectedItemPosition();
-        if (indexValues != 0)
-            marital_status = MaritalList[indexValues - 1];
 
 
-        if (name.equals("")) {
-            txtName.setError("Please Enter Name");
-            DialogManager.showAlert("Please Enter Name", context);
-        } /*else if (email.equals("")) {
-            txtEmail.setError("Please Enter email");
-            showAlert("Please Enter email",  context);
-        } */ else if (!email.equals("") && !email.trim().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
-            txtEmail.setError("Please enter valid email");
-            DialogManager.showAlert("Please enter valid email", context);
-        }/* else if (height.length()!=0 && height.length()<5)
-        {
-            txtHeight.setError("Enter height");
-            showAlert("Enter correct height",  context);
-        }*/
-       /* else if (address.equals("")) {
-            txtAddress.setError("Please Enter Address");
-            showAlert("Please Enter Address",  context);
-        }
-        else if (country.equals("")) {
-            spinner.setError("Please Select Country");
-            showAlert("Please Select Country",  context);
-        }*/
-        else if (phone.length() != 0 && phone.length() < 10) {
-            txtPhone.setError("Phone number should be 10 digits");
-            DialogManager.showAlert("Phone number should be 10 digits", context);
-        } else if (manager_phone.length() != 0 && manager_phone.length() < 10) {
-            txttelephone.setError("Mobile number should be 10 digits");
-            DialogManager.showAlert("Mobile number should be 10 digits", context);
-        }/*else if (bdate.equals("")) {
-            txtBdate.setError("Please Enter Birth date");
-            showAlert("Please Enter Birth date",  context);
-        }*/ else {
-            return true;
-        }
-        return false;
-    }
-   /* private void addData() {
-        preferences=new Preferences(context);
-        int ids=preferences.getInt(PrefConstants.CONNECTED_USERID);
-        Boolean flag = MyConnectionsQuery.updateMyConnectionsData(ids, name, email, address, phone,homePhone,workPhone,relation , imagepath,"", 1, 2, otherRelation,height,weight,eyes,profession,employed,language,marital_status,religion,veteran,idnumber,pet, manager_phone, cardpath, english,child,friend,grandParent,parent,spouse,other,liveOther,live, OtherLang,bdate,gender);
-        if (flag == true) {
-            Toast.makeText(context, "You have edited connection successfully", Toast.LENGTH_SHORT).show();
-            preferences.putString(PrefConstants.CONNECTED_NAME,name);
-        } else {
-            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-        }
-    }*/
 
     private void editToConnection(String photo, String photoCard) {
 
@@ -2975,101 +1954,6 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
             }
 
         }
-        //  }
-       /* if (preferences.getInt(PrefConstants.CONNECTED_USERID)==preferences.getInt(PrefConstants.USER_ID)) {
-            Boolean flag = MyConnectionsQuery.updateMyConnectionsData(preferences.getInt(PrefConstants.USER_ID), name, email, address, phone," "," ", "Self", imagepath," ", 1, 2, otherRelation,height,weight,eyes,profession,employed,language,marital_status,religion,veteran,idnumber,pet,manager_phone, cardpath,english,child,friend,grandParent,parent,spouse,other,liveOther,live,OtherLang);
-            if (flag == true) {
-                Toast.makeText(context, "You have edited connection successfully", Toast.LENGTH_SHORT).show();
-                preferences.putString(PrefConstants.CONNECTED_NAME,name);
-            } else {
-                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-            }
-        }
-        else{*/
-            /*int indexValuex = spinnerRelation.getSelectedItemPosition();
-            String relation =Relationship[indexValuex-1];*/
-        /* */
-        //   }
-
-
-
-    private boolean validate() {
-        name = txtName.getText().toString().trim();
-        email = txtEmail.getText().toString().trim();
-        phone = txtPhone.getText().toString().trim();
-        bdate = txtBdate.getText().toString().trim();
-        country = spinner.getSelectedItem().toString();
-        address = txtAddress.getText().toString().trim();
-        relation = spinnerRelation.getSelectedItem().toString();
-
-
-        if (name.equals("")) {
-            txtName.setError("Please Enter Name");
-            DialogManager.showAlert("Please Enter Name", context);
-        }/* else if (email.equals("")) {
-            txtEmail.setError("Please Enter email");
-            showAlert("Please Enter email",  context);
-        } else if (!email.trim().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
-            txtEmail.setError("Please enter valid email");
-            showAlert("Please enter valid email",  context);
-        }
-        else if (address.equals("")) {
-            txtAddress.setError("Please Enter Address");
-            showAlert("Please Enter Address",  context);
-        }
-       *//* else if (country.equals("")) {
-            spinner.setError("Please Select Country");
-            showAlert("Please Select Country",  context);
-        } *//*else if (phone.equals("")) {
-            txtPhone.setError("Please Enter Phone");
-            showAlert("Please Enter Phone",  context);
-        } */ else if (phone.length() != 0 && phone.length() < 10) {
-            txtPhone.setError("Phone number should be 10 digits");
-            DialogManager.showAlert("Phone number should be 10 digits", context);
-        } /*else if (bdate.equals("")) {
-            txtBdate.setError("Please Enter Birth date");
-            showAlert("Please Enter Birth date",  context);
-        } */ else {
-            return true;
-        }
-        return false;
-    }
-
-
-/*
-    private void takePicture() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-         */
-/*   try {
-              //  photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-
-            }*//*
-
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                            FileProvider.getUriForFile(context, "com.example.quagnitia.zapfin.Activity.Provider", photoFile));
-                    // Do something for lollipop and above versions
-                } else {
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                            Uri.fromFile(photoFile));
-                    // do something for phones running an SDK before lollipop
-                }
-
-                startActivityForResult(takePictureIntent, RESULT_CAMERA_IMAGE);
-            }
-        }
-    }
-*/
-
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -3131,31 +2015,8 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
          storeImage(imageBitmap,"Profile");*/
 
         }
-       /* if (requestCode == RESULT_CAMERA_IMAGE) {
-
-            try {
-                Bitmap thumbnail = MediaStore.Images.Media.getBitmap(
-                        getContentResolver(), imageUriProfile);
-                String imageurl = getRealPathFromURI(imageUriProfile);
-                Bitmap selectedImage = imageOreintationValidator(thumbnail, imageurl);
-                imageLoaderProfile.displayImage(String.valueOf(imageUriProfile), imgProfile, displayImageOptionsProfile);
-                // profileImage.setImageBitmap(bitmap);
-                // storeImage(bitmap,"Profile");
-                ProfileMap = selectedImage;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-         Bundle extras = data.getExtras();
-         Bitmap imageBitmap = (Bitmap) extras.get("data");
-         imgProfile.setImageBitmap(imageBitmap);
-
-         storeImage(imageBitmap,"Profile");
-
-        }*/
 
         String fileName = "";
-
-
         if (requestCode == RESULT_SELECT_PHOTO_CARD && data != null) {
 
 
@@ -3181,58 +2042,6 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-
-
-
-
-          /*  int targetW = imgCard.getWidth();
-            int targetH = imgCard.getHeight();
-
-            // Get the dimensions of the bitmap
-            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            bmOptions.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(fileName, bmOptions);
-            int photoW = bmOptions.outWidth;
-            int photoH = bmOptions.outHeight;
-
-            // Determine how much to scale down the image
-            int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-
-            // Decode the image file into a Bitmap sized to fill the View
-            bmOptions.inJustDecodeBounds = false;
-            bmOptions.inSampleSize = scaleFactor;
-            bmOptions.inPurgeable = true;
-            rlCard.setVisibility(View.VISIBLE);
-            imgCard.setVisibility(View.VISIBLE);
-            Bitmap bmp = BitmapFactory.decodeFile(fileName, bmOptions);
-            imgCard.setImageBitmap(bmp);
-
-
-            final Uri imageUri = data.getData();
-            // final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-            // final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-
-
-            // int nh = (int) (selectedImage.getHeight() * (512.0 / selectedImage.getWidth()));
-            //  Bitmap scaled = Bitmap.createScaledBitmap(selectedImage, 512, nh, true);
-
-            //imgCard.setImageBitmap(scaled);
-             // profileCard.setImageBitmap(bmp);
-//                ProfileMap = selectedImage;
-
-            CardMap = bmp;
-            storeImage(bmp, "Card");
-
-            // imageLoaderCard.displayImage(String.valueOf(imageUri), imgCard, displayImageOptionsCard);
-            // profileCard.setImageBitmap(selectedImage);
-            //   rlCard.setVisibility(View.VISIBLE);
-
-            txtCard.setVisibility(View.GONE);
-            isOnActivityResult = true;
-            cardImgPath = String.valueOf(imageUri);
-            //   storeImage(selectedImage,"Card");
-//                CardMap = selectedImage;*/
-
         }
 
         if (requestCode == RESULT_CAMERA_IMAGE_CARD) {
@@ -3299,78 +2108,17 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
         else if (requestCode == REQUEST_MARITAL && data != null) {
             marital_status = data.getStringExtra("Category");
             txtSpinMarital.setText(marital_status);
-            /*if (marital_status.equals("Other")) {
-                .setVisibility(View.VISIBLE);
-                txtOtherRelation.setVisibility(View.VISIBLE);
-            } else {
-                tilOtherRelation.setVisibility(View.GONE);
-                txtOtherRelation.setVisibility(View.GONE);
-            }*/
+
         }
 
     }
-
-
-/*
-    public void loadImageFromFile() {
-
-        ImageView view = (ImageView) this.findViewById(R.id.imgProfile);
-        view.setVisibility(View.VISIBLE);
-
-
-        int targetW = view.getWidth();
-        int targetH = view.getHeight();
-
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(fileName, bmOptions);
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-
-        // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
-
-        final Uri imageUri = data.getData();
-        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-        // profileImage.setImageBitmap(selectedImage);
-//                imageLoaderProfile.displayImage(String.valueOf(imageUri), imgProfile, displayImageOptionsProfile);
-        // storeImage(selectedImage,"Profile");
-
-        int nh = (int) (selectedImage.getHeight() * (512.0 / selectedImage.getWidth()));
-        Bitmap scaled = Bitmap.createScaledBitmap(selectedImage, 512, nh, true);
-        imgProfile.setImageBitmap(scaled);
-
-
-        Bitmap bmp = BitmapFactory.decodeFile(fileName, bmOptions);
-        view.setImageBitmap(bmp);
-        imgProfile.setImageBitmap(bmp);
-
-     //   imgProfile = bmp;
-
-
-    }
-*/
-
     private void setPetData() {
         final ArrayList allergyList = new ArrayList();
         final ArrayList<Pet> AllargyLists = PetQuery.fetchAllRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
        if (AllargyLists.size() != 0) {
             ListPet.setVisibility(View.VISIBLE);
-            /*for (int i = 0; i < AllargyLists.size(); i++) {
-                Pet a = AllargyLists.get(i);
-                String allergy = "Pet Name: " + a.getName() + "\nBreed / Type of Pet: " + a.getBreed() + "\nColor: " + a.getColor() + "\nVeterinarian: " + a.getVeterian() + "\nCaretaker: " + a.getGuard() + "\nMicrochip Number: " + a.getChip() + "\nBirthdate: " + a.getBdate() + "\nNotes: " + a.getNotes();
-                allergyList.add(allergy);
-            }*/
-         //   if (allergyList.size() != 0) {
+
                 PetAdapter adapter=new PetAdapter(context,AllargyLists);
-               // ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.row_medicalinfo, R.id.txtInfo, allergyList);
                 ListPet.setAdapter(adapter);
                 ListPet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -3380,34 +2128,10 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                         allergyIntent.putExtra("FROM", "Update");
                         allergyIntent.putExtra("PetObject", a);
                         startActivityForResult(allergyIntent, REQUEST_PET);
-                    /*    ImageView imgEdit = view.findViewById(R.id.imgEdit);
-                        ImageView imgDelete = view.findViewById(R.id.imgDelete);
-                        imgEdit.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Pet a = AllargyLists.get(position);
-                                Intent allergyIntent = new Intent(context, AddPetActivity.class);
-                                allergyIntent.putExtra("FROM", "Update");
-                                allergyIntent.putExtra("PetObject", a);
-                                startActivityForResult(allergyIntent, REQUEST_PET);
-                            }
-                        });
 
-                        imgDelete.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Pet a = AllargyLists.get(position);
-                                boolean flag = PetQuery.deleteRecord(a.getId());
-                                if (flag == true) {
-                                    Toast.makeText(context, "Deleted Pet Record", Toast.LENGTH_SHORT).show();
-                                    setPetData();
-                                    ListPet.requestFocus();
-                                }
-                            }
-                        });*/
                     }
                 });
-        //    }
+
         } else {
             ListPet.setVisibility(View.GONE);
         }
@@ -3623,14 +2347,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
 
         @Override
         protected void onPreExecute() {
-
             pd = ProgressDialog.show(context, "", "Please Wait..");
-
-         /*   SharedPreferences mPref = context.getSharedPreferences(
-                    "UserDetails", Context.MODE_PRIVATE);*/
-
-            //   userId = mPref.getString("userId", "");
-
             super.onPreExecute();
         }
 
@@ -3650,8 +2367,6 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
         @Override
         protected void onPostExecute(String result) {
 
-            // Toast.makeText(getApplicationContext(), result + "",
-            // Toast.LENGTH_LONG).show();
             if (pd != null) {
                 if (pd.isShowing()) {
                     pd.dismiss();
@@ -3755,5 +2470,50 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
             }
         });
     }
+/*
+    public void loadImageFromFile() {
 
+        ImageView view = (ImageView) this.findViewById(R.id.imgProfile);
+        view.setVisibility(View.VISIBLE);
+
+
+        int targetW = view.getWidth();
+        int targetH = view.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(fileName, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        final Uri imageUri = data.getData();
+        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+        // profileImage.setImageBitmap(selectedImage);
+//                imageLoaderProfile.displayImage(String.valueOf(imageUri), imgProfile, displayImageOptionsProfile);
+        // storeImage(selectedImage,"Profile");
+
+        int nh = (int) (selectedImage.getHeight() * (512.0 / selectedImage.getWidth()));
+        Bitmap scaled = Bitmap.createScaledBitmap(selectedImage, 512, nh, true);
+        imgProfile.setImageBitmap(scaled);
+
+
+        Bitmap bmp = BitmapFactory.decodeFile(fileName, bmOptions);
+        view.setImageBitmap(bmp);
+        imgProfile.setImageBitmap(bmp);
+
+     //   imgProfile = bmp;
+
+
+    }
+*/
 }

@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mindyourlovedone.healthcare.Fragment.FragmentType;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.InsuranceHealthCare.TypeAdapter;
@@ -56,14 +57,8 @@ public class RelationshipActivity extends AppCompatActivity implements View.OnCl
 
 
         txtType = findViewById(R.id.txtType);
-       /* txtType.setBackgroundColor(getResources().getColor(R.color.colorNewHereBlue));
-        txtType.setTextColor(getResources().getColor(R.color.colorWhite));
-        txtType.setBackground(getResources().getDrawable(R.drawable.border_type));*/
-
         txtSpecialist = findViewById(R.id.txtSpecialist);
-       /* txtSpecialist.setBackgroundColor(getResources().getColor(R.color.colorOnesGray));
-        txtSpecialist.setTextColor(getResources().getColor(R.color.colorWhite));
-        txtSpecialist.setBackground(getResources().getDrawable(R.drawable.border_specialist));*/
+
 
         Intent intent = getIntent();
         if (intent.getExtras() != null) {
@@ -86,47 +81,7 @@ public class RelationshipActivity extends AppCompatActivity implements View.OnCl
                         break;
                 }
             }
-            txtSpecialist.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //  if (category.equalsIgnoreCase("TypeSpecialist")) {
-                    txtTitles.setText("Select Specialist");
-                    txtType.setTextColor(getResources().getColor(R.color.colorBlue));
-                    txtType.setBackgroundResource(R.drawable.border_type2);
 
-                    txtSpecialist.setTextColor(getResources().getColor(R.color.colorWhite));
-                    txtSpecialist.setBackgroundResource(R.drawable.border_specialist1);
-                    // Toast.makeText(context, "In Specialist..!!", Toast.LENGTH_SHORT).show();
-                    rlType.setVisibility(View.GONE);
-                    rlSpecialist.setVisibility(View.VISIBLE);
-                    rd = new TypeAdapter(context, Type);
-                    lvSpecialist.setAdapter(rd);
-                    lvType.setVisibility(View.GONE);
-                    lvSpecialist.setVisibility(View.VISIBLE);
-                    //   }
-                }
-            });
-
-            txtType.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // if (category.equalsIgnoreCase("TypeAppointment")) {
-                    txtTitles.setText("Select Type");
-                    txtType.setTextColor(getResources().getColor(R.color.colorWhite));
-                    txtType.setBackgroundResource(R.drawable.border_type);
-
-                    txtSpecialist.setTextColor(getResources().getColor(R.color.colorBlue));
-                    txtSpecialist.setBackgroundResource(R.drawable.border_specialist);
-                    //  Toast.makeText(context, "In Type..!!", Toast.LENGTH_SHORT).show();
-                    rlType.setVisibility(View.VISIBLE);
-                  //  rlSpecialist.setVisibility(View.GONE);
-                    rd = new TypeAdapter(context, Specialist);
-                    lvType.setAdapter(rd);
-                    lvType.setVisibility(View.VISIBLE);
-                    lvSpecialist.setVisibility(View.GONE);
-                }
-                // }
-            });
 
             lvType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -154,14 +109,7 @@ public class RelationshipActivity extends AppCompatActivity implements View.OnCl
                     finish();
                 }
             });
-
-
-
-             /* Bundle bundle = new Bundle();
-                bundle.putString("Category", "TypeAppointment");
-                FragmentType fragmentType = new FragmentType();
-                fragmentType.setArguments(bundle);
-                // callFragment(new FragmentType());*/
+            
         }
     }
 
@@ -183,37 +131,37 @@ public class RelationshipActivity extends AppCompatActivity implements View.OnCl
             case R.id.imgBack:
                 finish();
                 break;
-          /*  case R.id.txtType:
-                rlType.setVisibility(View.VISIBLE);
-                rlSpecialist.setVisibility(View.GONE);
-                initUi();
-               *//* //type view changes
-                 callFragment(new FragmentType());
-                txtType.setBackgroundColor(getResources().getColor(R.color.colorNewHereBlue));
+            case R.id.txtType:
+                txtTitles.setText("Select Type");
                 txtType.setTextColor(getResources().getColor(R.color.colorWhite));
-                txtType.setBackground(getResources().getDrawable(R.drawable.border_type));
+                txtType.setBackgroundResource(R.drawable.border_type);
 
-                //specialist view changes
-                txtSpecialist.setBackground(getResources().getDrawable(R.drawable.border_specialist));
-                txtSpecialist.setBackgroundColor(getResources().getColor(R.color.colorOnesGray));
-                txtSpecialist.setTextColor(getResources().getColor(R.color.colorNewHereBlue));
-*//*
+                txtSpecialist.setTextColor(getResources().getColor(R.color.colorBlue));
+                txtSpecialist.setBackgroundResource(R.drawable.border_specialist);
+                //  Toast.makeText(context, "In Type..!!", Toast.LENGTH_SHORT).show();
+                rlType.setVisibility(View.VISIBLE);
+                //  rlSpecialist.setVisibility(View.GONE);
+                rd = new TypeAdapter(context, Specialist);
+                lvType.setAdapter(rd);
+                lvType.setVisibility(View.VISIBLE);
+                lvSpecialist.setVisibility(View.GONE);
 
-                break;*/
-          /*  case R.id.txtSpecialist:
+                break;
+            case R.id.txtSpecialist:
+                txtTitles.setText("Select Specialist");
+                txtType.setTextColor(getResources().getColor(R.color.colorBlue));
+                txtType.setBackgroundResource(R.drawable.border_type2);
+
+                txtSpecialist.setTextColor(getResources().getColor(R.color.colorWhite));
+                txtSpecialist.setBackgroundResource(R.drawable.border_specialist1);
+                // Toast.makeText(context, "In Specialist..!!", Toast.LENGTH_SHORT).show();
                 rlType.setVisibility(View.GONE);
                 rlSpecialist.setVisibility(View.VISIBLE);
-                initUi();
-               *//* txtSpecialist.setBackgroundColor(getResources().getColor(R.color.colorNewHereBlue));
-                txtSpecialist.setTextColor(getResources().getColor(R.color.colorWhite));
-                txtSpecialist.setBackground(getResources().getDrawable(R.drawable.border_specialist));
-
-                txtType.setBackground(getResources().getDrawable(R.drawable.border_type));
-                txtType.setBackgroundColor(getResources().getColor(R.color.colorOnesGray));
-                txtType.setTextColor(getResources().getColor(R.color.colorNewHereBlue));
-
-                callFragment(new FragmentSpecialist());*//*
-                break;*/
+                rd = new TypeAdapter(context, Type);
+                lvSpecialist.setAdapter(rd);
+                lvType.setVisibility(View.GONE);
+                lvSpecialist.setVisibility(View.VISIBLE);
+                break;
         }
     }
 }

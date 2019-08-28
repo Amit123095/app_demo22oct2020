@@ -4141,9 +4141,9 @@ android:maxLength="12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rlInput"
-                android:layout_marginLeft="@dimen/dimension20dp"
+                android:layout_marginLeft="@dimen/dimension15dp"
                 android:layout_marginTop="@dimen/dimension10dp"
-                android:layout_marginRight="@dimen/dimension20dp"
+                android:layout_marginRight="@dimen/dimension15dp"
                 android:layout_marginBottom="@dimen/dimension10dp"
                 android:background="@color/colorWhite">
 
