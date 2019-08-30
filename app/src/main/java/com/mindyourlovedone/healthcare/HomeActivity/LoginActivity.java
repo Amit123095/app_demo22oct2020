@@ -228,6 +228,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private boolean validate() {
+
         username = txtUserName.getText().toString().trim();
         name = txtName.getText().toString().trim();
 
