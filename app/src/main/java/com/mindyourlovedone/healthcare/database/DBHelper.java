@@ -15,7 +15,7 @@ import android.os.Environment;
 
 public class DBHelper extends SQLiteOpenHelper {
     // public static final String DATABASE_NAME = "MYLO.db";
-    static final int DATABASE_VERSION = 3;//old version is less than 3
+    static final int DATABASE_VERSION = 4;//old version is less than 3
 
     public DBHelper(Context context, String DATABASE_NAME) {
         super(context, Environment.getExternalStorageDirectory() + "/MYLO/" + DATABASE_NAME + "/" + "MASTER.db", null, DATABASE_VERSION);
@@ -63,6 +63,9 @@ public class DBHelper extends SQLiteOpenHelper {
         //Vital Table
         db.execSQL(VitalQuery.createVitalTable());
 
+        //subscription table  -Nikita#Sub
+        db.execSQL(SubscriptionQuery.createSubscriptionTable());
+
         //Prescription Table
         db.execSQL(PrescribeImageQuery.createImageTable());
         db.execSQL(DosageQuery.createDosageTable());
@@ -88,6 +91,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {//nikita
+        if(oldVersion <4){//Nikita#Sub
+            if (!isTableExists("Subscription", db)) {
+                db.execSQL(SubscriptionQuery.createSubscriptionTable()); //Nikita#Sub
+            }
+        }
         if (oldVersion < 3) {
             //New Tables
             if (!isTableExists("ContactNumber", db)) {

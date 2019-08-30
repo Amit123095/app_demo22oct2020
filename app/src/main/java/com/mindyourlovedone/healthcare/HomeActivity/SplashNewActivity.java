@@ -102,139 +102,81 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
 
 
             if (mSubscribedToInfiniteGas == true) {
-
-                //   Log.d(TAG,  ""+infiniteGasPurchase.getPurchaseTime());
-             /*   long purchasetime=infiniteGasPurchase.getPurchaseTime();
-                String time= String.valueOf(purchasetime);
-                switch (time)
-                {
-                    case "5,184,000,000":
-                        //60 Days
-                        break;
-                    case "2,592,000,000":
-                        //30 Days
-                        break;
-                    case "1,296,000,000":
-                        //15 Days
-                        break;
-                    case "864,000,000":
-                        //10 Days
-                        break;
-                    case "432,000,000":
-                        //5 Days
-                        break;
-                    case "259,200,000":
-                        //3 Days
-                        break;
-                    case "172,800,000":
-                        //2 Days
-                        break;
-
-                    case "86,400,000":
-                        //1 day
-                        break;
-                }
-*/
                 llSubscribe.setVisibility(View.GONE);
-                if (preferences == null) {
-                    preferences = new Preferences(SplashNewActivity.this);
-                }
-                if (preferences.getREGISTERED()) {
-                    llBottom.setVisibility(View.VISIBLE);
-                    llSplash.setVisibility(View.GONE);
-                } else {
-                    llSplash.setVisibility(View.VISIBLE);
-                    llBottom.setVisibility(View.GONE);
-                }
+                txtNew.setVisibility(View.GONE);
             } else {
-                // if (infiniteGasPurchase.getPurchaseTime()!=null)
-                // Log.d(TAG,  ""+infiniteGasPurchase.getPurchaseTime());
-                //  Toast.makeText(getApplicationContext(),"Please Subscribe for Continue",Toast.LENGTH_SHORT).show();
-                llSubscribe.setVisibility(View.VISIBLE);
+                llSplash.setVisibility(View.VISIBLE);
                 llBottom.setVisibility(View.GONE);
-                llSplash.setVisibility(View.GONE);
-                if (preferences == null) {
-                    preferences = new Preferences(SplashNewActivity.this);
-                }
-                if (preferences.getSubscribed()) {
-                    txtSubscribe.setText("Renew Your Subscription");
-                } else {
-                    txtSubscribe.setText("Subscribe To Continue");
-                }
-
-                onInfiniteGasButtonClicked();
             }
 
-            updateUi();
-            setWaitScreen(false);
             Log.d(TAG, "Initial inventory query finished; enabling main UI.");
         }
     };
 
-    // Callback for when a purchase is finished
-    IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
-        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
-            Log.d(TAG, "Purchase finished: " + result + ", purchase: " + purchase);
-
-            // if we were disposed of in the meantime, quit.
-            if (mHelper == null) return;
-
-            if (result.isFailure()) {
-                //vars added comment
-                if (!result.getMessage().contains("canceled")) {
-                    complain(result.getMessage());
-                }
-                setWaitScreen(false);
-
-                //Shradha
-                //Varsa remove comment
-             /*   llSubscribe.setVisibility(View.GONE);
-                if (preferences == null) {
-                    preferences = new Preferences(SplashNewActivity.this);
-                }
-                preferences.setSubscribed(true);
-                if (preferences.getREGISTERED()) {
-                    llBottom.setVisibility(View.VISIBLE);
-                    llSplash.setVisibility(View.GONE);
-                } else {
-                    llSplash.setVisibility(View.VISIBLE);
-                    llBottom.setVisibility(View.GONE);
-                }
-*/
-                return;
-            }
-            if (!verifyDeveloperPayload(purchase)) {
-                complain("Error purchasing. Authenticity verification failed.");
-                setWaitScreen(false);
-                return;
-            }
-
-            Log.d(TAG, "Purchase successful.");
-            if (purchase.getSku().equals(SKU_INFINITE_GAS)) {
-                // bought the infinite gas subscription
-                Log.d(TAG, "Mylo app subscription purchased.");
-                alert("Thank you for subscribing to Mylo app!");
-                mSubscribedToInfiniteGas = true;
-                //  mTank = TANK_MAX;
-                updateUi();
-                llSubscribe.setVisibility(View.GONE);
-                if (preferences == null) {
-                    preferences = new Preferences(SplashNewActivity.this);
-                }
-                preferences.setSubscribed(true);
-                if (preferences.getREGISTERED()) {
-                    llBottom.setVisibility(View.VISIBLE);
-                    llSplash.setVisibility(View.GONE);
-                } else {
-                    llSplash.setVisibility(View.VISIBLE);
-                    llBottom.setVisibility(View.GONE);
-                }
-                // updateUi();*g*
-                setWaitScreen(false);
-                //    Toast.makeText(getApplicationContext(),"Thanx and Welcome",Toast.LENGTH_SHORT).show();
-            }
-        }
-    };
+    //    // Callback for when a purchase is finished
+//    IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
+//        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
+//            Log.d(TAG, "Purchase finished: " + result + ", purchase: " + purchase);
+//
+//            // if we were disposed of in the meantime, quit.
+//            if (mHelper == null) return;
+//
+//            if (result.isFailure()) {
+//                //vars added comment
+//                if (!result.getMessage().contains("canceled")) {
+//                    complain(result.getMessage());
+//                }
+//                setWaitScreen(false);
+//
+//                //Shradha
+//                //Varsa remove comment
+//             /*   llSubscribe.setVisibility(View.GONE);
+//                if (preferences == null) {
+//                    preferences = new Preferences(SplashNewActivity.this);
+//                }
+//                preferences.setSubscribed(true);
+//                if (preferences.getREGISTERED()) {
+//                    llBottom.setVisibility(View.VISIBLE);
+//                    llSplash.setVisibility(View.GONE);
+//                } else {
+//                    llSplash.setVisibility(View.VISIBLE);
+//                    llBottom.setVisibility(View.GONE);
+//                }
+//*/
+//                return;
+//            }
+//            if (!verifyDeveloperPayload(purchase)) {
+//                complain("Error purchasing. Authenticity verification failed.");
+//                setWaitScreen(false);
+//                return;
+//            }
+//
+//            Log.d(TAG, "Purchase successful.");
+//            if (purchase.getSku().equals(SKU_INFINITE_GAS)) {
+//                // bought the infinite gas subscription
+//                Log.d(TAG, "Mylo app subscription purchased.");
+//                alert("Thank you for subscribing to Mylo app!");
+//                mSubscribedToInfiniteGas = true;
+//                //  mTank = TANK_MAX;
+//                updateUi();
+//                llSubscribe.setVisibility(View.GONE);
+//                if (preferences == null) {
+//                    preferences = new Preferences(SplashNewActivity.this);
+//                }
+//                preferences.setSubscribed(true);
+//                if (preferences.getREGISTERED()) {
+//                    llBottom.setVisibility(View.VISIBLE);
+//                    llSplash.setVisibility(View.GONE);
+//                } else {
+//                    llSplash.setVisibility(View.VISIBLE);
+//                    llBottom.setVisibility(View.GONE);
+//                }
+//                // updateUi();*g*
+//                setWaitScreen(false);
+//                //    Toast.makeText(getApplicationContext(),"Thanx and Welcome",Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    };
     private int[] layouts;
     //    ProgressDialog pd;
     private MyViewPagerAdapter myViewPagerAdapter;
@@ -259,11 +201,13 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
         ImageLoader.getInstance().init(config);
         imageLoader = ImageLoader.getInstance();
     }
+
     public boolean isTablet(Context context) {
         boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == 4);
         boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
         return (xlarge || large);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -279,13 +223,12 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_splash_no_courtesy);
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
 
-        ImageView imageView=findViewById(R.id.imgSplash);
+        ImageView imageView = findViewById(R.id.imgSplash);
         initImageLoader();
-        if (isTablet(context))
-        {
+        if (isTablet(context)) {
             String imageUri = "drawable://" + R.drawable.sp_tabnew;
             imageLoader.displayImage(String.valueOf(imageUri), imageView, displayImageOptions);
-        }else {
+        } else {
             String imageUri = "drawable://" + R.drawable.sp_new;
             imageLoader.displayImage(String.valueOf(imageUri), imageView, displayImageOptions);
         }
@@ -354,7 +297,19 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
         //  initViewPager();
         // initBanner();
 
-        init();
+        // Nikita Splash Flow
+        if (preferences == null) {
+            preferences = new Preferences(SplashNewActivity.this);
+        }
+
+        if (preferences.getREGISTERED()) {
+            llBottom.setVisibility(View.VISIBLE);
+            llSplash.setVisibility(View.GONE);
+        } else {
+            inApp();
+        }
+
+//        init();
         //inApp();//commented for 30 free days***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************'
 
 
@@ -613,19 +568,19 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
 //        txtSubscribe.setOnClickListener(this);
 //        rlBottom.setOnClickListener(this);
 
-        llSubscribe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onInfiniteGasButtonClicked();
-            }
-        });
-
-        llBottom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onInfiniteGasButtonClicked();
-            }
-        });
+//        llSubscribe.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onInfiniteGasButtonClicked();
+//            }
+//        });
+//
+//        llBottom.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onInfiniteGasButtonClicked();
+//            }
+//        });
     }
 
     private void initUI() {
@@ -642,7 +597,7 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
         img1 = findViewById(R.id.img1);
         img2 = findViewById(R.id.img2);
         img3 = findViewById(R.id.img3);
-      //  img4 = findViewById(R.id.img4);
+        //  img4 = findViewById(R.id.img4);
         imgForword = findViewById(R.id.imgForword);
         llBottom = findViewById(R.id.llBottom);
         llSplash = findViewById(R.id.llSplash);
@@ -694,12 +649,12 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
         /*    case R.id.txtSubscribes:
                 onInfiniteGasButtonClicked();
                 break;*/
-            case R.id.rlBottom:
-                onInfiniteGasButtonClicked();
-                break;
-            case R.id.llSubscribe:
-                onInfiniteGasButtonClicked();
-                break;
+//            case R.id.rlBottom:
+//                onInfiniteGasButtonClicked();
+//                break;
+//            case R.id.llSubscribe:
+//                onInfiniteGasButtonClicked();
+//                break;
 
             case R.id.txtNew:
                 Intent intent = new Intent(context, SignUpActivity.class);
@@ -757,7 +712,7 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
             case REQUEST_CALL_PERMISSION: {
-                if (grantResults.length > 0 &&grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     //  checkForRegistration();
 
@@ -775,33 +730,33 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    public void onInfiniteGasButtonClicked() {
-        if (mHelper!=null) {
-            if (!mHelper.subscriptionsSupported()) {
-                complain("Subscriptions not supported on your device yet. Sorry!");
-                return;
-            }
-        }
-        /* TODO: for security, generate your payload here for verification. See the comments on
-         *        verifyDeveloperPayload() for more info. Since this is a SAMPLE, we just use
-         *        an empty string, but on a production app you should carefully generate this. */
-        String payload = "";
-
-        setWaitScreen(true);
-        Log.d(TAG, "Launching purchase flow for Mylo subscription.");
-
-        if (mHelper != null) {
-            try {
-                mHelper.launchPurchaseFlow(this,
-                        SKU_INFINITE_GAS, IabHelper.ITEM_TYPE_SUBS,
-                        RC_REQUEST, mPurchaseFinishedListener, payload);
-            }
-            catch(IllegalStateException ex){
-                Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
-                mHelper.flagEndAsync();
-            }
-        }
-    }
+//    public void onInfiniteGasButtonClicked() {
+//        if (mHelper!=null) {
+//            if (!mHelper.subscriptionsSupported()) {
+//                complain("Subscriptions not supported on your device yet. Sorry!");
+//                return;
+//            }
+//        }
+//        /* TODO: for security, generate your payload here for verification. See the comments on
+//         *        verifyDeveloperPayload() for more info. Since this is a SAMPLE, we just use
+//         *        an empty string, but on a production app you should carefully generate this. */
+//        String payload = "";
+//
+//        setWaitScreen(true);
+//        Log.d(TAG, "Launching purchase flow for Mylo subscription.");
+//
+//        if (mHelper != null) {
+//            try {
+//                mHelper.launchPurchaseFlow(this,
+//                        SKU_INFINITE_GAS, IabHelper.ITEM_TYPE_SUBS,
+//                        RC_REQUEST, mPurchaseFinishedListener, payload);
+//            }
+//            catch(IllegalStateException ex){
+//                Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
+//                mHelper.flagEndAsync();
+//            }
+//        }
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -835,38 +790,37 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
         // very important:
         Log.d(TAG, "Destroying helper.");
         if (mHelper != null) {
-             try {
+            try {
                 mHelper.dispose();
                 mHelper = null;
-            }catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    // updates UI to reflect model
-    public void updateUi() {
-        // "Get infinite gas" button is only visible if the user is not subscribed yet
-     /*   findViewById(R.id.infinite_gas_button).setVisibility(mSubscribedToInfiniteGas ?
-                View.GONE : View.VISIBLE);
-
-        // update gas gauge to reflect tank status
-        if (mSubscribedToInfiniteGas) {
-            ((ImageView)findViewById(R.id.gas_gauge)).setImageResource(R.drawable.gas_inf);
-        }
-        else {
-            //  int index = mTank >= TANK_RES_IDS.length ? TANK_RES_IDS.length - 1 : mTank;
-            //  ((ImageView)findViewById(R.id.gas_gauge)).setImageResource(TANK_RES_IDS[index]);
-        }*/
-    }
-
-    // Enables or disable   s the "please wait" screen.
-    void setWaitScreen(boolean set) {
-       /* findViewById(R.id.screen_main).setVisibility(set ? View.GONE : View.VISIBLE);
-        findViewById(R.id.screen_wait).setVisibility(set ? View.VISIBLE : View.GONE);*/
-    }
-
+    //    // updates UI to reflect model
+//    public void updateUi() {
+//        // "Get infinite gas" button is only visible if the user is not subscribed yet
+//     /*   findViewById(R.id.infinite_gas_button).setVisibility(mSubscribedToInfiniteGas ?
+//                View.GONE : View.VISIBLE);
+//
+//        // update gas gauge to reflect tank status
+//        if (mSubscribedToInfiniteGas) {
+//            ((ImageView)findViewById(R.id.gas_gauge)).setImageResource(R.drawable.gas_inf);
+//        }
+//        else {
+//            //  int index = mTank >= TANK_RES_IDS.length ? TANK_RES_IDS.length - 1 : mTank;
+//            //  ((ImageView)findViewById(R.id.gas_gauge)).setImageResource(TANK_RES_IDS[index]);
+//        }*/
+//    }
+//
+//    // Enables or disable   s the "please wait" screen.
+//    void setWaitScreen(boolean set) {
+//       /* findViewById(R.id.screen_main).setVisibility(set ? View.GONE : View.VISIBLE);
+//        findViewById(R.id.screen_wait).setVisibility(set ? View.VISIBLE : View.GONE);*/
+//    }
+//
     void complain(String message) {
         Log.e(TAG, "Error: " + message);
         alert(message);

@@ -52,7 +52,9 @@ import com.mindyourlovedone.healthcare.customview.MySpinner;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.MyConnectionsQuery;
 import com.mindyourlovedone.healthcare.database.PersonalInfoQuery;
+import com.mindyourlovedone.healthcare.database.SubscriptionQuery;
 import com.mindyourlovedone.healthcare.model.RelativeConnection;
+import com.mindyourlovedone.healthcare.model.SubscrptionData;
 import com.mindyourlovedone.healthcare.utility.DialogManager;
 import com.mindyourlovedone.healthcare.utility.NetworkUtils;
 import com.mindyourlovedone.healthcare.utility.PrefConstants;
@@ -75,44 +77,48 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
     TextInputLayout tilName;
-    TextView txtName, txtNext,txtEmail ,txtPolicy2, txtPolicy4;
+    TextView txtName, txtNext, txtEmail, txtPolicy2, txtPolicy4;
     ImageView imgBack;
     Context context = this;
-    String name="",email="";
-    boolean allow=false;
+    String name = "", email = "";
+    boolean allow = false;
     private static final int REQUEST_CALL_PERMISSION = 100;
-    String has_card="NO";
-  /*  private static final int REQUEST_CALL_PERMISSION = 100;
-    private static int RESULT_CAMERA_IMAGE = 1;
-    private static int RESULT_SELECT_PHOTO = 2;
-    Context context = this;
-    RelativeLayout llSignUp;
-    TextView txtSignUp, txtLogin, txtForgotPassword,, txtPolicy5;
-    ImageView imgBack, imgEdit, imgProfile;
-    TextView txtName, txtEmail, txtAddress, txtCountry, txtPhone, txtBdate, txtPassword, txtGender, txtHomePhone,txtname,txtOnly ,txtPolicy61, txtPolicy62, txtPolicy63;
-    TextInputLayout tilName;
-    String name = "", email = "", mobile = "", country = "", bdate = "", password = "", address = "", phone = "";
-    Uri imageUriProfile = null;
-    ContentValues values = null;
-    MySpinner spinner;
-    String[] countryList = {"Canada", "Mexico", "USA", "UK", "california", "India"};
-    String imagepath = "";//
+    String has_card = "NO";
+    /*  private static final int REQUEST_CALL_PERMISSION = 100;
+      private static int RESULT_CAMERA_IMAGE = 1;
+      private static int RESULT_SELECT_PHOTO = 2;
+      Context context = this;
+      RelativeLayout llSignUp;
+      TextView txtSignUp, txtLogin, txtForgotPassword,, txtPolicy5;
+      ImageView imgBack, imgEdit, imgProfile;
+      TextView txtName, txtEmail, txtAddress, txtCountry, txtPhone, txtBdate, txtPassword, txtGender, txtHomePhone,txtname,txtOnly ,txtPolicy61, txtPolicy62, txtPolicy63;
+      TextInputLayout tilName;
+      String name = "", email = "", mobile = "", country = "", bdate = "", password = "", address = "", phone = "";
+      Uri imageUriProfile = null;
+      ContentValues values = null;
+      MySpinner spinner;
+      String[] countryList = {"Canada", "Mexico", "USA", "UK", "california", "India"};
+      String imagepath = "";//
 
-    ImageLoader imageLoader;
-    DisplayImageOptions displayImageOptions;txtPolicy2
+      ImageLoader imageLoader;
+      DisplayImageOptions displayImageOptions;txtPolicy2
 
+      Preferences preferences;
+      DBHelper dbHelper;
+
+      int userid = 1;*/
     Preferences preferences;
     DBHelper dbHelper;
+    RelativeLayout rlTops;
+    CheckBox rbCheck;
 
-    int userid = 1;*/
-  Preferences preferences;
-    DBHelper dbHelper;
-RelativeLayout rlTops;
-CheckBox rbCheck;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,17 +143,20 @@ CheckBox rbCheck;
         initListener();
         initImageLoader();*/
     }
+
     public void hideSoftKeyboard() {
         if (getCurrentFocus() != null) {
             InputMethodManager inm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
+
     private void initListener() {
         imgBack.setOnClickListener(this);
         txtNext.setOnClickListener(this);
 
     }
+
     private void initComponent() {
 
         try {
@@ -171,27 +180,27 @@ CheckBox rbCheck;
         // PersonalInfoQuery s=new PersonalInfoQuery(context,dbHelper);
         MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
     }
+
     private void initUI() {
         tilName = findViewById(R.id.tilName);
         txtName = findViewById(R.id.txtName);
         txtNext = findViewById(R.id.txtNext);
-        rbCheck= findViewById(R.id.rbCheck);
+        rbCheck = findViewById(R.id.rbCheck);
         txtEmail = findViewById(R.id.txtEmail);
         imgBack = findViewById(R.id.imgBack);
-        txtPolicy2= findViewById(R.id.txtPolicy2);
-        txtPolicy4= findViewById(R.id.txtPolicy4);
+        txtPolicy2 = findViewById(R.id.txtPolicy2);
+        txtPolicy4 = findViewById(R.id.txtPolicy4);
         rbCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-                {
-                    allow=true;
-                }else {
-                    allow=false;
+                if (isChecked) {
+                    allow = true;
+                } else {
+                    allow = false;
                 }
             }
         });
-       // rlTops= findViewById(R.id.rlTops);
+        // rlTops= findViewById(R.id.rlTops);
        /* rlTops.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -201,7 +210,7 @@ CheckBox rbCheck;
             }
         });*/
 
-        RelativeLayout touchInterceptor = (RelativeLayout)findViewById(R.id.rlTops);
+        RelativeLayout touchInterceptor = (RelativeLayout) findViewById(R.id.rlTops);
         touchInterceptor.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -210,7 +219,7 @@ CheckBox rbCheck;
                         Rect outRect = new Rect();
                         txtName.getGlobalVisibleRect(outRect);
 //                        txtName.setHintTextColor(R.color.colorGray);
-                        if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                        if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                             txtName.clearFocus();
                             InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
@@ -219,7 +228,7 @@ CheckBox rbCheck;
                     if (txtEmail.isFocused()) {
                         Rect outRect = new Rect();
                         txtEmail.getGlobalVisibleRect(outRect);
-                        if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                        if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                             txtEmail.clearFocus();
                             InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
@@ -263,16 +272,15 @@ CheckBox rbCheck;
                 finish();
                 break;
             case R.id.txtNext:
-                 name=txtName.getText().toString();
-                 email=txtEmail.getText().toString();
+                name = txtName.getText().toString();
+                email = txtEmail.getText().toString();
                 if (validate()) {
                    /* Intent intentNext = new Intent(context, ImpAgreementActivity.class);
                     intentNext.putExtra("Name", name);
                     intentNext.putExtra("Email", email);
                     startActivity(intentNext);*/
-                        accessPermission();
-                }
-                else {
+                    accessPermission();
+                } else {
 //                    Toast toast = Toast.makeText(context, Html.fromHtml("<big><b>Click to Accept</b></big>"), Toast.LENGTH_SHORT);
 //                    toast.setGravity(Gravity.CENTER, 0, 0);
 //                    toast.show();
@@ -280,6 +288,7 @@ CheckBox rbCheck;
                 break;
         }
     }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void accessPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
@@ -335,7 +344,7 @@ CheckBox rbCheck;
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
             case REQUEST_CALL_PERMISSION: {
-                if (grantResults.length > 0 &&grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     if (!NetworkUtils.getConnectivityStatusString(SignUpActivity.this).equals("Not connected to Internet")) {
                         CreateUserAsynk asynkTask = new CreateUserAsynk(name, email);
                         asynkTask.execute();
@@ -383,87 +392,85 @@ CheckBox rbCheck;
         } else if (!email.trim().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
             txtEmail.setError("Please enter valid email");
             DialogManager.showAlert("Please enter valid email", context);
-        }
-       else if (allow==false)
-        {
+        } else if (allow == false) {
 
-            Toast toast = Toast.makeText(context,Html.fromHtml("<big><b>Click to Accept</b></big>"), Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(context, Html.fromHtml("<big><b>Click to Accept</b></big>"), Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
-        }
-        else {
+        } else {
             return true;
         }
         return false;
     }
-/*
-    private void initComponent() {
-        try {
-            File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
-            if (!f.exists()) {
-                f.mkdirs();
-            } else {
-                try {
-                    File file = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
-                    FileUtils.deleteDirectory(file);
+
+    /*
+        private void initComponent() {
+            try {
+                File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
+                if (!f.exists()) {
                     f.mkdirs();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } else {
+                    try {
+                        File file = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
+                        FileUtils.deleteDirectory(file);
+                        f.mkdirs();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            preferences = new Preferences(context);
+            dbHelper = new DBHelper(context, "MASTER");
+            // PersonalInfoQuery s=new PersonalInfoQuery(context,dbHelper);
+            MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
         }
-        preferences = new Preferences(context);
-        dbHelper = new DBHelper(context, "MASTER");
-        // PersonalInfoQuery s=new PersonalInfoQuery(context,dbHelper);
-        MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
-    }
 
-    private void initImageLoader() {
-        displayImageOptions = new DisplayImageOptions.Builder() // resource
-                .resetViewBeforeLoading(true) // default
-                .cacheInMemory(true) // default
-                .cacheOnDisk(true) // default
-                // .showImageOnLoading(R.drawable.images)
-                .considerExifParams(false) // default
-//                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED) // default
-                .bitmapConfig(Bitmap.Config.ARGB_8888) // default
-                .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
-                .displayer(new RoundedBitmapDisplayer(150)) // default //for square SimpleBitmapDisplayer()
-                .handler(new Handler()) // default
-                .build();
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).defaultDisplayImageOptions(displayImageOptions)
-                .build();
-        ImageLoader.getInstance().init(config);
-        imageLoader = ImageLoader.getInstance();
-    }
+        private void initImageLoader() {
+            displayImageOptions = new DisplayImageOptions.Builder() // resource
+                    .resetViewBeforeLoading(true) // default
+                    .cacheInMemory(true) // default
+                    .cacheOnDisk(true) // default
+                    // .showImageOnLoading(R.drawable.images)
+                    .considerExifParams(false) // default
+    //                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED) // default
+                    .bitmapConfig(Bitmap.Config.ARGB_8888) // default
+                    .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
+                    .displayer(new RoundedBitmapDisplayer(150)) // default //for square SimpleBitmapDisplayer()
+                    .handler(new Handler()) // default
+                    .build();
+            ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).defaultDisplayImageOptions(displayImageOptions)
+                    .build();
+            ImageLoader.getInstance().init(config);
+            imageLoader = ImageLoader.getInstance();
+        }
 
-    private void initListener() {
-        txtSignUp.setOnClickListener(this);
-        txtLogin.setOnClickListener(this);
-        txtForgotPassword.setOnClickListener(this);
-        imgBack.setOnClickListener(this);
-        txtBdate.setOnClickListener(this);
-        imgEdit.setOnClickListener(this);
-        txtPolicy2.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
+        private void initListener() {
+            txtSignUp.setOnClickListener(this);
+            txtLogin.setOnClickListener(this);
+            txtForgotPassword.setOnClickListener(this);
+            imgBack.setOnClickListener(this);
+            txtBdate.setOnClickListener(this);
+            imgEdit.setOnClickListener(this);
+            txtPolicy2.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
 
-                CopyReadAssetss("Privacy Policy.pdf");
-                return false;
-            }
-        });
+                    CopyReadAssetss("Privacy Policy.pdf");
+                    return false;
+                }
+            });
 
-        txtPolicy4.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                CopyReadAssetss("eula_new.pdf");
-                return false;
-            }
-        });
-    }
-*/
+            txtPolicy4.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    CopyReadAssetss("eula_new.pdf");
+                    return false;
+                }
+            });
+        }
+    */
     public void CopyReadAssetss(String documentPath) {
         AssetManager assetManager = getAssets();
         File outFile = null;
@@ -518,27 +525,28 @@ CheckBox rbCheck;
 
 
     }
-/*
-    private void initUI() {
-        String s = getResources().getString(R.string.signup_appname);
-        TextView textlogo = findViewById(R.id.txtPolicy1);
-        textlogo.setText(Html.fromHtml(s));
 
-        llSignUp = findViewById(R.id.llSignUp);
-        imgProfile = findViewById(R.id.imgProfile);
-        txtSignUp = findViewById(R.id.txtSignUp);
-        txtLogin = findViewById(R.id.txtLogin);
-        txtForgotPassword = findViewById(R.id.txtForgotPassword);
-        txtBdate = findViewById(R.id.txtBdate);
-        imgBack = findViewById(R.id.imgBack);
-        imgEdit = findViewById(R.id.imgEdit);
+    /*
+        private void initUI() {
+            String s = getResources().getString(R.string.signup_appname);
+            TextView textlogo = findViewById(R.id.txtPolicy1);
+            textlogo.setText(Html.fromHtml(s));
 
-        txtPolicy61 = findViewById(R.id.txtPolicy61);
-        txtPolicy61.setText(Html.fromHtml(getString(R.string.signupt1)));
+            llSignUp = findViewById(R.id.llSignUp);
+            imgProfile = findViewById(R.id.imgProfile);
+            txtSignUp = findViewById(R.id.txtSignUp);
+            txtLogin = findViewById(R.id.txtLogin);
+            txtForgotPassword = findViewById(R.id.txtForgotPassword);
+            txtBdate = findViewById(R.id.txtBdate);
+            imgBack = findViewById(R.id.imgBack);
+            imgEdit = findViewById(R.id.imgEdit);
 
-        txtPolicy62 = findViewById(R.id.txtPolicy62);
-        txtPolicy62.setText(Html.fromHtml(getString(R.string.signupt2)));
-       *//* txtPolicy63 = findViewById(R.id.txtPolicy63);
+            txtPolicy61 = findViewById(R.id.txtPolicy61);
+            txtPolicy61.setText(Html.fromHtml(getString(R.string.signupt1)));
+
+            txtPolicy62 = findViewById(R.id.txtPolicy62);
+            txtPolicy62.setText(Html.fromHtml(getString(R.string.signupt2)));
+           *//* txtPolicy63 = findViewById(R.id.txtPolicy63);
         txtPolicy63.setText(Html.fromHtml(getString(R.string.signupt3)));*//*
 
      *//*  txtOnly=findViewById(R.id.txtOnly);
@@ -1207,131 +1215,269 @@ CheckBox rbCheck;
         }
 
     }*/
-class CreateUserAsynk extends AsyncTask<Void, Void, String> {
-    String name;
-    String email;
-    ProgressDialog pd;
+    class CreateUserAsynk extends AsyncTask<Void, Void, String> {
+        String name;
+        String email;
+        ProgressDialog pd;
 
-    private String deviceUdId = "";
-    private String deviceType = "Android";
+        private String deviceUdId = "";
+        private String deviceType = "Android";
 
-    public CreateUserAsynk(String name, String email) {
-        this.name = name;
-        this.email = email;
-    }
+        public CreateUserAsynk(String name, String email) {
+            this.name = name;
+            this.email = email;
+        }
 
-    @Override
-    protected void onPreExecute() {
-        deviceUdId = Settings.Secure.getString(getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-        pd = ProgressDialog.show(context, "", "Please Wait..");
-        super.onPreExecute();
-    }
+        @Override
+        protected void onPreExecute() {
+            deviceUdId = Settings.Secure.getString(getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
+            pd = ProgressDialog.show(context, "", "Please Wait..");
+            super.onPreExecute();
+        }
 
-    @Override
-    protected String doInBackground(Void... params) {
-        WebService webService = new WebService();
-        Log.e("URL parameter", name + "" + "" + " " + email
-                + " " + "" + " " + deviceUdId + " " + deviceType);
-        String result = webService.createProfile(name, "-",
-                "-", email, "-", deviceUdId, deviceType);
-        return result;
-    }
+        @Override
+        protected String doInBackground(Void... params) {
+            WebService webService = new WebService();
+            Log.e("URL parameter", name + "" + "" + " " + email
+                    + " " + "" + " " + deviceUdId + " " + deviceType);
+            String result = webService.createProfile(name, "-",
+                    "-", email, "-", deviceUdId, deviceType);
+            return result;
+        }
 
-    @Override
-    protected void onPostExecute(String result) {
-        if (pd != null) {
-            if (pd.isShowing()) {
-                pd.dismiss();
+        @Override
+        protected void onPostExecute(String result) {
+            if (pd != null) {
+                if (pd.isShowing()) {
+                    pd.dismiss();
+                }
+            }
+
+            if (!result.equals("")) {
+                if (result.equals("Exception")) {
+                    // ErrorDialog.errorDialog(context);
+                    DialogManager.showAlert("Error", context);
+                } else {
+                    Log.e("CreateUserAsynk", result);
+                    parseResponse(result);
+
+                }
+            }
+            super.onPostExecute(result);
+        }
+
+        private void navigateToApp(int userid) {
+            //Nikita#Sub - redirecting to agreement screen if payment successful then only saving data
+            Intent signupIntent = new Intent(context, ImpAgreementActivity.class);
+            if (getIntent().hasExtra("PDF_EXT")) {
+                signupIntent.putExtra("PDF_EXT", getIntent().getStringExtra("PDF_EXT"));
+            }
+            signupIntent.putExtra("userid", userid);
+            signupIntent.putExtra("Name", name);
+            signupIntent.putExtra("Email", email);
+            startActivity(signupIntent);
+            finish();
+
+
+            //old code
+            //After Success
+
+//            Boolean flag = MyConnectionsQuery.insertMyConnectionsData(userid, name, email, "", "", "", "", "Self", "", "", 1, 2, "", "", has_card);
+//
+//            PersonalInfoQuery pi = new PersonalInfoQuery(context, dbHelper);
+//            Boolean flagPersonalinfo = PersonalInfoQuery.insertPersonalInfoData(name, email, "", "", "", "", "", "", "", "", "");
+//            if (flag == true) {
+//                File file = new File(Environment.getExternalStorageDirectory(),
+//                        "/MYLO/");
+//                String path = file.getAbsolutePath();
+//                if (!file.exists()) {
+//                    file.mkdirs();
+//                }
+//                RelativeConnection connection = MyConnectionsQuery.fetchOneRecord("Self");
+//                String mail = connection.getEmail();
+//                mail = mail.replace(".", "_");
+//                mail = mail.replace("@", "_");
+//                DBHelper dbHelper = new DBHelper(context, mail);
+//                MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
+//                Boolean flags = MyConnectionsQuery.insertMyConnectionsData(connection.getId(), name, email, "", "", "", "", "Self", "", "", 1, 2, "", "", has_card);
+//                if (flags == true) {
+//                    // Toast.makeText(context, "You have created db Successfully", Toast.LENGTH_SHORT).show();
+//                }
+//                //  Toast.makeText(context,"You have added profile Successfully",Toast.LENGTH_SHORT).show();
+//            preferences.putInt(PrefConstants.USER_ID, userid);
+//
+//            preferences.putString(PrefConstants.USER_EMAIL, email);
+//            preferences.putString(PrefConstants.USER_NAME, name);
+//            preferences.setREGISTERED(true);
+//            preferences.setLogin(true);
+//            Intent signupIntent = new Intent(context, ImpAgreementActivity.class);
+//            if (getIntent().hasExtra("PDF_EXT")) {
+//                signupIntent.putExtra("PDF_EXT", getIntent().getStringExtra("PDF_EXT"));
+//            }
+//            signupIntent.putExtra("userid", userid);
+//            signupIntent.putExtra("Name", name);
+//            signupIntent.putExtra("Email", email);
+//            startActivity(signupIntent);
+//            finish();
+//        } else
+//
+//        {
+//            Toast.makeText(context, "Error to save in database", Toast.LENGTH_SHORT).show();
+//        }
+
+        }
+
+        private void navigateToAPPSUB(int userid, SubscrptionData sub) {
+            Toast.makeText(context, "Already registered user with active subscription", Toast.LENGTH_LONG).show();
+            //After Success
+            SubscriptionQuery ss = new SubscriptionQuery(context, dbHelper);
+            Boolean ssflag = SubscriptionQuery.insertSubscriptionData(userid, sub);
+
+            Boolean flag = MyConnectionsQuery.insertMyConnectionsData(userid, name, email, "", "", "", "", "Self", "", "", 1, 2, "", "", has_card);
+
+            PersonalInfoQuery pi = new PersonalInfoQuery(context, dbHelper);
+            Boolean flagPersonalinfo = PersonalInfoQuery.insertPersonalInfoData(name, email, "", "", "", "", "", "", "", "", "");
+            if (flag == true) {
+                RelativeConnection connection = MyConnectionsQuery.fetchOneRecord("Self");
+                String mail = connection.getEmail();
+                mail = mail.replace(".", "_");
+                mail = mail.replace("@", "_");
+                DBHelper dbHelper = new DBHelper(context, mail);
+                MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
+                Boolean flags = MyConnectionsQuery.insertMyConnectionsData(connection.getId(), name, email, "", "", "", "", "Self", "", "", 1, 2, "", "", has_card);
+                if (flags == true) {
+                    // Toast.makeText(context, "You have created db Successfully", Toast.LENGTH_SHORT).show();
+                }
+                //  Toast.makeText(context,"You have added profile Successfully",Toast.LENGTH_SHORT).show();
+                preferences.putInt(PrefConstants.USER_ID, userid);
+                preferences.putString(PrefConstants.USER_EMAIL, email);
+                preferences.putString(PrefConstants.USER_NAME, name);
+                preferences.setREGISTERED(true);
+                preferences.setLogin(true);
+
+                Intent signupIntent = new Intent(context, BaseActivity.class);
+                if (getIntent().hasExtra("PDF_EXT")) {
+                    signupIntent.putExtra("PDF_EXT", getIntent().getStringExtra("PDF_EXT"));
+                }
+
+                startActivity(signupIntent);
+                finish();
+
+            } else {
+                Toast.makeText(context, "Error to save in database", Toast.LENGTH_SHORT).show();
             }
         }
 
-        if (!result.equals("")) {
-            if (result.equals("Exception")) {
-                // ErrorDialog.errorDialog(context);
-                DialogManager.showAlert("Error", context);
-            } else {
-                Log.e("CreateUserAsynk", result);
-                String errorCode = parseResponse(result);
+        private boolean validDateChecker(String date) {
+            // Nikita#Sub - Checking for current date is before expiry date or not
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                Date strDate = sdf.parse(date);
+
+                if (strDate.after(new Date())) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return false;
+        }
+
+        private void parseResponse(String result) {
+            Log.e("Response", result);
+            JSONObject job = null;
+            String errorCode = "";
+            try {
+                job = new JSONObject(result);
+                JSONObject jobB = job.optJSONObject("response");
+                errorCode = jobB.optString("errorCode");
+                String message = "";
+
                 if (errorCode.equals("0")) {
-                    // DialogManager.showAlert("000", context);
+                    message = jobB.optString("respMsg");
+                    JSONObject job2 = jobB.optJSONObject("respData");
+                    String userId = job2.optString("user_id");
+                    int userid = Integer.parseInt(userId);
+
+                    Log.e("SuccessFullRegisterd", "UserId= " + userId);
+                    Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
+
+                    navigateToApp(userid);
+
+                } else if (errorCode.equals("1")) {
+                    // Nikita#Sub - code for existing user (if found) starts here...
+                    message = jobB.optString("errorMsg");
+
+                    boolean iserror = false;
+
+                    JSONObject jobS = jobB.optJSONObject("subscription");
+
+                    if (jobS != null) {
+                        // User has subscription data on server
+                        String transId = jobS.optString("transaction_id");
+                        String startDate = jobS.optString("start_date");
+                        String endDate = jobS.optString("end_date");
+                        String source = jobS.optString("source");
+                        String user_id = jobS.optString("user_id");
+
+                        if (!transId.isEmpty() && !endDate.isEmpty()) {
+                            if (validDateChecker(endDate)) {
+                                // User has valid subscription data on server
+                                String userId = jobS.optString("user_id");
+                                int userid = Integer.parseInt(userId);
+
+                                Log.e("Success", "UserId= " + userId);
+                                SubscrptionData sub = new SubscrptionData();
+                                sub.setSource(source);
+                                sub.setEndDate(endDate);
+                                sub.setStartDate(startDate);
+                                sub.setTransactionID(transId);
+                                sub.setUserId(Integer.parseInt(user_id));
+                                sub.setEmail(email);
+
+                                preferences.putInt(PrefConstants.UPLOAD_FLAG, 1);
+
+                                navigateToAPPSUB(userid, sub); // Entry to App
+                            } else {
+                                // User has invalid subscription data on server
+                                iserror = true;
+                            }
+                        } else {
+                            // User doesn't have subscription data on server
+                            iserror = true;
+                        }
+                    } else {
+                        // User doesn't have subscription data on server
+                        iserror = true;
+                    }
+
+                    Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
+
+                    //navigating to login - if user is existing without subscription
+                    if (iserror && message.contains("Existing")) {
+
+                        Intent in = new Intent(SignUpActivity.this, LoginActivity.class);
+                        in.putExtra("name", name);
+                        in.putExtra("email", email);
+                        in.putExtra("from", "signup");
+                        startActivity(in);
+                        finish();
+                    }
+                    // Nikita#Sub - code for existing user (if found) ends here...
+
                 } else {
-                    //Toast.makeText(context, "Registration Failed, Try again", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Unexpected error from server.", Toast.LENGTH_LONG).show();
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(context, "Exception detected : " + (e.getCause()), Toast.LENGTH_LONG).show();
             }
-        }
-        super.onPostExecute(result);
-    }
 
-    private String parseResponse(String result) {
-        Log.e("Response", result);
-        JSONObject job = null;
-        String errorCode = "";
-        try {
-            job = new JSONObject(result);
-            JSONObject job1 = job.getJSONObject("response");
-            errorCode = job1.getString("errorCode");
-            String message = "";
-            if (errorCode.equals("0")) {
-                message = job1.getString("respMsg");
-                JSONObject job2 = job1.getJSONObject("respData");
-                String userId = job2.getString("user_id");
-                Log.e("SuccessFullRegisterd", "UserId= " + userId);
-                int userid = Integer.parseInt(userId);
-                Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
-
-                //After Success
-                Boolean flag = MyConnectionsQuery.insertMyConnectionsData(userid, name, email, "", "", "", "", "Self", "", "", 1, 2, "", "", has_card);
-
-                PersonalInfoQuery pi = new PersonalInfoQuery(context, dbHelper);
-                Boolean flagPersonalinfo = PersonalInfoQuery.insertPersonalInfoData(name, email, "", "", "", "", "", "", "", "", "");
-                if (flag == true) {
-                    File file = new File(Environment.getExternalStorageDirectory(),
-                            "/MYLO/");
-                    String path = file.getAbsolutePath();
-                    if (!file.exists()) {
-                        file.mkdirs();
-                    }
-                    RelativeConnection connection = MyConnectionsQuery.fetchOneRecord("Self");
-                    String mail = connection.getEmail();
-                    mail = mail.replace(".", "_");
-                    mail = mail.replace("@", "_");
-                    DBHelper dbHelper = new DBHelper(context, mail);
-                    MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
-                    Boolean flags = MyConnectionsQuery.insertMyConnectionsData(connection.getId(), name, email, "", "", "", "", "Self", "", "", 1, 2, "", "", has_card);
-                    if (flags == true) {
-                        // Toast.makeText(context, "You have created db successfully", Toast.LENGTH_SHORT).show();
-                    }
-                    //  Toast.makeText(context,"You have added profile successfully",Toast.LENGTH_SHORT).show();
-                    preferences.putInt(PrefConstants.USER_ID, userid);
-                    Intent signupIntent = new Intent(context, ImpAgreementActivity.class);
-                    preferences.putString(PrefConstants.USER_EMAIL, email);
-                    preferences.putString(PrefConstants.USER_NAME, name);
-                    preferences.setREGISTERED(true);
-                    preferences.setLogin(true);
-                    if(getIntent().hasExtra("PDF_EXT")) {
-                        signupIntent.putExtra("PDF_EXT", getIntent().getStringExtra("PDF_EXT"));
-                    }
-                    signupIntent.putExtra("Name", name);
-                    signupIntent.putExtra("Email", email);
-                    startActivity(signupIntent);
-                    finish();
-                } else {
-                    Toast.makeText(context, "Error to save in database", Toast.LENGTH_SHORT).show();
-                }
-
-                return errorCode;
-            } else {
-                message = job1.getString("errorMsg");
-                Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
-                return errorCode;
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return "Exception";
         }
 
     }
+}
 
-}
-}
