@@ -41,6 +41,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+
 import com.google.firebase.crash.FirebaseCrash;
 import com.mindyourlovedone.healthcare.Connections.FragmentConnectionNew;
 import com.mindyourlovedone.healthcare.DashBoard.AddDocumentActivity;
@@ -61,6 +65,7 @@ import com.mindyourlovedone.healthcare.database.MyConnectionsQuery;
 import com.mindyourlovedone.healthcare.model.RelativeConnection;
 import com.mindyourlovedone.healthcare.utility.PrefConstants;
 import com.mindyourlovedone.healthcare.utility.Preferences;
+import com.mindyourlovedone.healthcare.utility.WorkerPost;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -174,6 +179,18 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void initBGProcess() {//Nikita#Sub Background check on subscription
+        Data inputData = new Data.Builder()
+                .build();
+
+        OneTimeWorkRequest mywork =
+                new OneTimeWorkRequest.Builder(WorkerPost.class)
+                        .setInputData(inputData).build();// Use this when you want to add initial delay or schedule initial work to `OneTimeWorkRequest` e.g. setInitialDelay(2, TimeUnit.HOURS)
+        String id = mywork.getId().toString();
+        System.out.println("NIKITA WORK ID: " + id);
+        WorkManager.getInstance().enqueue(mywork);
+    }
+
     private void callFragmentData(Fragment fragment) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -201,7 +218,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         initComponent();
         initUI();
         initListener();
-
+        initBGProcess();
 
         fragmentData();
 

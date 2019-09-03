@@ -14,6 +14,9 @@ public class PrefConstants {
     public static final String CONNECTED_NAME = "connected_Name";
     public static final String USER_ID = "id";
 
+    public static final String UPLOAD_FLAG = "UPLOAD_FLAG";//Nikita#Sub
+    public static final String SUBSCRIPTION_ENDS = "SUBSCRIPTION_ENDS";//Nikita#Sub
+
     public static final String CONNECTED_USERID = "connected_Id";
 
     public static final String USER_NAME = "username";

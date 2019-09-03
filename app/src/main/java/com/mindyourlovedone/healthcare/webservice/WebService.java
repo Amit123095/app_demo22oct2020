@@ -33,12 +33,17 @@ import java.net.URL;
 
 public class WebService {
     //Live Server
-    private final static String POST_PDF_URL = "http://mindyour-lovedones.com/MYLO/index.php/webservices/fax/sendFax";
-    private final String CREATE_PROFILE_URL = "http://mindyour-lovedones.com/MYLO/index.php/webservices/user/createProfile";
-    private final String GET_PROFILE_URL = "http://mindyour-lovedones.com/MYLO/index.php/webservices/user/getProfile";
-    private final String LOGIN_PROFILE_URL = "http://mindyour-lovedones.com/MYLO/index.php/webservices/user/loginUser";
-    private final String EDIT_PROFILE_URL = "http://mindyour-lovedones.com/MYLO/index.php/webservices/user/editProfile";
-    private final String UNSSUBSCRIBE_ME_URL = "http://mindyour-lovedones.com/MYLO/index.php/webservices/user/unRegister";
+//    private final static String Base_URL ="http://mindyour-lovedones.com/MYLO/index.php/webservices"; //Production
+    private final static String Base_URL = "http://18.188.114.139/public/test/public/webservices"; //test -Nikita#Sub
+
+    private final static String POST_PDF_URL = Base_URL + "/fax/sendFax";
+    private final String CREATE_PROFILE_URL = Base_URL + "/user/createProfile";
+    private final String GET_PROFILE_URL = Base_URL + "/user/getProfile";
+    private final String LOGIN_PROFILE_URL = Base_URL + "/user/loginUser";
+    private final String EDIT_PROFILE_URL = Base_URL + "/user/editProfile";
+    private final String UNSSUBSCRIBE_ME_URL = Base_URL + "/user/unRegister";
+    private final String POST_SUBSCRIPTION = Base_URL + "/user/postSubscription";//Nikita#Sub
+    private final String GET_SUBSCRIPTION = Base_URL + "/user/getSubscription";//Nikita#Sub
 
 //Test Server
    /* private final static String POST_PDF_URL = "http://demo.arihantwebconsultancy.com/mylo/public/webservices/fax/sendFax";
@@ -203,6 +208,108 @@ public class WebService {
         return res;
 
     }
+
+    //    Nikita#Sub
+    public String postSubscriptionData(String userid,
+                                       String transactionId, String startDate, String endDate) {
+
+        // new changes - nikita
+        HttpURLConnection conn = null;
+        String result = "";
+        InputStream is = null;
+        try {
+            URL url = new URL(POST_SUBSCRIPTION);
+
+            conn = (HttpURLConnection) url.openConnection();
+            Log.e("URL parameter", "userid :" + userid + "\ntransactionId : "
+                    + transactionId + " \nstartDate : " + startDate + " \nendDate :" + endDate
+                    + "\nsource :" + "Android");
+
+            conn.setReadTimeout(10000);
+            conn.setConnectTimeout(15000);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("charset", "utf-8");
+            conn.setRequestProperty("userid", userid);
+            conn.setRequestProperty("transactionId", transactionId);
+            conn.setRequestProperty("startDate", startDate);
+            conn.setRequestProperty("endDate", endDate);
+            conn.setRequestProperty("source", "Android");
+
+            conn.connect();
+
+            // get stream
+            if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                is = conn.getInputStream();
+            } else {
+                is = conn.getErrorStream();
+            }
+
+        } catch (ClientProtocolException e) {
+            return "exception";
+        } catch (IOException e) {
+            return "exception";
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+
+        result = decodeResponse(is);
+
+        return result;
+
+    }
+
+    //    Nikita#Sub
+    public String getSubscriptionData(String userid) {
+
+        // new changes - nikita
+        HttpURLConnection conn = null;
+        String result = "";
+        InputStream is = null;
+        try {
+            URL url = new URL(GET_SUBSCRIPTION);
+
+            conn = (HttpURLConnection) url.openConnection();
+            Log.e("URL parameter", "userid :" + userid);
+
+            conn.setReadTimeout(10000);
+            conn.setConnectTimeout(15000);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("charset", "utf-8");
+            conn.setRequestProperty("userid", userid);
+
+            conn.connect();
+
+            // get stream
+            if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                is = conn.getInputStream();
+            } else {
+                is = conn.getErrorStream();
+            }
+
+        } catch (ClientProtocolException e) {
+            return "exception";
+        } catch (IOException e) {
+            return "exception";
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+
+        result = decodeResponse(is);
+
+        return result;
+
+    }
+
 
     public String createProfile(String firstName, String lastName,
                                 String state, String mail, String password, String deviceUdid,

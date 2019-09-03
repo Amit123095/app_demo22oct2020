@@ -89,5 +89,7 @@ dependencies {
 
     // Add dependency
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
+
+    implementation "android.arch.work:work-runtime:1.0.0-alpha02"
 }
 apply plugin: 'com.google.gms.google-services'
