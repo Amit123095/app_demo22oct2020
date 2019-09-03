@@ -29,7 +29,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -39,12 +41,15 @@ import android.widget.Toast;
 import com.dropbox.core.android.Auth;
 import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
+import com.dropbox.core.v2.sharing.FileMemberActionResult;
+import com.dropbox.core.v2.sharing.MemberSelector;
 import com.dropbox.core.v2.users.FullAccount;
 import com.mindyourlovedone.healthcare.DropBox.DropboxActivity;
 import com.mindyourlovedone.healthcare.DropBox.DropboxClientFactory;
 import com.mindyourlovedone.healthcare.DropBox.FilesActivity;
 import com.mindyourlovedone.healthcare.DropBox.GetCurrentAccountTask;
 import com.mindyourlovedone.healthcare.DropBox.ListFolderTask;
+import com.mindyourlovedone.healthcare.DropBox.ShareFileTask;
 import com.mindyourlovedone.healthcare.DropBox.UnZipTask;
 import com.mindyourlovedone.healthcare.DropBox.ZipListner;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
@@ -52,9 +57,11 @@ import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.database.ContactDataQuery;
 import com.mindyourlovedone.healthcare.database.ContactTableQuery;
 import com.mindyourlovedone.healthcare.database.DBHelper;
+import com.mindyourlovedone.healthcare.database.EventNoteQuery;
 import com.mindyourlovedone.healthcare.database.MyConnectionsQuery;
 import com.mindyourlovedone.healthcare.model.ContactData;
 import com.mindyourlovedone.healthcare.model.RelativeConnection;
+import com.mindyourlovedone.healthcare.utility.DialogManager;
 import com.mindyourlovedone.healthcare.utility.PrefConstants;
 import com.mindyourlovedone.healthcare.utility.Preferences;
 
@@ -66,7 +73,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 public class DropboxLoginActivity extends DropboxActivity implements ZipListner {
@@ -91,10 +101,11 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
     LinearLayout llHowToBackUp, llHowToRetore, llHowToShare, llHowToUpload;
     LinearLayout llBackup;
     boolean flagBackup = false;
+    String id= "";
 
     int Fun_Type = 0;
     int isFile=0;
-
+Context contextl;
     // For to Delete the directory inside list of files and inner Directory //nikita
     public static boolean deleteDir(File dir) {//nikita
         if (dir.isDirectory()) {
@@ -118,7 +129,7 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
         preferences = new Preferences(context);
         preferences.putString(PrefConstants.RESULT, "");
         preferences.putString(PrefConstants.URI, "");
-
+        preferences.putString(PrefConstants.SHARE, "");
         accessPermission();
 
 
@@ -219,8 +230,20 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, ShareActivity.class);
-                startActivity(i);
+              /*  Intent i = new Intent(context, ShareActivity.class);
+                startActivity(i);*/
+                SharedPreferences prefs = getSharedPreferences("dropbox-sample", MODE_PRIVATE);
+                if (prefs.contains("access-token")) {
+                    Fun_Type = 4;
+                    preferences.putString(PrefConstants.STORE, "Share");
+                    preferences.putString(PrefConstants.TODO, todo);
+                    preferences.putString(PrefConstants.TODOWHAT, todoWhat);
+                    startActivity(FilesActivity.getIntent(DropboxLoginActivity.this, ""));
+
+                } else {
+                    Fun_Type = 1;
+                    Auth.startOAuth2Authentication(DropboxLoginActivity.this, APP_KEY);
+                }
             }
         });
         txtName = findViewById(R.id.txtLoginPerson);
@@ -352,7 +375,18 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
             @Override
             public void onClick(View v) {
                 showBackupDialog();
+               /* SharedPreferences prefs = getSharedPreferences("dropbox-sample", MODE_PRIVATE);
+                if (prefs.contains("access-token")) {
+                    Fun_Type = 4;
+                    preferences.putString(PrefConstants.STORE, "Backup");
+                    preferences.putString(PrefConstants.TODO, todo);
+                    preferences.putString(PrefConstants.TODOWHAT, todoWhat);
+                    startActivity(FilesActivity.getIntent(DropboxLoginActivity.this, ""));
 
+                } else {
+                    Fun_Type = 1;
+                    Auth.startOAuth2Authentication(DropboxLoginActivity.this, APP_KEY);
+                }*/
             }
         });
 
@@ -409,6 +443,7 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
             //  btnFiles.setVisibility(View.VISIBLE);
             btnBackup.setVisibility(View.GONE);
             btnRestore.setVisibility(View.GONE);
+            btnShare.setVisibility(View.GONE);
         } else if (from.equals("Backup") || from.equals("Restore")) {
             btnBackup.setVisibility(View.VISIBLE);
             //   btnFiles.setVisibility(View.GONE);
@@ -416,9 +451,11 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
             if (todo.equals("Individual") && todoWhat.equals("Import")) {
                 btnRestore.setVisibility(View.VISIBLE);
                 btnBackup.setVisibility(View.GONE);
+                btnShare.setVisibility(View.GONE);
             } else if (todo.equals("Individual") && todoWhat.equals("Share")) {
                 btnRestore.setVisibility(View.GONE);
                 btnBackup.setVisibility(View.VISIBLE);
+                btnShare.setVisibility(View.VISIBLE);
             }
         }
 
@@ -735,11 +772,9 @@ txtLogoutDropbox.setVisibility(View.GONE);
         if (preferences.getString(PrefConstants.URI).equals("") && preferences.getString(PrefConstants.RESULT).equals("")) {
 //            btnAdd.setVisibility(View.GONE);
             //   txtFile.setVisibility(View.GONE);
-            if (isFile==0)
-            {
+            if (isFile == 0) {
                 isFile++;
-            }else if(preferences.getString(PrefConstants.URI).equals("") && preferences.getString(PrefConstants.RESULT).equals("")&&preferences.getString(PrefConstants.STORE).equals("Document"))
-            {
+            } else if (preferences.getString(PrefConstants.URI).equals("") && preferences.getString(PrefConstants.RESULT).equals("") && preferences.getString(PrefConstants.STORE).equals("Document")) {
                 finish();
             }
 
@@ -880,6 +915,111 @@ txtLogoutDropbox.setVisibility(View.GONE);
                 });
                 alert.show();
             }*/
+        }
+        if (!preferences.getString(PrefConstants.SHARE).equals("")) {
+            if (preferences.getString(PrefConstants.STORE).equals("Backup")) {
+                String message = "Backup stored successfully, Do you want to share profile?";
+                final AlertDialog.Builder alert = new AlertDialog.Builder(DropboxLoginActivity.this);
+                alert.setTitle("Share Profile");
+                alert.setMessage(message);
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogs, int which) {
+                        dialogs.dismiss();
+                        showEmailDialog();
+                    }
+                });
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        DropboxLoginActivity.this.finish();
+                    }
+                });
+                alert.show();
+            }else if (preferences.getString(PrefConstants.STORE).equals("Share")) {
+                showEmailDialog();
+            }
+        }
+    }
+
+    private void showEmailDialog() {
+        final Dialog customDialog;
+        customDialog = new Dialog(context);
+        customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        customDialog.setContentView(R.layout.dialog_input_email);
+        customDialog.setCancelable(false);
+         final EditText etNote = customDialog.findViewById(R.id.etNote);
+        TextView btnAdd = customDialog.findViewById(R.id.btnYes);
+        TextView btnCancel = customDialog.findViewById(R.id.btnNo);
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                customDialog.dismiss();
+                hideSoftKeyboard();
+            }
+        });
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideSoftKeyboard();
+                String username = etNote.getText().toString();
+                if (username.equals("")) {
+                    etNote.setError("Please Enter email");
+                    DialogManager.showAlert("Please Enter email", context);
+                } else if (!username.trim().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
+                    etNote.setError("Please enter valid email");
+                    DialogManager.showAlert("Please enter valid email", context);
+                } else {
+                    customDialog.dismiss();
+                    List<MemberSelector> newMembers = new ArrayList<MemberSelector>();
+                    MemberSelector newMember = MemberSelector.email(username);
+                   // MemberSelector newMember1 = MemberSelector.email("kmllnk@j.uyu");
+                    newMembers.add(newMember);
+                   // newMembers.add(newMember1);
+
+                    final ProgressDialog dialog = new ProgressDialog(DropboxLoginActivity.this);
+                    dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    dialog.setCancelable(false);
+                    dialog.setMessage("Sharing profile can take several minutes");
+                    dialog.show();
+                    new ShareFileTask(newMembers, DropboxLoginActivity.this, DropboxClientFactory.getClient(), new ShareFileTask.Callback() {
+                        @Override
+                        public void onUploadComplete(List<FileMemberActionResult> result) {
+                            dialog.dismiss();
+                            final AlertDialog.Builder alerts = new AlertDialog.Builder(DropboxLoginActivity.this);
+                            alerts.setTitle("Success");
+                            alerts.setMessage("Profile shared successfully");
+                            alerts.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    DropboxLoginActivity.this.finish();
+
+                                }
+                            });
+                            alerts.show();
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            dialog.dismiss();
+                            DropboxLoginActivity.this.finish();
+                        }
+                    }).execute(preferences.getString(PrefConstants.SHARE));
+                }
+            }
+        });
+
+        customDialog.show();
+    }
+
+    private void hideSoftKeyboard() {
+        if (getCurrentFocus() != null) {
+            InputMethodManager inm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
 

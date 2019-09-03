@@ -1,6 +1,7 @@
 package com.mindyourlovedone.healthcare.DropBox;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,7 +31,11 @@ import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.FolderMetadata;
 import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
+import com.dropbox.core.v2.sharing.FileAction;
+import com.dropbox.core.v2.sharing.FileMemberActionResult;
+import com.dropbox.core.v2.sharing.MemberSelector;
 import com.mindyourlovedone.healthcare.DashBoard.AddDocumentActivity;
+import com.mindyourlovedone.healthcare.DashBoard.DropboxLoginActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.utility.PrefConstants;
 import com.mindyourlovedone.healthcare.utility.Preferences;
@@ -40,18 +46,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import static android.graphics.Color.TRANSPARENT;
 
 public class FilesActivity extends DropboxActivity implements ZipListner {
     public final static String EXTRA_PATH = "FilesActivity_Path";
     private static final String TAG = FilesActivity.class.getName();
     private static final int PICKFILE_REQUEST_CODE = 1;
     Preferences preferences;
-    RelativeLayout rlBackup,rlHeader;
+    RelativeLayout rlBackup, rlHeader,rlParent;
     private String mPath;
     private FilesAdapter mFilesAdapter;
     private FileMetadata mSelectedFile;
@@ -89,6 +96,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
         }
     }
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,8 +106,9 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
 
         setContentView(R.layout.activity_files);
         rlBackup = findViewById(R.id.rlBackup);
-        rlHeader=findViewById(R.id.rlHeader);
-        imgBack=findViewById(R.id.imgBack);
+        rlParent = findViewById(R.id.rlParent);
+        rlHeader = findViewById(R.id.rlHeader);
+        imgBack = findViewById(R.id.imgBack);
         RecyclerView recyclerView = findViewById(R.id.files_list);
 
         ImageView imgBack = findViewById(R.id.imgBack);
@@ -118,16 +127,19 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
             imgBack.setVisibility(View.GONE);
 
 
-        } else if (from.equals("Backup")) {
-            rlBackup.setVisibility(View.VISIBLE);
+        } else if (from.equals("Backup")||from.equals("Share")) {
+            rlParent.setBackgroundColor(TRANSPARENT);
+            rlBackup.setVisibility(View.GONE);
             recyclerView.setVisibility(View.GONE);
-            imgBack.setVisibility(View.VISIBLE);
+            imgBack.setVisibility(View.GONE);
             rlHeader.setVisibility(View.GONE);
+
+          performWithPermissions(FilesActivity.FileAction.UPLOAD);
         }
         rlBackup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                performWithPermissions(FileAction.UPLOAD);
+                performWithPermissions(FilesActivity.FileAction.UPLOAD);
             }
         });
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -148,7 +160,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
             @Override
             public void onFileClicked(final FileMetadata file) {
                 mSelectedFile = file;
-                performWithPermissions(FileAction.DOWNLOAD);
+                performWithPermissions(FilesActivity.FileAction.DOWNLOAD);
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -316,8 +328,8 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                 ArrayList<Metadata> resultList = new ArrayList<Metadata>();
                 for (int i = 0; i < result.getEntries().size(); i++) {
                     if (preferences.getString(PrefConstants.STORE).equals("Document")) {
-                        String name=result.getEntries().get(i).getName();
-                        if (name.endsWith(".pdf")||name.endsWith(".txt")||name.endsWith(".docx")||name.endsWith(".doc")||name.endsWith(".xlsx")||name.endsWith(".xls")||name.endsWith(".png")||name.endsWith(".PNG")||name.endsWith(".jpg")||name.endsWith(".jpeg")||name.endsWith(".ppt")||name.endsWith(".pptx")) {
+                        String name = result.getEntries().get(i).getName();
+                        if (name.endsWith(".pdf") || name.endsWith(".txt") || name.endsWith(".docx") || name.endsWith(".doc") || name.endsWith(".xlsx") || name.endsWith(".xls") || name.endsWith(".png") || name.endsWith(".PNG") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".ppt") || name.endsWith(".pptx")) {
                             // if (result.getEntries().get(i).getName().endsWith(".pdf")||result.getEntries().get(i).getName().endsWith(".db")) {
                             resultList.add(result.getEntries().get(i));
                         }
@@ -398,10 +410,10 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                     preferences.putString(PrefConstants.URI, result.getAbsolutePath());
                     preferences.putString(PrefConstants.RESULT, result.getName());
 
-                    Intent i=new Intent();
+                    Intent i = new Intent();
                     i.putExtra("URI", result.getAbsolutePath());
-                    i.putExtra("Name",result.getName());
-                    setResult(45,i);
+                    i.putExtra("Name", result.getName());
+                    setResult(45, i);
                     finish();
                 }
             }
@@ -445,7 +457,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
         }
     }
 
-    private void uploadFile(String fileUri) {
+    private void uploadFile(final String fileUri) {
         // Uri contentUri = null;
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -455,13 +467,15 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
 
         new UploadFileTask(this, DropboxClientFactory.getClient(), new UploadFileTask.Callback() {
             @Override
-            public void onUploadComplete(FileMetadata result) {
+            public void onUploadComplete(final FileMetadata result) {
                 dialog.dismiss();
-
-                String message = "Backup is stored in: " + result.getName() + "\n\nsize: " + result.getSize() + "\n\nmodified: " +
+                preferences.putString(PrefConstants.SHARE,result.getId());
+                dialog.dismiss();
+                FilesActivity.this.finish();
+               /* String message = "Backup is stored in: " + result.getName() + "\n\nsize: " + result.getSize() + "\n\nmodified: " +
                         DateFormat.getDateTimeInstance().format(result.getClientModified());
-               /* Toast.makeText(FilesActivity.this, message, Toast.LENGTH_SHORT)
-                        .show();*/
+               *//* Toast.makeText(FilesActivity.this, message, Toast.LENGTH_SHORT)
+                        .show();*//*
                 final AlertDialog.Builder alert = new AlertDialog.Builder(FilesActivity.this);
                 alert.setTitle("Backup Stored successfully");
                 alert.setMessage(message);
@@ -473,9 +487,60 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
 
                     }
                 });
+                alert.show();*/
+
+
+              /*  String message = "Backup stored successfully, Do you want to share profile?";
+                final AlertDialog.Builder alert = new AlertDialog.Builder(FilesActivity.this);
+                alert.setTitle("Share Profile");
+                alert.setMessage(message);
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        preferences.putString(PrefConstants.SHARE,result.getId());
+                        dialog.dismiss();
+                        FilesActivity.this.finish();*/
+
+                   /*     List<MemberSelector> newMembers = new ArrayList<MemberSelector>();
+                        MemberSelector newMember = MemberSelector.email("varsha.shirtode@quagnitia.com");
+                        MemberSelector newMember1 = MemberSelector.email("kmllnk@j.uyu");
+                        newMembers.add(newMember);
+                        newMembers.add(newMember1);
+                        new ShareFileTask(newMembers, FilesActivity.this, DropboxClientFactory.getClient(), new ShareFileTask.Callback() {
+                            @Override
+                            public void onUploadComplete(List<FileMemberActionResult> result) {
+
+                                final AlertDialog.Builder alerts = new AlertDialog.Builder(FilesActivity.this);
+                                alerts.setTitle("Success");
+                                alerts.setMessage("Profile shared successfully");
+                                alerts.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        FilesActivity.this.finish();
+
+                                    }
+                                });
+                                alerts.show();
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                FilesActivity.this.finish();
+                            }
+                        }).execute(result.getId());*/
+            /*        }
+                });
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        FilesActivity.this.finish();
+                    }
+                });
                 alert.show();
-                // Reload the folder
-                // loadData();
+*/
 
             }
 
@@ -492,7 +557,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
         }).execute(fileUri, mPath);
     }
 
-    private void performWithPermissions(final FileAction action) {
+    public void performWithPermissions(final FileAction action) {
         if (hasPermissionsForAction(action)) {
             performAction(action);
             return;
@@ -595,7 +660,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
         }
     }
 
-    private enum FileAction {
+    public enum FileAction {
         DOWNLOAD(Manifest.permission.WRITE_EXTERNAL_STORAGE),
         UPLOAD(Manifest.permission.READ_EXTERNAL_STORAGE);
 

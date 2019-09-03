@@ -32,4 +32,5 @@ public class PrefConstants {
     public static final String EXPIRY_DATE = "EXPIRY_DATE";
     public static final String FIRST_TIME = "FIRST_TIME";
     public static final String CONNECTED_PHOTO ="ConnectedPhoto" ;
+    public static final String SHARE ="Share" ;
 }

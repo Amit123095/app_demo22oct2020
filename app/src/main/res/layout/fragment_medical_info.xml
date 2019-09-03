@@ -107,17 +107,24 @@
                             android:textStyle="bold"
                             android:visibility="gone" />
 
-                            <ImageView
+                            <TextView
                                 android:src="@drawable/plusicon"
                                 android:layout_marginLeft="@dimen/dimension5dp"
                                 android:layout_centerVertical="true"
                                 android:layout_toLeftOf="@+id/imgAddAllergy"
                                 android:id="@+id/txtAddAllergy"
-                                android:layout_width="@dimen/dimension30dp"
-                                android:layout_height="@dimen/dimension30dp"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:fontFamily="@font/lato"
                                 android:gravity="center"
-                                android:visibility="gone" />
+                                android:padding="@dimen/dimension5dp"
+                                android:background="@drawable/blue_blue_border"
+                                android:text="ADD NEW"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="@dimen/dimension17dp"
+                                android:visibility="gone"
+                                />
 
                         <ImageView
                             android:id="@+id/imgAddAllergy"
@@ -555,16 +562,21 @@ app:hintTextAppearance="@style/TextInputLayoutHintText"
                             android:src="@drawable/drop_down"
                             android:visibility="visible" />
 
-                            <ImageView
+                            <TextView
                                 android:src="@drawable/plusicon"
                                 android:layout_marginLeft="@dimen/dimension5dp"
                                 android:layout_centerVertical="true"
                                 android:layout_toLeftOf="@+id/imgAddCondition"
                                 android:id="@+id/txtAddCondition"
-                                android:layout_width="@dimen/dimension30dp"
-                                android:layout_height="@dimen/dimension30dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:fontFamily="@font/lato"
                                 android:gravity="center"
+                                android:padding="@dimen/dimension5dp"
+                                android:background="@drawable/blue_blue_border"
+                                android:text="ADD NEW"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="@dimen/dimension17dp"
                                 android:visibility="gone" />
                             <!--<TextView-->
                                 <!--android:layout_marginLeft="@dimen/dimension5dp"-->
@@ -1893,16 +1905,21 @@ app:hintTextAppearance="@style/TextInputLayoutHintText"
                         android:src="@drawable/drop_down"
                         android:visibility="visible" />
 
-                        <ImageView
+                        <TextView
                             android:src="@drawable/plusicon"
                             android:layout_marginLeft="@dimen/dimension5dp"
                             android:layout_centerVertical="true"
                             android:layout_toLeftOf="@+id/imgVaccineDrop"
                             android:id="@+id/txtAddVaccine"
-                            android:layout_width="@dimen/dimension30dp"
-                            android:layout_height="@dimen/dimension30dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:fontFamily="@font/lato"
                             android:gravity="center"
+                            android:padding="@dimen/dimension5dp"
+                            android:background="@drawable/blue_blue_border"
+                            android:text="ADD NEW"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/dimension17dp"
                             android:visibility="gone" />
 
 
@@ -2791,16 +2808,21 @@ app:hintTextAppearance="@style/TextInputLayoutHintText"
                             android:src="@drawable/drop_down"
                             android:visibility="visible" />
 
-                            <ImageView
+                            <TextView
                                 android:src="@drawable/plusicon"
                                 android:layout_marginLeft="@dimen/dimension5dp"
                                 android:layout_centerVertical="true"
                                 android:layout_toLeftOf="@+id/imgAddImplants"
                                 android:id="@+id/txtAddImplants"
-                                android:layout_width="@dimen/dimension30dp"
-                                android:layout_height="@dimen/dimension30dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:fontFamily="@font/lato"
                                 android:gravity="center"
+                                android:padding="@dimen/dimension5dp"
+                                android:background="@drawable/blue_blue_border"
+                                android:text="ADD NEW"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="@dimen/dimension17dp"
                                 android:visibility="gone" />
 
 
@@ -2943,16 +2965,21 @@ app:hintTextAppearance="@style/TextInputLayoutHintText"
                             android:src="@drawable/drop_down"
                             android:visibility="visible" />
 
-                            <ImageView
+                            <TextView
                                 android:src="@drawable/plusicon"
                                 android:layout_marginLeft="@dimen/dimension5dp"
                                 android:layout_centerVertical="true"
                                 android:layout_toLeftOf="@+id/imgAddHospital"
                                 android:id="@+id/txtAddHospital"
-                                android:layout_width="@dimen/dimension30dp"
-                                android:layout_height="@dimen/dimension30dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:fontFamily="@font/lato"
                                 android:gravity="center"
+                                android:padding="@dimen/dimension5dp"
+                                android:background="@drawable/blue_blue_border"
+                                android:text="ADD NEW"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="@dimen/dimension17dp"
                                 android:visibility="gone" />
 
 
@@ -3272,16 +3299,21 @@ app:hintTextAppearance="@style/TextInputLayoutHintText"
                             android:src="@drawable/drop_down"
                             android:visibility="visible" />
 
-                            <ImageView
+                            <TextView
                                 android:src="@drawable/plusicon"
                                 android:layout_marginLeft="@dimen/dimension5dp"
                                 android:layout_centerVertical="true"
                                 android:layout_toLeftOf="@+id/imgAddHistory"
                                 android:id="@+id/txtAddHistory"
-                                android:layout_width="@dimen/dimension30dp"
-                                android:layout_height="@dimen/dimension30dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:fontFamily="@font/lato"
                                 android:gravity="center"
+                                android:padding="@dimen/dimension5dp"
+                                android:background="@drawable/blue_blue_border"
+                                android:text="ADD NEW"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="@dimen/dimension17dp"
                                 android:visibility="gone" />
 
 

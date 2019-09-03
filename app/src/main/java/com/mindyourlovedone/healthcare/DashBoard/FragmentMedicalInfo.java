@@ -96,7 +96,8 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
     RadioGroup rgDonor, rgDrug, rgDrink, rgTobaco;
     TextView txtName;
     Spinner spinnerEyes, spinnerBlood, spinnerLang;
-    ImageView txtAddAllergy, txtAddCondition, txtAddImplants, txtAddHistory, txtAddHospital, txtAddVaccine;
+     TextView txtAddAllergy;
+    TextView txtAddCondition, txtAddImplants, txtAddHistory, txtAddHospital, txtAddVaccine;
     ImageView imgDonnerDrop, imgVisionDrop, imgAidsDrop, imgDietDrop, imgVaccineDrop, imgTobacoDrop, imgDrugDrop, imgDrinkDrop, imgAddAllergy, imgAddImplants, imgAddHospital, imgAddHistory, imgAddCondition, imgAddVaccine, imgTeethDrop;
     ListView ListHistory, ListAllergy, ListImplants, ListHospital, ListCondition, ListVaccine;
     String note = "", allergynote = "";
