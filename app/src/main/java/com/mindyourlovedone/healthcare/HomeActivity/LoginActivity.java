@@ -653,16 +653,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (ssflag) {
             preferences.putInt(PrefConstants.UPLOAD_FLAG, 0);
 
-            Data inputData = new Data.Builder()
-                    .putInt("userId", sub.getUserId())
-                    .build();
-
-            OneTimeWorkRequest mywork =
-                    new OneTimeWorkRequest.Builder(WorkerPost.class)
-                            .setInputData(inputData).build();// Use this when you want to add initial delay or schedule initial work to `OneTimeWorkRequest` e.g. setInitialDelay(2, TimeUnit.HOURS)
-            String id = mywork.getId().toString();
-            System.out.println("NIKITA WORK ID: " + id);
-            WorkManager.getInstance().enqueue(mywork);
+            //preventing repeat call - as calling in case activity
+//            Data inputData = new Data.Builder()
+//                    .putInt("userId", sub.getUserId())
+//                    .build();
+//
+//            OneTimeWorkRequest mywork =
+//                    new OneTimeWorkRequest.Builder(WorkerPost.class)
+//                            .setInputData(inputData).build();// Use this when you want to add initial delay or schedule initial work to `OneTimeWorkRequest` e.g. setInitialDelay(2, TimeUnit.HOURS)
+//            String id = mywork.getId().toString();
+//            System.out.println("NIKITA WORK ID: " + id);
+//            WorkManager.getInstance().enqueue(mywork);
         }
 
         navigateToAPP();
