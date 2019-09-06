@@ -279,7 +279,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     intentNext.putExtra("Name", name);
                     intentNext.putExtra("Email", email);
                     startActivity(intentNext);*/
-                    accessPermission();
+//                    accessPermission();
+
+                    if (!NetworkUtils.getConnectivityStatusString(SignUpActivity.this).equals("Not connected to Internet")) {
+                        CreateUserAsynk asynkTask = new CreateUserAsynk(name, email);
+                        asynkTask.execute();
+                    } else {
+                        DialogManager.showAlert("Network Error, Check your internet connection", SignUpActivity.this);
+                    }
+
                 } else {
 //                    Toast toast = Toast.makeText(context, Html.fromHtml("<big><b>Click to Accept</b></big>"), Toast.LENGTH_SHORT);
 //                    toast.setGravity(Gravity.CENTER, 0, 0);
@@ -289,98 +297,98 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void accessPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                ContextCompat.checkSelfPermission(getApplicationContext(),
-                        android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED
-                ||
-                ContextCompat.checkSelfPermission(getApplicationContext(),
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                ||
-                ContextCompat.checkSelfPermission(getApplicationContext(),
-                        android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                ||
-                ContextCompat.checkSelfPermission(getApplicationContext(),
-                        android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
-        ) {
-            requestPermissions(new String[]{android.Manifest.permission.CALL_PHONE,
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                    android.Manifest.permission.READ_CONTACTS
-            }, REQUEST_CALL_PERMISSION);
+//    @RequiresApi(api = Build.VERSION_CODES.M)
+//    private void accessPermission() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+//                ContextCompat.checkSelfPermission(getApplicationContext(),
+//                        android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED
+//                ||
+//                ContextCompat.checkSelfPermission(getApplicationContext(),
+//                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+//                ||
+//                ContextCompat.checkSelfPermission(getApplicationContext(),
+//                        android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+//                ||
+//                ContextCompat.checkSelfPermission(getApplicationContext(),
+//                        android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            requestPermissions(new String[]{android.Manifest.permission.CALL_PHONE,
+//                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+//                    android.Manifest.permission.READ_CONTACTS
+//            }, REQUEST_CALL_PERMISSION);
+//
+//        } else {
+//
+//            try {
+//                File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
+//                if (!f.exists()) {
+//                    f.mkdirs();
+//                } else {
+//                    try {
+//                        File file = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
+//                        FileUtils.deleteDirectory(file);
+//                        f.mkdirs();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+////            if (!NetworkUtils.getConnectivityStatusString(SignUpActivity.this).equals("Not connected to Internet")) {
+//////                CreateUserAsynk asynkTask = new CreateUserAsynk(name, email);
+//////                asynkTask.execute();
+//////            } else {
+//////                DialogManager.showAlert("Network Error, Check your internet connection", SignUpActivity.this);
+//////            }
+//        }
+//    }
 
-        } else {
-
-            try {
-                File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
-                if (!f.exists()) {
-                    f.mkdirs();
-                } else {
-                    try {
-                        File file = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
-                        FileUtils.deleteDirectory(file);
-                        f.mkdirs();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            if (!NetworkUtils.getConnectivityStatusString(SignUpActivity.this).equals("Not connected to Internet")) {
-                CreateUserAsynk asynkTask = new CreateUserAsynk(name, email);
-                asynkTask.execute();
-            } else {
-                DialogManager.showAlert("Network Error, Check your internet connection", SignUpActivity.this);
-            }
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CALL_PERMISSION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    if (!NetworkUtils.getConnectivityStatusString(SignUpActivity.this).equals("Not connected to Internet")) {
-                        CreateUserAsynk asynkTask = new CreateUserAsynk(name, email);
-                        asynkTask.execute();
-                    } else {
-                        DialogManager.showAlert("Network Error, Check your internet connection", SignUpActivity.this);
-                    }
-                    //  checkForRegistration();
-                    try {
-                        File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
-                        if (!f.exists()) {
-                            f.mkdirs();
-                        } else {
-                            try {
-                                File file = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
-                                FileUtils.deleteDirectory(file);
-                                f.mkdirs();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-
-                    accessPermission();
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-                return;
-            }
-
-            // other 'switch' lines to check for other
-            // permissions this app might request
-        }
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.M)
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode,
+//                                           String permissions[], int[] grantResults) {
+//        switch (requestCode) {
+//            case REQUEST_CALL_PERMISSION: {
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+//                    if (!NetworkUtils.getConnectivityStatusString(SignUpActivity.this).equals("Not connected to Internet")) {
+//                        CreateUserAsynk asynkTask = new CreateUserAsynk(name, email);
+//                        asynkTask.execute();
+//                    } else {
+//                        DialogManager.showAlert("Network Error, Check your internet connection", SignUpActivity.this);
+//                    }
+//                    //  checkForRegistration();
+//                    try {
+//                        File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
+//                        if (!f.exists()) {
+//                            f.mkdirs();
+//                        } else {
+//                            try {
+//                                File file = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
+//                                FileUtils.deleteDirectory(file);
+//                                f.mkdirs();
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                } else {
+//
+//                    accessPermission();
+//                    // permission denied, boo! Disable the
+//                    // functionality that depends on this permission.
+//                }
+//                return;
+//            }
+//
+//            // other 'switch' lines to check for other
+//            // permissions this app might request
+//        }
+//    }
 
     private boolean validate() {
         if (name.equals("")) {
@@ -1391,6 +1399,25 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             JSONObject job = null;
             String errorCode = "";
             try {
+
+                try {
+                    File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
+                    if (!f.exists()) {
+                        f.mkdirs();
+                    } else {
+                        try {
+                            File file = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
+                            FileUtils.deleteDirectory(file);
+                            f.mkdirs();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
                 job = new JSONObject(result);
                 JSONObject jobB = job.optJSONObject("response");
                 errorCode = jobB.optString("errorCode");

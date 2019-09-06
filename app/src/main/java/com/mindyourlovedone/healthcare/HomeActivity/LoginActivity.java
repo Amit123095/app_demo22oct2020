@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     String lastusername = "", lastemail = "";
     Preferences preferences;
     TextInputLayout tilName;
-    String has_card="NO";
+    String has_card = "NO";
     DBHelper dbHelper;
 
     @Override
@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initComponent() {
-        if(preferences.getInt(PrefConstants.SUBSCRIPTION_ENDS)!=1) {
+        if (preferences.getInt(PrefConstants.SUBSCRIPTION_ENDS) != 1) {
             try {
                 File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
                 if (!f.exists()) {
@@ -140,7 +140,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         txtForgotPassword = findViewById(R.id.txtForgotPassword);
         imgFbSignup = findViewById(R.id.imgFbSignup);
         imgGoogleSignup = findViewById(R.id.imgGoogleSignup);
-       txtUserName = findViewById(R.id.txtUserName);
+        txtUserName = findViewById(R.id.txtUserName);
         txtPassword = findViewById(R.id.txtPassword);
         tilName = findViewById(R.id.tilName);
         tilName.setHintEnabled(false);
@@ -160,7 +160,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
-        if(getIntent().hasExtra("from")){
+        if (getIntent().hasExtra("from")) {
             txtName.setText(getIntent().getExtras().getString("name"));
             txtUserName.setText(getIntent().getExtras().getString("email"));
             lastusername = getIntent().getExtras().getString("name");
@@ -176,8 +176,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             case R.id.txtSignIn:
                 if (validate()) {
-                    accessPermission();
-
+//                    accessPermission();
+                    if (!NetworkUtils.getConnectivityStatusString(LoginActivity.this).equals("Not connected to Internet")) {
+                        GetUserAsynk asynkTask = new GetUserAsynk(name, username);
+                        asynkTask.execute();
+                    } else {
+                        DialogManager.showAlert("Network Error, Check your internet connection", LoginActivity.this);
+                    }
 
                    /* ArrayList<PersonalInfo> PersonList = PersonalInfoQuery.fetchOneRecord(username, password);
                     if (PersonList.size() != 0) {
@@ -246,7 +251,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
 
-
         return false;
     }
 
@@ -262,7 +266,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
         //After Success
 
-        if(preferences.getInt(PrefConstants.SUBSCRIPTION_ENDS)==1 && username.equalsIgnoreCase(lastemail) && name.equalsIgnoreCase(lastusername)){
+        if (preferences.getInt(PrefConstants.SUBSCRIPTION_ENDS) == 1 && username.equalsIgnoreCase(lastemail) && name.equalsIgnoreCase(lastusername)) {
             preferences.putInt(PrefConstants.USER_ID, userId);
             preferences.putString(PrefConstants.USER_EMAIL, username);
             preferences.putString(PrefConstants.USER_NAME, name);
@@ -276,7 +280,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             startActivity(signupIntent);
             finish();
-        }else {
+        } else {
 
             Boolean flag = MyConnectionsQuery.insertMyConnectionsData(userId, name, username, "", "", "", "", "Self", "", "", 1, 2, "", "", has_card);
 
@@ -319,6 +323,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         JSONObject job = null;
         String errorCode = "";
         try {
+
+            if (preferences.getInt(PrefConstants.SUBSCRIPTION_ENDS) != 1) {
+                try {
+                    File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
+                    if (!f.exists()) {
+                        f.mkdirs();
+                    } else {
+                        try {
+                            File file = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
+                            FileUtils.deleteDirectory(file);
+                            f.mkdirs();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
             job = new JSONObject(result);
             JSONObject job1 = job.optJSONObject("response");
             errorCode = job1.optString("errorCode");
@@ -407,102 +431,102 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return false;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void accessPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                ContextCompat.checkSelfPermission(getApplicationContext(),
-                        android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED
-                ||
-                ContextCompat.checkSelfPermission(getApplicationContext(),
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                ||
-                ContextCompat.checkSelfPermission(getApplicationContext(),
-                        android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                ||
-                ContextCompat.checkSelfPermission(getApplicationContext(),
-                        Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
-
-        ) {
-            requestPermissions(new String[]{android.Manifest.permission.CALL_PHONE,
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_CONTACTS
-            }, REQUEST_CALL_PERMISSION);
-
-        } else {
-
-            if (!NetworkUtils.getConnectivityStatusString(LoginActivity.this).equals("Not connected to Internet")) {
-                GetUserAsynk asynkTask = new GetUserAsynk(name, username);
-                asynkTask.execute();
-            } else {
-                DialogManager.showAlert("Network Error, Check your internet connection", LoginActivity.this);
-            }
-            if(preferences.getInt(PrefConstants.SUBSCRIPTION_ENDS)!=1) {
-                try {
-                    File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
-                    if (!f.exists()) {
-                        f.mkdirs();
-                    } else {
-                        try {
-                            File file = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
-                            FileUtils.deleteDirectory(file);
-                            f.mkdirs();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CALL_PERMISSION: {
-                if (grantResults.length > 0 &&grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-
-                    if (!NetworkUtils.getConnectivityStatusString(LoginActivity.this).equals("Not connected to Internet")) {
-                        GetUserAsynk asynkTask = new GetUserAsynk(name, username);
-                        asynkTask.execute();
-                    } else {
-                        DialogManager.showAlert("Network Error, Check your internet connection", LoginActivity.this);
-                    }
-                    if(preferences.getInt(PrefConstants.SUBSCRIPTION_ENDS)!=1) {
-                        try {
-                            File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
-                            if (!f.exists()) {
-                                f.mkdirs();
-                            } else {
-                                try {
-                                    File file = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
-                                    FileUtils.deleteDirectory(file);
-                                    f.mkdirs();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                } else {
-
-                    accessPermission();
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-                return;
-            }
-
-            // other 'switch' lines to check for other
-            // permissions this app might request
-        }
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.M)
+//    private void accessPermission() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+//                ContextCompat.checkSelfPermission(getApplicationContext(),
+//                        android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED
+//                ||
+//                ContextCompat.checkSelfPermission(getApplicationContext(),
+//                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+//                ||
+//                ContextCompat.checkSelfPermission(getApplicationContext(),
+//                        android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+//                ||
+//                ContextCompat.checkSelfPermission(getApplicationContext(),
+//                        Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
+//
+//        ) {
+//            requestPermissions(new String[]{android.Manifest.permission.CALL_PHONE,
+//                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+//                    Manifest.permission.READ_CONTACTS
+//            }, REQUEST_CALL_PERMISSION);
+//
+//        } else {
+//
+//            if (!NetworkUtils.getConnectivityStatusString(LoginActivity.this).equals("Not connected to Internet")) {
+//                GetUserAsynk asynkTask = new GetUserAsynk(name, username);
+//                asynkTask.execute();
+//            } else {
+//                DialogManager.showAlert("Network Error, Check your internet connection", LoginActivity.this);
+//            }
+//            if(preferences.getInt(PrefConstants.SUBSCRIPTION_ENDS)!=1) {
+//                try {
+//                    File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
+//                    if (!f.exists()) {
+//                        f.mkdirs();
+//                    } else {
+//                        try {
+//                            File file = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
+//                            FileUtils.deleteDirectory(file);
+//                            f.mkdirs();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//    }
+//
+//    @RequiresApi(api = Build.VERSION_CODES.M)
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode,
+//                                           String permissions[], int[] grantResults) {
+//        switch (requestCode) {
+//            case REQUEST_CALL_PERMISSION: {
+//                if (grantResults.length > 0 &&grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+//
+//                    if (!NetworkUtils.getConnectivityStatusString(LoginActivity.this).equals("Not connected to Internet")) {
+//                        GetUserAsynk asynkTask = new GetUserAsynk(name, username);
+//                        asynkTask.execute();
+//                    } else {
+//                        DialogManager.showAlert("Network Error, Check your internet connection", LoginActivity.this);
+//                    }
+//                    if(preferences.getInt(PrefConstants.SUBSCRIPTION_ENDS)!=1) {
+//                        try {
+//                            File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
+//                            if (!f.exists()) {
+//                                f.mkdirs();
+//                            } else {
+//                                try {
+//                                    File file = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
+//                                    FileUtils.deleteDirectory(file);
+//                                    f.mkdirs();
+//                                } catch (IOException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                } else {
+//
+//                    accessPermission();
+//                    // permission denied, boo! Disable the
+//                    // functionality that depends on this permission.
+//                }
+//                return;
+//            }
+//
+//            // other 'switch' lines to check for other
+//            // permissions this app might request
+//        }
+//    }
 
     class GetUserAsynk extends AsyncTask<Void, Void, String> {
         ProgressDialog pd;
@@ -542,7 +566,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     //ErrorDialog.errorDialog(context);
                 } else {
                     Log.e("CreateUserAsynk", result);
-                     parseResponseg(result);
+                    parseResponseg(result);
 
                 }
             }
