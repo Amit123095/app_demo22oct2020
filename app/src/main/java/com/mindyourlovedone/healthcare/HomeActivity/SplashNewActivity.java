@@ -259,6 +259,7 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
         Log.e("height", "" + height);
         Toast.makeText(context, "" + width+"" + height,Toast.LENGTH_LONG).show();*/
 
+        accessPermission();
     }
 
     @Override
@@ -290,7 +291,7 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
 
     private void loadata() {//nikita
         // hashKey();
-        //  accessPermission();
+//        accessPermission();
         variableInitialization();
         initUI();
         initListener();
@@ -538,10 +539,13 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
                 &&
                 ContextCompat.checkSelfPermission(getApplicationContext(),
                         android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(getApplicationContext(),
+                android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
         ) {
             requestPermissions(new String[]{android.Manifest.permission.CALL_PHONE,
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                    android.Manifest.permission.READ_CONTACTS
             }, REQUEST_CALL_PERMISSION);
 
         } else {

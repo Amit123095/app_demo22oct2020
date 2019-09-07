@@ -128,16 +128,14 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
         //    Crashlytics.getInstance().crash(); // Force a crash
+        initImageLoader();
+        initComponent();
+        initUI();
+
         pd = new ProgressDialog(this);//nikita
         pd.setTitle("Loading UI...");
         pd.show();
-        new Handler().postDelayed(new Runnable() {//nikita
-            @Override
-            public void run() {
-                //Here you can send the extras.
-                new AsynData().execute("");
-            }
-        }, 100);
+
 
         try {
 
@@ -150,7 +148,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                     Log.v("URI", audoUri.toString());
                     preferences = new Preferences(context);
                     if (preferences.getREGISTERED() && preferences.isLogin()) {
-                        loadData();
+                        asyninit();
                         extPDF(audoUri + "");
                     } else {
                         Toast.makeText(getApplicationContext(), "You need to login first", Toast.LENGTH_SHORT).show();
@@ -158,10 +156,10 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                         finish();
                     }
                 } else {
-                    loadData();
+                    asyninit();
                 }
             } else {
-                loadData();
+                asyninit();
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -177,6 +175,16 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             return null;
         }
+    }
+
+    private void asyninit(){
+        new Handler().postDelayed(new Runnable() {//nikita
+            @Override
+            public void run() {
+                //Here you can send the extras.
+                new AsynData().execute("");
+            }
+        }, 100);
     }
 
     private void initBGProcess() {//Nikita#Sub Background check on subscription
@@ -214,9 +222,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         FirebaseCrash.log("MainActivity started");
         accessPermission();
         //Crashlytics.getInstance().crash(); // Force a crash
-        initImageLoader();
-        initComponent();
-        initUI();
+
         initListener();
         initBGProcess();
 
