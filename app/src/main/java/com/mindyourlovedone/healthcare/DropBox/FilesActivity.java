@@ -111,7 +111,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
         rlHeader = findViewById(R.id.rlHeader);
         imgBack = findViewById(R.id.imgBack);
         RecyclerView recyclerView = findViewById(R.id.files_list);
-        RecyclerView srecyclerView = findViewById(R.id.sharefiles_list);
+        RecyclerView srecyclerView = findViewById(R.id.share_files_list);
 
         ImageView imgBack = findViewById(R.id.imgBack);
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -637,6 +637,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
             public void onUploadComplete(final FileMetadata result) {
                 dialog.dismiss();
                 preferences.putString(PrefConstants.SHARE, result.getId());
+                preferences.putString(PrefConstants.FILE, result.getName());
                 dialog.dismiss();
                 FilesActivity.this.finish();
                /* String message = "Backup is stored in: " + result.getName() + "\n\nsize: " + result.getSize() + "\n\nmodified: " +

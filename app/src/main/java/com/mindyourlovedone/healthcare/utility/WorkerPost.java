@@ -70,7 +70,12 @@ public class WorkerPost extends Worker {
                     }
                 }
             } else {
-                moveToLogin();
+                if (preferences.getInt(PrefConstants.FROM_Dropbox) == 1) {
+                    preferences.putInt(PrefConstants.FROM_Dropbox, 0);
+                    getSubscription();
+                } else {
+                    moveToLogin();
+                }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -101,6 +106,13 @@ public class WorkerPost extends Worker {
     }
 
     private void moveToLogin() {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, "Subscription expired OR data is invalid OR not found...\nTry Login again...", Toast.LENGTH_LONG).show();
+            }
+        });
+
         RelativeConnection connection = MyConnectionsQuery.fetchOneRecord("Self");
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -160,12 +172,12 @@ public class WorkerPost extends Worker {
             Log.e("Response", result);
             JSONObject job = null;
             String errorCode = "";
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(context, "op: " + result, Toast.LENGTH_LONG).show();
-                }
-            });
+//            new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Toast.makeText(context, "op: " + result, Toast.LENGTH_LONG).show();
+//                }
+//            });
             try {
                 job = new JSONObject(result);
                 JSONObject jobB = job.optJSONObject("response");
@@ -205,30 +217,30 @@ public class WorkerPost extends Worker {
                     } else {
                         moveToLogin();
                     }
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(context, "Success : Get Subscription", Toast.LENGTH_LONG).show();
-                        }
-                    });
+//                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(context, "Success : Get Subscription", Toast.LENGTH_LONG).show();
+//                        }
+//                    });
                 } else {
 
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(context, "Failure : Get Subscription", Toast.LENGTH_LONG).show();
-                        }
-                    });
+//                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(context, "Failure : Get Subscription", Toast.LENGTH_LONG).show();
+//                        }
+//                    });
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(context, "Get Subscription : Exception detected ", Toast.LENGTH_LONG).show();
-                    }
-                });
+//                new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(context, "Get Subscription : Exception detected ", Toast.LENGTH_LONG).show();
+//                    }
+//                });
             }
         }
     }
@@ -282,12 +294,12 @@ public class WorkerPost extends Worker {
             Log.e("Response", result);
             JSONObject job = null;
             String errorCode = "";
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(context, "op: " + result, Toast.LENGTH_LONG).show();
-                }
-            });
+//            new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Toast.makeText(context, "op: " + result, Toast.LENGTH_LONG).show();
+//                }
+//            });
             try {
                 job = new JSONObject(result);
                 JSONObject jobB = job.optJSONObject("response");
@@ -296,32 +308,32 @@ public class WorkerPost extends Worker {
 
                 if (errorCode.equals("0")) {
                     message = jobB.optString("respMsg");
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
-                        }
-                    });
+//                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
+//                        }
+//                    });
                     // Update upload flag for subcription as 1
                     preferences.putInt(PrefConstants.UPLOAD_FLAG, 1);
                 } else if (errorCode.equals("1")) {
                     message = jobB.optString("errorMsg");
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
-
-                        }
-                    });
+//                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
+//
+//                        }
+//                    });
                     preferences.putInt(PrefConstants.UPLOAD_FLAG, 0);
                 } else if (errorCode.equals("2")) {// Duplicate trans-id
                     preferences.putInt(PrefConstants.UPLOAD_FLAG, 0);
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
-                        }
-                    });
+//                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
+//                        }
+//                    });
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
@@ -331,23 +343,23 @@ public class WorkerPost extends Worker {
                     moveToLogin();
                 } else {
                     preferences.putInt(PrefConstants.UPLOAD_FLAG, 0);
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(context, "Unexpected error from server.", Toast.LENGTH_LONG).show();
-                        }
-                    });
+//                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(context, "Unexpected error from server.", Toast.LENGTH_LONG).show();
+//                        }
+//                    });
                 }
 
             } catch (JSONException e) {
                 preferences.putInt(PrefConstants.UPLOAD_FLAG, 0);
                 e.printStackTrace();
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(context, "Post Subscription : Exception detected", Toast.LENGTH_LONG).show();
-                    }
-                });
+//                new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(context, "Post Subscription : Exception detected", Toast.LENGTH_LONG).show();
+//                    }
+//                });
             }
         }
     }

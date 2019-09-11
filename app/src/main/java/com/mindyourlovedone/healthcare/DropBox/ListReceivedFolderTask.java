@@ -42,17 +42,18 @@ public class ListReceivedFolderTask extends AsyncTask<String, Void, ArrayList<Dr
             ListFilesResult ss = mDbxClient.sharing().listReceivedFiles();
             ListFolderResult ff = mDbxClient.files().listFolder(params[0]);
 
-            for (int i = 0; i < ff.getEntries().size(); i++) {
-                DropBoxFileItem db = new DropBoxFileItem();
-                db.setShared(0);
-                db.setFilemd(ff.getEntries().get(i));
-                rr.add(db);
-            }
-
+            //Nikita - Shared files on top now
             for (int i = 0; i < ss.getEntries().size(); i++) {
                 DropBoxFileItem db = new DropBoxFileItem();
                 db.setShared(1);
                 db.setSharefmd(ss.getEntries().get(i));
+                rr.add(db);
+            }
+
+            for (int i = 0; i < ff.getEntries().size(); i++) {
+                DropBoxFileItem db = new DropBoxFileItem();
+                db.setShared(0);
+                db.setFilemd(ff.getEntries().get(i));
                 rr.add(db);
             }
 

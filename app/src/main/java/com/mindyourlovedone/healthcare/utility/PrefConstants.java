@@ -5,6 +5,11 @@ package com.mindyourlovedone.healthcare.utility;
  */
 
 public class PrefConstants {
+
+    public static final String FROM_Dropbox = "FROM_Dropbox";//Nikita dropbox chk for whole restore
+    public static final String UPLOAD_FLAG = "UPLOAD_FLAG";//Nikita#Sub
+    public static final String SUBSCRIPTION_ENDS = "SUBSCRIPTION_ENDS";//Nikita#Sub
+
     public static final String SOURCE = "source";
     public static final String FROM = "From";
     public static final String USER_EMAIL = "email";
@@ -13,9 +18,6 @@ public class PrefConstants {
 
     public static final String CONNECTED_NAME = "connected_Name";
     public static final String USER_ID = "id";
-
-    public static final String UPLOAD_FLAG = "UPLOAD_FLAG";//Nikita#Sub
-    public static final String SUBSCRIPTION_ENDS = "SUBSCRIPTION_ENDS";//Nikita#Sub
 
     public static final String CONNECTED_USERID = "connected_Id";
 
@@ -36,4 +38,5 @@ public class PrefConstants {
     public static final String FIRST_TIME = "FIRST_TIME";
     public static final String CONNECTED_PHOTO ="ConnectedPhoto" ;
     public static final String SHARE ="Share" ;
+    public static final String FILE ="File" ;
 }
