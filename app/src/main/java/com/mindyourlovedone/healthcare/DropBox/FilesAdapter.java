@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.FolderMetadata;
 import com.dropbox.core.v2.files.Metadata;
+import com.dropbox.core.v2.sharing.SharedFileMetadata;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.squareup.picasso.Picasso;
 
@@ -59,6 +60,8 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.MetadataView
     public int getItemCount() {
         return mFiles == null ? 0 : mFiles.size();
     }
+
+
 
     public interface Callback {
         void onFolderClicked(FolderMetadata folder);

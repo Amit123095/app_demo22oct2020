@@ -17,12 +17,31 @@
         android:contentDescription="icon"
         android:scaleType="centerCrop" />
 
-    <TextView
-        android:id="@+id/text"
+    <LinearLayout
+        android:layout_gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="@dimen/dimension16dp"
-        android:maxLines="1"
-        android:textSize="18sp" />
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dimension16dp"
+            android:maxLines="1"
+            android:textSize="18sp" />
+
+        <TextView
+            android:textColor="#005BCD"
+            android:id="@+id/txttype"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dimension16dp"
+            android:maxLines="1"
+            android:textSize="14sp" />
+    </LinearLayout>
+
 </LinearLayout>

@@ -133,8 +133,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         initUI();
 
         pd = new ProgressDialog(this);//nikita
-        pd.setTitle("Loading UI...");
-        pd.show();
+//        pd.setTitle("Loading UI...");
+//        pd.show();
 
 
         try {

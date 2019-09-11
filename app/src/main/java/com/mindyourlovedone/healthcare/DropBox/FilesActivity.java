@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,15 +26,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.dropbox.core.v1.DbxEntry;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.FolderMetadata;
 import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
 import com.dropbox.core.v2.sharing.FileAction;
-import com.dropbox.core.v2.sharing.FileMemberActionResult;
-import com.dropbox.core.v2.sharing.MemberSelector;
+import com.dropbox.core.v2.sharing.ListFilesResult;
+import com.dropbox.core.v2.sharing.SharedFileMetadata;
+import com.dropbox.core.v2.sharing.SharedFolderMetadata;
 import com.mindyourlovedone.healthcare.DashBoard.AddDocumentActivity;
-import com.mindyourlovedone.healthcare.DashBoard.DropboxLoginActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.utility.PrefConstants;
 import com.mindyourlovedone.healthcare.utility.Preferences;
@@ -58,10 +58,11 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
     private static final String TAG = FilesActivity.class.getName();
     private static final int PICKFILE_REQUEST_CODE = 1;
     Preferences preferences;
-    RelativeLayout rlBackup, rlHeader,rlParent;
+    RelativeLayout rlBackup, rlHeader, rlParent;
     private String mPath;
-    private FilesAdapter mFilesAdapter;
-    private FileMetadata mSelectedFile;
+    //    private FilesAdapter mFilesAdapter;
+    private SharedFilesAdapter mSharedFilesAdapter;
+    private DropBoxFileItem sSelectedFile;
     ImageView imgBack;
 
 
@@ -110,6 +111,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
         rlHeader = findViewById(R.id.rlHeader);
         imgBack = findViewById(R.id.imgBack);
         RecyclerView recyclerView = findViewById(R.id.files_list);
+        RecyclerView srecyclerView = findViewById(R.id.sharefiles_list);
 
         ImageView imgBack = findViewById(R.id.imgBack);
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -123,18 +125,20 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
         if (from.equals("Document") || from.equals("Restore")) {
             rlBackup.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
+            srecyclerView.setVisibility(View.VISIBLE);
             rlHeader.setVisibility(View.VISIBLE);
             imgBack.setVisibility(View.GONE);
 
 
-        } else if (from.equals("Backup")||from.equals("Share")) {
+        } else if (from.equals("Backup") || from.equals("Share")) {
             rlParent.setBackgroundColor(TRANSPARENT);
             rlBackup.setVisibility(View.GONE);
             recyclerView.setVisibility(View.GONE);
+            srecyclerView.setVisibility(View.GONE);
             imgBack.setVisibility(View.GONE);
             rlHeader.setVisibility(View.GONE);
 
-          performWithPermissions(FilesActivity.FileAction.UPLOAD);
+            performWithPermissions(FilesActivity.FileAction.UPLOAD);
         }
         rlBackup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,26 +153,51 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
 
             }
         });*/
+//        mSelectedFile = null;
+//
+//        mFilesAdapter = new FilesAdapter(PicassoClient.getPicasso(), new FilesAdapter.Callback() {
+//            @Override
+//            public void onFolderClicked(FolderMetadata folder) {
+//                startActivity(FilesActivity.getIntent(FilesActivity.this, folder.getPathLower()));
+//            }
+//
+//            @Override
+//            public void onFileClicked(final FileMetadata file) {
+//                mSelectedFile = file;
+//                performWithPermissions(FilesActivity.FileAction.DOWNLOAD);
+//            }
+//        });
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerView.setAdapter(mFilesAdapter);
 
 
-        mFilesAdapter = new FilesAdapter(PicassoClient.getPicasso(), new FilesAdapter.Callback() {
+        mSharedFilesAdapter = new SharedFilesAdapter(PicassoClient.getPicasso(), new SharedFilesAdapter.Callback() {
+            @Override
+            public void onFolderClicked(DropBoxFileItem folder) {
+                if (folder.getShared() == 1) {
+                    startActivity(FilesActivity.getIntent(FilesActivity.this, folder.getSharefmd().getPathLower()));
+                } else {
+                    startActivity(FilesActivity.getIntent(FilesActivity.this, folder.getFilemd().getPathLower()));
+                }
+            }
+
             @Override
             public void onFolderClicked(FolderMetadata folder) {
                 startActivity(FilesActivity.getIntent(FilesActivity.this, folder.getPathLower()));
             }
 
+
             @Override
-            public void onFileClicked(final FileMetadata file) {
-                mSelectedFile = file;
+            public void onFileClicked(DropBoxFileItem file) {
+                sSelectedFile = file;
                 performWithPermissions(FilesActivity.FileAction.DOWNLOAD);
             }
+
+
         });
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(mFilesAdapter);
-
-        mSelectedFile = null;
-
-
+        srecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        srecyclerView.setAdapter(mSharedFilesAdapter);
+        sSelectedFile = null;
     }
 
     public void launchFilePicker() {
@@ -301,8 +330,12 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                 launchFilePicker();
                 break;
             case DOWNLOAD:
-                if (mSelectedFile != null) {
-                    downloadFile(mSelectedFile);
+                if (sSelectedFile != null) {
+                    if (sSelectedFile.getShared() == 1) {
+                        downloadFiles(sSelectedFile.getSharefmd());
+                    } else {
+                        downloadFile((FileMetadata) sSelectedFile.getFilemd());
+                    }
                 } else {
                     Log.e(TAG, "No file selected to download.");
                 }
@@ -320,12 +353,13 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
         dialog.setCancelable(false);
         dialog.setMessage("Loading");
         dialog.show();
-
+        // Code for inbox files
+/*
         new ListFolderTask(DropboxClientFactory.getClient(), new ListFolderTask.Callback() {
             @Override
             public void onDataLoaded(ListFolderResult result) {
                 dialog.dismiss();
-                ArrayList<Metadata> resultList = new ArrayList<Metadata>();
+                final ArrayList<Metadata> resultList = new ArrayList<Metadata>();
                 for (int i = 0; i < result.getEntries().size(); i++) {
                     if (preferences.getString(PrefConstants.STORE).equals("Document")) {
                         String name = result.getEntries().get(i).getName();
@@ -350,14 +384,86 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
 
                         }
                     }
-                }
-
-                //   if (resultList.size()!=0) {
+                }  if (resultList.size()!=0) {
                 mFilesAdapter.setFiles(resultList);
-             /*   }else{
+                }else{
                     Toast.makeText(FilesActivity.this,"No Document or Backup File available in your dropbox",Toast.LENGTH_SHORT).show();
                     FilesActivity.this.finish();
-                }*/
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                dialog.dismiss();
+
+                Log.e(TAG, "Failed to list folder.", e);
+                Toast.makeText(FilesActivity.this,
+                        "An error has occurred",
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }).execute(mPath);*/
+
+// Code for Received files
+        new ListReceivedFolderTask(DropboxClientFactory.getClient(), new ListReceivedFolderTask.Callback() {//Nikita - new changes for merged data
+            @Override
+            public void onDataLoaded(ArrayList<DropBoxFileItem> result) {
+                dialog.dismiss();
+                ArrayList<DropBoxFileItem> resultList = new ArrayList<>();
+                for (int i = 0; i < result.size(); i++) {
+                    if (result.get(i).getShared() == 1) {
+                        SharedFileMetadata ss = result.get(i).getSharefmd();
+                        if (preferences.getString(PrefConstants.STORE).equals("Document")) {
+                            String name = ss.getName();
+                            if (name.endsWith(".pdf") || name.endsWith(".txt") || name.endsWith(".docx") || name.endsWith(".doc") || name.endsWith(".xlsx") || name.endsWith(".xls") || name.endsWith(".png") || name.endsWith(".PNG") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".ppt") || name.endsWith(".pptx")) {
+                                // if (result.getEntries().get(i).getName().endsWith(".pdf")||result.getEntries().get(i).getName().endsWith(".db")) {
+                                resultList.add(result.get(i));
+                            }
+                        } else if (preferences.getString(PrefConstants.STORE).equals("Restore")) {
+                            if (ss.getName().endsWith(".zip")) {
+                                if (preferences.getString(PrefConstants.TODOWHAT).equals("Import")) {
+                                    if (ss.getName().equals("MYLO.zip")) {
+
+                                    } else {
+                                        resultList.add(result.get(i));
+                                    }
+                                } else {
+                                    if (ss.getName().equals("MYLO.zip")) {
+                                        resultList.add(result.get(i));
+                                    }
+                                }
+                                // if (result.getEntries().get(i).getName().endsWith(".pdf")||result.getEntries().get(i).getName().endsWith(".db")) {
+
+                            }
+                        }
+                    } else {
+                        Metadata ss =  result.get(i).getFilemd();
+                        if (preferences.getString(PrefConstants.STORE).equals("Document")) {
+                            String name = ss.getName();
+                            if (name.endsWith(".pdf") || name.endsWith(".txt") || name.endsWith(".docx") || name.endsWith(".doc") || name.endsWith(".xlsx") || name.endsWith(".xls") || name.endsWith(".png") || name.endsWith(".PNG") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".ppt") || name.endsWith(".pptx")) {
+                                // if (result.getEntries().get(i).getName().endsWith(".pdf")||result.getEntries().get(i).getName().endsWith(".db")) {
+                                resultList.add(result.get(i));
+                            }
+                        } else if (preferences.getString(PrefConstants.STORE).equals("Restore")) {
+                            if (ss.getName().endsWith(".zip")) {
+                                if (preferences.getString(PrefConstants.TODOWHAT).equals("Import")) {
+                                    if (ss.getName().equals("MYLO.zip")) {
+
+                                    } else {
+                                        resultList.add(result.get(i));
+                                    }
+                                } else {
+                                    if (ss.getName().equals("MYLO.zip")) {
+                                        resultList.add(result.get(i));
+                                    }
+                                }
+                                // if (result.getEntries().get(i).getName().endsWith(".pdf")||result.getEntries().get(i).getName().endsWith(".db")) {
+
+                            }
+                        }
+                    }
+                }
+                mSharedFilesAdapter.setSharedFiles(resultList);
             }
 
             @Override
@@ -371,6 +477,8 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                         .show();
             }
         }).execute(mPath);
+
+
     }
 
     private void downloadFile(FileMetadata file) {
@@ -381,6 +489,65 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
         dialog.show();
 
         new DownloadFileTask(FilesActivity.this, DropboxClientFactory.getClient(), new DownloadFileTask.Callback() {
+            @Override
+            public void onDownloadComplete(File result) {
+                dialog.dismiss();
+
+                if (result != null) {
+                    //viewFileInExternalApp(result);
+
+
+                    AddDocumentActivity a = new AddDocumentActivity();
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    MimeTypeMap mime = MimeTypeMap.getSingleton();
+                    String ext = result.getName().substring(result.getName().indexOf(".") + 1);
+                    String type = mime.getMimeTypeFromExtension(ext);
+
+                   /*25 Oct Commented for pdf back/restore
+                    Uri contentUri = null;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        contentUri = FileProvider.getUriForFile(FilesActivity.this, "com.mindyourlovedone.healthcare.HomeActivity.fileProvider", result);
+                    } else {
+                        contentUri = Uri.fromFile(result);
+                    }
+
+                    intent.setDataAndType(contentUri, type);*/
+
+                    preferences = new Preferences(FilesActivity.this);
+                    preferences.putString(PrefConstants.URI, result.getAbsolutePath());
+                    preferences.putString(PrefConstants.RESULT, result.getName());
+
+                    Intent i = new Intent();
+                    i.putExtra("URI", result.getAbsolutePath());
+                    i.putExtra("Name", result.getName());
+                    setResult(45, i);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                dialog.dismiss();
+
+                Log.e(TAG, "Failed to download file.", e);
+                Toast.makeText(FilesActivity.this,
+                        "An error has occurred",
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }).execute(file);
+
+    }
+
+    private void downloadFiles(SharedFileMetadata file) {
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setCancelable(false);
+        dialog.setMessage("Downloading");
+        dialog.show();
+
+        new DownloadReceivedFileTask(FilesActivity.this, DropboxClientFactory.getClient(), new DownloadReceivedFileTask.Callback() {
             @Override
             public void onDownloadComplete(File result) {
                 dialog.dismiss();
@@ -469,7 +636,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
             @Override
             public void onUploadComplete(final FileMetadata result) {
                 dialog.dismiss();
-                preferences.putString(PrefConstants.SHARE,result.getId());
+                preferences.putString(PrefConstants.SHARE, result.getId());
                 dialog.dismiss();
                 FilesActivity.this.finish();
                /* String message = "Backup is stored in: " + result.getName() + "\n\nsize: " + result.getSize() + "\n\nmodified: " +

@@ -39,16 +39,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dropbox.core.android.Auth;
+import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
 import com.dropbox.core.v2.sharing.FileMemberActionResult;
+import com.dropbox.core.v2.sharing.ListFilesResult;
 import com.dropbox.core.v2.sharing.MemberSelector;
+import com.dropbox.core.v2.sharing.SharedFileMetadata;
 import com.dropbox.core.v2.users.FullAccount;
+import com.mindyourlovedone.healthcare.DropBox.DropBoxFileItem;
 import com.mindyourlovedone.healthcare.DropBox.DropboxActivity;
 import com.mindyourlovedone.healthcare.DropBox.DropboxClientFactory;
 import com.mindyourlovedone.healthcare.DropBox.FilesActivity;
 import com.mindyourlovedone.healthcare.DropBox.GetCurrentAccountTask;
 import com.mindyourlovedone.healthcare.DropBox.ListFolderTask;
+import com.mindyourlovedone.healthcare.DropBox.ListReceivedFolderTask;
 import com.mindyourlovedone.healthcare.DropBox.ShareFileTask;
 import com.mindyourlovedone.healthcare.DropBox.UnZipTask;
 import com.mindyourlovedone.healthcare.DropBox.ZipListner;
@@ -105,7 +110,7 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
 
     int Fun_Type = 0;
     int isFile=0;
-Context contextl;
+    Context contextl;
     // For to Delete the directory inside list of files and inner Directory //nikita
     public static boolean deleteDir(File dir) {//nikita
         if (dir.isDirectory()) {
@@ -623,7 +628,7 @@ Context contextl;
                 &&
                 ContextCompat.checkSelfPermission(DropboxLoginActivity.this.getApplicationContext(),
                         Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                ) {
+        ) {
             requestPermissions(new String[]{Manifest.permission.CALL_PHONE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE
@@ -639,7 +644,7 @@ Context contextl;
         new GetCurrentAccountTask(DropboxClientFactory.getClient(), new GetCurrentAccountTask.Callback() {
             @Override
             public void onComplete(FullAccount result) {
-txtLogoutDropbox.setVisibility(View.GONE);
+                txtLogoutDropbox.setVisibility(View.GONE);
                 if (Fun_Type == 1) {
                     Fun_Type = 4;
                     preferences.putString(PrefConstants.STORE, "Backup");
@@ -685,8 +690,9 @@ txtLogoutDropbox.setVisibility(View.GONE);
     }
 
     private void loadDropboxData() {
+// Code for inbox files
 
-        final ProgressDialog dialog = new ProgressDialog(this);
+        /*final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setCancelable(false);
         dialog.setMessage("Please wait...");
@@ -739,7 +745,127 @@ txtLogoutDropbox.setVisibility(View.GONE);
                     }
 //                    Toast.makeText(DropboxLoginActivity.this, "No Document or Backup File available in your dropbox", Toast.LENGTH_SHORT).show();
                 }
-              //  dialog.dismiss();
+                //  dialog.dismiss();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                dialog.dismiss();
+
+            }
+        }).execute("");*/
+
+// Code for Received files
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setCancelable(false);
+        dialog.setMessage("Please wait...");
+        dialog.show();
+
+        new ListReceivedFolderTask(DropboxClientFactory.getClient(), new ListReceivedFolderTask.Callback() {
+            @Override
+            public void onDataLoaded(ArrayList<DropBoxFileItem> result) {
+
+//                ArrayList<SharedFileMetadata> resultList = new ArrayList<>();
+//                for (int i = 0; i < result.getEntries().size(); i++) {
+//                    if (preferences.getString(PrefConstants.STORE).equals("Document")) {
+//                        String name = result.getEntries().get(i).getName();
+//                        if (name.endsWith(".pdf") || name.endsWith(".txt") || name.endsWith(".docx") || name.endsWith(".doc") || name.endsWith(".xlsx") || name.endsWith(".xls") || name.endsWith(".png") || name.endsWith(".PNG") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".ppt") || name.endsWith(".pptx")) {
+//                            // if (result.getEntries().get(i).getName().endsWith(".pdf")||result.getEntries().get(i).getName().endsWith(".db")) {
+//                            resultList.add(result.getEntries().get(i));
+//                        }
+//                    } else if (preferences.getString(PrefConstants.STORE).equals("Restore")) {
+//                        if (result.getEntries().get(i).getName().endsWith(".zip")) {
+//                            if (preferences.getString(PrefConstants.TODOWHAT).equals("Import")) {
+//                                if (result.getEntries().get(i).getName().equals("MYLO.zip")) {
+//
+//                                } else {
+//                                    resultList.add(result.getEntries().get(i));
+//                                }
+//                            } else {
+//                                if (result.getEntries().get(i).getName().equals("MYLO.zip")) {
+//                                    resultList.add(result.getEntries().get(i));
+//                                }
+//                            }
+//                            // if (result.getEntries().get(i).getName().endsWith(".pdf")||result.getEntries().get(i).getName().endsWith(".db")) {
+//
+//                        }
+//                    }
+//                }
+
+                ArrayList<DropBoxFileItem> resultList = new ArrayList<>();
+                for (int i = 0; i < result.size(); i++) {
+                    if(result.get(i).getShared()==1) {
+                        SharedFileMetadata ss = result.get(i).getSharefmd();
+                        if (preferences.getString(PrefConstants.STORE).equals("Document")) {
+                            String name = ss.getName();
+                            if (name.endsWith(".pdf") || name.endsWith(".txt") || name.endsWith(".docx") || name.endsWith(".doc") || name.endsWith(".xlsx") || name.endsWith(".xls") || name.endsWith(".png") || name.endsWith(".PNG") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".ppt") || name.endsWith(".pptx")) {
+                                // if (result.getEntries().get(i).getName().endsWith(".pdf")||result.getEntries().get(i).getName().endsWith(".db")) {
+                                resultList.add(result.get(i));
+                            }
+                        } else if (preferences.getString(PrefConstants.STORE).equals("Restore")) {
+                            if (ss.getName().endsWith(".zip")) {
+                                if (preferences.getString(PrefConstants.TODOWHAT).equals("Import")) {
+                                    if (ss.getName().equals("MYLO.zip")) {
+
+                                    } else {
+                                        resultList.add(result.get(i));
+                                    }
+                                } else {
+                                    if (ss.getName().equals("MYLO.zip")) {
+                                        resultList.add(result.get(i));
+                                    }
+                                }
+                                // if (result.getEntries().get(i).getName().endsWith(".pdf")||result.getEntries().get(i).getName().endsWith(".db")) {
+
+                            }
+                        }
+                    }else{
+                        Metadata ss = result.get(i).getFilemd();
+                        if (preferences.getString(PrefConstants.STORE).equals("Document")) {
+                            String name = ss.getName();
+                            if (name.endsWith(".pdf") || name.endsWith(".txt") || name.endsWith(".docx") || name.endsWith(".doc") || name.endsWith(".xlsx") || name.endsWith(".xls") || name.endsWith(".png") || name.endsWith(".PNG") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".ppt") || name.endsWith(".pptx")) {
+                                // if (result.getEntries().get(i).getName().endsWith(".pdf")||result.getEntries().get(i).getName().endsWith(".db")) {
+                                resultList.add(result.get(i));
+                            }
+                        } else if (preferences.getString(PrefConstants.STORE).equals("Restore")) {
+                            if (ss.getName().endsWith(".zip")) {
+                                if (preferences.getString(PrefConstants.TODOWHAT).equals("Import")) {
+                                    if (ss.getName().equals("MYLO.zip")) {
+
+                                    } else {
+                                        resultList.add(result.get(i));
+                                    }
+                                } else {
+                                    if (ss.getName().equals("MYLO.zip")) {
+                                        resultList.add(result.get(i));
+                                    }
+                                }
+                                // if (result.getEntries().get(i).getName().endsWith(".pdf")||result.getEntries().get(i).getName().endsWith(".db")) {
+
+                            }
+                        }
+                    }
+                }
+
+                if (resultList.size() != 0) {
+                    Fun_Type = 4;
+                    startActivity(FilesActivity.getIntent(DropboxLoginActivity.this, ""));
+                    dialog.dismiss();
+                } else {
+                    dialog.dismiss();
+                    if (preferences.getString(PrefConstants.STORE).equals("Document")) {
+                        DialogNodata("There is no PDF files in your Dropbox account.");
+                    } else if (preferences.getString(PrefConstants.STORE).equals("Restore")) {
+                        if (preferences.getString(PrefConstants.TODOWHAT).equals("Import")) {
+                            DialogNodata("There is no Zip files in your Dropbox account.");
+                        } else {
+                            DialogNodata("There is no MYLO.zip file in your Dropbox account.");
+                        }
+                    }
+//                    Toast.makeText(DropboxLoginActivity.this, "No Document or Backup File available in your dropbox", Toast.LENGTH_SHORT).show();
+                }
+                //  dialog.dismiss();
             }
 
             @Override
@@ -748,6 +874,7 @@ txtLogoutDropbox.setVisibility(View.GONE);
 
             }
         }).execute("");
+
 
     }
 
@@ -853,9 +980,9 @@ txtLogoutDropbox.setVisibility(View.GONE);
                             final File folder = new File(sd, backupDBPath);
                             final File destfolder = new File(Environment.getExternalStorageDirectory(),
                                     newname);
-                            if (destfolder.exists()) {
-                                deleteDir(destfolder);//nikita
-                            }
+//                            if (destfolder.exists()) {
+//                                deleteDir(destfolder);//nikita
+//                            }
 //                            if (!destfolder.exists()) {
 //                                destfolder.mkdir();
 //                            }
@@ -949,7 +1076,7 @@ txtLogoutDropbox.setVisibility(View.GONE);
         customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         customDialog.setContentView(R.layout.dialog_input_email);
         customDialog.setCancelable(false);
-         final EditText etNote = customDialog.findViewById(R.id.etNote);
+        final EditText etNote = customDialog.findViewById(R.id.etNote);
         TextView btnAdd = customDialog.findViewById(R.id.btnYes);
         TextView btnCancel = customDialog.findViewById(R.id.btnNo);
 
@@ -976,9 +1103,9 @@ txtLogoutDropbox.setVisibility(View.GONE);
                     customDialog.dismiss();
                     List<MemberSelector> newMembers = new ArrayList<MemberSelector>();
                     MemberSelector newMember = MemberSelector.email(username);
-                   // MemberSelector newMember1 = MemberSelector.email("kmllnk@j.uyu");
+                    // MemberSelector newMember1 = MemberSelector.email("kmllnk@j.uyu");
                     newMembers.add(newMember);
-                   // newMembers.add(newMember1);
+                    // newMembers.add(newMember1);
 
                     final ProgressDialog dialog = new ProgressDialog(DropboxLoginActivity.this);
                     dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);

@@ -110,7 +110,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public static final int REQUEST_MARITAL = 22;
     public static final int REQUEST_EYES = 23;
     public static final int REQUEST_LANGUAGE= 24;
-   public ArrayList<ContactData> phonelist=new ArrayList<>();
+    public ArrayList<ContactData> phonelist=new ArrayList<>();
     public ArrayList<ContactData> Originalphonelist=new ArrayList<>();
     final CharSequence[] dialog_items = {"View", "Email", "User Instructions"};
     Context context = this;
@@ -122,7 +122,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     ImageView imgRight, imgInfo, imgR;
     RelativeLayout llIndividual;
     boolean isfinis;
-    String has_card="";
+    String has_card="NO";
     //  Button floatingBtn;
     TextView txtPeople,txtAddPet, txtSignUp, txtLogin, txtForgotPassword, txtOther, txtOtherLanguage, txtMsg, txtSave;
     ImageView imgHome,imgEdit, imgProfile, imgDone, imgAddpet, imgEditCard, imgCard;
@@ -176,8 +176,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     ImageView floatOptions;;
     NonScrollListView listPhone;
     ContactData contactData;
-     RelativeConnection con;
-     FrameLayout flFront;
+    RelativeConnection con;
+    FrameLayout flFront;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -278,9 +278,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         floatOptions = findViewById(R.id.floatOptions);
         int user = preferences.getInt(PrefConstants.CONNECTED_USERID);
 
-      flrel=findViewById(R.id.flrel);
-      txtRelation=findViewById(R.id.txtRelation);
-      txtRelation.setFocusable(false);
+        flrel=findViewById(R.id.flrel);
+        txtRelation=findViewById(R.id.txtRelation);
+        txtRelation.setFocusable(false);
         listPhone=findViewById(R.id.listPhone);
         tilSpinEye=findViewById(R.id.tilSpinEyes);
         txtSpinEye=findViewById(R.id.txtSpinEyes);
@@ -354,7 +354,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         imgHome=findViewById(R.id.imgHome);
         imgAddpet = findViewById(R.id.imgAddPet);
         txtAddPet = findViewById(R.id.txtAddPet);
-       // txtSignUp = findViewById(R.id.txtSignUp);
+        // txtSignUp = findViewById(R.id.txtSignUp);
         tilName = findViewById(R.id.tilName);
         tilOtherRelation = findViewById(R.id.tilOtherRelation);
         tilOtherRelation.setHint("Other Relation");
@@ -482,7 +482,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 else{
                     has_card="NO";
-                   // imgCard.setImageResource(R.drawable.busi_card);
+                    // imgCard.setImageResource(R.drawable.busi_card);
                     txtCard.setVisibility(View.VISIBLE);
                     flFront.setVisibility(View.VISIBLE);
                     imgEditCard.setVisibility(View.GONE);
@@ -708,7 +708,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
         setValues();
-txtRelation.setOnClickListener(new View.OnClickListener() {
+        txtRelation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, RelationActivity.class);
@@ -999,14 +999,14 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
         if (connection.getRelationType().equals("Self")) {
             tilBdate.setVisibility(View.VISIBLE);
             // spinner.setVisibility(View.VISIBLE);
-          //  SavwGender.setVisibility(View.VISIBLE);
+            //  SavwGender.setVisibility(View.VISIBLE);
             rgGender.setVisibility(View.VISIBLE);
             txtvGender.setVisibility(View.VISIBLE);
             vgender.setVisibility(View.VISIBLE);
             spinnerRelation.setVisibility(View.GONE);
             flrel.setVisibility(View.GONE);
-          //  txtWorkPhone.setVisibility(View.VISIBLE);//shradha
-           // tilWorkPhone.setVisibility(View.VISIBLE);
+            //  txtWorkPhone.setVisibility(View.VISIBLE);//shradha
+            // tilWorkPhone.setVisibility(View.VISIBLE);
             txtHomePhone.setVisibility(View.VISIBLE);
         } else {
             // Varsa commented 3 june
@@ -1050,7 +1050,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                 }
             }
             txtBdate.setText(connection.getDob());
-          txtRelation.setText(connection.getRelationType());
+            txtRelation.setText(connection.getRelationType());
 
             if (connection.getRelationType().equalsIgnoreCase("Other"))
             {
@@ -1069,7 +1069,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                     tbLive.setChecked(true);
                     live = "YES";
                     rlLive.setVisibility(View.GONE);
-                } else {
+                } else if (connection.getLive().equals("NO")){
                     tbLive.setChecked(false);
 
                     live = "NO";
@@ -1220,7 +1220,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                 txtSpinEye.setText(connection.getEyes());
             }
 
-          txtSpinLang.setText(connection.getLanguage());
+            txtSpinLang.setText(connection.getLanguage());
             if (connection.getLanguage().equalsIgnoreCase("Other"))
             {
                 tilOtherLanguage.setVisibility(View.VISIBLE);
@@ -1242,10 +1242,10 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
             if (connection.getVeteran() != null) {
                 if (connection.getVeteran().equals("YES")) {
                     tbVeteran.setChecked(true);
-                   veteran="YES";
-                } else {
+                    veteran="YES";
+                } else if (connection.getVeteran().equals("NO")){
                     tbVeteran.setChecked(false);
-                   veteran="NO";
+                    veteran="NO";
                 }
             }
 
@@ -1254,8 +1254,8 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                     tbCard.setChecked(true);
                     has_card="YES";
                     rlCard.setVisibility(View.VISIBLE);
-                } else {
-                            tbCard.setChecked(false);
+                } else if (connection.getHas_card().equals("NO")){
+                    tbCard.setChecked(false);
                     has_card="NO";
                     rlCard.setVisibility(View.GONE);
                     cardpath = "";
@@ -1271,10 +1271,10 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
             if (connection.getEnglish() != null) {
                 if (connection.getEnglish().equals("YES")) {
                     tbEnglish.setChecked(true);
-                  english="YES";
-                } else {
+                    english="YES";
+                } else if (connection.getEnglish().equals("NO")){
                     tbEnglish.setChecked(false);
-                  english="NO";
+                    english="NO";
                 }
             }
             if (connection.getPet() != null) {
@@ -1283,7 +1283,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                     pet="YES";
 
                     txtAddPet.setVisibility(View.VISIBLE);
-                } else {
+                } else if (connection.getPet().equals("NO")){
                     tbPet.setChecked(false);
                     pet="NO";
                     txtAddPet.setVisibility(View.GONE);
@@ -1359,54 +1359,54 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
 
             case R.id.imgBack:
 
-               if (validateConnection()) {
-                //   String contactchange1 = Originalphonelist.containsAll(phonelist) ? "Yes" : "No";
-                   String contactchange2 = phonelist.containsAll(Originalphonelist) ? "Yes" : "No";
-                   if (connection.getName().equals(name) && connection.getAddress().equals(address) && connection.getEmail().equals(email) && connection.getRelationType().equals(relation) &&
-                           connection.getPhoto().equals(imagepath) && connection.getOtherRelation().equals(otherRelation) && connection.getHeight().equals(height) && connection.getWeight().equals(weight) &&
-                           connection.getEyes().equals(eyes) && connection.getProfession().equals(profession) && connection.getEmployed().equals(employed) && connection.getLanguage().equals(language) &&
-                           connection.getMarital_status().equals(marital_status) && connection.getReligion().equals(religion) && connection.getVeteran().equals(veteran) && connection.getIdnumber().equals(idnumber) &&
-                           connection.getPet().equals(pet) && connection.getManager_phone().equals(manager_phone) && connection.getPhotoCard().equals(cardpath) && connection.getEnglish().equals(english) &&
-                           connection.getChildren().equals(child) && connection.getFriend().equals(friend) && connection.getGrand().equals(grandParent) && connection.getParents().equals(parent) &&
-                           connection.getSpouse().equals(spouse) && connection.getOther_person().equals(liveOther) && connection.getLive().equals(live) && connection.getSign_other().equals(other) && connection.getOtherLang().equals(OtherLang) &&
-                           connection.getDob().equals(bdate) && connection.getGender().equals(gender) && connection.getSibling().equals(sibling) && connection.getHas_card().equals(has_card) && connection.getPeople().equals(people)
+                if (validateConnection()) {
+                    //   String contactchange1 = Originalphonelist.containsAll(phonelist) ? "Yes" : "No";
+                    String contactchange2 = phonelist.containsAll(Originalphonelist) ? "Yes" : "No";
+                    if (connection.getName().equals(name) && connection.getAddress().equals(address) && connection.getEmail().equals(email) && connection.getRelationType().equals(relation) &&
+                            connection.getPhoto().equals(imagepath) && connection.getOtherRelation().equals(otherRelation) && connection.getHeight().equals(height) && connection.getWeight().equals(weight) &&
+                            connection.getEyes().equals(eyes) && connection.getProfession().equals(profession) && connection.getEmployed().equals(employed) && connection.getLanguage().equals(language) &&
+                            connection.getMarital_status().equals(marital_status) && connection.getReligion().equals(religion) && connection.getVeteran().equals(veteran) && connection.getIdnumber().equals(idnumber) &&
+                            connection.getPet().equals(pet) && connection.getManager_phone().equals(manager_phone) && connection.getPhotoCard().equals(cardpath) && connection.getEnglish().equals(english) &&
+                            connection.getChildren().equals(child) && connection.getFriend().equals(friend) && connection.getGrand().equals(grandParent) && connection.getParents().equals(parent) &&
+                            connection.getSpouse().equals(spouse) && connection.getOther_person().equals(liveOther) && connection.getLive().equals(live) && connection.getSign_other().equals(other) && connection.getOtherLang().equals(OtherLang) &&
+                            connection.getDob().equals(bdate) && connection.getGender().equals(gender) && connection.getSibling().equals(sibling) && connection.getHas_card().equals(has_card) && connection.getPeople().equals(people)
                             && backflap==false){//&& contactchange2.equals("No")) {//&& contactchange1.equals("Yes")
-                       hideSoftKeyboard();
-                       finish();
-                   } else {
-                       AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                       alert.setTitle("Save");
-                       alert.setMessage("Do you want to save information?");
-                       alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                           @Override
-                           public void onClick(DialogInterface dialog, int which) {
-                               if (!connection.getName().equals(name) || !connection.getEmail().equals(address))
-                               {
-                                   isfinis=true;
-                               }
-                          hideSoftKeyboard();
-                          boolean s=  txtSave.performClick();
-                          backflap=false;
-                          dialog.dismiss();
-                               if (connection.getName().equals(name) || connection.getEmail().equals(address))
-                               {
-                               finish();
-                               }
+                        hideSoftKeyboard();
+                        finish();
+                    } else {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setTitle("Save");
+                        alert.setMessage("Do you want to save information?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (!connection.getName().equals(name) || !connection.getEmail().equals(address))
+                                {
+                                    isfinis=true;
+                                }
+                                hideSoftKeyboard();
+                                boolean s=  txtSave.performClick();
+                                backflap=false;
+                                dialog.dismiss();
+                                if (connection.getName().equals(name) || connection.getEmail().equals(address))
+                                {
+                                    finish();
+                                }
 
-                           }
-                       });
+                            }
+                        });
 
-                       alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                           @Override
-                           public void onClick(DialogInterface dialog, int which) {
-                               dialog.dismiss();
-                               hideSoftKeyboard();
-                               finish();
-                           }
-                       });
-                       alert.show();
-                   }
-               }
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                hideSoftKeyboard();
+                                finish();
+                            }
+                        });
+                        alert.show();
+                    }
+                }
                 break;
 
             case R.id.txtGender:
@@ -1667,10 +1667,10 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // dispatchTakePictureIntent(resultCameraImage,from);
                 if (from.equals("Profile")) {
-                values = new ContentValues();
-                values.put(MediaStore.Images.Media.TITLE, "New Picture");
-                values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, "New Picture");
+                    values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
                     imageUriProfile = getContentResolver().insert(
                             MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
@@ -1680,7 +1680,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUriProfile);
                     startActivityForResult(intent, resultCameraImage);
                 } else if (from.equals("Card")) {
-                   dialogCameraFront(resultCameraImage);
+                    dialogCameraFront(resultCameraImage);
                 }
 
 
@@ -1762,8 +1762,8 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
         {
             if (phonelist.get(i).getValue().isEmpty()&&phonelist.get(i).getContactType().isEmpty())
             {
-               // phonelist.remove(phonelist.get(i));
-              //  DialogManager.showAlert("Please add Phone number with Type", context);
+                // phonelist.remove(phonelist.get(i));
+                //  DialogManager.showAlert("Please add Phone number with Type", context);
             }else if (phonelist.get(i).getValue()==""&& phonelist.get(i).getContactType()!="")
             {
                 DialogManager.showAlert("Please add Phone number with Type", context);
@@ -1797,11 +1797,11 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
         eyes=txtSpinEye.getText().toString();
         marital_status=txtSpinMarital.getText().toString();
         language=txtSpinLang.getText().toString();
-       OtherLang = txtOtherLanguage.getText().toString();
+        OtherLang = txtOtherLanguage.getText().toString();
 
         bdate = txtBdate.getText().toString().trim();
         homePhone = txtHomePhone.getText().toString().trim();
-      //  gender = txtGender.getText().toString().trim();
+        //  gender = txtGender.getText().toString().trim();
         liveOther = txtOther.getText().toString();
         idnumber = txtIdNumber.getText().toString();
         height = txtHeight.getText().toString();
@@ -1854,89 +1854,30 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
 
     private void editToConnection(String photo, String photoCard) {
 
-            if (connection.getRelationType().equals("Self")) {
-                if (connection.getName().equals(name) && connection.getEmail().equals(email)) {
-                    DBHelper dbHelper1 =new DBHelper(context, "MASTER");
-                    MyConnectionsQuery ms = new MyConnectionsQuery(context, dbHelper1);
-                    Boolean flag = MyConnectionsQuery.updateMyConnectionsData(1, name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card,people);
-                    if (flag == true) {
-                        preferences.putString(PrefConstants.CONNECTED_PHOTO,imagepath);
-                        DBHelper dbHelper = new DBHelper(context, preferences.getString(PrefConstants.CONNECTED_USERDB));
-                        MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
-                        Boolean flags = MyConnectionsQuery.updateMyConnectionsData(connection.getId(), name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
-                        if (flags == true) {
-                            Toast.makeText(context, "You have edited profile information successfully", Toast.LENGTH_SHORT).show();
-                            connection = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-                            ContactDataQuery c = new ContactDataQuery(context, dbHelper);
-                            boolean flagf = ContactDataQuery.deleteRecord("Personal Profile", -1);
-                            if (flagf == true) {
-                                //  Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
-                                for (int i = 0; i < phonelist.size(); i++) {
-                                    if (!phonelist.get(i).getContactType().equalsIgnoreCase("") && !phonelist.get(i).getValue().equalsIgnoreCase("")) {
-                                        Boolean flagc = ContactDataQuery.insertContactsData(-1, preferences.getInt(PrefConstants.CONNECTED_USERID), connection.getEmail(), phonelist.get(i).getValue(), phonelist.get(i).getContactType(), "Personal Profile");
-                                        if (flagc == true) {
-                                            // Toast.makeText(context, "record inserted", Toast.LENGTH_SHORT).show();
-                                            backflap=false;
-                                        }
-                                    }
-                                }
-                            }
-                            if (isfinis==true){
-                                isfinis=false;
-                                finish();
-                            }
-                        }
-                        //Toast.makeText(context, "You have edited connection successfully", Toast.LENGTH_SHORT).show();
-                        preferences.putString(PrefConstants.CONNECTED_NAME, name);
-                        preferences.putString(PrefConstants.CONNECTED_RELATION, relation);
-                     //   finish(); //Varsa
-                    } else {
-                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    if (!NetworkUtils.getConnectivityStatusString(ProfileActivity.this).equals("Not connected to Internet")) {
-                        UpdateUserAsynk asynk = new UpdateUserAsynk(name, email, "" + preferences.getInt(PrefConstants.USER_ID));
-                        asynk.execute();
-                    } else {
-                        DialogManager.showAlert("Network Error, Check your internet connection", ProfileActivity.this);
-                    }
-                }
-
-            } else {
-                DBHelper dbHelpers = new DBHelper(context, "MASTER");
-                MyConnectionsQuery ms = new MyConnectionsQuery(context, dbHelpers);
-                Boolean flag = MyConnectionsQuery.updateMyConnectionsData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
+        if (connection.getRelationType().equals("Self")) {
+            if (connection.getName().equals(name) && connection.getEmail().equals(email)) {
+                DBHelper dbHelper1 =new DBHelper(context, "MASTER");
+                MyConnectionsQuery ms = new MyConnectionsQuery(context, dbHelper1);
+                Boolean flag = MyConnectionsQuery.updateMyConnectionsData(1, name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card,people);
                 if (flag == true) {
+                    preferences.putString(PrefConstants.CONNECTED_PHOTO,imagepath);
                     DBHelper dbHelper = new DBHelper(context, preferences.getString(PrefConstants.CONNECTED_USERDB));
                     MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
-                    Boolean flags = MyConnectionsQuery.updateMyConnectionsData(1, name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
+                    Boolean flags = MyConnectionsQuery.updateMyConnectionsData(connection.getId(), name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
                     if (flags == true) {
-                        preferences.putString(PrefConstants.CONNECTED_PHOTO,imagepath);
-                        Toast.makeText(context, "You have edited profile data successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "You have edited profile information successfully", Toast.LENGTH_SHORT).show();
                         connection = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-                        preferences.putString(PrefConstants.CONNECTED_NAME, name);
-                        preferences.putString(PrefConstants.CONNECTED_RELATION, relation);
-                        String mail = email;
-                        mail = mail.replace(".", "_");
-                        mail = mail.replace("@", "_");
-                        File oldFolder = new File(preferences.getString(PrefConstants.CONNECTED_PATH));
-                        File newFolder = new File(Environment.getExternalStorageDirectory(), "/MYLO/" + mail + "/");
-                        boolean success = oldFolder.renameTo(newFolder);
-                        if (success) {
-                            preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
-                            preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
-                        }
+                        validateConnection();
                         ContactDataQuery c = new ContactDataQuery(context, dbHelper);
                         boolean flagf = ContactDataQuery.deleteRecord("Personal Profile", -1);
                         if (flagf == true) {
-                            //     Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                            //  Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
                             for (int i = 0; i < phonelist.size(); i++) {
                                 if (!phonelist.get(i).getContactType().equalsIgnoreCase("") && !phonelist.get(i).getValue().equalsIgnoreCase("")) {
                                     Boolean flagc = ContactDataQuery.insertContactsData(-1, preferences.getInt(PrefConstants.CONNECTED_USERID), connection.getEmail(), phonelist.get(i).getValue(), phonelist.get(i).getContactType(), "Personal Profile");
                                     if (flagc == true) {
-                                        //     Toast.makeText(context, "record inserted", Toast.LENGTH_SHORT).show();
+                                        // Toast.makeText(context, "record inserted", Toast.LENGTH_SHORT).show();
                                         backflap=false;
-
                                     }
                                 }
                             }
@@ -1946,14 +1887,75 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                             finish();
                         }
                     }
-                    // Toast.makeText(context, "You have edited connection successfully", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "You have edited connection successfully", Toast.LENGTH_SHORT).show();
+                    preferences.putString(PrefConstants.CONNECTED_NAME, name);
+                    preferences.putString(PrefConstants.CONNECTED_RELATION, relation);
                     //   finish(); //Varsa
                 } else {
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                 }
+            } else {
+                if (!NetworkUtils.getConnectivityStatusString(ProfileActivity.this).equals("Not connected to Internet")) {
+                    UpdateUserAsynk asynk = new UpdateUserAsynk(name, email, "" + preferences.getInt(PrefConstants.USER_ID));
+                    asynk.execute();
+                } else {
+                    DialogManager.showAlert("Network Error, Check your internet connection", ProfileActivity.this);
+                }
             }
 
+        } else {
+            DBHelper dbHelpers = new DBHelper(context, "MASTER");
+            MyConnectionsQuery ms = new MyConnectionsQuery(context, dbHelpers);
+            Boolean flag = MyConnectionsQuery.updateMyConnectionsData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
+            if (flag == true) {
+                DBHelper dbHelper = new DBHelper(context, preferences.getString(PrefConstants.CONNECTED_USERDB));
+                MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
+                Boolean flags = MyConnectionsQuery.updateMyConnectionsData(1, name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
+                if (flags == true) {
+                    preferences.putString(PrefConstants.CONNECTED_PHOTO,imagepath);
+                    Toast.makeText(context, "You have edited profile data successfully", Toast.LENGTH_SHORT).show();
+                    connection = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
+                    validateConnection();
+                    preferences.putString(PrefConstants.CONNECTED_NAME, name);
+                    preferences.putString(PrefConstants.CONNECTED_RELATION, relation);
+                    String mail = email;
+                    mail = mail.replace(".", "_");
+                    mail = mail.replace("@", "_");
+                    File oldFolder = new File(preferences.getString(PrefConstants.CONNECTED_PATH));
+                    File newFolder = new File(Environment.getExternalStorageDirectory(), "/MYLO/" + mail + "/");
+                    boolean success = oldFolder.renameTo(newFolder);
+                    if (success) {
+                        preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
+                        preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
+                    }
+                    ContactDataQuery c = new ContactDataQuery(context, dbHelper);
+                    boolean flagf = ContactDataQuery.deleteRecord("Personal Profile", -1);
+                    if (flagf == true) {
+                        //     Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                        for (int i = 0; i < phonelist.size(); i++) {
+                            if (!phonelist.get(i).getContactType().equalsIgnoreCase("") && !phonelist.get(i).getValue().equalsIgnoreCase("")) {
+                                Boolean flagc = ContactDataQuery.insertContactsData(-1, preferences.getInt(PrefConstants.CONNECTED_USERID), connection.getEmail(), phonelist.get(i).getValue(), phonelist.get(i).getContactType(), "Personal Profile");
+                                if (flagc == true) {
+                                    //     Toast.makeText(context, "record inserted", Toast.LENGTH_SHORT).show();
+                                    backflap=false;
+
+                                }
+                            }
+                        }
+                    }
+                    if (isfinis==true){
+                        isfinis=false;
+                        finish();
+                    }
+                }
+                // Toast.makeText(context, "You have edited connection successfully", Toast.LENGTH_SHORT).show();
+                //   finish(); //Varsa
+            } else {
+                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+            }
         }
+
+    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -2081,7 +2083,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
             }
             //photoCard=null;
         }if (requestCode == REQUEST_RELATIONP && data != null) {
-           String relation = data.getStringExtra("Category");
+            String relation = data.getStringExtra("Category");
             txtRelation.setText(relation);
             if (relation.equals("Other")) {
                 tilOtherRelation.setVisibility(View.VISIBLE);
@@ -2093,7 +2095,7 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
         }else if (requestCode == REQUEST_LANGUAGE && data != null) {
             language = data.getStringExtra("Category");
             txtSpinLang.setText(language);
-           if (language.equals("Other")) {
+            if (language.equals("Other")) {
                 tilOtherLanguage.setVisibility(View.VISIBLE);
                 txtOtherRelation.setVisibility(View.VISIBLE);
             } else {
@@ -2115,22 +2117,22 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
     private void setPetData() {
         final ArrayList allergyList = new ArrayList();
         final ArrayList<Pet> AllargyLists = PetQuery.fetchAllRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-       if (AllargyLists.size() != 0) {
+        if (AllargyLists.size() != 0) {
             ListPet.setVisibility(View.VISIBLE);
 
-                PetAdapter adapter=new PetAdapter(context,AllargyLists);
-                ListPet.setAdapter(adapter);
-                ListPet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                        Pet a = AllargyLists.get(position);
-                        Intent allergyIntent = new Intent(context, AddPetActivity.class);
-                        allergyIntent.putExtra("FROM", "Update");
-                        allergyIntent.putExtra("PetObject", a);
-                        startActivityForResult(allergyIntent, REQUEST_PET);
+            PetAdapter adapter=new PetAdapter(context,AllargyLists);
+            ListPet.setAdapter(adapter);
+            ListPet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                    Pet a = AllargyLists.get(position);
+                    Intent allergyIntent = new Intent(context, AddPetActivity.class);
+                    allergyIntent.putExtra("FROM", "Update");
+                    allergyIntent.putExtra("PetObject", a);
+                    startActivityForResult(allergyIntent, REQUEST_PET);
 
-                    }
-                });
+                }
+            });
 
         } else {
             ListPet.setVisibility(View.GONE);
@@ -2391,8 +2393,8 @@ txtRelation.setOnClickListener(new View.OnClickListener() {
                             Boolean flags = MyConnectionsQuery.updateMyConnectionsData(1, name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
                             if (flags == true) {
                                 Toast.makeText(context, "You have edited profile information successfully", Toast.LENGTH_SHORT).show();
-                               connection.setName(name);
-                               connection.setEmail(email);
+                                connection.setName(name);
+                                connection.setEmail(email);
                                 String mail = email;
                                 mail = mail.replace(".", "_");
                                 mail = mail.replace("@", "_");

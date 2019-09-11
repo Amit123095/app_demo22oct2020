@@ -8,6 +8,7 @@ import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.ThumbnailFormat;
 import com.dropbox.core.v2.files.ThumbnailSize;
+import com.dropbox.core.v2.sharing.SharedFileMetadata;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Request;
 import com.squareup.picasso.RequestHandler;
@@ -37,6 +38,13 @@ public class FileThumbnailRequestHandler extends RequestHandler {
                 .scheme(SCHEME)
                 .authority(HOST)
                 .path(file.getPathLower()).build();
+    }
+
+    public static Uri buildPicassoUri(SharedFileMetadata item) {
+        return new Uri.Builder()
+                .scheme(SCHEME)
+                .authority(HOST)
+                .path(item.getPathLower()).build();
     }
 
     @Override
