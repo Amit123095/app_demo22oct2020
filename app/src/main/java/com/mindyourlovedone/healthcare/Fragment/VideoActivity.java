@@ -32,7 +32,7 @@ public class VideoActivity extends AppCompatActivity {
         initListener();
         getData();
         setData();
-     
+
     }
 
     private void setData() {
@@ -52,10 +52,23 @@ public class VideoActivity extends AppCompatActivity {
         l2.setUrl("https://youtu.be/FSHKcKzecTQ");
         UrlList.add(l2);
 
+        Links l3 = new Links();
+        l3.setName("How to choose a health care proxy agent");
+        l3.setUrl("https://youtu.be/iTxv-20ULwQ");
+        UrlList.add(l3);
+
+        Links l4 = new Links();
+        l4.setName("How to Choose a Health Care Proxy & How to Be a Health Care Proxy");
+        l4.setUrl("https://youtu.be/fOhg2KrzL_I");
+        UrlList.add(l4);
+
         //Fol show
         Datalist = new ArrayList<>();
         Datalist.add("Overview | Aging Matters | NPT Reports");
         Datalist.add("Introduction to MYLO");
+        Datalist.add("How to choose a health care proxy agent");
+        Datalist.add("How to Choose a Health Care Proxy & How to Be a Health Care Proxy");
+
     }
 
     private void initListener() {

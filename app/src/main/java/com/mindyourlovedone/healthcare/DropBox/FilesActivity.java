@@ -63,7 +63,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
     //    private FilesAdapter mFilesAdapter;
     private SharedFilesAdapter mSharedFilesAdapter;
     private DropBoxFileItem sSelectedFile;
-    ImageView imgBack;
+    ImageView imgBack,imgBack2;
 
 
     public static Intent getIntent(Context context, String path) {
@@ -110,6 +110,13 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
         rlParent = findViewById(R.id.rlParent);
         rlHeader = findViewById(R.id.rlHeader);
         imgBack = findViewById(R.id.imgBack);
+        imgBack2 = findViewById(R.id.imgBack2);
+        imgBack2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         RecyclerView recyclerView = findViewById(R.id.files_list);
         RecyclerView srecyclerView = findViewById(R.id.share_files_list);
 

@@ -123,12 +123,12 @@ public class FragmentResourcesNew extends Fragment {
                         getActivity().startActivity(intentf);
                         break;
                     case 1:
-                       // Toast.makeText(getActivity(), "Screen not provided Yet to come", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(getActivity(), "Screen not provided Yet to come", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getActivity(), HelpFormActivity.class);
                         getActivity().startActivity(intent);
                         break;
                     case 2:
-                       // Toast.makeText(getActivity(), "Screen not provided Yet to come", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(getActivity(), "Screen not provided Yet to come", Toast.LENGTH_SHORT).show();
                         Intent intentd = new Intent(getActivity(), VideoActivity.class);
                         getActivity().startActivity(intentd);
                         break;
@@ -139,9 +139,9 @@ public class FragmentResourcesNew extends Fragment {
 
                         break;
                     case 4://User Guide-Section
-                       //   Intent browserIntents = new Intent(getActivity(),WebViewActivity.class);
-                       // browserIntents.putExtra("Name","User Guide");
-                       // startActivity(browserIntents);
+                        //   Intent browserIntents = new Intent(getActivity(),WebViewActivity.class);
+                        // browserIntents.putExtra("Name","User Guide");
+                        // startActivity(browserIntents);
                         Intent browserIntentD = new Intent(Intent.ACTION_VIEW, Uri.parse("http://mindyour-lovedones.com/MYLO/uploads/User_Guide.pdf"));
                         startActivity(browserIntentD);
 
@@ -166,11 +166,11 @@ public class FragmentResourcesNew extends Fragment {
 
                         break;
                     case 7://Wallet Cards
-                        CopyReadAssetss("wallet_card_new.pdf");
-                        /*String formatD = "https://drive.google.com/viewerng/viewer?embedded=true&url=%s";
+                        // CopyReadAssetss("wallet_card_new.pdf");
+                        String formatD = "https://drive.google.com/viewerng/viewer?embedded=true&url=%s";
                         String fullPathD = String.format(Locale.ENGLISH, formatD, "http://mindyour-lovedones.com/MYLO/uploads/MYLO_App_Wallet_Card.pdf");
                         Intent browserIntentDs = new Intent(Intent.ACTION_VIEW, Uri.parse(fullPathD));
-                        startActivity(browserIntentDs);*/
+                        startActivity(browserIntentDs);
 
                         break;
                 }

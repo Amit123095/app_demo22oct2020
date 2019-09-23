@@ -32,10 +32,27 @@ import java.net.URL;
  */
 
 public class WebService {
+
+    //AWS Test Server
+  /*  private final static String POST_PDF_URL = "http://18.188.114.139/public/test/public/webservices/fax/sendFax";
+    private final String CREATE_PROFILE_URL = "http://18.188.114.139/public/test/public/webservices/user/createProfile";
+    private final String GET_PROFILE_URL = "http://18.188.114.139/public/test/public/webservices/user/getProfile";
+    private final String LOGIN_PROFILE_URL = "http://18.188.114.139/public/test/public/webservices/user/loginUser";
+    private final String EDIT_PROFILE_URL = "http://18.188.114.139/public/test/public/webservices/user/editProfile";
+    private final String UNSSUBSCRIBE_ME_URL = "http://18.188.114.139/public/test/public/webservices/user/unRegister";*/
+
+    //AWS Live Server
+  /*   private final static String POST_PDF_URL = "http://18.188.114.139/webservices/fax/sendFax";
+    private final String CREATE_PROFILE_URL = "http://18.188.114.139/webservices/user/createProfile";
+    private final String GET_PROFILE_URL = "http://18.188.114.139/webservices/user/getProfile";
+    private final String LOGIN_PROFILE_URL = "http://18.188.114.139/webservices/user/loginUser";
+    private final String EDIT_PROFILE_URL = "http://18.188.114.139/webservices/user/editProfile";
+    private final String UNSSUBSCRIBE_ME_URL = "http://18.188.114.139/webservices/user/unRegister";
+    */
+
     //Live Server
 //    private final static String Base_URL ="http://mindyour-lovedones.com/MYLO/index.php/webservices"; //Production
     private final static String Base_URL = "http://18.188.114.139/public/test/public/webservices"; //test -Nikita#Sub
-
     private final static String POST_PDF_URL = Base_URL + "/fax/sendFax";
     private final String CREATE_PROFILE_URL = Base_URL + "/user/createProfile";
     private final String GET_PROFILE_URL = Base_URL + "/user/getProfile";
@@ -603,7 +620,7 @@ public class WebService {
 
         result = decodeResponse(is);
 
-       return result;
+        return result;
 
     }
 }
