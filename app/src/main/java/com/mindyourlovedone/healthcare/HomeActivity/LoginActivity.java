@@ -632,24 +632,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 alert("Thank you for subscribing to Mylo app!");
                 mSubscribedToInfiniteGas = true;
 
-                if (!NetworkUtils.getConnectivityStatusString(LoginActivity.this).equals("Not connected to Internet")) {
-                    String startdate = toDateStr(purchase.getPurchaseTime());
-                    String enddate = toDateEnd(purchase.getPurchaseTime() + DateUtils.YEAR_IN_MILLIS);
+                String startdate = toDateStr(purchase.getPurchaseTime());
+                String enddate = toDateEnd(purchase.getPurchaseTime() + DateUtils.YEAR_IN_MILLIS);
 
-                    Toast.makeText(LoginActivity.this, "SUB_DATA\nTID : " + purchase.getToken() + "\nSdate : " + startdate + "\nEdate : " + enddate + "\nUID : " + userid, Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "SUB_DATA\nTID : " + purchase.getToken() + "\nSdate : " + startdate + "\nEdate : " + enddate + "\nUID : " + userid, Toast.LENGTH_LONG).show();
 
-                    SubscrptionData sub = new SubscrptionData();
-                    sub.setSource("Android");
-                    sub.setEndDate(enddate);
-                    sub.setStartDate(startdate);
-                    sub.setTransactionID(purchase.getToken());
-                    sub.setUserId(Integer.parseInt(userid));
-                    sub.setEmail(username);
+                SubscrptionData sub = new SubscrptionData();
+                sub.setSource("Android");
+                sub.setEndDate(enddate);
+                sub.setStartDate(startdate);
+                sub.setTransactionID(purchase.getToken());
+                sub.setUserId(Integer.parseInt(userid));
+                sub.setEmail(username);
 
-                    initBGProcess(sub);
-                } else {
-                    DialogManager.showAlert("Network Error, Check your internet connection", LoginActivity.this);
-                }
+                initBGProcess(sub);
+
 
             } else {
                 complain("Kindly subscribe.");
@@ -695,7 +692,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     private void inApp() {
-        String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAq3i1ShkUzBAWxerhJne2R7KYwWVXyERXLxz7Co0kW9wS45C55XnM/kFHNZ0hI62Oz8HWbTO+RisBMQ5If21sHu5DgXLHa+LNYj+2ZPQWlh46jo/jhMgo+V9YJ7EeOLedH70fFRlhy9OT2ZmOWscxN5YJDp22RXvilale2WcoKVOriS+I9fNbeREDcKM4CsB0isJyDEVIagaRaa0Za8MleOVeYUdma5q3ENZDJ8g9W2Dy0h6fioCZ9OIgBCY63qr0jVxHUwD8Jebp91czKWRSRi433suBmSkoE6qkhwtDEdckeG+cx6xErHcoPSrwhaLlvqCC1KngYduRZy5j1jCAywIDAQAB"; //"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt/vQGFXEB+fQ7s5JbO/teKHjmvkZgqSeLSXmicYu4jDC5mBqfZ1/wBES/lhPGEfJAmjmSSQ1Z35XIcoTL74KVASTrUComknH4XiGaiXCjeCe9cFwYCXlWT+B3Y+dkRajRTi9G/iIgUZP6NTyblmKd5KcUn64CQIqgIZ8pD/4GsIR5abUFTEH9XXQEKzFjcdaBKB4uK1m2JLZ+w+FTFeNydzqSYdRL5lY4IHr8RHZwA3BReNMpzPt1Zp7URSkAGjXvbpOkURupUP+hB4VBYQYPfHfx3K4m32XKWl8zP0qwHS2kIIAjAEekzN+l+bDAU9fXdkDKuHIeXA0HLC6i9jRkQIDAQAB";
+        String base64EncodedPublicKey = context.getResources().getString(R.string.basekey);//"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAq3i1ShkUzBAWxerhJne2R7KYwWVXyERXLxz7Co0kW9wS45C55XnM/kFHNZ0hI62Oz8HWbTO+RisBMQ5If21sHu5DgXLHa+LNYj+2ZPQWlh46jo/jhMgo+V9YJ7EeOLedH70fFRlhy9OT2ZmOWscxN5YJDp22RXvilale2WcoKVOriS+I9fNbeREDcKM4CsB0isJyDEVIagaRaa0Za8MleOVeYUdma5q3ENZDJ8g9W2Dy0h6fioCZ9OIgBCY63qr0jVxHUwD8Jebp91czKWRSRi433suBmSkoE6qkhwtDEdckeG+cx6xErHcoPSrwhaLlvqCC1KngYduRZy5j1jCAywIDAQAB"; //"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt/vQGFXEB+fQ7s5JbO/teKHjmvkZgqSeLSXmicYu4jDC5mBqfZ1/wBES/lhPGEfJAmjmSSQ1Z35XIcoTL74KVASTrUComknH4XiGaiXCjeCe9cFwYCXlWT+B3Y+dkRajRTi9G/iIgUZP6NTyblmKd5KcUn64CQIqgIZ8pD/4GsIR5abUFTEH9XXQEKzFjcdaBKB4uK1m2JLZ+w+FTFeNydzqSYdRL5lY4IHr8RHZwA3BReNMpzPt1Zp7URSkAGjXvbpOkURupUP+hB4VBYQYPfHfx3K4m32XKWl8zP0qwHS2kIIAjAEekzN+l+bDAU9fXdkDKuHIeXA0HLC6i9jRkQIDAQAB";
 
         // Some sanity checks to see if the developer (that's you!) really followed the
         // instructions to run this sample (don't put these checks on your app!)
@@ -782,24 +779,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 Log.d(TAG, "" + purchase.getPurchaseTime());
 
-                if (!NetworkUtils.getConnectivityStatusString(LoginActivity.this).equals("Not connected to Internet")) {
-                    String startdate = toDateStr(purchase.getPurchaseTime());
-                    String enddate = toDateEnd(purchase.getPurchaseTime() + DateUtils.YEAR_IN_MILLIS);
+                String startdate = toDateStr(purchase.getPurchaseTime());
+                String enddate = toDateEnd(purchase.getPurchaseTime() + DateUtils.YEAR_IN_MILLIS);
 
-                    Toast.makeText(LoginActivity.this, "SUB_DATA\nTID : " + purchase.getToken() + "\nSdate : " + startdate + "\nEdate : " + enddate + "\nUID : " + userid, Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "SUB_DATA\nTID : " + purchase.getToken() + "\nSdate : " + startdate + "\nEdate : " + enddate + "\nUID : " + userid, Toast.LENGTH_LONG).show();
 
-                    SubscrptionData sub = new SubscrptionData();
-                    sub.setSource("Android");
-                    sub.setEndDate(enddate);
-                    sub.setStartDate(startdate);
-                    sub.setTransactionID(purchase.getToken());
-                    sub.setUserId(Integer.parseInt(userid));
-                    sub.setEmail(username);
+                SubscrptionData sub = new SubscrptionData();
+                sub.setSource("Android");
+                sub.setEndDate(enddate);
+                sub.setStartDate(startdate);
+                sub.setTransactionID(purchase.getToken());
+                sub.setUserId(Integer.parseInt(userid));
+                sub.setEmail(username);
 
-                    initBGProcess(sub);
-                } else {
-                    DialogManager.showAlert("Network Error, Check your internet connection", LoginActivity.this);
-                }
+                initBGProcess(sub);
 
             } else {
                 complain("Kindly Subscribe");

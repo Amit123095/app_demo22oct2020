@@ -104,11 +104,11 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     ImageView txtDrawer;
     TextView txtPrivacyPolicy, txtEULA, txtversion;
     RelativeLayout rlBackup, rlSettings, rlWebsite, rlGuide, rlProfiles, rlHome, rlSupport, rlContactUs, rlSponsor, rlResources, rlPrivacy, rlMarketPlace, rlVideos, rlResourcesDetail, rlMarketDetail, rlPrivacyDetail;
-    TextView txtBackup,txtSettings, txtWebsite, txtGuide, txtProfiles, txtHome, txtSupport, txtContactUs, txtSponsor, txtResources, txtPrivacy, txtMarketPlace, txtVideos, txtResourcesDetail, txtMarketDetail, txtPrivacyDetail;
-    ImageView imgBackup,imgSettings, imgWebsite, imgGuide, imgProfiles, imgHome, imgSupport, imgContactUs, imgSponsor, imgResources, imgPrivacy, imgMarketPlace, imgVideos, imgResourcesDetail, imgMarketDetail, imgPrivacyDetail;
+    TextView txtBackup, txtSettings, txtWebsite, txtGuide, txtProfiles, txtHome, txtSupport, txtContactUs, txtSponsor, txtResources, txtPrivacy, txtMarketPlace, txtVideos, txtResourcesDetail, txtMarketDetail, txtPrivacyDetail;
+    ImageView imgBackup, imgSettings, imgWebsite, imgGuide, imgProfiles, imgHome, imgSupport, imgContactUs, imgSponsor, imgResources, imgPrivacy, imgMarketPlace, imgVideos, imgResourcesDetail, imgMarketDetail, imgPrivacyDetail;
 
     boolean flagResource = false, flagMarket = false, flagPrivacy = false;
-    int p = 0;
+    int p = 0, bginit = 0;
 
     ImageLoader imageLoader, imageLoaderProfile;
     DisplayImageOptions displayImageOptions, displayDrawerImageOptions;
@@ -177,7 +177,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void asyninit(){
+    private void asyninit() {
         new Handler().postDelayed(new Runnable() {//nikita
             @Override
             public void run() {
@@ -224,7 +224,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         //Crashlytics.getInstance().crash(); // Force a crash
 
         initListener();
-        initBGProcess();
 
         fragmentData();
 
@@ -369,9 +368,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 } else if (p == 5) {
                     imgProfile.setVisibility(View.GONE);
                     callFragmentData(new FragmentResources());
-                }
-
-                else if (p == 6) {
+                } else if (p == 6) {
                     imgProfile.setVisibility(View.GONE);
                     txtTitle.setVisibility(View.VISIBLE);
                     txtTitle.setText("Sponsor");
@@ -399,7 +396,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                     txtMarketPlace.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtVideos.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
 
-                }else if (p ==9) {
+                } else if (p == 9) {
                     imgProfile.setVisibility(View.GONE);
                     txtTitle.setVisibility(View.VISIBLE);
                     txtTitle.setText("Contact Us");
@@ -716,7 +713,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         txtResources = leftDrawer.findViewById(R.id.txtResources);
         txtSponsor = leftDrawer.findViewById(R.id.txtSponsor);
         txtSettings = leftDrawer.findViewById(R.id.txtSettings);
-        txtBackup= leftDrawer.findViewById(R.id.txtBackup);
+        txtBackup = leftDrawer.findViewById(R.id.txtBackup);
         txtContactUs = leftDrawer.findViewById(R.id.txtContactUs);
         txtMarketPlace = leftDrawer.findViewById(R.id.txtMarketPlace);
         txtVideos = leftDrawer.findViewById(R.id.txtVideos);
@@ -963,8 +960,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             /*Ends here...*/
 
 
-
-
         }
     }
 
@@ -1055,6 +1050,11 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             }
         } else {
             imgDrawerProfile.setImageResource(R.drawable.ic_profiles);
+        }
+
+        if (preferences.getInt(PrefConstants.FROM_Dropbox) == 1 || bginit == 0) {
+            bginit = 1;
+            initBGProcess();
         }
     }
 
@@ -1157,7 +1157,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case REQUEST_CALL_PERMISSION: {
-                if (grantResults.length > 0 &&grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     //  checkForRegistration();
 
@@ -1181,8 +1181,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             try {
                 callFirstFragment("CONNECTION", fragmentConnection);
-            }catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

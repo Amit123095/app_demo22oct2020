@@ -1,21 +1,28 @@
 package com.mindyourlovedone.healthcare.utility;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.work.Worker;
 
 import com.mindyourlovedone.healthcare.HomeActivity.LoginActivity;
+import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.MyConnectionsQuery;
 import com.mindyourlovedone.healthcare.database.SubscriptionQuery;
 import com.mindyourlovedone.healthcare.model.RelativeConnection;
 import com.mindyourlovedone.healthcare.model.SubscrptionData;
+import com.mindyourlovedone.healthcare.util.IabHelper;
+import com.mindyourlovedone.healthcare.util.IabResult;
+import com.mindyourlovedone.healthcare.util.Inventory;
+import com.mindyourlovedone.healthcare.util.Purchase;
 import com.mindyourlovedone.healthcare.webservice.WebService;
 
 import org.json.JSONException;
@@ -32,6 +39,7 @@ import java.util.Locale;
 
 public class WorkerPost extends Worker {
     int userid, uploadFlag;
+    String email = "";
     SubscrptionData sub;
     Context context = getApplicationContext();
     Preferences preferences;
@@ -50,33 +58,15 @@ public class WorkerPost extends Worker {
 
             preferences.putInt(PrefConstants.SUBSCRIPTION_ENDS, 0);
 
+            RelativeConnection connection = MyConnectionsQuery.fetchOneRecord("Self");
             if (userid == 0) {
-                RelativeConnection connection = MyConnectionsQuery.fetchOneRecord("Self");
                 userid = connection.getUserid();
             }
 
-            sub = SubscriptionQuery.fetchSubscriptionRecord(userid);
+            email = connection.getEmail();
 
-            if (sub != null && sub.getTransactionID() != null) {
-                uploadFlag = preferences.getInt(PrefConstants.UPLOAD_FLAG);
+            subscriptionCheck();
 
-                if (uploadFlag == 0) {
-                    postSubscription();
-                } else {
-                    if (!validDateChecker(sub.getEndDate())) {
-                        getSubscription();
-                    } else {
-                        //nothing to do
-                    }
-                }
-            } else {
-                if (preferences.getInt(PrefConstants.FROM_Dropbox) == 1) {
-                    preferences.putInt(PrefConstants.FROM_Dropbox, 0);
-                    getSubscription();
-                } else {
-                    moveToLogin();
-                }
-            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -86,6 +76,29 @@ public class WorkerPost extends Worker {
 
         // (Returning RETRY tells WorkManager to try context task again
         // later; FAILURE says not to try again.)
+    }
+
+    private void subscriptionCheck() {
+        sub = SubscriptionQuery.fetchSubscriptionRecord(userid);
+
+        if (sub != null && sub.getTransactionID() != null) {
+            uploadFlag = preferences.getInt(PrefConstants.UPLOAD_FLAG);
+
+            if (uploadFlag == 0) {
+                postSubscription();
+            } else {
+                if (!validDateChecker(sub.getEndDate())) {
+                    getSubscription();
+                } else {
+                    //nothing to do
+                }
+            }
+        } else {
+            if (preferences.getInt(PrefConstants.FROM_Dropbox) == 1) {
+                preferences.putInt(PrefConstants.FROM_Dropbox, 0);
+            }
+            getSubscription();
+        }
     }
 
     private boolean validDateChecker(String date) {
@@ -151,7 +164,7 @@ public class WorkerPost extends Worker {
         @Override
         protected String doInBackground(Void... params) {
             WebService webService = new WebService();
-            String result = webService.getSubscriptionData(sub.getUserId() + "");
+            String result = webService.getSubscriptionData(userid + "");
             return result;
         }
 
@@ -209,13 +222,13 @@ public class WorkerPost extends Worker {
 
                                 Boolean ssflag = SubscriptionQuery.updateSubscriptionData(sub.getUserId(), sub);
                             } else {
-                                moveToLogin();
+                                inApp();
                             }
                         } else {
-                            moveToLogin();
+                            inApp();
                         }
                     } else {
-                        moveToLogin();
+                        inApp();
                     }
 //                    new Handler(Looper.getMainLooper()).post(new Runnable() {
 //                        @Override
@@ -224,7 +237,7 @@ public class WorkerPost extends Worker {
 //                        }
 //                    });
                 } else {
-
+                    inApp();
 //                    new Handler(Looper.getMainLooper()).post(new Runnable() {
 //                        @Override
 //                        public void run() {
@@ -363,4 +376,144 @@ public class WorkerPost extends Worker {
             }
         }
     }
+
+
+    // Subscription code starts here - Nikita#Sub
+
+    static final String TAG = "TrivialDrive";
+    static final String SKU_INFINITE_GAS = "subscribe_app";   //$4.99
+    boolean mSubscribedToInfiniteGas = false;
+    IabHelper mHelper;
+
+    /**
+     * Verifies the developer payload of a purchase.
+     */
+    boolean verifyDeveloperPayload(Purchase p) {
+        String payload = p.getDeveloperPayload();
+        return true;
+    }
+
+    public static String toDateStr(long milliseconds) {
+        Date date = new Date(milliseconds);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        return formatter.format(date);
+    }
+
+    public static String toDateEnd(long milliseconds) {
+        Date date = new Date(milliseconds);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        return formatter.format(date);
+    }
+
+    private void initBGProcess(SubscrptionData sub) {
+
+        Boolean ssflag = SubscriptionQuery.insertSubscriptionData(sub.getUserId(), sub);
+
+        if (ssflag) {
+            preferences.putInt(PrefConstants.UPLOAD_FLAG, 0);
+        }
+
+        subscriptionCheck();
+
+    }
+
+
+    private void inApp() {
+        String base64EncodedPublicKey = context.getResources().getString(R.string.basekey);//"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAq3i1ShkUzBAWxerhJne2R7KYwWVXyERXLxz7Co0kW9wS45C55XnM/kFHNZ0hI62Oz8HWbTO+RisBMQ5If21sHu5DgXLHa+LNYj+2ZPQWlh46jo/jhMgo+V9YJ7EeOLedH70fFRlhy9OT2ZmOWscxN5YJDp22RXvilale2WcoKVOriS+I9fNbeREDcKM4CsB0isJyDEVIagaRaa0Za8MleOVeYUdma5q3ENZDJ8g9W2Dy0h6fioCZ9OIgBCY63qr0jVxHUwD8Jebp91czKWRSRi433suBmSkoE6qkhwtDEdckeG+cx6xErHcoPSrwhaLlvqCC1KngYduRZy5j1jCAywIDAQAB"; //"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt/vQGFXEB+fQ7s5JbO/teKHjmvkZgqSeLSXmicYu4jDC5mBqfZ1/wBES/lhPGEfJAmjmSSQ1Z35XIcoTL74KVASTrUComknH4XiGaiXCjeCe9cFwYCXlWT+B3Y+dkRajRTi9G/iIgUZP6NTyblmKd5KcUn64CQIqgIZ8pD/4GsIR5abUFTEH9XXQEKzFjcdaBKB4uK1m2JLZ+w+FTFeNydzqSYdRL5lY4IHr8RHZwA3BReNMpzPt1Zp7URSkAGjXvbpOkURupUP+hB4VBYQYPfHfx3K4m32XKWl8zP0qwHS2kIIAjAEekzN+l+bDAU9fXdkDKuHIeXA0HLC6i9jRkQIDAQAB";
+
+        // Some sanity checks to see if the developer (that's you!) really followed the
+        // instructions to run this sample (don't put these checks on your app!)
+        if (base64EncodedPublicKey.contains("CONSTRUCT_YOUR")) {
+            throw new RuntimeException("Please put your app's public key in MainActivity.java. See README.");
+        }
+        if (context.getPackageName().startsWith("com.example")) {
+            throw new RuntimeException("Please change the sample's package name! See README.");
+        }
+
+        // Create the helper, passing it our context and the public key to verify signatures with
+        Log.d(TAG, "Creating IAB helper.");
+        mHelper = new IabHelper(context, base64EncodedPublicKey);
+
+        // enable debug logging (for a production application, you should set this to false).
+        mHelper.enableDebugLogging(true);
+
+        // Start setup. This is asynchronous and the specified listener
+        // will be called once setup completes.
+        Log.d(TAG, "Starting setup.");
+        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+            public void onIabSetupFinished(IabResult result) {
+                Log.d(TAG, "Setup finished.");
+
+                if (!result.isSuccess()) {
+                    // Oh noes, there was a problem.
+//                    alert("Problem setting up in-app billing: " + result);
+                    return;
+                }
+
+                // Have we been disposed of in the meantime? If so, quit.
+                if (mHelper == null) return;
+
+                // IAB is fully set up. Now, let's get an inventory of stuff we own.
+                Log.d(TAG, "Setup successful. Querying inventory.");
+                mHelper.queryInventoryAsync(mGotInventoryListener);
+            }
+        });
+    }
+
+
+    // Listener that's called when we finish querying the items and subscriptions we own
+    IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
+        public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
+
+
+            Log.d(TAG, "Query inventory finished.");
+
+            // Have we been disposed of in the meantime? If so, quit.
+            if (mHelper == null) return;
+
+            // Is it a failure?
+            if (result.isFailure()) {
+//                complain("Failed to query inventory: " + result);
+                return;
+            }
+
+            Log.d(TAG, "Query inventory was successful.");
+
+            // Do we have the infinite gas plan?
+            Purchase purchase = inventory.getPurchase(SKU_INFINITE_GAS);
+            mSubscribedToInfiniteGas = (purchase != null &&
+                    verifyDeveloperPayload(purchase));
+            Log.d(TAG, "User " + (mSubscribedToInfiniteGas ? "HAS" : "DOES NOT HAVE")
+                    + " app subscription.");
+
+
+            if (mSubscribedToInfiniteGas == true) {
+
+                Log.d(TAG, "" + purchase.getPurchaseTime());
+
+                String startdate = toDateStr(purchase.getPurchaseTime());
+                String enddate = toDateEnd(purchase.getPurchaseTime() + DateUtils.YEAR_IN_MILLIS);
+
+                Toast.makeText(context, "SUB_DATA\nTID : " + purchase.getToken() + "\nSdate : " + startdate + "\nEdate : " + enddate + "\nUID : " + userid, Toast.LENGTH_LONG).show();
+
+                SubscrptionData sub = new SubscrptionData();
+                sub.setSource("Android");
+                sub.setEndDate(enddate);
+                sub.setStartDate(startdate);
+                sub.setTransactionID(purchase.getToken());
+                sub.setUserId(userid);
+                sub.setEmail(email);
+
+                initBGProcess(sub);
+
+            } else {
+                moveToLogin();
+//                complain("Kindly Subscribe");
+            }
+
+            Log.d(TAG, "Initial inventory query finished; enabling main UI.");
+        }
+    };
+
+// Subscription code ends here - Nikita#Sub
 }
