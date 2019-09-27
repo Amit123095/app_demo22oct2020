@@ -110,7 +110,14 @@ public class SharedFilesAdapter extends RecyclerView.Adapter<SharedFilesAdapter.
             if (item.getShared() == 1) {
                 SharedFileMetadata ss = item.getSharefmd();
                 mTextView.setText(ss.getName());
-                txttype.setText("Shared File");
+                String ownername = "";
+                if (ss.getOwnerDisplayNames() != null && ss.getOwnerDisplayNames().size() > 0) {
+                    ownername = ss.getOwnerDisplayNames().get(0);
+                    txttype.setText("Shared by " + ownername + " on " + ss.getTimeInvited());
+                } else {
+                    txttype.setText("Shared on " + ss.getTimeInvited());
+                }
+
                 if (ss instanceof SharedFileMetadata) {
                     MimeTypeMap mime = MimeTypeMap.getSingleton();
                     String ext = ss.getName().substring(ss.getName().indexOf(".") + 1);
