@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorWhite">
+
 
     <RelativeLayout
-
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhite">
@@ -411,7 +408,7 @@
                         android:textColor="@color/colorBlackDark"
                         android:textSize="@dimen/dimension18dp"
                         android:fontFamily="@font/lato"
-
+android:gravity="center_horizontal"
                         android:visibility="visible" />
 
                     <TextView
@@ -425,7 +422,7 @@
                         android:textSize="@dimen/dimension18dp"
                         android:fontFamily="@font/lato"
                         android:textColorLink="@color/colorNewHereBlue"
-
+android:gravity="center_horizontal"
                         android:visibility="visible" />
 
                 </LinearLayout>
@@ -522,7 +519,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rlNewChanges"
-                android:padding="@dimen/dimension20dp"
+
                 android:visibility="visible">
 
                 <LinearLayout
@@ -566,8 +563,8 @@
                     android:id="@+id/llB"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dimension20dp"
                     android:gravity="center"
+                    android:padding="@dimen/dimension20dp"
                     android:weightSum="3">
 
                     <Button
@@ -676,18 +673,16 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_below="@+id/llB"
                     android:background="@color/colorOnesGray"
-                    android:gravity="center"
                     android:orientation="vertical"
-
                     >
 
 
                     <TextView
                         android:id="@+id/txtLoginPerson"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/llB"
                         android:layout_centerHorizontal="true"
@@ -700,14 +695,14 @@
 
                     <TextView
                         android:id="@+id/txtLoginDropbox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/txtLoginPerson"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginRight="@dimen/dimension10dp"
                         android:layout_marginBottom="@dimen/dimension20dp"
-                        android:gravity="center"
+                        android:gravity="center_horizontal"
                         android:text="Login from Dropbox"
                         android:textColor="@color/colorBlue"
                         android:textSize="@dimen/dimension18dp"
@@ -715,15 +710,15 @@
 
                     <TextView
                         android:id="@+id/txtLogoutDropbox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/txtLoginDropbox"
                         android:layout_centerHorizontal="true"
                         android:layout_marginRight="@dimen/dimension10dp"
                         android:layout_marginBottom="@dimen/dimension20dp"
                         android:fontFamily="@font/lato"
                         android:visibility="gone"
-                        android:gravity="center"
+                        android:gravity="center_horizontal"
                         android:text="Logout from Dropbox"
                         android:textColor="@color/colorBlue"
                         android:textSize="@dimen/dimension18dp" />
@@ -749,4 +744,3 @@
         <!---->
 
     </RelativeLayout>
-</ScrollView>

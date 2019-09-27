@@ -564,7 +564,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                 if (resultList.size()!=0) {
                     mSharedFilesAdapter.setSharedFiles(resultList);
                 }else{
-                    Toast.makeText(FilesActivity.this,"Backup file is not present in your account for restore",Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(FilesActivity.this,"Backup file is not present in your account for restore",Toast.LENGTH_SHORT).show();
                 }
             }
 

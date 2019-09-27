@@ -35,6 +35,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -913,7 +914,12 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         });
         alert.show();
     }
-
+    private void hideSoftKeyboard() {
+        if (getActivity().getCurrentFocus() != null) {
+            InputMethodManager inm = (InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
+            inm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        }
+    }
     @Override
     public void getFile(String res) {
         preferences=new Preferences(getActivity());
@@ -945,15 +951,16 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideSoftKeyboard();
                 customDialog.dismiss();
-                //hideSoftKeyboard();
+
             }
         });
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // hideSoftKeyboard();
+                hideSoftKeyboard();
                 String username = etNote.getText().toString();
                 if (username.equals("")) {
                     etNote.setError("Please Enter email");
