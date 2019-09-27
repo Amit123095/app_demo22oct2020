@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         initListener();
     }
 
-    private void initComponent() {
+    private void initComponent() {// Nikita - added additional check username and email are not similar to old db's
         if (preferences.getInt(PrefConstants.SUBSCRIPTION_ENDS) != 1 || !username.equalsIgnoreCase(lastemail) || !name.equalsIgnoreCase(lastusername)) {
             try {
                 File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");

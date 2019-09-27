@@ -7,10 +7,12 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.database.Cursor;
@@ -22,6 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -45,6 +48,7 @@ import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
+import com.android.vending.billing.IInAppBillingService;
 import com.google.firebase.crash.FirebaseCrash;
 import com.mindyourlovedone.healthcare.Connections.FragmentConnectionNew;
 import com.mindyourlovedone.healthcare.DashBoard.AddDocumentActivity;
@@ -77,6 +81,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
@@ -122,11 +127,31 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     Intent i;
     final CharSequence[] dialog_add = {"Add to Advance Directives", "Add to Other Documents", "Add to Medical Records", "Add to Insurance Forms", "Add to Prescription List"};
     ProgressDialog pd;
+//    ServiceConnection mServiceConn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+
+        //Nikita#sub - autorenew
+//        Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
+//        serviceIntent.setPackage("com.android.vending");
+//        mServiceConn = new ServiceConnection() {
+//            @Override
+//            public void onServiceDisconnected(ComponentName name) {
+//                mService = null;
+//            }
+//
+//            @Override
+//            public void onServiceConnected(ComponentName name,
+//                                           IBinder service) {
+//                mService = IInAppBillingService.Stub.asInterface(service);
+//                getSubDetails();
+//            }
+//        };
+//        bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
+
         //    Crashlytics.getInstance().crash(); // Force a crash
         initImageLoader();
         initComponent();
@@ -197,6 +222,52 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         String id = mywork.getId().toString();
         System.out.println("NIKITA WORK ID: " + id);
         WorkManager.getInstance().enqueue(mywork);
+    }
+
+//    IInAppBillingService mService;//Nikita#Sub auto renewal subscription
+//
+//
+//    private void getSubDetails() {
+//        try {
+//            Bundle ownedItems = mService.getPurchases(3, context.getPackageName(), "subs", null);
+//            int response = ownedItems.getInt("RESPONSE_CODE");
+//            if (response == 0) {
+//                ArrayList<String> ownedSkus =
+//                        ownedItems.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
+//                ArrayList<String> purchaseDataList =
+//                        ownedItems.getStringArrayList("INAPP_PURCHASE_DATA_LIST");
+//                ArrayList<String> signatureList =
+//                        ownedItems.getStringArrayList("INAPP_DATA_SIGNATURE");
+//                String continuationToken =
+//                        ownedItems.getString("INAPP_CONTINUATION_TOKEN");
+//
+//                for (int i = 0; i < purchaseDataList.size(); ++i) {
+//                    String purchaseData = purchaseDataList.get(i);
+//                    String signature = signatureList.get(i);
+//                    String sku = ownedSkus.get(i);
+//
+//                    if (sku.equalsIgnoreCase("subscribe_app")) {
+////                        Bundle ownedItems1 = mService.getPurchases(3, context.getPackageName(), "subs", null);
+//                    }
+//
+//                    // do something with this purchase information
+//                    // e.g. display the updated list of products owned by user
+//                }
+//
+//                // if continuationToken != null, call getPurchases again
+//                // and pass in the token to retrieve more items
+//            }
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        if (mService != null) {
+//            unbindService(mServiceConn);
+//        }
     }
 
     private void callFragmentData(Fragment fragment) {

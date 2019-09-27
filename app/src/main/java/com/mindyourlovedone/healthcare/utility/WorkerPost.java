@@ -4,14 +4,18 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Looper;
+import android.os.RemoteException;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.work.Worker;
 
+import com.android.vending.billing.IInAppBillingService;
 import com.mindyourlovedone.healthcare.HomeActivity.LoginActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.database.DBHelper;
@@ -23,6 +27,7 @@ import com.mindyourlovedone.healthcare.util.IabHelper;
 import com.mindyourlovedone.healthcare.util.IabResult;
 import com.mindyourlovedone.healthcare.util.Inventory;
 import com.mindyourlovedone.healthcare.util.Purchase;
+import com.mindyourlovedone.healthcare.util.SkuDetails;
 import com.mindyourlovedone.healthcare.webservice.WebService;
 
 import org.json.JSONException;
@@ -57,6 +62,10 @@ public class WorkerPost extends Worker {
             preferences = new Preferences(context);
 
             preferences.putInt(PrefConstants.SUBSCRIPTION_ENDS, 0);
+
+            if (preferences.getInt(PrefConstants.FROM_Dropbox) == 1) {
+                preferences.putInt(PrefConstants.FROM_Dropbox, 0);
+            }
 
             RelativeConnection connection = MyConnectionsQuery.fetchOneRecord("Self");
             if (userid == 0) {
@@ -94,9 +103,6 @@ public class WorkerPost extends Worker {
                 }
             }
         } else {
-            if (preferences.getInt(PrefConstants.FROM_Dropbox) == 1) {
-                preferences.putInt(PrefConstants.FROM_Dropbox, 0);
-            }
             getSubscription();
         }
     }
@@ -458,6 +464,7 @@ public class WorkerPost extends Worker {
                 mHelper.queryInventoryAsync(mGotInventoryListener);
             }
         });
+
     }
 
 
@@ -514,6 +521,57 @@ public class WorkerPost extends Worker {
             Log.d(TAG, "Initial inventory query finished; enabling main UI.");
         }
     };
+
+
+//    public Date getSubscriptionRenewingDate(String sku) {
+//
+//        // Get the Purchase object:
+//        Purchase purchase = null;
+//        Purchase.PurchasesResult purchasesResult = _billingClient.queryPurchases(BillingClient.SkuType.SUBS);
+//        if (purchasesResult.getPurchasesList() != null) {
+//            for (Purchase p : purchasesResult.getPurchasesList()) {
+//                if (p.getSku().equals(sku) && p.getPurchaseState() == Purchase.PurchaseState.PURCHASED && p.isAutoRenewing()) {
+//                    purchase = p;
+//                    break;
+//                }
+//            }
+//        }
+//
+//        // Get the SkuDetails object:
+//        SkuDetails skuDetails = null;
+//        for (SkuDetails s : _skuDetails) { // _skuDetails is an array of SkuDetails retrieved with querySkuDetailsAsync
+//            if (s.getSku().equals(sku)) {
+//                skuDetails = s;
+//                break;
+//            }
+//        }
+//
+//        if (purchase != null && skuDetails != null) {
+//
+//            Date purchaseDate = new Date(purchase.getPurchaseTime());
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.setTime(purchaseDate);
+//
+//            Date now = new Date();
+//
+//            while (calendar.getTime().before(now)) {
+//
+//                switch (skuDetails.getSubscriptionPeriod()) {
+//
+//                    case "P1W": calendar.add(Calendar.HOUR, 7*24); break;
+//                    case "P1M": calendar.add(Calendar.MONTH, 1); break;
+//                    case "P3M": calendar.add(Calendar.MONTH, 3); break;
+//                    case "P6M": calendar.add(Calendar.MONTH, 6); break;
+//                    case "P1Y": calendar.add(Calendar.YEAR, 1); break;
+//                }
+//            }
+//
+//            return calendar.getTime();
+//        }
+//
+//        return null;
+//    }
+
 
 // Subscription code ends here - Nikita#Sub
 }
