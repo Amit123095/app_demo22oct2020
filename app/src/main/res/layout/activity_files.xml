@@ -17,12 +17,11 @@
         android:layout_below="@+id/rlHeader"
         android:layout_marginTop="@dimen/dimension10dp"
         android:visibility="gone" />
-
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/share_files_list"
+        android:id="@+id/sharefiles_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/files_list"
+        android:layout_below="@+id/files_list"
         android:layout_marginTop="@dimen/dimension10dp"
         android:visibility="gone" />
 

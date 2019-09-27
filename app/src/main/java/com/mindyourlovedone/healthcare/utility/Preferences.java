@@ -173,7 +173,7 @@ public class Preferences {
 
         String body = "Hi, \n" +
                 "\n" +
-               // "\n" + username +
+                // "\n" + username +
                 "I shared these document with you. Please check the attachment. \n" +
                 "\n" +
                 "Thank you,\n" +

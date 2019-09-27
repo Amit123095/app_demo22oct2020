@@ -23,8 +23,8 @@ public class ResourceAdapter extends BaseAdapter {
     LayoutInflater lf;
     Context context;
 
-    public ResourceAdapter(Activity activity, ArrayList<ResourcesNew> resourcesList) {
-        this.context = activity;
+    public ResourceAdapter(Context context, ArrayList<ResourcesNew> resourcesList) {
+        this.context = context;
         this.resourcesNewList = resourcesList;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

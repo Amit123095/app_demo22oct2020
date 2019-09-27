@@ -1,7 +1,9 @@
 package com.mindyourlovedone.healthcare.Activity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -120,7 +122,7 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
                 }else{
                     txtTitle.setText("Update Vital Sign");
                 }
-colid=vi.getId();
+                colid=vi.getId();
                 if (vi.getLocation() != null) {
                     txtLocation.setText(vi.getLocation());
                 }
@@ -183,7 +185,84 @@ colid=vi.getId();
                 startActivity(intentHome);
                 break;
             case R.id.imgBack:
-                finish();
+                getValues();
+                location = txtLocation.getText().toString().trim();
+                Date = txtDate.getText().toString().trim();
+                time = txtTime.getText().toString().trim();
+                bp = txtBP.getText().toString().trim();
+
+                heart = txtHeart.getText().toString().trim();
+                temperature = txtTemperature.getText().toString().trim();
+                pulse = txtPulseRate.getText().toString().trim();
+                respiratory = txtRespRate.getText().toString().trim();
+                note = txtNote.getText().toString().trim();
+                oter = txtOther.getText().toString().trim();
+                col = txtCol.getText().toString().trim();
+                if(isUpdate==false) {
+                    if (location.equals("")&&bp.equals("")&&heart.equals("")&&temperature.equals("")&&
+                            pulse.equals("")&&respiratory.equals("")&&note.equals("")&&note.equals("")&&
+                            oter.equals("")&&col.equals(""))
+                    {
+                        finish();
+                    }
+                    else{
+                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setTitle("Save");
+                        alert.setMessage("Do you want to save information?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                txtSave.performClick();
+
+                            }
+                        });
+
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
+                        alert.show();
+                    }
+
+                }
+                else{
+
+                    if (vitalSigns.getLocation().equals(location)&&vitalSigns.getBp().equals(bp)&&
+                            vitalSigns.getHeartRate().equals(heart)&&vitalSigns.getTemperature().equals(temperature)&&
+                            vitalSigns.getPulseRate().equals(pulse)&&vitalSigns.getRespRate().equals(respiratory)&&
+                            vitalSigns.getNote().equals(note)&&vitalSigns.getOther().equals(oter)&&
+                            vitalSigns.getCol().equals(col))
+                    {
+                        finish();
+                    }
+                    else{
+                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setTitle("Save");
+                        alert.setMessage("Do you want to save information?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                txtSave.performClick();
+
+                            }
+                        });
+
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
+                        alert.show();
+                    }
+                }
+                //finish();
                 break;
             case R.id.txtSave:
                 if (validate()) {
@@ -211,14 +290,25 @@ colid=vi.getId();
                         }
                     }
                 } else {
-                    Toast.makeText(context, "Im not here sorry..!!!", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(context, "Im not here sorry..!!!", Toast.LENGTH_SHORT).show();
                 }
 
-               break;
+                break;
         }
     }
 
     private boolean validate() {
+        getValues();
+        if (bp.equals("")&&heart.equals("")&&temperature.equals("")) {
+            Toast.makeText(context, "Please enter atleast one information among BP, Heart Rate, Temperature", Toast.LENGTH_SHORT).show();
+        } else {
+            return true;
+        }
+
+        return false;
+    }
+
+    private void getValues() {
         location = txtLocation.getText().toString().trim();
         Date = txtDate.getText().toString().trim();
         time = txtTime.getText().toString().trim();
@@ -231,27 +321,6 @@ colid=vi.getId();
         note = txtNote.getText().toString().trim();
         oter = txtOther.getText().toString().trim();
         col = txtCol.getText().toString().trim();
-
-      /*  if (Date.equals("")) {
-            Toast.makeText(context, "Please Enter Date", Toast.LENGTH_SHORT).show();
-            txtDate.setError("Please Enter Date");
-        } else if (time.equals("")) {
-            Toast.makeText(context, "Please Enter Time", Toast.LENGTH_SHORT).show();
-            txtTime.setError("Please Enter Time");
-        } else*/ if (bp.equals("")&&heart.equals("")&&temperature.equals("")) {
-            Toast.makeText(context, "Please enter atleast one information among BP, Heart Rate, Temperature", Toast.LENGTH_SHORT).show();
-           // txtBP.setError("Please Enter BP");
-        } /*else if (heart.equals("")) {
-            Toast.makeText(context, "Please Enter Heart Rate", Toast.LENGTH_SHORT).show();
-            txtHeart.setError("Please Enter Heart Rate");
-        } else if (temperature.equals("")) {
-            Toast.makeText(context, "Please Enter Temperature", Toast.LENGTH_SHORT).show();
-            txtTemperature.setError("Please Enter Temperature");
-        } */else {
-            return true;
-        }
-
-        return false;
     }
 
     private void showDateDialog() {

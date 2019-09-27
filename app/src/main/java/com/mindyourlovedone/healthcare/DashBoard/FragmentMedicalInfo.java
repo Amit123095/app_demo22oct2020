@@ -1,9 +1,11 @@
 package com.mindyourlovedone.healthcare.DashBoard;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -74,6 +76,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
     private static final int REQUEST_CONDITION = 500;
     private static final int REQUEST_VACCINE = 700;
     public static final int REQUEST_BLOOD = 1;
+    MedInfo medInfo;
     final CharSequence[] dialog_items = {"View", "Email", "User Instructions"};
     View rootview;
     RelativeLayout rlMedical, rlDrugDesc, rlDrinkDesc, rlTobacoDesc;
@@ -96,7 +99,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
     RadioGroup rgDonor, rgDrug, rgDrink, rgTobaco;
     TextView txtName;
     Spinner spinnerEyes, spinnerBlood, spinnerLang;
-     TextView txtAddAllergy;
+    TextView txtAddAllergy;
     TextView txtAddCondition, txtAddImplants, txtAddHistory, txtAddHospital, txtAddVaccine;
     ImageView imgDonnerDrop, imgVisionDrop, imgAidsDrop, imgDietDrop, imgVaccineDrop, imgTobacoDrop, imgDrugDrop, imgDrinkDrop, imgAddAllergy, imgAddImplants, imgAddHospital, imgAddHistory, imgAddCondition, imgAddVaccine, imgTeethDrop;
     ListView ListHistory, ListAllergy, ListImplants, ListHospital, ListCondition, ListVaccine;
@@ -592,7 +595,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
     }
 
     private void setMedInfo() {
-        MedInfo medInfo = MedInfoQuery.fetchOneRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
+        medInfo = MedInfoQuery.fetchOneRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
         if (medInfo != null) {
 
             etPreNote.setText(medInfo.getNote());
@@ -1586,40 +1589,12 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.txtSave:
-                ft = etFt.getText().toString().trim();
-                inch = etInch.getText().toString().trim();
-                weight = etWeight.getText().toString().trim();
-                color = spinnerEyes.getSelectedItem().toString();
-                lang1 = spinnerLang.getSelectedItem().toString();
-                lang2 = etAdditional.getText().toString();
-                blood = txtBlood.getText().toString().trim();
-                pet = etPet.getText().toString().trim();
-                note = etPreNote.getText().toString().trim();
-                allergynote = etAllergyNote.getText().toString().trim();
-                mouthnote = etMouthNote.getText().toString().trim();
-
-                visionnote = etVisionNote.getText().toString().trim();
-                Aidenote = etAideNote.getText().toString().trim();
-                functionnote = etFunctionalNote.getText().toString().trim();
-                dietnote = etDietNote.getText().toString().trim();
-
-                vaccinenote = etVaccineNote.getText().toString().trim();
-                implantsnote = etImplantNote.getText().toString().trim();
-                historynote = etHistoryNote.getText().toString().trim();
-                //  bloodnote = etBloodNote.getText().toString().trim();
-
-                t_type = txtTobacoType.getText().toString().trim();
-                t_amt = txtTobacoAmt.getText().toString().trim();
-                t_year = txtTobacoYear.getText().toString().trim();
-                drink_amt = txtDrinkAmt.getText().toString().trim();
-                drink_year = txtDrinkYear.getText().toString().trim();
-                drug_type = txtDrugType.getText().toString().trim();
-                drug_amt = txtDrugAmt.getText().toString().trim();
-                drug_year = txtDrugYear.getText().toString().trim();
+                getValues();
 
                 Boolean flag = MedInfoQuery.insertMedInfoData(preferences.getInt(PrefConstants.CONNECTED_USERID), blood, glass, lense, falses, implants, aid, donor, note, mouth, mouthnote, visionnote, Aidenote, dietnote, blind, speech, allergynote, tobaco, t_type, t_amt, t_year, drink, drink_amt, drug, drug_type, drug_amt, drug_year, drink_year, functionnote, historynote, vaccinenote, implantsnote);
                 if (flag == true) {
                     Toast.makeText(getActivity(), "Medical Profile Saved", Toast.LENGTH_SHORT).show();
+                    medInfo = MedInfoQuery.fetchOneRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
                     hideSoftKeyboard();
                     // getActivity().finish();
                 } else {
@@ -1640,8 +1615,64 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.imgBack:
-                hideSoftKeyboard();
-                getActivity().finish();
+                getValues();
+
+                if (medInfo.getGlass().equals(glass)&&medInfo.getLense().equals(lense)&&
+                        medInfo.getFalses().equals(falses)&&medInfo.getImplants().equals(implants)&&
+                        medInfo.getAid().equals(aid)&&medInfo.getDonor().equals(donor)&&
+                        medInfo.getMouth().equals(mouth)&&medInfo.getBlind().equals(blind)&&
+                        medInfo.getSpeech().equals(speech)&&medInfo.getTobaco().equals(tobaco)&&
+                        medInfo.getDrink().equals(drink)&&medInfo.getDrug().equals(drug)&&
+                        medInfo.getT_amt().equals(t_amt)&&medInfo.getT_type().equals(t_type)&&
+                        medInfo.getT_year().equals(t_year)&&medInfo.getDrink_amt().equals(drink_amt)&&
+                        medInfo.getDrink_year().equals(drink_year)&&medInfo.getDrug_type().equals(drug_type)&&
+                        medInfo.getDrink_amt().equals(drug_amt)&&medInfo.getDrug_year().equals(drink_year)&&
+                        medInfo.getBloodType().equals(blood)&&medInfo.getNote().equals(note)&&
+                        medInfo.getAllergyNote().equals(allergynote)&&medInfo.getMouthnote().equals(mouthnote)&&
+                        medInfo.getVisionNote().equals(visionnote)&&medInfo.getVaccinenote().equals(vaccinenote)
+                        &&medInfo.getAideNote().equals(Aidenote)&&medInfo.getFunctionnote().equals(functionnote)&&
+                        medInfo.getDietNote().equals(dietnote)&&medInfo.getImplantnote().equals(implantsnote)&&
+                        medInfo.getHistorynote().equals(historynote)&&medInfo.getAideNote().equals(Aidenote))
+                {
+                    hideSoftKeyboard();
+                    getActivity().finish();
+                }
+                else{
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                    alert.setTitle("Save");
+                    alert.setMessage("Do you want to save information?");
+                    alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            /*if (!connection.getName().equals(name) || !connection.getEmail().equals(address))
+                            {
+                                isfinis=true;
+                            }*/
+                            hideSoftKeyboard();
+                            boolean s=  txtSave.performClick();
+                            // backflap=false;
+                            dialog.dismiss();
+                            getActivity().finish();
+                            /*if (connection.getName().equals(name) || connection.getEmail().equals(address))
+                            {
+                                finish();
+                            }*/
+
+                        }
+                    });
+
+                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            hideSoftKeyboard();
+                            getActivity().finish();
+                        }
+                    });
+                    alert.show();
+                }
+
+
                 break;
             case R.id.txtAddAllergy:
                 Intent allergyIntent = new Intent(getActivity(), AddInfoActivity.class);
@@ -1707,6 +1738,39 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
                 startActivityForResult(historyIntent, REQUEST_HISTORY);
                 break;
         }
+    }
+
+    private void getValues() {
+        ft = etFt.getText().toString().trim();
+        inch = etInch.getText().toString().trim();
+        weight = etWeight.getText().toString().trim();
+        color = spinnerEyes.getSelectedItem().toString();
+        lang1 = spinnerLang.getSelectedItem().toString();
+        lang2 = etAdditional.getText().toString();
+        blood = txtBlood.getText().toString().trim();
+        pet = etPet.getText().toString().trim();
+        note = etPreNote.getText().toString().trim();
+        allergynote = etAllergyNote.getText().toString().trim();
+        mouthnote = etMouthNote.getText().toString().trim();
+
+        visionnote = etVisionNote.getText().toString().trim();
+        Aidenote = etAideNote.getText().toString().trim();
+        functionnote = etFunctionalNote.getText().toString().trim();
+        dietnote = etDietNote.getText().toString().trim();
+
+        vaccinenote = etVaccineNote.getText().toString().trim();
+        implantsnote = etImplantNote.getText().toString().trim();
+        historynote = etHistoryNote.getText().toString().trim();
+        //  bloodnote = etBloodNote.getText().toString().trim();
+
+        t_type = txtTobacoType.getText().toString().trim();
+        t_amt = txtTobacoAmt.getText().toString().trim();
+        t_year = txtTobacoYear.getText().toString().trim();
+        drink_amt = txtDrinkAmt.getText().toString().trim();
+        drink_year = txtDrinkYear.getText().toString().trim();
+        drug_type = txtDrugType.getText().toString().trim();
+        drug_amt = txtDrugAmt.getText().toString().trim();
+        drug_year = txtDrugYear.getText().toString().trim();
     }
 
     private void getDate(Context context, final TextView txtview) {

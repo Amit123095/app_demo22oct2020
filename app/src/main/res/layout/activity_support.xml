@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorOnesGray">
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimension70dp"
+        android:background="@color/colorBlue">
+
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="@dimen/dimension40dp"
+            android:layout_height="@dimen/dimension50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimension10dp"
+            android:src="@drawable/backward_arrow" />
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_toRightOf="@+id/imgBack">
+
+        <TextView
+            android:fontFamily="@font/lato"
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/dimension10dp"
+            android:text=""
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/dimension21dp" />
+       </RelativeLayout>
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/lvEndUser"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:visibility="gone"
+        android:layout_below="@+id/header"
+        ></ListView>
+    <ListView
+        android:id="@+id/lvSupport"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:visibility="gone"
+        android:layout_below="@+id/header"
+        ></ListView>
+</RelativeLayout>

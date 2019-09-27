@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorLightBlue">
+    android:background="@color/colorOnesGray">
 
     <RelativeLayout
         android:id="@+id/rlSelf"
@@ -83,14 +83,17 @@
         android:textSize="@dimen/dimension17dp"
         android:textStyle="normal" />
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/lvSelf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtYour"
         android:divider="@null"
         android:paddingBottom="@dimen/dimension10dp"
-        ></ListView>
+        android:layout_marginRight="@dimen/dimension15dp"
+        android:layout_marginLeft="@dimen/dimension15dp"
+        android:scrollbars="none"
+        ></android.support.v7.widget.RecyclerView>
 
     <TextView
         android:id="@+id/txthelp"

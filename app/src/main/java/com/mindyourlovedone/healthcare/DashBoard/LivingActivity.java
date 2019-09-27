@@ -1,7 +1,9 @@
 package com.mindyourlovedone.healthcare.DashBoard;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -48,11 +50,11 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
     ImageView imgInfoF, imgInfoI;
     EditText etOtherFunction, etFunctionalNote, etOtherInstrument, etInstrumentalNote;
     ToggleButton tbAlert, tbComputer, tbRemote, tbFinances, tbPreparing, tbShopping, tbUsing, tbBathing, tbContinence, tbDressing, tbfeed, tbToileting, tbTranfering, tbTransport, tbPets, tbDriving, tbKeeping, tbMedication;
-    String alert = "NO", computer = "NO", remote = "NO", eating = "NO", finance = "NO", prepare = "NO", shop = "NO", use = "NO", bath = "NO", continence = "NO", dress = "NO", feed = "NO", toileting = "NO", transfer = "NO", transport = "NO", pets = "NO", drive = "NO", keep = "NO", medication = "NO";
+    String alert = "", computer = "", remote = "", eating = "", finance = "", prepare = "", shop = "", use = "", bath = "", continence = "", dress = "", feed = "", toileting = "", transfer = "", transport = "", pets = "", drive = "", keep = "", medication = "";
     String functionnote = "", fouctionOther = "", instaOther = "", instaNote = "";
-   // FloatingActionButton floatOptions;
+    // FloatingActionButton floatOptions;
     ImageView floatOptions;
-
+    Living medInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -191,7 +193,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void setLivingInfo() {
-        Living medInfo = LivingQuery.fetchOneRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
+        medInfo = LivingQuery.fetchOneRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
         if (medInfo != null) {
             etFunctionalNote.setText(medInfo.getFunctionNote());
             etOtherFunction.setText(medInfo.getFunctionOther());
@@ -447,23 +449,72 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
                 builder.create().show();*/
                 break;
             case R.id.txtSave:
-                functionnote = etFunctionalNote.getText().toString().trim();
-                fouctionOther = etOtherFunction.getText().toString().trim();
-                instaOther = etOtherInstrument.getText().toString().trim();
-                instaNote = etInstrumentalNote.getText().toString().trim();
+                getValues();
                 Boolean flag = LivingQuery.insertLivingData(preferences.getInt(PrefConstants.CONNECTED_USERID), finance, prepare, shop, use, bath, continence, dress, feed, toileting, transfer, transport, pets, drive, keep, medication, functionnote, fouctionOther, instaNote, instaOther, remote, alert, computer);
                 if (flag == true) {
                     Toast.makeText(context, "Activity Living Info Saved", Toast.LENGTH_SHORT).show();
+                    medInfo = LivingQuery.fetchOneRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
+
                     hideSoftKeyboard();
-                  //  finish();
+                    //  finish();
                 } else {
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
             case R.id.imgBack:
-                hideSoftKeyboard();
-                finish();
+                getValues();
+
+                if (medInfo.getFunctionNote().equals(functionnote)&&medInfo.getFunctionOther().equals(fouctionOther)&&
+                        medInfo.getInstNote().equals(instaNote)&&medInfo.getInstOther().equals(instaOther)&&
+                        medInfo.getFinance().equals(finance)&&medInfo.getPrepare().equals(prepare)&&
+                        medInfo.getShop().equals(shop)&&medInfo.getUse().equals(use)&&
+                        medInfo.getBath().equals(bath)&&medInfo.getContinence().equals(continence)&&
+                        medInfo.getDress().equals(dress)&&medInfo.getFeed().equals(feed)&&
+                        medInfo.getToileting().equals(toileting)&&medInfo.getTransfer().equals(transfer)&&
+                        medInfo.getTransport().equals(transport)&&medInfo.getPets().equals(pets)&&
+                        medInfo.getDrive().equals(drive)&&medInfo.getKeep().equals(keep)&&
+                        medInfo.getMedication().equals(medication)&& medInfo.getRemote().equals(remote)&&
+                        medInfo.getAlert().equals(alert)&& medInfo.getComputer().equals(computer))
+                {
+                    hideSoftKeyboard();
+                    finish();
+                }
+                else{
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setTitle("Save");
+                    alert.setMessage("Do you want to save information?");
+                    alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            /*if (!connection.getName().equals(name) || !connection.getEmail().equals(address))
+                            {
+                                isfinis=true;
+                            }*/
+                            hideSoftKeyboard();
+                            boolean s=  txtSave.performClick();
+                            // backflap=false;
+                            dialog.dismiss();
+                            finish();
+                            /*if (connection.getName().equals(name) || connection.getEmail().equals(address))
+                            {
+                                finish();
+                            }*/
+
+                        }
+                    });
+
+                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            hideSoftKeyboard();
+                            finish();
+                        }
+                    });
+                    alert.show();
+                }
+
                 break;
             case R.id.imgHome:
                 Intent intentHome = new Intent(context, BaseActivity.class);
@@ -473,6 +524,13 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
                 startActivity(intentHome);
                 break;
         }
+    }
+
+    private void getValues() {
+        functionnote = etFunctionalNote.getText().toString().trim();
+        fouctionOther = etOtherFunction.getText().toString().trim();
+        instaOther = etOtherInstrument.getText().toString().trim();
+        instaNote = etInstrumentalNote.getText().toString().trim();
     }
 
     private void showFloatDialog() {
@@ -526,8 +584,8 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
         Image pp = null;
         pp=preferences.addFile("eve_three.png", context);
         Living Live = LivingQuery.fetchOneRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-       // ArrayList<Living> LivingList = new ArrayList<Living>();
-       // LivingList.add(Live);
+        // ArrayList<Living> LivingList = new ArrayList<Living>();
+        // LivingList.add(Live);
         new EventPdfNew(1, Live, 1,pp);
         HeaderNew.document.close();
         //------------------------------------------------

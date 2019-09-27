@@ -6,17 +6,29 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +36,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,16 +45,31 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dropbox.core.v2.sharing.FileMemberActionResult;
+import com.dropbox.core.v2.sharing.MemberSelector;
+import com.dropbox.core.v2.users.FullAccount;
 import com.mindyourlovedone.healthcare.DashBoard.DropboxLoginActivity;
 import com.mindyourlovedone.healthcare.DashBoard.FragmentDashboard;
 import com.mindyourlovedone.healthcare.DashBoard.InstructionActivity;
 import com.mindyourlovedone.healthcare.DashBoard.ProfileActivity;
 import com.mindyourlovedone.healthcare.DashBoard.UserInsActivity;
+import com.mindyourlovedone.healthcare.DropBox.DropboxActivity;
+import com.mindyourlovedone.healthcare.DropBox.DropboxClientFactory;
+import com.mindyourlovedone.healthcare.DropBox.FilesActivity;
+import com.mindyourlovedone.healthcare.DropBox.GetCurrentAccountTask;
+import com.mindyourlovedone.healthcare.DropBox.ShareFileTask;
+import com.mindyourlovedone.healthcare.DropBox.UnZipTask;
+import com.mindyourlovedone.healthcare.DropBox.ZipListner;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
+import com.mindyourlovedone.healthcare.SwipeCode.DividerItemDecoration;
+import com.mindyourlovedone.healthcare.SwipeCode.VerticalSpaceItemDecoration;
+import com.mindyourlovedone.healthcare.database.ContactDataQuery;
+import com.mindyourlovedone.healthcare.database.ContactTableQuery;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.MyConnectionsQuery;
 import com.mindyourlovedone.healthcare.model.RelativeConnection;
+import com.mindyourlovedone.healthcare.utility.DialogManager;
 import com.mindyourlovedone.healthcare.utility.PrefConstants;
 import com.mindyourlovedone.healthcare.utility.Preferences;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -52,18 +80,30 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import org.apache.commons.io.FileUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by varsha on 8/26/2017.
  */
 
-public class FragmentConnectionNew extends Fragment implements View.OnClickListener {
+public class FragmentConnectionNew extends Fragment implements View.OnClickListener, ZipListner {
+    static int ni;
     View rootview;
     GridView lvConnection;
-    ListView lvSelf;
+    RecyclerView lvSelf;
     TextView txtUser, txtRelation;
 
     ImageView fab;
@@ -89,7 +129,8 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
     final CharSequence[] backup_profile = {"Share Profile"};
     // FloatingActionButton fab;
     //RelativeLayout llAddConn;
-    // PersonalInfo personalInfo;
+    // PersonalInfo personalInfo
+    int noti=0;
 
     @Nullable
     @Override
@@ -182,7 +223,16 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         String deviceMan = android.os.Build.MANUFACTURER;
         lvConnection = rootview.findViewById(R.id.lvConnection);
 
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        lvSelf.setLayoutManager(linearLayoutManager);
 
+        //add ItemDecoration
+        lvSelf.addItemDecoration(new VerticalSpaceItemDecoration(48));
+
+        //or
+        lvSelf.addItemDecoration(
+                new DividerItemDecoration(getActivity(), R.drawable.divider));
+        //...
         rlSelf.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -191,7 +241,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
             }
         });
 
-        lvSelf.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+      /*  lvSelf.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
@@ -204,13 +254,14 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
                 }
                 return false;
             }
-        });
+        });*/
+
 
     }
 
     public void setListData() {
         if (connectionList.size() != 0) {
-            connectionAdapter = new ConnectionAdapter(getActivity(), connectionList);
+            ConnectionAdapter connectionAdapter = new ConnectionAdapter(getActivity(), connectionList,FragmentConnectionNew.this);
             lvSelf.setAdapter(connectionAdapter);
             imghelp.setVisibility(View.GONE);
             txthelp.setVisibility(View.GONE);
@@ -311,8 +362,6 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
                 startActivity(i);
                 dialog.dismiss();
             }
-
-
         });
 
         textCancel.setOnClickListener(new View.OnClickListener() {
@@ -473,10 +522,14 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(getActivity(), DropboxLoginActivity.class);
-                in.putExtra("FROM", "Backup");
+                in.putExtra("FROM", "Restore");
                 in.putExtra("ToDo", "Individual");
                 in.putExtra("ToDoWhat", "Import");
                 getActivity().startActivity(in);
+               /* preferences.putString(PrefConstants.STORE, "Restore");
+                preferences.putString(PrefConstants.TODO, "Individual");
+                preferences.putString(PrefConstants.TODOWHAT, "Import");
+                startActivity(FilesActivity.getIntent(getActivity(), ""));*/
                 dialog.dismiss();
             }
 
@@ -520,12 +573,200 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
             imgDrawerProfile.setImageResource(R.drawable.lightblue);
             imgSelf.setImageResource(R.drawable.lightblue);
         }
+        if (preferences.getString(PrefConstants.FINIS).equals("Share"))
+        {
+            preferences.putString(PrefConstants.FINIS,"False");
+            showEmailDialog();
+        }
+     /*   if (preferences.getString(PrefConstants.FINIS).equals("Restore"))
+        {
+            preferences.putString(PrefConstants.FINIS,"False");
+            final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+            alert.setTitle("Restore?");
+            alert.setMessage("Do you want to unzip and  restore " + preferences.getString(PrefConstants.RESULT) + " database?");
+            alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    String name = preferences.getString(PrefConstants.RESULT);
+                    Log.v("NAME", name);
+                    if (preferences.getString(PrefConstants.TODO).equals("Individual")) {
+                        String sd = Environment.getExternalStorageDirectory().getAbsolutePath();
+                        //  File data=DropboxLoginActivity.this.getDatabasePath(DBHelper.DATABASE_NAME);
+                        String backupDBPath = "/Download/" + name;
+                        String newname = name.replace(".zip", "");
+                        final File folder = new File(sd, backupDBPath);
+                        final File destfolder = new File(Environment.getExternalStorageDirectory(),
+                                "/MYLO/" + newname);
+                        final File destfolder1 = new File(Environment.getExternalStorageDirectory(),
+                                "/MYLO/");//nikita
+                        if (!destfolder.exists()) {
+                            destfolder.mkdir();
+                             new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
+                           // new UnZipTask((DropboxLoginActivity) getActivity(), folder.getAbsolutePath(), destfolder1.getAbsolutePath()).execute();//nikita
+                        } else {
+
+                            AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                            alert.setTitle("Replace?");
+                            alert.setMessage("Profile is already exists, Do you want to replace?");
+                            alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    destfolder.delete();//nikita
+                                    try {
+                                        destfolder.createNewFile();//nikita
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                   // new UnZipTask((DropboxLoginActivity) getActivity(), folder.getAbsolutePath(), destfolder1.getAbsolutePath()).execute();//nikita
+                                    new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
+                                    dialog.dismiss();
+                                }
+                            });
+
+                            alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    dialog.dismiss();
+                                }
+                            });
+
+                            alert.show();
+                        }
+                    } else {
+
+                        String sd = Environment.getExternalStorageDirectory().getAbsolutePath();
+                        //  File data=DropboxLoginActivity.this.getDatabasePath(DBHelper.DATABASE_NAME);
+                        String backupDBPath = "/Download/" + name;
+                        String newname = name.replace(".zip", "");
+                        final File folder = new File(sd, backupDBPath);
+                        final File destfolder = new File(Environment.getExternalStorageDirectory(),
+                                newname);
+                        new DropboxLoginActivity().unZip(folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath());
+
+                      //  new UnZipTask((DropboxLoginActivity) getActivity(), folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath()).execute();//nikita
+
+
+                    }
+
+                }
+            });
+            alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            alert.show();
+        }*/
+
+        validateBackupDate();
+
+        if (preferences.getString(PrefConstants.BACKUPDATE)!=null) {
+            String backupdatestring = preferences.getString(PrefConstants.BACKUPDATE);
+           // Toast.makeText(getActivity(),backupdatestring,Toast.LENGTH_SHORT).show();
+        }
     }
+
+    private void validateBackupDate() {
+        DateFormat df = new SimpleDateFormat("dd MM yy HH:mm:ss");
+        if (preferences.getString(PrefConstants.BACKUPDATE)!=null||!preferences.getString(PrefConstants.BACKUPDATE).equals("")) {
+            String backupdatestring = preferences.getString(PrefConstants.BACKUPDATE);
+            Date backupDate = null;
+            try {
+                backupDate = df.parse(backupdatestring);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Calendar cal = Calendar.getInstance();
+            Date currentDate = cal.getTime();
+            if (backupDate!=null)
+            {
+                if (currentDate.after(backupDate)) {
+                    if (preferences.getBoolean(PrefConstants.NOTIFIED)==true)
+                    {
+                        sendNotification();
+                    }
+                }}
+
+        }
+        //String currentDateString=df.format(backupDate);
+        // preferences.putString(PrefConstants.BACKUPDATE,currentDateString);
+    }
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "name";
+            String description = "desc";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("10", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+    private void sendNotification() {
+        preferences.putBoolean(PrefConstants.NOTIFIED,false);
+        createNotificationChannel();
+// Create an explicit intent for an Activity in your app
+        Intent intent = new Intent(getActivity(), DropboxLoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent, 0);
+        String msg="This is a reminder for your data backup, your last backup was a month ago. You should backup regularly.";
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "10")
+                .setSmallIcon(R.mipmap.mylo_new_cropped_logo)
+                .setContentTitle("Backup Your Data")
+                .setContentText(msg)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                // Set the intent that will fire when the user taps the notification
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(msg))
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
+
+// notificationId is a unique int for each notification that you must define
+        notificationManager.notify(1, builder.build());
+      /*  NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(getActivity())
+                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setContentTitle("Unread Message")   //this is the title of notification
+                        .setColor(101)
+                        .setContentText("You have an unread message.");   //this is the message showed in notification
+        Intent intent = new Intent(getActivity(), BaseActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contentIntent);
+        // Add as notification
+        NotificationManager manager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0, builder.build());*/
+       /* Intent intent = new Intent(getActivity(), BaseActivity.class);
+        PendingIntent pIntent = PendingIntent.getActivity(getActivity(),(int) System.currentTimeMillis(), intent, 0);
+        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        NotificationCompat.Builder notification  = (NotificationCompat.Builder) new NotificationCompat.Builder(getActivity())
+                .setContentTitle("New mail from " + "test@gmail.com")
+                .setContentText("Subject dsiu nioef jh dfihre ijre kjhgf jf oirf iof iof uirf juiyhree uirf uirf uirf ijurg uirge uir")
+                .setSmallIcon(R.drawable.ic_launcher_new)
+                .setContentIntent(pIntent)
+                .setSound(defaultSoundUri)
+                .setAutoCancel(true)
+                .setTicker("Subject dsiu nioef jh dfihre ijre kjhgf jf oirf iof iof uirf juiyhree uirf uirf uirf ijurg uirge uir");
+
+        NotificationManager notificationManager =
+                (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
+        notificationManager.notify(ni++, notification.build());
+*/
+    }
+
 
     public void deleteConnection(int id) {
         boolean flag = MyConnectionsQuery.deleteRecord(id);
         if (flag == true) {
-            Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
+            //     Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
             getData();
             setListData();
 
@@ -645,6 +886,310 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
                 dialog.dismiss();
             }
         });
+    }
+
+    public void deleteConnections(final int position) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle("Delete");
+        alert.setMessage("Do you want to Delete " + connectionList.get(position).getName() + "'s profile?");
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String mail = connectionList.get(position).getEmail();
+                mail = mail.replace(".", "_");
+                mail = mail.replace("@", "_");
+                preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
+                preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
+                deleteConnection(connectionList.get(position).getId());
+                dialog.dismiss();
+            }
+        });
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+        alert.show();
+    }
+
+    @Override
+    public void getFile(String res) {
+        preferences=new Preferences(getActivity());
+        if (res.equals("Yes")) {
+            if (preferences.getString(PrefConstants.TODO).equals("Individual")) {
+                copydb(getActivity());
+            } else {
+                copydbWholeBU(getActivity());
+            }
+            Toast.makeText(getActivity(), "Unzipped and restored files successfully", Toast.LENGTH_SHORT).show();
+
+        } else {
+            Toast.makeText(getActivity(), "Restoring Failed, Please try again", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void callBackup() {
+    }
+    private void showEmailDialog() {
+        final Dialog customDialog;
+        customDialog = new Dialog(getActivity());
+        customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        customDialog.setContentView(R.layout.dialog_input_email);
+        customDialog.setCancelable(false);
+        final EditText etNote = customDialog.findViewById(R.id.etNote);
+        TextView btnAdd = customDialog.findViewById(R.id.btnYes);
+        TextView btnCancel = customDialog.findViewById(R.id.btnNo);
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                customDialog.dismiss();
+                //hideSoftKeyboard();
+            }
+        });
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // hideSoftKeyboard();
+                String username = etNote.getText().toString();
+                if (username.equals("")) {
+                    etNote.setError("Please Enter email");
+                    DialogManager.showAlert("Please Enter email", getActivity());
+                } else if (!username.trim().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
+                    etNote.setError("Please enter valid email");
+                    DialogManager.showAlert("Please enter valid email", getActivity());
+                } else {
+                    customDialog.dismiss();
+                    List<MemberSelector> newMembers = new ArrayList<MemberSelector>();
+                    MemberSelector newMember = MemberSelector.email(username);
+                    // MemberSelector newMember1 = MemberSelector.email("kmllnk@j.uyu");
+                    newMembers.add(newMember);
+                    // newMembers.add(newMember1);
+
+                    final ProgressDialog dialog = new ProgressDialog(getActivity());
+                    dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    dialog.setCancelable(false);
+                    dialog.setMessage("Sharing profile can take several minutes");
+                    dialog.show();
+                    new ShareFileTask(newMembers, getActivity(), DropboxClientFactory.getClient(), new ShareFileTask.Callback() {
+                        @Override
+                        public void onUploadComplete(List<FileMemberActionResult> result) {
+                            dialog.dismiss();
+                            final AlertDialog.Builder alerts = new AlertDialog.Builder(getActivity());
+                            alerts.setTitle("Success");
+                            alerts.setMessage("Profile shared successfully");
+                            alerts.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+
+
+                                }
+                            });
+                            alerts.show();
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            dialog.dismiss();
+
+                        }
+                    }).execute(preferences.getString(PrefConstants.SHARE), preferences.getString(PrefConstants.FILE));
+                }
+            }
+        });
+
+        customDialog.show();
+    }
+
+
+    private void copydb(Context context) {
+        if (preferences.getString(PrefConstants.TODO).equals("Individual")) {
+            String backupDBPath = preferences.getString(PrefConstants.RESULT);
+            backupDBPath = backupDBPath.replace(".zip", "");
+            //open new imported db
+            DBHelper dbHelper = new DBHelper(context, backupDBPath);
+            MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
+            //fetch data
+            RelativeConnection connection = MyConnectionsQuery.fetchConnectionRecordforImport(1);
+       /* Boolean flag = MyConnectionsQuery.updateImportMyConnectionsData(preferences.getInt(PrefConstants.USER_ID), connection.getUserid());
+        if (flag == true) {*/
+            DBHelper dbHelpers = new DBHelper(context, "MASTER");
+            MyConnectionsQuery ms = new MyConnectionsQuery(context, dbHelpers);
+            RelativeConnection connections = MyConnectionsQuery.fetchConnectionRecordforImport(connection.getEmail());
+            if (connections != null) {
+                if (connection.getRelationType().equals("Self")) {
+                    Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+                    if (flags == true) {
+                        Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
+                        storeImage(connection.getPhoto(), "Profile", backupDBPath);
+                    }
+                } else {
+                    Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+                    if (flags == true) {
+                        Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
+                        storeImage(connection.getPhoto(), "Profile", backupDBPath);
+                        ContactDataQuery c = new ContactDataQuery(context, dbHelpers);
+                        Boolean flagf = ContactDataQuery.updateUserId(connections.getId());
+                        if (flagf == true) {
+                            Toast.makeText(context, "updated", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            } else {
+//                Boolean flags = MyConnectionqsQuery.insertMyConnectionsData(connection.getUserid(), connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), "", connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+
+                Boolean flags = MyConnectionsQuery.insertMyConnectionsDataBACKUP(connection, true);
+
+                if (flags == true) {
+                    Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
+                    storeImage(connection.getPhoto(), "Profile", backupDBPath);
+                   /* RelativeConnection con = MyConnectionsQuery.fetchEmailRecords(connection.getEmail());
+                    ContactDataQuery c=new ContactDataQuery(context,dbHelpers);
+                    Boolean flagf = ContactDataQuery.updateUserId(con.getId());
+                    if (flagf == true) {
+                        Toast.makeText(context, "Insret updated", Toast.LENGTH_SHORT).show();
+                    }*/
+                }
+            }
+        } else {
+            //Toast.makeText(context, "Need Data save to master db", Toast.LENGTH_SHORT).show();
+        }
+        //  }
+       /* String mail=connection.getEmail();
+        mail=mail.replace(".","_");
+        mail=mail.replace("@","_");
+        preferences.putString(PrefConstants.CONNECTED_USERDB,mail);
+        preferences.putString(PrefConstants.CONNECTED_PATH,Environment.getExternalStorageDirectory()+"/MYLO/"+preferences.getString(PrefConstants.CONNECTED_USERDB)+"/");
+            */
+       /* File data = DropboxLoginActivity.this.getDatabasePath("temp.db");
+        Log.e("", data.getAbsolutePath());
+
+        File currentDB = new File(data.getAbsolutePath());
+        File backupDB = new File(sd, backupDBPath);
+        try {
+            copy(backupDB, currentDB);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+    }
+
+
+    private void copydbWholeBU(Context context) {
+        if (preferences.getString(PrefConstants.TODO).equals("Individual")) {
+            String backupDBPath = preferences.getString(PrefConstants.RESULT);
+            backupDBPath = backupDBPath.replace(".zip", "");
+            //open new imported db
+            DBHelper dbHelper = new DBHelper(context, backupDBPath);
+            MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
+            //fetch data
+            ArrayList<RelativeConnection> connectionlist = MyConnectionsQuery.fetchConnectionRecordforImportAll();
+       /* Boolean flag = MyConnectionsQuery.updateImportMyConnectionsData(preferences.getInt(PrefConstants.USER_ID), connection.getUserid());
+        if (flag == true) {*/
+            DBHelper dbHelpers = new DBHelper(context, "MASTER");
+            MyConnectionsQuery ms = new MyConnectionsQuery(context, dbHelpers);
+            for (int i = 0; i < connectionlist.size(); i++) {
+                RelativeConnection connection = connectionlist.get(i);
+                RelativeConnection connections = MyConnectionsQuery.fetchConnectionRecordforImport(connection.getEmail());
+                if (connections != null) {
+                    if (connection.getRelationType().equals("Self")) {
+                        Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+                        if (flags == true) {
+                            Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
+                            storeImage(connection.getPhoto(), "Profile", backupDBPath);
+                        }
+                    } else {
+                        Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+                        if (flags == true) {
+                            Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
+                            storeImage(connection.getPhoto(), "Profile", backupDBPath);
+                        }
+                    }
+                } else {
+//                    Boolean flags = MyConnectionsQuery.insertMyConnectionsData(connection.getUserid(), connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), "", connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+
+                    Boolean flags = MyConnectionsQuery.insertMyConnectionsDataBACKUP(connection, false);
+                    if (flags == true) {
+                        Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
+                        storeImage(connection.getPhoto(), "Profile", backupDBPath);
+                    }
+                }
+            }
+        } else {
+            DBHelper dbHelpers = new DBHelper(context, "MASTER");
+            ContactTableQuery ms = new ContactTableQuery(context, dbHelpers);
+            ContactTableQuery.deleteContactData();
+            //Toast.makeText(context, "Need Data save to master db", Toast.LENGTH_SHORT).show();
+        }
+
+        //  }
+       /* String mail=connection.getEmail();
+        mail=mail.replace(".","_");
+        mail=mail.replace("@","_");
+        preferences.putString(PrefConstants.CONNECTED_USERDB,mail);
+        preferences.putString(PrefConstants.CONNECTED_PATH,Environment.getExternalStorageDirectory()+"/MYLO/"+preferences.getString(PrefConstants.CONNECTED_USERDB)+"/");
+            */
+       /* File data = DropboxLoginActivity.this.getDatabasePath("temp.db");
+        Log.e("", data.getAbsolutePath());
+
+        File currentDB = new File(data.getAbsolutePath());
+        File backupDB = new File(sd, backupDBPath);
+        try {
+            copy(backupDB, currentDB);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+    }
+
+    private void storeImage(String selectedImage, String profile, String backupDBPath) {
+        FileOutputStream outStream1 = null;
+        File createDir = new File(Environment.getExternalStorageDirectory() + "/MYLO/MASTER/");
+        if (!createDir.exists()) {
+            createDir.mkdir();
+        }
+        File file = new File(Environment.getExternalStorageDirectory() + "/MYLO/" + backupDBPath + "/" + selectedImage);
+        Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        try {
+            if (myBitmap != null) {
+                if (profile.equals("Profile")) {
+                    outStream1 = new FileOutputStream(Environment.getExternalStorageDirectory() + "/MYLO/MASTER/" + selectedImage);
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    myBitmap.compress(Bitmap.CompressFormat.JPEG, 40, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    outStream1.write(byteArray);
+                    outStream1.close();
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+
+      /*  FileOutputStream outStream2 = null;
+        File fileori = new File(Environment.getExternalStorageDirectory()+"/MYLO/"+backupDBPath);
+        File files = new File(Environment.getExternalStorageDirectory()+"/MYLO/MASTER/");
+        if (!files.exists()) {
+            files.mkdirs();
+        }
+
+        try {
+            outStream2=new FileOutputStream(fileori);
+            outStream2.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+
+        }*/
     }
 
 }

@@ -4,7 +4,9 @@ import android.os.AsyncTask;
 
 import com.dropbox.core.DbxException;
 import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.ListFolderResult;
+import com.dropbox.core.v2.files.Metadata;
 import com.dropbox.core.v2.sharing.ListFilesResult;
 
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ public class ListReceivedFolderTask extends AsyncTask<String, Void, ArrayList<Dr
             ListFilesResult ss = mDbxClient.sharing().listReceivedFiles();
             ListFolderResult ff = mDbxClient.files().listFolder(params[0]);
 
-            //Nikita - Shared files on top now
+            //Nikita - changed the sequence - shared files on top now
             for (int i = 0; i < ss.getEntries().size(); i++) {
                 DropBoxFileItem db = new DropBoxFileItem();
                 db.setShared(1);

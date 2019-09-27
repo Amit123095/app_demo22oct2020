@@ -1,15 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.mindyourlovedone.healthcare.SwipeCode.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorWhite"
-    android:gravity="center"
-    android:longClickable="true">
+    android:background="@drawable/border_white_gray"
+    android:longClickable="true"
 
+    >
+    <LinearLayout
+        android:id="@+id/linswipe"
+        android:layout_width="@dimen/dimension160dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@drawable/border_gray"
+        >
+
+        <LinearLayout
+            android:id="@+id/lincall"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:background="@drawable/border_gray"
+            >
+
+            <ImageView
+                android:id="@+id/imgBackup"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimension50dp"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:src="@drawable/backup_s"/>
+
+            <ImageView
+                android:id="@+id/imgShare"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimension50dp"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:src="@drawable/share_s"
+                />
+
+            <ImageView
+                android:id="@+id/imgDelete"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimension50dp"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:src="@drawable/delete_s"
+              />
+
+        </LinearLayout>
+
+    </LinearLayout>
     <RelativeLayout
         android:id="@+id/rlEmergencyContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        android:padding="@dimen/dimension10dp"
+
         >
       <!--  android:background="@drawable/rlborder"
         android:elevation="@dimen/dimension10dp"
@@ -21,6 +74,7 @@
             android:layout_margin="@dimen/dimension8dp"
             android:background="@color/colorWhite"
             android:src="@drawable/lightblue"
+            android:layout_centerVertical="true"
             />
 <RelativeLayout
     android:id="@+id/rlProf"
@@ -31,6 +85,7 @@
     android:layout_centerVertical="true"
     android:layout_toLeftOf="@+id/imgSelfFolder"
     android:layout_marginRight="@dimen/dimension10dp"
+
     >
         <TextView
             android:id="@+id/txtConName"
@@ -57,21 +112,22 @@
 </RelativeLayout>
         <ImageView
             android:id="@+id/imgSelfFolder"
-            android:layout_width="@dimen/dimension35dp"
-            android:layout_height="@dimen/dimension35dp"
+            android:layout_width="@dimen/dimension20dp"
+            android:layout_height="@dimen/dimension20dp"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginTop="@dimen/dimension10dp"
-            android:layout_marginRight="@dimen/dimension15dp"
-            android:src="@drawable/pro_folder" />
+            android:layout_marginRight="@dimen/dimension5dp"
+            android:src="@drawable/rite_arrow" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimension1dp"
+            android:background="@color/colorLightGray"
+            android:layout_alignParentBottom="true"
 
+            android:visibility="gone"/>
     </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimension1dp"
-        android:layout_below="@+id/rlEmergencyContact"
-        android:background="@color/colorLightGray"
-        android:layout_alignParentBottom="true"/>
-</RelativeLayout><!--
+
+</com.mindyourlovedone.healthcare.SwipeCode.SwipeLayout><!--
     </com.chauthai.swipereveallayout.SwipeRevealLayout>-->

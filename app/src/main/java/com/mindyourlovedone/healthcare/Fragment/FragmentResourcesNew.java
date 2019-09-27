@@ -35,7 +35,7 @@ import java.util.Locale;
 
 public class FragmentResourcesNew extends Fragment {
     View rootView;
-    ArrayList<ResourcesNew> resourcesList;
+    ArrayList<ResourcesNew> resourcesList,supportList,enduserList;
     ListView lvResources;
     ImageView imgHelp,imgProfile;
     TextView txtTitle;
@@ -54,14 +54,28 @@ public class FragmentResourcesNew extends Fragment {
     private void setData() {
         ResourceAdapter rd = new ResourceAdapter(getActivity(), resourcesList);
         lvResources.setAdapter(rd);
+
+
     }
 
     private void getData() {
         resourcesList = new ArrayList<ResourcesNew>();
+        supportList = new ArrayList<ResourcesNew>();
+        enduserList = new ArrayList<ResourcesNew>();
 
         ResourcesNew r1 = new ResourcesNew();
         r1.setName("Advance Directive Information");
         r1.setResImage(R.drawable.medical_one);
+
+        ResourcesNew l12 = new ResourcesNew();
+        l12.setName("App Wallet Card");
+        // l12.setUrl("http://mindyour-lovedones.com/MYLO/uploads/MYLO_App_Wallet_Card.pdf");
+        //l12.setUrl("wallet_card_new.pdf");
+        l12.setResImage(R.drawable.insu_one);
+
+        ResourcesNew s5 = new ResourcesNew();
+        s5.setName("End User License Agreement and Privacy Policy");
+        s5.setResImage(R.drawable.enduser);
 
         ResourcesNew r2 = new ResourcesNew();
         r2.setName("Helpful Forms & Templates");
@@ -73,35 +87,20 @@ public class FragmentResourcesNew extends Fragment {
 
 
         ResourcesNew s2 = new ResourcesNew();
-        s2.setName("Support FAQs");
+        s2.setName("Support FAQs and User Guide");
         s2.setResImage(R.drawable.faq);
 
-        ResourcesNew s3 = new ResourcesNew();
-        s3.setName("User Guide");
-        s3.setResImage(R.drawable.useruide);
-
-        ResourcesNew s4 = new ResourcesNew();
-        s4.setName("Privacy Policy");
-        s4.setResImage(R.drawable.enduser);
-
-        ResourcesNew s5 = new ResourcesNew();
-        s5.setName("End User License Agreement");
-        s5.setResImage(R.drawable.enduser);
-
-        ResourcesNew l12 = new ResourcesNew();
-        l12.setName("Wallet Cards");
-        // l12.setUrl("http://mindyour-lovedones.com/MYLO/uploads/MYLO_App_Wallet_Card.pdf");
-        //l12.setUrl("wallet_card_new.pdf");
-        l12.setResImage(R.drawable.insu_one);
 
         resourcesList.add(r1);
+        resourcesList.add(l12);
+        resourcesList.add(s5);
         resourcesList.add(r2);
         resourcesList.add(r3);
         resourcesList.add(s2);
-        resourcesList.add(s3);
-        resourcesList.add(s4);
-        resourcesList.add(s5);
-        resourcesList.add(l12);
+
+
+
+
     }
 
     private void initUi() {
@@ -110,6 +109,7 @@ public class FragmentResourcesNew extends Fragment {
         //imgProfile.setVisibility(View.GONE)
 
         lvResources = rootView.findViewById(R.id.lvResources);
+
         imgHelp = getActivity().findViewById(R.id.imgRight);
         imgHelp.setVisibility(View.GONE);
 
@@ -118,64 +118,45 @@ public class FragmentResourcesNew extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
-                    case 0:
+                    case 0://Add Info
                         Intent intentf = new Intent(getActivity(), ADInfoActivity.class);
                         getActivity().startActivity(intentf);
                         break;
-                    case 1:
-                        // Toast.makeText(getActivity(), "Screen not provided Yet to come", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getActivity(), HelpFormActivity.class);
-                        getActivity().startActivity(intent);
-                        break;
-                    case 2:
-                        // Toast.makeText(getActivity(), "Screen not provided Yet to come", Toast.LENGTH_SHORT).show();
-                        Intent intentd = new Intent(getActivity(), VideoActivity.class);
-                        getActivity().startActivity(intentd);
-                        break;
-                    case 3://Support Faq
-                        Intent browserIntent = new Intent(getActivity(),WebViewActivity.class);
-                        browserIntent.putExtra("Name","Support FAQs");
-                        startActivity(browserIntent);
 
-                        break;
-                    case 4://User Guide-Section
-                        //   Intent browserIntents = new Intent(getActivity(),WebViewActivity.class);
-                        // browserIntents.putExtra("Name","User Guide");
-                        // startActivity(browserIntents);
-                        Intent browserIntentD = new Intent(Intent.ACTION_VIEW, Uri.parse("http://mindyour-lovedones.com/MYLO/uploads/User_Guide.pdf"));
-                        startActivity(browserIntentD);
-
-                        break;
-                    case 5://Privacy Policy-Section
-                        Intent intentp = new Intent();
-                        intentp.setAction(Intent.ACTION_VIEW);
-                        intentp.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        intentp.setData(Uri.parse("market://details?id=cn.wps.moffice_eng"));//varsa ("market://details?id=com.adobe.reader"));
-                        intentp.setType(String.valueOf(Uri.parse("application/pdf")));
-                        ((BaseActivity) getActivity()).CopyReadAssetss("Privacy Policy.pdf");
-
-
-                        break;
-                    case 6://End User License Agreement-Section
-                        Intent intentx = new Intent();
-                        intentx.setAction(Intent.ACTION_VIEW);
-                        intentx.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        intentx.setData(Uri.parse("market://details?id=cn.wps.moffice_eng"));//varsa ("market://details?id=com.adobe.reader"));
-                        intentx.setType(String.valueOf(Uri.parse("application/pdf")));
-                        ((BaseActivity) getActivity()).CopyReadAssetss("eula_new.pdf");
-
-                        break;
-                    case 7://Wallet Cards
-                        // CopyReadAssetss("wallet_card_new.pdf");
+                    case 1://Wallet Cards
                         String formatD = "https://drive.google.com/viewerng/viewer?embedded=true&url=%s";
                         String fullPathD = String.format(Locale.ENGLISH, formatD, "http://mindyour-lovedones.com/MYLO/uploads/MYLO_App_Wallet_Card.pdf");
                         Intent browserIntentDs = new Intent(Intent.ACTION_VIEW, Uri.parse(fullPathD));
                         startActivity(browserIntentDs);
+                        break;
 
+                    case 2://End User License Agreement-Section and Privacy
+                        Intent i=new Intent(getActivity(),SupportActivity.class);
+                        i.putExtra("FROM","EndUser");
+                        startActivity(i);
+                        break;
+                    case 3: //HelpForm
+                        // Toast.makeText(getActivity(), "Screen not provided Yet to come", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), HelpFormActivity.class);
+                        getActivity().startActivity(intent);
+                        break;
+
+                    case 4://Podcast
+                        // Toast.makeText(getActivity(), "Screen not provided Yet to come", Toast.LENGTH_SHORT).show();
+                        Intent intentd = new Intent(getActivity(), VideoActivity.class);
+                        getActivity().startActivity(intentd);
+                        break;
+
+                    case 5://Support Faq and User uide
+                        Intent ij=new Intent(getActivity(),SupportActivity.class);
+                        ij.putExtra("FROM","Support");
+                        startActivity(ij);
                         break;
                 }
             }
         });
+
+
     }
     public void CopyReadAssetss(String documentPath) {
         AssetManager assetManager = getActivity().getAssets();

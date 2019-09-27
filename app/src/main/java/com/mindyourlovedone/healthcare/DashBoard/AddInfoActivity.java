@@ -81,7 +81,7 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
     TextView txtHeader, txtInfo, txtMedical;
     TextInputLayout tilMedical, tilLocation, tilDetails, tilNote;
     RelativeLayout rlName, rlReactionSpinner,relbtm;
-//    MySpinner spinner;// spinnerReaction;
+    //    MySpinner spinner;// spinnerReaction;
     FloatingActionButton floatProfile;
     private static int RESULT_MEDICAL = 2;
     TextView txtLocation, txtDetails, txtNote;
@@ -90,7 +90,7 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
     String[] vaccineList = {"Chickenpox (Varicella)","Haemophilus influenza type B (Hib)", "Hepatitis A", "Hepatitis B", "Human Papillomavirus (HPV)", "Influenza (Flu)", "Measles, Mumps, Rubella (MMR)", "Meningococcal", "Polio (IPV)", "Pneumococcal (PCV and PPSV)", "Shingles (Herpes Zoster)", "Tetanus, Diphtheria, Pertussis (Td, Tdap)", "Other"};
     String[] implantList = {"Aneurysm Stent or Aneurysm Clip", "Artifical Limbs", "Artificial Heart Value", "Body Art/Tatoos", "Coronary Stents(Drug Coated/Bare Methal/Unknown)", "Metal Crowns, Fillings, Implants", "Gastric Band", "Body Piercing", "Implanted Cardio Defibrilator (ICD)", "Implanted Devices/Pumps/Stimulator", "Joint Replacements (specify)", "Lens Implants", "Metal Implants", "Middle Ear Prosthesis", "None", "Pacemaker", "Penile Implant", "Pins/Rods/Screws", "Prosthetic Eye", "Renal or other Stents", "Tracheotomy", "Other"};
     String[] reactionList = {"Anaphylaxis","Chest pain","Congestion","Difficulty Breathing","Hives","Itching","Mucus","Nausea","Rash","Runny nose","Sneezing","Vomiting", "Other"};
-    String[] surgeryList = {"Appendix", "Breast Biopsy", "Mastectomy", "Cataract", "Colon", "Gallbladder", "Heart - Angio/Stent", "Heart - Bypass", "Heart - Valve", "Hernia", "Hip Replacement", "Hysterectomy", "Knee Surgery/Replacement", "Lasik Surgery", "Metal Implants", "Middle Ear Prosthesis", "Mohs – Basal Cell", "Mohs – Squamous Cell", "None", "Spine Surgery", "Thyroid Surgery", "Tonsils", "Vascular Surgery", "Wisdom Teeth", "Other"};
+    String[] surgeryList = {"Appendix", "Breast Biopsy", "Cataract", "Colon","Fibroids", "Gallbladder", "Heart - Angio/Stent", "Heart - Bypass", "Heart - Valve", "Hernia", "Hip Replacement", "Hysterectomy", "Knee Surgery/Replacement", "Lasik Surgery","Low back pain", "Mastectomy", "Metal Implants", "Middle Ear Prosthesis", "Mohs – Basal Cell", "Mohs – Squamous Cell", "None","Prostate", "Spine Surgery", "Thyroid Surgery", "Tonsils","Uterine", "Vascular Surgery", "Wisdom Teeth", "Other"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -272,7 +272,7 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                     tilOtherReaction.setHint("Other Reaction");
                     txtDate.setFocusable(false);
                     txtDate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cal_c, 0);
-                  //  txttypeReaction.setHint("Reaction");
+                    //  txttypeReaction.setHint("Reaction");
                     break;
 
                 case "AllergyUpdate":
@@ -933,8 +933,8 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
         tilNote = findViewById(R.id.tilNote);
         tilNote.setHint("Note");
         txtDate = findViewById(R.id.txtDate);
-       // txtDate.setFocusable(false);
-       // txtImmuniDate = findViewById(R.id.txtImmuniDate);
+        // txtDate.setFocusable(false);
+        // txtImmuniDate = findViewById(R.id.txtImmuniDate);
         txtDoctor = findViewById(R.id.txtDoctor);
         txtDone = findViewById(R.id.txtDone);
         tilTreatment = findViewById(R.id.tilTreatment);
@@ -1174,7 +1174,7 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                 }
 
                 break;
-           case R.id.txtDate:
+            case R.id.txtDate:
                 Calendar calendar = Calendar.getInstance();
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);

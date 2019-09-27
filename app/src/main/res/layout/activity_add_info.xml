@@ -724,7 +724,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/llAddConn"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/dimension40dp"
+                        android:layout_marginTop="@dimen/dimension120dp"
                         android:layout_marginBottom="@dimen/dimension30dp"
                         android:background="@drawable/darkgray_white_border"
                         android:padding="@dimen/dimension10dp"
@@ -739,7 +739,7 @@
                             android:layout_marginTop="@dimen/dimension10dp"
                             android:gravity="center_vertical"
                             android:text="Pdf For Reference"
-                            android:textColor="@color/colorBlackDark"
+                            android:textColor="@color/colorGray"
                             android:textSize="@dimen/dimension20dp"
                             android:textStyle="italic|bold"></TextView>
 

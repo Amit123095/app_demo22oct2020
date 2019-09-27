@@ -8,5 +8,21 @@
         android:id="@+id/lvResources"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null"></ListView>
+        android:divider="@null"
+        ></ListView>
+
+    <ListView
+        android:id="@+id/lvEndUser"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:visibility="gone"
+        ></ListView>
+    <ListView
+        android:id="@+id/lvSupport"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:visibility="gone"
+        ></ListView>
 </RelativeLayout>

@@ -295,7 +295,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
                     } else{
                         tilOtherSpecialist.setVisibility(View.GONE);
                         txtOtherSpecialist.setText("");
-                }
+                    }
                 }
                 if (a.getFrequency() != null) {
                     txtFrequency.setText(a.getFrequency());
@@ -363,6 +363,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
             } else{
                 txtRelation.setText(type);
                 tilOtherSpecialist.setVisibility(View.GONE);
+                txtOtherSpecialist.setText("");
             }
         } else if (requestCode == RESULT_FREQUENCY && data != null) {
             String freq = data.getExtras().getString("Category");
@@ -374,6 +375,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
             } else {
                 tilOtherFrequency.setVisibility(View.GONE);
                 txtOtherFrequency.setVisibility(View.GONE);
+                txtOtherFrequency.setText("");
             }
         }
     }
@@ -395,8 +397,69 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
                 break;
 
             case R.id.imgBack:
-                hideSoftKeyboard();
-                finish();
+                String types = txtRelation.getText().toString().trim();
+                String frequencys = txtFrequency.getText().toString().trim();
+                String names = txtName.getText().toString().trim();
+                //String dates = txtDate.getText().toString().trim();
+                String notes = txtNote.getText().toString().trim();
+                otherType = txtOtherSpecialist.getText().toString();
+                otherFrequency = txtOtherFrequency.getText().toString();
+                if(isUpdate==false) {
+                    if (types.equals("") && frequencys.equals("") && names.equals("") && notes.equals("")) {
+                        finish();
+                    } else {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setTitle("Save");
+                        alert.setMessage("Do you want to save information?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                txtSave.performClick();
+
+                            }
+                        });
+
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
+                        alert.show();
+                    }
+                }
+                else{
+                    if (p.getType().equals(types)&&p.getOtherDoctor().equals(otherType)&&
+                            p.getFrequency().equals(frequencys)&&p.getOtherFrequency().equals(otherFrequency)&&
+                            p.getNote().equals(notes)&&p.getDoctor().equals(names))
+                    {
+                        finish();
+                    }
+                    else{
+                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setTitle("Save");
+                        alert.setMessage("Do you want to save information?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                txtSave.performClick();
+
+                            }
+                        });
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
+                        alert.show();
+                    }
+                }
+
                 break;
             //Shradha
             case R.id.rlDelete:

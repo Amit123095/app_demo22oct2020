@@ -1,5 +1,6 @@
 package com.mindyourlovedone.healthcare.DropBox;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -26,7 +27,7 @@ public class UnZipTask extends AsyncTask<String, Void, String> {
     ZipListner context;
     ProgressDialog dialog;
 
-    public UnZipTask(DropboxLoginActivity filesActivity, String absolutePath, String path) {
+    public UnZipTask(FilesActivity filesActivity, String absolutePath, String path) {
         inputFolderPath = absolutePath;
         outZipPath = path;
         context = filesActivity;
@@ -36,11 +37,11 @@ public class UnZipTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        dialog = new ProgressDialog(con);
+       /* dialog = new ProgressDialog(con);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setCancelable(false);
         dialog.setMessage("Unzipping");
-        dialog.show();
+        dialog.show();*/
     }
 
     @Override
@@ -140,9 +141,10 @@ public class UnZipTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        if (dialog.isShowing()) {
+       /* if (dialog.isShowing()) {
             dialog.dismiss();
-        }
+        }*/
+
         context.getFile(s);
     }
 }

@@ -6,12 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +21,8 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,10 @@ import com.mindyourlovedone.healthcare.DashBoard.FragmentDashboard;
 import com.mindyourlovedone.healthcare.DashBoard.ProfileActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
+import com.mindyourlovedone.healthcare.SwipeCode.RecyclerSwipeAdapter;
+import com.mindyourlovedone.healthcare.SwipeCode.SimpleSwipeListener;
+
+import com.mindyourlovedone.healthcare.SwipeCode.SwipeLayout;
 import com.mindyourlovedone.healthcare.customview.MySpinner;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.MyConnectionsQuery;
@@ -49,7 +55,8 @@ import java.util.ArrayList;
  * Created by varsha on 8/23/2017.
  */
 
-public class ConnectionAdapter extends BaseSwipListAdapter {
+public class ConnectionAdapter extends RecyclerSwipeAdapter<ConnectionAdapter.ViewHolder> {
+
     final CharSequence[] import_new = {"Create New", "Import From Dropbox"};
     Context context;
     ArrayList<RelativeConnection> connectionList;
@@ -59,11 +66,13 @@ public class ConnectionAdapter extends BaseSwipListAdapter {
     ImageLoader imageLoader;
     DisplayImageOptions displayImageOptions;
     String[] Relationship = {"Aunt", "Brother", "Cousin", "Dad", "Daughter", "Brother-in-law", "Client", "Friend", "Father-in-law", "GrandDaughter", "GrandFather", "GrandMother", "GrandSon", "Husband", "Mom", "Mother-in-law", "Neighbor", "Nephew", "Niece", "Sister", "Son", "Uncle", "Wife", "Other"};
+    FragmentConnectionNew fragmentConnectionNew;
 
-    public ConnectionAdapter(Context context, ArrayList<RelativeConnection> connectionList) {
+    public ConnectionAdapter(Context context, ArrayList<RelativeConnection> connectionList, FragmentConnectionNew fragmentConnectionNew) {
         preferences = new Preferences(context);
         this.context = context;
         this.connectionList = connectionList;
+        this.fragmentConnectionNew=fragmentConnectionNew;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         initImageLoader();
     }
@@ -87,16 +96,6 @@ public class ConnectionAdapter extends BaseSwipListAdapter {
         imageLoader = ImageLoader.getInstance();
     }
 
-    @Override
-    public int getCount() {
-        //return connectionList.size() + 1;
-        return connectionList.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return connectionList.get(position);
-    }
 
     @Override
     public long getItemId(int position) {
@@ -104,6 +103,11 @@ public class ConnectionAdapter extends BaseSwipListAdapter {
     }
 
     @Override
+    public int getItemCount() {
+        return connectionList.size();
+    }
+
+    /*@Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView==null)
         {
@@ -114,7 +118,7 @@ public class ConnectionAdapter extends BaseSwipListAdapter {
             else if(position==connectionList.size()){
                 convertView = lf.inflate(R.layout.row_connectionsadd, parent, false);
             }
-            holder = new ViewHolder();
+          //  holder = new ViewHolder();
             holder.txtConName = (TextView) convertView.findViewById(R.id.txtConName);
             holder.txtConRelation = (TextView) convertView.findViewById(R.id.txtConRelation);
             holder.imgConPhoto = (ImageView) convertView.findViewById(R.id.imgConPhoto);
@@ -234,7 +238,7 @@ public class ConnectionAdapter extends BaseSwipListAdapter {
 
         return convertView;
 
-    }
+    }*/
 
     private void ShowOptionDialog() {
         final Dialog dialog = new Dialog(context);
@@ -374,9 +378,228 @@ public class ConnectionAdapter extends BaseSwipListAdapter {
         customDialog.show();
     }
 
-    public class ViewHolder {
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        lf= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view =  lf.inflate(R.layout.row_connections, parent, false);
+        return new ConnectionAdapter.ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        holder.swipeLayout.addSwipeListener(new SimpleSwipeListener() {
+            @Override
+            public void onOpen(SwipeLayout layout) {
+                //  YoYo.with(Techniques.Tada).duration(500).delay(100).playOn(layout.findViewById(R.id.trash));
+            }
+        });
+
+
+
+        if (position!=connectionList.size()) {
+            holder.txtConName.setText(connectionList.get(position).getName());
+            if (connectionList.get(position).getRelationType().equals("Other"))
+            {
+                holder.txtConRelation.setText(connectionList.get(position).getOtherRelation());
+            }else {
+                holder.txtConRelation.setText(connectionList.get(position).getRelationType());
+            }
+
+            if (!connectionList.get(position).getPhoto().equals("")) {
+                String mail1 = connectionList.get(position).getEmail();
+                mail1 = mail1.replace(".", "_");
+                mail1 = mail1.replace("@", "_");
+                File imgFile = new File(Environment.getExternalStorageDirectory()+"/MYLO/"+ mail1 +"/",connectionList.get(position).getPhoto());
+
+                if (imgFile.exists()) {
+                    if (holder.imgConPhoto.getDrawable() == null)
+                        holder.imgConPhoto.setImageResource(R.drawable.lightblue);
+                    else {
+                        final String uri = Uri.fromFile(imgFile).toString();
+                        Picasso.with(context)
+                                .load(uri)
+                                .into(holder.imgConPhoto);
+                    }
+                }
+            } else {
+                holder.imgConPhoto.setImageResource(R.drawable.lightblue);
+            }
+
+        }
+
+        holder.imgConPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentP= new Intent(context,ProfileActivity.class);
+                String mail1 = connectionList.get(position).getEmail();
+                mail1 = mail1.replace(".", "_");
+                mail1 = mail1.replace("@", "_");
+                preferences.putString(PrefConstants.USER_IMAGE, connectionList.get(position).getPhoto());
+                preferences.putString(PrefConstants.CONNECTED_NAME, connectionList.get(position).getName());
+                preferences.putString(PrefConstants.CONNECTED_USEREMAIL, connectionList.get(position).getEmail());
+                preferences.putInt(PrefConstants.CONNECTED_USERID, connectionList.get(position).getId());
+                preferences.putString(PrefConstants.CONNECTED_USERDB, mail1);
+                preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
+
+                context.startActivity(intentP);
+            }
+        });
+
+        holder.rlEmergencyContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (position==connectionList.size())
+                {
+                    AlertDialog.Builder builders = new AlertDialog.Builder(context);
+                    builders.setTitle("");
+                    builders.setItems(import_new, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int itemPos) {
+                            switch (itemPos) {
+                                case 0: // import
+                                    Intent in=new Intent(context, DropboxLoginActivity.class);
+                                    in.putExtra("FROM","Backup");
+                                    in.putExtra("ToDo","Individual");
+                                    in.putExtra("ToDoWhat","Import");
+                                    context.startActivity(in);
+                                    dialog.dismiss();
+                                    break;
+                                case 1: // new
+                                    preferences.putString(PrefConstants.SOURCE,"Connection");
+                                    Intent i=new Intent(context,GrabConnectionActivity.class);
+                                    context.startActivity(i);
+                                    dialog.dismiss();
+                                    break;
+                            }
+                        }
+                    });
+                    builders.create().show();
+
+                }
+                else {
+                    if (connectionList.get(position).getRelationType().equals("")) {
+                        showInputDialog(context,connectionList.get(position).getId(),connectionList.get(position).getEmail());
+                    } else {
+                        FragmentDashboard ldf = new FragmentDashboard();
+                        Bundle args = new Bundle();
+                        args.putString("Name", connectionList.get(position).getName());
+                        args.putString("Address", connectionList.get(position).getAddress());
+                        args.putString("Relation", connectionList.get(position).getRelationType());
+                        //String saveThis = Base64.encodeToString(connectionList.get(position).getPhoto(), Base64.DEFAULT);
+                        preferences.putString(PrefConstants.USER_IMAGE, connectionList.get(position).getPhoto());
+                        preferences.putString(PrefConstants.CONNECTED_NAME, connectionList.get(position).getName());
+                        preferences.putString(PrefConstants.CONNECTED_USEREMAIL, connectionList.get(position).getEmail());
+                        preferences.putInt(PrefConstants.CONNECTED_USERID, connectionList.get(position).getId());
+                        String mail = connectionList.get(position).getEmail();
+                        mail = mail.replace(".", "_");
+                        mail = mail.replace("@", "_");
+                        preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
+                        preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
+                        ldf.setArguments(args);
+
+                        ((BaseActivity) context).callFragment("DASHBOARD", ldf);
+                    }
+                }
+            }
+        });
+
+
+        holder.imgBackup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(context,"Backuping",Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(context, DropboxLoginActivity.class);
+                i.putExtra("FROM", "Backup");
+                i.putExtra("ToDo", "Individual");
+                i.putExtra("ToDoWhat", "Share");
+                String mail = connectionList.get(position).getEmail();;
+                mail = mail.replace(".", "_");
+                mail = mail.replace("@", "_");
+                preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
+                preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
+                context.startActivity(i);
+            }
+        });
+
+        holder.imgShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // Toast.makeText(context,"Sharing",Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(context, DropboxLoginActivity.class);
+                i.putExtra("FROM", "Share");
+                i.putExtra("ToDo", "Individual");
+                i.putExtra("ToDoWhat", "Share");
+                String mail = connectionList.get(position).getEmail();;
+                mail = mail.replace(".", "_");
+                mail = mail.replace("@", "_");
+                preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
+                preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
+                context.startActivity(i);
+            }
+        });
+
+        holder.imgDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //FragmentConnectionNew fr=new FragmentConnectionNew();
+                // fr.deleteConnections(position);
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                alert.setTitle("Delete");
+                alert.setMessage("Do you want to Delete " + connectionList.get(position).getName() + "'s profile?");
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String mail = connectionList.get(position).getEmail();
+                        mail = mail.replace(".", "_");
+                        mail = mail.replace("@", "_");
+                        preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
+                        preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
+                        fragmentConnectionNew.deleteConnection(connectionList.get(position).getId());
+                        dialog.dismiss();
+                    }
+                });
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+                });
+                alert.show();
+            }
+        });
+    }
+
+    @Override
+    public int getSwipeLayoutResourceId(int position) {
+        return R.id.swipe;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtConName, txtConRelation, txtAddress;
-        ImageView imgConPhoto, imgSelfFolder, imgConPhoto1, imgForword;
+        ImageView imgConPhoto, imgSelfFolder, imgBackup, imgShare,imgDelete;
+
+        SwipeLayout swipeLayout;
+        RelativeLayout rlEmergencyContact;
+        LinearLayout lincall, lintrash;
+        // SwipeRevealLayout swipeLayout;
+
+        public ViewHolder(View convertView) {
+            super(convertView);
+            lincall = itemView.findViewById(R.id.lincall);
+
+            swipeLayout = itemView.findViewById(R.id.swipe);
+            imgBackup = (ImageView) convertView.findViewById(R.id.imgBackup);
+            imgShare = (ImageView) convertView.findViewById(R.id.imgShare);
+            imgDelete = (ImageView) convertView.findViewById(R.id.imgDelete);
+
+            txtAddress = convertView.findViewById(R.id.txtAddress);
+            txtConName = (TextView) convertView.findViewById(R.id.txtConName);
+            txtConRelation = (TextView) convertView.findViewById(R.id.txtConRelation);
+            imgConPhoto = (ImageView) convertView.findViewById(R.id.imgConPhoto);
+            imgSelfFolder = (ImageView) convertView.findViewById(R.id.imgSelfFolder);
+
+            rlEmergencyContact = convertView.findViewById(R.id.rlEmergencyContact);
+        }
     }
 
    /* @Override

@@ -76,7 +76,9 @@
                 android:layout_margin="@dimen/_5ssp"
                 android:orientation="horizontal"
                 android:padding="@dimen/dimension5dp"
-                android:weightSum="10">
+                android:weightSum="10"
+
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/imgBackup"
@@ -140,7 +142,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimension1dp"
                 android:layout_marginTop="@dimen/dimension5dp"
-                android:background="@color/colorOnesGray" />
+                android:background="@color/colorOnesGray"
+                android:visibility="gone"
+                />
 
 
             <LinearLayout
@@ -150,7 +154,8 @@
                 android:layout_margin="@dimen/_5ssp"
                 android:orientation="horizontal"
                 android:padding="@dimen/dimension5dp"
-                android:weightSum="10">
+                android:weightSum="10"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/imgRetore"
@@ -212,7 +217,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimension1dp"
                 android:layout_marginTop="@dimen/dimension5dp"
-                android:background="@color/colorOnesGray" />
+                android:background="@color/colorOnesGray"
+                android:visibility="gone"
+                />
 
 
             <LinearLayout
@@ -222,7 +229,8 @@
                 android:layout_margin="@dimen/_5ssp"
                 android:orientation="horizontal"
                 android:padding="@dimen/dimension5dp"
-                android:weightSum="10">
+                android:weightSum="10"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/imgShare"
@@ -284,7 +292,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimension1dp"
                 android:layout_marginTop="@dimen/dimension5dp"
-                android:background="@color/colorOnesGray" />
+                android:background="@color/colorOnesGray"
+                android:visibility="gone"
+                />
 
 
             <LinearLayout
@@ -294,7 +304,8 @@
                 android:layout_margin="@dimen/_5ssp"
                 android:orientation="horizontal"
                 android:padding="@dimen/dimension5dp"
-                android:weightSum="10">
+                android:weightSum="10"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/imgUpload"
@@ -356,19 +367,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimension1dp"
                 android:layout_marginTop="@dimen/dimension5dp"
-                android:background="@color/colorOnesGray" />
+                android:background="@color/colorOnesGray"
+                android:visibility="gone"
+                />
 
             <RelativeLayout
                 android:id="@+id/rlNote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorOnesGray"
-                android:visibility="visible">
+                android:visibility="visible"
+
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+
+                    >
 
                     <TextView
                         android:layout_width="match_parent"
@@ -407,7 +424,7 @@
                         android:textColor="@color/colorBlackDark"
                         android:textSize="@dimen/dimension18dp"
                         android:fontFamily="@font/lato"
-android:textColorLink="@color/colorNewHereBlue"
+                        android:textColorLink="@color/colorNewHereBlue"
 
                         android:visibility="visible" />
 
@@ -663,7 +680,9 @@ android:textColorLink="@color/colorNewHereBlue"
                     android:layout_below="@+id/llB"
                     android:background="@color/colorOnesGray"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+
+                    >
 
 
                     <TextView
@@ -692,7 +711,7 @@ android:textColorLink="@color/colorNewHereBlue"
                         android:text="Login from Dropbox"
                         android:textColor="@color/colorBlue"
                         android:textSize="@dimen/dimension18dp"
-                       />
+                        />
 
                     <TextView
                         android:id="@+id/txtLogoutDropbox"
@@ -703,7 +722,7 @@ android:textColorLink="@color/colorNewHereBlue"
                         android:layout_marginRight="@dimen/dimension10dp"
                         android:layout_marginBottom="@dimen/dimension20dp"
                         android:fontFamily="@font/lato"
-android:visibility="gone"
+                        android:visibility="gone"
                         android:gravity="center"
                         android:text="Logout from Dropbox"
                         android:textColor="@color/colorBlue"

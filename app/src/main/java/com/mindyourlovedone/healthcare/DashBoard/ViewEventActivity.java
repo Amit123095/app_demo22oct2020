@@ -31,6 +31,7 @@ public class ViewEventActivity extends AppCompatActivity implements View.OnClick
     EditText etNote;
     TextView txtDate, txtSave, txtTitle, txtDelete;
     int id, userid;
+    Note note;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class ViewEventActivity extends AppCompatActivity implements View.OnClick
                 String currentDateandTime = sdf.format(new Date());
                 txtDate.setText(currentDateandTime);
             }else {
-                Note note = (Note) intent.getExtras().getSerializable("NoteObject");
+                note = (Note) intent.getExtras().getSerializable("NoteObject");
                 txtTitle.setText("Edit Event Notes");
                 String notes = note.getTxtNote();
                 String dates = note.getTxtDate();
@@ -96,7 +97,66 @@ public class ViewEventActivity extends AppCompatActivity implements View.OnClick
                 startActivity(intentHome);
                 break;
             case R.id.imgBack:
-                finish();
+                String notes = etNote.getText().toString();
+                String dates = txtDate.getText().toString();
+                if(getIntent().hasExtra("NEW")) {
+                    if (notes.equals(""))
+                    {
+                        finish();
+                    }
+                    else{
+                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setTitle("Save");
+                        alert.setMessage("Do you want to save information?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                txtSave.performClick();
+
+                            }
+                        });
+
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
+                        alert.show();
+                    }
+
+                }
+                else{
+                    if (note.getTxtNote().equals(notes))
+                    {
+                        finish();
+                    }
+                    else{
+                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setTitle("Save");
+                        alert.setMessage("Do you want to save information?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                txtSave.performClick();
+
+                            }
+                        });
+
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
+                        alert.show();
+                    }
+                }
+                //finish();
                 break;
             case R.id.txtSave:
                 if(!getIntent().hasExtra("NEW")) {
