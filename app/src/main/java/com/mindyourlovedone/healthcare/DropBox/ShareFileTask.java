@@ -51,7 +51,7 @@ public class ShareFileTask extends AsyncTask<String, Void, List<FileMemberAction
 if (params[1].equals("MYLO.zip")) {
     return mDbxClient.sharing().addFileMemberBuilder(params[0], mnewMembers).withCustomMessage("I have shared a MYLO Profile with you (" + params[1] + "). \n" +
             "\n" +
-            "To upload the profile, open MYLO and tap “Backup,Restore,Share” from menu, then tap Restore button. It will automatically load into the App \n").start();
+            "To upload the whole backup, open MYLO and tap “Backup,Restore,Share” from menu, then tap Restore button. It will automatically load into the App \n").start();
 }else{
     return mDbxClient.sharing().addFileMemberBuilder(params[0], mnewMembers).withCustomMessage("I have shared a MYLO Profile with you (" + params[1] + "). \n" +
             "\n" +
