@@ -87,13 +87,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         preferences = new Preferences(context);
-        initComponent();
         initUI();
         initListener();
     }
 
     private void initComponent() {
-        if (preferences.getInt(PrefConstants.SUBSCRIPTION_ENDS) != 1) {
+        if (preferences.getInt(PrefConstants.SUBSCRIPTION_ENDS) != 1 || !username.equalsIgnoreCase(lastemail) || !name.equalsIgnoreCase(lastusername)) {
             try {
                 File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
                 if (!f.exists()) {
@@ -323,25 +322,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         JSONObject job = null;
         String errorCode = "";
         try {
-
-            if (preferences.getInt(PrefConstants.SUBSCRIPTION_ENDS) != 1) {
-                try {
-                    File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
-                    if (!f.exists()) {
-                        f.mkdirs();
-                    } else {
-                        try {
-                            File file = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
-                            FileUtils.deleteDirectory(file);
-                            f.mkdirs();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            initComponent();//Nikita - Making folder here after check
 
             job = new JSONObject(result);
             JSONObject job1 = job.optJSONObject("response");
