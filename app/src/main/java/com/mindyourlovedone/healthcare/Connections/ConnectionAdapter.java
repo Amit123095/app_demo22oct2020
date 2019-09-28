@@ -507,33 +507,65 @@ public class ConnectionAdapter extends RecyclerSwipeAdapter<ConnectionAdapter.Vi
             @Override
             public void onClick(View view) {
                 //Toast.makeText(context,"Backuping",Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(context, DropboxLoginActivity.class);
-                i.putExtra("FROM", "Backup");
-                i.putExtra("ToDo", "Individual");
-                i.putExtra("ToDoWhat", "Share");
-                String mail = connectionList.get(position).getEmail();;
-                mail = mail.replace(".", "_");
-                mail = mail.replace("@", "_");
-                preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
-                preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
-                context.startActivity(i);
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                alert.setTitle("Backup");
+                alert.setMessage("Do you want to Backup " + connectionList.get(position).getName() + "'s profile?");
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent i = new Intent(context, DropboxLoginActivity.class);
+                        i.putExtra("FROM", "Backup");
+                        i.putExtra("ToDo", "Individual");
+                        i.putExtra("ToDoWhat", "Share");
+                        String mail = connectionList.get(position).getEmail();;
+                        mail = mail.replace(".", "_");
+                        mail = mail.replace("@", "_");
+                        preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
+                        preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
+                        context.startActivity(i);
+                    }
+                });
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+                });
+                alert.show();
             }
         });
 
         holder.imgShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Toast.makeText(context,"Sharing",Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(context, DropboxLoginActivity.class);
-                i.putExtra("FROM", "Share");
-                i.putExtra("ToDo", "Individual");
-                i.putExtra("ToDoWhat", "Share");
-                String mail = connectionList.get(position).getEmail();;
-                mail = mail.replace(".", "_");
-                mail = mail.replace("@", "_");
-                preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
-                preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
-                context.startActivity(i);
+                // Toast.makeText(context,"Sharing",Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                alert.setTitle("Share");
+                alert.setMessage("Do you want to Share " + connectionList.get(position).getName() + "'s profile?");
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent i = new Intent(context, DropboxLoginActivity.class);
+                        i.putExtra("FROM", "Share");
+                        i.putExtra("ToDo", "Individual");
+                        i.putExtra("ToDoWhat", "Share");
+                        String mail = connectionList.get(position).getEmail();;
+                        mail = mail.replace(".", "_");
+                        mail = mail.replace("@", "_");
+                        preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
+                        preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
+                        context.startActivity(i);
+                    }
+                });
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+                });
+                alert.show();
             }
         });
 

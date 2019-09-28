@@ -228,7 +228,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         lvSelf.setLayoutManager(linearLayoutManager);
 
         //add ItemDecoration
-        lvSelf.addItemDecoration(new VerticalSpaceItemDecoration(48));
+        lvSelf.addItemDecoration(new VerticalSpaceItemDecoration(20));
 
         //or
         lvSelf.addItemDecoration(

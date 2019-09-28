@@ -3,16 +3,18 @@
     android:id="@+id/swipe"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/border_white_gray"
+    android:background="@drawable/border_gray"
+
     android:longClickable="true"
 
     >
+
     <LinearLayout
         android:id="@+id/linswipe"
-        android:layout_width="@dimen/dimension160dp"
+        android:layout_width="@dimen/dimension200dp"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:background="@drawable/border_gray"
+
         >
 
         <LinearLayout
@@ -20,114 +22,128 @@
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:background="@drawable/border_gray"
-            >
+            android:background="@drawable/border_gray">
 
             <ImageView
                 android:id="@+id/imgBackup"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/dimension50dp"
                 android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dimension10dp"
+                android:layout_marginRight="@dimen/dimension2dp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:src="@drawable/backup_s"/>
+                android:src="@drawable/backup_s" />
 
             <ImageView
                 android:id="@+id/imgShare"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/dimension50dp"
                 android:layout_gravity="center"
+                android:layout_marginRight="@dimen/dimension2dp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:src="@drawable/share_s"
-                />
+                android:src="@drawable/share_s" />
 
             <ImageView
                 android:id="@+id/imgDelete"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/dimension50dp"
                 android:layout_gravity="center"
+                android:layout_marginRight="@dimen/dimension10dp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:src="@drawable/delete_s"
-              />
+                android:src="@drawable/delete_s" />
 
         </LinearLayout>
 
     </LinearLayout>
+
     <RelativeLayout
-        android:id="@+id/rlEmergencyContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:layout_gravity="center_vertical"
-        android:padding="@dimen/dimension10dp"
+        android:background="@drawable/border_white_gray"
+        android:gravity="center_vertical"
+       >
 
-        >
-      <!--  android:background="@drawable/rlborder"
-        android:elevation="@dimen/dimension10dp"
-      -->
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imgConPhoto"
-            android:layout_width="@dimen/dimension70dp"
-            android:layout_height="@dimen/dimension70dp"
-            android:layout_margin="@dimen/dimension8dp"
-            android:background="@color/colorWhite"
-            android:src="@drawable/lightblue"
-            android:layout_centerVertical="true"
-            />
-<RelativeLayout
-    android:id="@+id/rlProf"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_toRightOf="@+id/imgConPhoto"
-    android:gravity="center_vertical"
-    android:layout_centerVertical="true"
-    android:layout_toLeftOf="@+id/imgSelfFolder"
-    android:layout_marginRight="@dimen/dimension10dp"
+        <RelativeLayout
 
-    >
-        <TextView
-            android:id="@+id/txtConName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/lato"
-            android:singleLine="true"
-            android:text="Suzy Jon"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/dimension20dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/txtConRelation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txtConName"
-            android:gravity="center"
-            android:fontFamily="@font/lato"
-            android:text="Mother"
-            android:textColor="@color/colorGray"
-            android:textSize="@dimen/dimension18dp"
-            />
-</RelativeLayout>
-        <ImageView
-            android:id="@+id/imgSelfFolder"
-            android:layout_width="@dimen/dimension20dp"
-            android:layout_height="@dimen/dimension20dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="@dimen/dimension10dp"
-            android:layout_marginRight="@dimen/dimension5dp"
-            android:src="@drawable/rite_arrow" />
-
-        <View
+            android:id="@+id/rlEmergencyContact"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimension1dp"
-            android:background="@color/colorLightGray"
-            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dimension5dp"
+            android:background="@drawable/border_white_stroke"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dimension10dp">
 
-            android:visibility="gone"/>
+            <!--  android:background="@drawable/rlborder"
+              android:elevation="@dimen/dimension10dp"
+            -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgConPhoto"
+                android:layout_width="@dimen/dimension70dp"
+                android:layout_height="@dimen/dimension70dp"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/dimension2dp"
+                android:background="@color/colorWhite"
+                android:src="@drawable/lightblue" />
+
+            <RelativeLayout
+                android:id="@+id/rlProf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dimension5dp"
+                android:layout_marginRight="@dimen/dimension10dp"
+                android:layout_toLeftOf="@+id/imgSelfFolder"
+                android:layout_toRightOf="@+id/imgConPhoto"
+                android:gravity="center_vertical"
+
+                >
+
+                <TextView
+                    android:id="@+id/txtConName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato"
+                    android:singleLine="true"
+                    android:text="Suzy Jon"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/dimension20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtConRelation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtConName"
+                    android:fontFamily="@font/lato"
+                    android:gravity="center"
+                    android:text="Mother"
+                    android:textColor="@color/colorGray"
+                    android:textSize="@dimen/dimension18dp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/imgSelfFolder"
+                android:layout_width="@dimen/dimension20dp"
+                android:layout_height="@dimen/dimension20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/dimension10dp"
+                android:layout_marginRight="@dimen/dimension5dp"
+                android:src="@drawable/rite_arrow" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimension1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorLightGray"
+
+                android:visibility="gone" />
+        </RelativeLayout>
     </RelativeLayout>
-
 </com.mindyourlovedone.healthcare.SwipeCode.SwipeLayout><!--
     </com.chauthai.swipereveallayout.SwipeRevealLayout>-->
