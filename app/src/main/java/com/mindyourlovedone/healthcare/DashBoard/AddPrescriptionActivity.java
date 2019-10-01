@@ -78,6 +78,7 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
     String currentImage = null;
     Uri imageUriProfile = null;
     ContentValues values = null;
+    Prescription presc;
     int userid, uniqID;
     View view1;
     TextView txtPhotoHeader;//Shradha
@@ -87,7 +88,7 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
     ArrayList<PrescribeImage> imageList = new ArrayList<>();
     ArrayList<PrescribeImage> imageListOld = new ArrayList<>();
     RelativeLayout llAddPrescription;
-    String pre = "NO";
+    String pre = "";
     ToggleButton tbPre;
     TextInputLayout tilTitle;
     TextView txtName, txtDate, txtPurpose, txtNote, txtRX, txtPre, txtMedicine, txtDose, txtFrequency, txtTitle, txtSave;
@@ -104,7 +105,7 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
     int unique;
     boolean isEdit, isView;//Shradha
     int id, colid, dosageid, imageid;
-LinearLayout casts_container;
+    LinearLayout casts_container;
     ImageLoader imageLoader;
     DisplayImageOptions displayImageOptions;
 
@@ -244,6 +245,7 @@ LinearLayout casts_container;
         if (i.getExtras() != null) {
 
             Prescription p = (Prescription) i.getExtras().getSerializable("PrescriptionObject");
+            presc= (Prescription) i.getExtras().getSerializable("PrescriptionObject");
 
             isView = i.getExtras().getBoolean("IsView");//Shradha
             if (isView == true)//Shradha
@@ -366,8 +368,78 @@ LinearLayout casts_container;
         switch (v.getId()) {
 
             case R.id.imgBack:
-                DialogManager.closeKeyboard(AddPrescriptionActivity.this);
-                finish();
+                String doctors = txtName.getText().toString().trim();
+                String purposes = txtPurpose.getText().toString().trim();
+                String notes = etNote.getText().toString().trim();
+                String dates = txtDate.getText().toString().trim();
+                String rxs = txtRX.getText().toString().trim();
+                String doses = txtDose.getText().toString().trim();
+                String frequencys = txtFrequency.getText().toString().trim();
+                String medicines = txtMedicine.getText().toString().trim();
+                if(isEdit==false) {
+                    if (doctors.equals("")&&purposes.equals("")&&
+                            notes.equals("")&&dates.equals("")&&
+                            rxs.equals("")&&doses.equals("")&&
+                            frequencys.equals("")&&medicines.equals("")&&pre.equals(""))
+                    {
+                        finish();
+                    }
+                    else{
+                        android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(context);
+                        alert.setTitle("Save");
+                        alert.setMessage("Do you want to save information?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                txtSave.performClick();
+
+                            }
+                        });
+
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
+                        alert.show();
+                    }
+
+                }
+                else{
+
+                    if (presc.getMedicine().equals(medicines)&&presc.getDoctor().equals(doctors)&&
+                            presc.getPurpose().equals(purposes)&&presc.getNote().equals(notes)&&
+                            presc.getDates().equals(dates)&&presc.getPre().equals(pre)&&
+                            presc.getFrequency().equals(frequencys)&&presc.getRX().equals(rxs))
+                    {
+                        finish();
+                    }
+                    else{
+                        android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(context);
+                        alert.setTitle("Save");
+                        alert.setMessage("Do you want to save information?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                txtSave.performClick();
+
+                            }
+                        });
+
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
+                        alert.show();
+                    }
+                }
                 break;
            /* case R.id.txtDate:
                 Calendar calendar = Calendar.getInstance();

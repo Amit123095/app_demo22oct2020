@@ -276,7 +276,65 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imgBack:
-                finish();
+                name = txtName.getText().toString().trim();
+                if(!Goto.equals("Edit")) {
+                    if (name.equals("")&&documentPath.equals(""))
+                    {
+                        finish();
+                    }
+                    else{
+                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setTitle("Save");
+                        alert.setMessage("Do you want to save information?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                txtSave.performClick();
+
+                            }
+                        });
+
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
+                        alert.show();
+                    }
+
+                }
+                else{
+
+                    if (document.getName().equals(name)&&document.getDocument().equals(documentPath))
+                    {
+                        finish();
+                    }
+                    else{
+                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setTitle("Save");
+                        alert.setMessage("Do you want to save information?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                txtSave.performClick();
+
+                            }
+                        });
+
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
+                        alert.show();
+                    }
+                }
                 break;
             case R.id.flDelete:
                 deleteForm(document);
@@ -380,7 +438,7 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                                 uri = Uri.fromFile(targetFile);
                             }
                             // Uri uris = Uri.parse(documentPath);
-                          //  intent.setDataAndType(uri, "application/pdf");
+                            //  intent.setDataAndType(uri, "application/pdf");
                             String mimeType= MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
                             // Uri uris = Uri.parse(documentPath);
                             intent.setDataAndType(uri, mimeType);
@@ -427,7 +485,7 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                         uri = Uri.fromFile(targetFile);
                     }
                     // Uri uris = Uri.parse(documentPath);
-                  //  intent.setDataAndType(uri, "application/pdf");
+                    //  intent.setDataAndType(uri, "application/pdf");
                     String mimeType= MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
                     // Uri uris = Uri.parse(documentPath);
                     intent.setDataAndType(uri, mimeType);
@@ -623,7 +681,7 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                                     // Uri uris = Uri.parse(documentPath);
                                     intent.setDataAndType(uri, mimeType);
                                     //  //intent.setPackage("com.adobe.reader");//varsa
-                                  //  intent.setDataAndType(uri, "application/pdf");
+                                    //  intent.setDataAndType(uri, "application/pdf");
                                     try {
                                         context.startActivity(intent);
 

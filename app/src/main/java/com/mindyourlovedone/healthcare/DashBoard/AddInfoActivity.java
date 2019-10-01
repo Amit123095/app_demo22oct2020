@@ -74,6 +74,7 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
     Preferences preferences;
     DBHelper dbHelper;
     Button btn_delete;
+    String condName="";
     int id;
     String data = "";
     String header = "";
@@ -91,6 +92,10 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
     String[] implantList = {"Aneurysm Stent or Aneurysm Clip", "Artifical Limbs", "Artificial Heart Value", "Body Art/Tatoos", "Coronary Stents(Drug Coated/Bare Methal/Unknown)", "Metal Crowns, Fillings, Implants", "Gastric Band", "Body Piercing", "Implanted Cardio Defibrilator (ICD)", "Implanted Devices/Pumps/Stimulator", "Joint Replacements (specify)", "Lens Implants", "Metal Implants", "Middle Ear Prosthesis", "None", "Pacemaker", "Penile Implant", "Pins/Rods/Screws", "Prosthetic Eye", "Renal or other Stents", "Tracheotomy", "Other"};
     String[] reactionList = {"Anaphylaxis","Chest pain","Congestion","Difficulty Breathing","Hives","Itching","Mucus","Nausea","Rash","Runny nose","Sneezing","Vomiting", "Other"};
     String[] surgeryList = {"Appendix", "Breast Biopsy", "Cataract", "Colon","Fibroids", "Gallbladder", "Heart - Angio/Stent", "Heart - Bypass", "Heart - Valve", "Hernia", "Hip Replacement", "Hysterectomy", "Knee Surgery/Replacement", "Lasik Surgery","Low back pain", "Mastectomy", "Metal Implants", "Middle Ear Prosthesis", "Mohs – Basal Cell", "Mohs – Squamous Cell", "None","Prostate", "Spine Surgery", "Thyroid Surgery", "Tonsils","Uterine", "Vascular Surgery", "Wisdom Teeth", "Other"};
+Allergy AL;
+     Implant IM;
+     History Sur;
+     Vaccine vaccines;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -739,6 +744,7 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
             switch (from) {
                 case "AllergyUpdate":
                     Allergy allergy = (Allergy) i.getExtras().getSerializable("AllergyObject");
+                    AL= (Allergy) i.getExtras().getSerializable("AllergyObject");
                     txtName.setText(allergy.getAllergy());
                     //  txtReaction.setText(allergy.getReaction());
                     txtTreatment.setText(allergy.getTreatment());
@@ -761,6 +767,7 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
 
                 case "ImplantUpdate":
                     Implant implant = (Implant) i.getExtras().getSerializable("ImplantObject");
+                    IM= (Implant) i.getExtras().getSerializable("ImplantObject");
                     //txtName.setText(implant.getName());
                     //shradha
                     if (implant.getName().equalsIgnoreCase("Other")) {
@@ -786,6 +793,8 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
 
                 case "VaccineUpdate":
                     Vaccine vaccine = (Vaccine) i.getExtras().getSerializable("VaccineObject");
+                    vaccines=(Vaccine) i.getExtras().getSerializable("VaccineObject");
+
                     // txtName.setText(vaccine.getName());
                     txtDate.setText(vaccine.getDate());
                     txtOtherVaccine.setText(vaccine.getOther());
@@ -802,6 +811,7 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
 
                 case "ConditionUpdate":
                     String valuef = i.getExtras().getString("ConditionObject");
+                    condName = i.getExtras().getString("ConditionObject");
                     txtName.setText(valuef);
                     data = valuef;
                     break;
@@ -809,11 +819,13 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                 case "HospitalUpdate":
                     String values = i.getExtras().getString("HospitalObject");
                     txtName.setText(values);
+                    condName=values;
                     data = values;
                     break;
 
                 case "HistoryUpdate":
                     History history = (History) i.getExtras().getSerializable("HistoryObject");
+                    Sur = (History) i.getExtras().getSerializable("HistoryObject");
                     // txtName.setText(history.getName());
                     txtDone.setText(history.getDone());
                     txtDate.setText(history.getDate());
@@ -1021,8 +1033,150 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.imgBack:
-                hideSoftKeyboard();
-                finish();
+                if (from.equals("Allergy")||from.equals("AllergyUpdate"))
+                {
+                    String treatment = txtTreatment.getText().toString();
+                    String otherReaction = txtOtherReaction.getText().toString();
+                    String reactions = txttypeReaction.getText().toString();
+                    String name = txtName.getText().toString();
+                    if (from.equals("Allergy"))
+                    {
+                        if (name.equals("") && treatment.equals("") &&
+                                otherReaction.equals("") &&
+                                reactions.equals("")) {
+                            finish();
+                        } else {
+                            showSaveAlert();
+                        }
+                    }else if (from.equals("AllergyUpdate")){
+                    /*if (name.equals(AL.getAllergy()) && (treatment.equals(AL.getTreatment())||treatment.equals("--")) &&
+                            (otherReaction.equals(AL.getOtherReaction())||otherReaction.equals("--")) &&
+                            (reactions.equals(AL.getReaction())||reactions.equals("--"))) {*/
+                        if (name.equals(AL.getAllergy()) && (treatment.equals(AL.getTreatment())||treatment.equals("")) &&
+                                (otherReaction.equals(AL.getOtherReaction())||otherReaction.equals("")) &&
+                                (reactions.equals(AL.getReaction())||reactions.equals(""))) {
+                        finish();
+                    } else {
+                        showSaveAlert();
+                    }
+                 }
+                }else if (from.equals("Condition")||from.equals("ConditionUpdate"))
+                {
+                    String name = txtName.getText().toString();
+                    if (from.equals("Condition"))
+                    {
+                        if (name.equals("")) {
+                            finish();
+                        } else {
+                            showSaveAlert();
+                        }
+                    }else if (from.equals("ConditionUpdate")){
+                        if (name.equals(condName)) {
+                            finish();
+                        } else {
+                            showSaveAlert();
+                        }
+                    }
+                }else if (from.equals("Implants")||from.equals("ImplantUpdate"))
+                {
+                    String name = txtMedical.getText().toString();
+                    String datee = txtDate.getText().toString();
+                    String location = txtLocation.getText().toString().trim();
+                    String details = txtDetails.getText().toString().trim();
+                    String notes = txtNote.getText().toString().trim();
+
+                    String otherd = "";
+                    if (name.equals("Other") || name.equals("Joint Replacements (specify)")) {
+                        otherd = txtOtherVaccine.getText().toString();
+                    }
+
+                    if (from.equals("Implants"))
+                    {
+                        if (name.equals("")&&datee.equals("")&&
+                                location.equals("")&&details.equals("")&&
+                                notes.equals("")&&otherd.equals("")) {
+                            finish();
+                        } else {
+                            showSaveAlert();
+                        }
+                    }else if (from.equals("ImplantUpdate")){
+                        if (name.equals(IM.getName())&&(datee.equals(IM.getDate())||datee.equals(""))&&
+                                (location.equals(IM.getLocation())||location.equals(""))&&(details.equals(IM.getDetails())||details.equals(""))&&
+                                (notes.equals(IM.getNotes())||notes.equals(""))&&(otherd.equals(IM.getOther())||otherd.equals(""))) {
+                            finish();
+                        } else {
+                            showSaveAlert();
+                        }
+                    }
+                }else if (from.equals("History")||from.equals("HistoryUpdate"))
+                {
+                    String name = txttype.getText().toString();
+                    String dateu = txtDate.getText().toString();
+                    String doctors = txtDoctor.getText().toString();
+                    String dones = txtDone.getText().toString();
+                    String otherHU = txtOtherVaccine.getText().toString();
+                    if (from.equals("History"))
+                    {
+                        if (name.equals("")&&dateu.equals("")&&
+                                doctors.equals("")&&dones.equals("")&&
+                                otherHU.equals("")) {
+                            finish();
+                        } else {
+                            showSaveAlert();
+                        }
+                    }else if (from.equals("HistoryUpdate")){
+                        if (name.equals(Sur.getName())&&(dateu.equals(Sur.getDate())||dateu.equals(""))&&
+                        (doctors.equals(Sur.getDoctor())||doctors.equals(""))&&(dones.equals(Sur.getDone())||dones.equals(""))&&
+                                (otherHU.equals(Sur.getOther())||otherHU.equals(""))) {
+                            finish();
+                        } else {
+                            showSaveAlert();
+                        }
+                    }
+                }
+                else if (from.equals("Hospital")||from.equals("HospitalUpdate"))
+                {
+                    String name = txtName.getText().toString();
+                    if (from.equals("Hospital"))
+                    {
+                        if (name.equals("")) {
+                            finish();
+                        } else {
+                            showSaveAlert();
+                        }
+                    }else if (from.equals("HospitalUpdate")){
+                        if (name.equals(condName)) {
+                            finish();
+                        } else {
+                            showSaveAlert();
+                        }
+                    }
+                }
+                if (from.equals("Vaccine")||from.equals("VaccineUpdate"))
+                {
+                    String dates = txtDate.getText().toString();
+                    String others = txtOtherVaccine.getText().toString();
+                    String name = txttype.getText().toString();
+                    if (from.equals("Vaccine"))
+                    {
+                        if (name.equals("") && dates.equals("") &&
+                                others.equals("")) {
+                            finish();
+                        } else {
+                            showSaveAlert();
+                        }
+                    }else if (from.equals("VaccineUpdate")){
+                        if (name.equals(vaccines.getName()) &&( dates.equals(vaccines.getDate()) ||dates.equals(""))&&
+                                (others.equals(vaccines.getOther())||others.equals(""))) {
+                            finish();
+                        } else {
+                            showSaveAlert();
+                        }
+                    }
+                }
+
+
+
                 break;
 
             case R.id.imgHome:
@@ -1507,6 +1661,9 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    private void getValues(String connection) {
+    }
+
     private void showViewDialog(Context context, String Message, String title) {
         final Dialog customDialog;
 
@@ -1536,6 +1693,28 @@ public class AddInfoActivity extends AppCompatActivity implements View.OnClickLi
             InputMethodManager inm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
+    }
+    private void showSaveAlert() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        alert.setTitle("Save");
+        alert.setMessage("Do you want to save information?");
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                txtSave.performClick();
+
+            }
+        });
+
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+               finish();
+            }
+        });
+        alert.show();
     }
 
 }

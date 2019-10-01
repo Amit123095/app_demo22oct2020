@@ -58,7 +58,7 @@ public class PrescriptionUploadActivity extends AppCompatActivity implements Vie
         final CharSequence[] alert_items = {"Phone Storage", "Dropbox"};
         final CharSequence[] dialog_items = {"View", "Email", "Fax"};
         Context context = this;
-        ImageView imgBack, imgDot, imgDone, imgDoc, imgAdd, imgEdit,floatOptions;
+        ImageView imgBack, imgDot, imgDone, imgDoc, imgAdd, imgEdit, floatOptions;
         TextView txtName, txtAdd, txtSave, txtAttach;
         TextInputLayout tilName;
         String From;
@@ -119,7 +119,7 @@ public class PrescriptionUploadActivity extends AppCompatActivity implements Vie
                 rlDocument = findViewById(R.id.rlDocument);
                 flDelete = findViewById(R.id.flDelete);
                 imgEdit = findViewById(R.id.imgEdit);
-                floatOptions= findViewById(R.id.floatOptions);
+                floatOptions = findViewById(R.id.floatOptions);
                 txtName.setClickable(true);
                 txtName.setFocusable(false);
               /*  txtName.setOnTouchListener(new View.OnTouchListener() {
@@ -145,14 +145,14 @@ public class PrescriptionUploadActivity extends AppCompatActivity implements Vie
                         txtSave.setVisibility(View.GONE);
                         imgDone.setVisibility(View.GONE);
                         imgAdd.setVisibility(View.GONE);
-floatOptions.setVisibility(View.VISIBLE);
+                        floatOptions.setVisibility(View.VISIBLE);
                         document = (Form) i.getExtras().getSerializable("FormObject");
                         txtName.setText(document.getName());
                         documentPath = document.getDocument();
                         imgEdit.setVisibility(View.VISIBLE);
                         // imgDoc.setImageResource(document.getImage());
                         String extension = FilenameUtils.getExtension(document.getName());
-                        showDocIcon(extension, preferences.getString(PrefConstants.CONNECTED_PATH)+ documentPath);
+                        showDocIcon(extension, preferences.getString(PrefConstants.CONNECTED_PATH) + documentPath);
                         imgDoc.setVisibility(View.GONE);
                         txtAttach.setVisibility(View.GONE);
                         txtAdd.setVisibility(View.GONE);
@@ -165,7 +165,7 @@ floatOptions.setVisibility(View.VISIBLE);
                         documentPath = document.getDocument();
                         // imgDoc.setImageResource(document.getImage());
                         String extension = FilenameUtils.getExtension(document.getName());
-                        showDocIcon(extension, preferences.getString(PrefConstants.CONNECTED_PATH)+ documentPath);
+                        showDocIcon(extension, preferences.getString(PrefConstants.CONNECTED_PATH) + documentPath);
                         imgEdit.setVisibility(View.VISIBLE);
                         imgDoc.setVisibility(View.GONE);
                         txtAttach.setVisibility(View.GONE);
@@ -197,7 +197,7 @@ floatOptions.setVisibility(View.VISIBLE);
                 dbHelper = new DBHelper(context, preferences.getString(PrefConstants.CONNECTED_USERDB));
                 PrescriptionUpload d = new PrescriptionUpload(context, dbHelper);
 
-               Intent i = getIntent();
+                Intent i = getIntent();
                 Log.v("URI", i.getExtras().toString());
                 if (i.hasExtra("PDF_EXT")) {
                         final Uri audoUri = Uri.parse(i.getStringExtra("PDF_EXT"));
@@ -207,10 +207,11 @@ floatOptions.setVisibility(View.VISIBLE);
                                 From = i.getStringExtra("FROM");
                                 initUi();
                                 addfile(audoUri);
-                              //  external_flag = true;
+                                //  external_flag = true;
                         }
                 }
         }
+
         private void addfile(Uri audoUri) {
                 try {
                         originPath = audoUri.toString();
@@ -231,10 +232,10 @@ floatOptions.setVisibility(View.VISIBLE);
 
                         documentPath = f.getName();
                         name = f.getName();
-                      //  preferences.putInt(PrefConstants.CONNECTED_USERID, 1);
+                        //  preferences.putInt(PrefConstants.CONNECTED_USERID, 1);
                         txtName.setText(name);
                         // imgDoc.setClickable(false);
-                        if (!name.equalsIgnoreCase("")&&!documentPath.equalsIgnoreCase("")) {
+                        if (!name.equalsIgnoreCase("") && !documentPath.equalsIgnoreCase("")) {
                                 String text = "You Have selected <b>" + name + "</b> Document";
                                 Toast.makeText(context, Html.fromHtml(text), Toast.LENGTH_SHORT).show();
                                 imgDoc.setClickable(false);
@@ -252,6 +253,7 @@ floatOptions.setVisibility(View.VISIBLE);
                         ex.printStackTrace();
                 }
         }
+
         private void showDialogWindow(String text) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(context);
                 alert.setMessage(Html.fromHtml(text));
@@ -263,11 +265,65 @@ floatOptions.setVisibility(View.VISIBLE);
                 });
                 alert.show();
         }
+
         @Override
         public void onClick(View v) {
                 switch (v.getId()) {
                         case R.id.imgBack:
-                                finish();
+                                name = txtName.getText().toString().trim();
+                                if (!Goto.equals("Edit")) {
+                                        if (name.equals("") && documentPath.equals("")) {
+                                                finish();
+                                        } else {
+                                                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                                                alert.setTitle("Save");
+                                                alert.setMessage("Do you want to save information?");
+                                                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                dialog.dismiss();
+                                                                txtSave.performClick();
+
+                                                        }
+                                                });
+
+                                                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                dialog.dismiss();
+                                                                finish();
+                                                        }
+                                                });
+                                                alert.show();
+                                        }
+
+                                } else {
+
+                                        if (document.getName().equals(name) && document.getDocument().equals(documentPath)) {
+                                                finish();
+                                        } else {
+                                                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                                                alert.setTitle("Save");
+                                                alert.setMessage("Do you want to save information?");
+                                                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                dialog.dismiss();
+                                                                txtSave.performClick();
+
+                                                        }
+                                                });
+
+                                                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                dialog.dismiss();
+                                                                finish();
+                                                        }
+                                                });
+                                                alert.show();
+                                        }
+                                }
                                 break;
                         case R.id.flDelete:
                                 deleteForm(document);
@@ -304,13 +360,12 @@ floatOptions.setVisibility(View.VISIBLE);
                                         public void onClick(View view) {
                                                 Uri uris = Uri.parse(documentPath);
                                                 String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + txtName.getText().toString();
-                                                Intent i=new Intent(context,FaxActivity.class);
-                                                i.putExtra("PATH",preferences.getString(PrefConstants.CONNECTED_PATH) + documentPath);
+                                                Intent i = new Intent(context, FaxActivity.class);
+                                                i.putExtra("PATH", preferences.getString(PrefConstants.CONNECTED_PATH) + documentPath);
                                                 startActivity(i);
                                                 dialog.dismiss();
                                         }
                                 });
-
 
 
                                 dialog.setContentView(dialogview);
@@ -371,7 +426,7 @@ floatOptions.setVisibility(View.VISIBLE);
                                                                 uri = Uri.fromFile(targetFile);
                                                         }
                                                         // Uri uris = Uri.parse(documentPath);
-                                                        String mimeType= MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
+                                                        String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
                                                         // Uri uris = Uri.parse(documentPath);
                                                         intent.setDataAndType(uri, mimeType);
                                                         //  //intent.setPackage("com.adobe.reader");//varsa
@@ -419,7 +474,7 @@ floatOptions.setVisibility(View.VISIBLE);
                                                 uri = Uri.fromFile(targetFile);
                                         }
                                         // Uri uris = Uri.parse(documentPath);
-                                        String mimeType= MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
+                                        String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
                                         // Uri uris = Uri.parse(documentPath);
                                         intent.setDataAndType(uri, mimeType);
                                         //  //intent.setPackage("com.adobe.reader");//varsa
@@ -468,9 +523,9 @@ floatOptions.setVisibility(View.VISIBLE);
                                         documentPath = copydb(originPath, name);
                                         DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy");
                                         Date dates = new Date();
-                                        date=dateFormat.format(dates);
+                                        date = dateFormat.format(dates);
                                         if (Goto.equals("Edit")) {
-                                                Boolean flag = PrescriptionUpload.updateDocumentData(id, name, photo, documentPath,date);
+                                                Boolean flag = PrescriptionUpload.updateDocumentData(id, name, photo, documentPath, date);
                                                 if (flag == true) {
                                                         Toast.makeText(context, "You have updated document successfully", Toast.LENGTH_SHORT).show();
                                                         finish();
@@ -478,7 +533,7 @@ floatOptions.setVisibility(View.VISIBLE);
                                                         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                                                 }
                                         } else {
-                                                Boolean flag = PrescriptionUpload.insertDocumentData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, photo, documentPath,date);
+                                                Boolean flag = PrescriptionUpload.insertDocumentData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, photo, documentPath, date);
                                                 if (flag == true) {
                                                         Toast.makeText(context, "You have added form successfully", Toast.LENGTH_SHORT).show();
                                                         try {
@@ -512,7 +567,7 @@ floatOptions.setVisibility(View.VISIBLE);
                                                 uris = Uri.fromFile(targetFile);
                                         }
                                         // Uri uris = Uri.parse(documentPath);
-                                        String mimeType= MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
+                                        String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
                                         // Uri uris = Uri.parse(documentPath);
                                         intent.setDataAndType(uris, mimeType);
                                         //  //intent.setPackage("com.adobe.reader");//varsa
@@ -552,8 +607,7 @@ floatOptions.setVisibility(View.VISIBLE);
                     context.startActivity(intent);*/
 
 
-                                }
-else {
+                                } else {
                                         formDialog();
                                 }
                                 break;
@@ -613,7 +667,7 @@ else {
                                                                                 uri = Uri.fromFile(targetFile);
                                                                         }
                                                                         // Uri uris = Uri.parse(documentPath);
-                                                                        String mimeType= MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
+                                                                        String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
                                                                         intent.setDataAndType(uri, mimeType);
                                                                         try {
                                                                                 context.startActivity(intent);
@@ -770,7 +824,7 @@ else {
                 final TextView txtIns = dialogview.findViewById(R.id.txtIns);
                 final TextView txtOk = dialogview.findViewById(R.id.txtOk);
 
-                String data=Html.fromHtml(
+                String data = Html.fromHtml(
                         "<li> √ To upload an email attachment open the attachment from your email and click the forward button on the upper right side of the screen. <br></li>" +
                                 "<li> √ Scroll through the App until you find MYLO.  Click MYLO – then click the Profile you wish to attach the document to, then click the sub-section the document pertains to and click OK. <br></li>" +
                                 "<li> √ Enter additional information and then click Save. <br></li>" +
@@ -865,7 +919,7 @@ else {
 
                 String body = "Hi, \n" +
                         "\n" +
-                      //  "\n" + name +
+                        //  "\n" + name +
                         "I shared these document with you. Please check the attachment. \n" +
                         "\n" +
                         "Thank you,\n" +
@@ -929,7 +983,7 @@ else {
                                 Toast.makeText(context, Html.fromHtml(text), Toast.LENGTH_SHORT).show();
                                 // imgDoc.setImageResource(R.drawable.pdf);
                                 String extension = FilenameUtils.getExtension(name);
-                                showDocIcon(extension,originPath);
+                                showDocIcon(extension, originPath);
                                 imgDoc.setVisibility(View.GONE);
                                 imgEdit.setVisibility(View.VISIBLE);
                                 txtAttach.setVisibility(View.GONE);
@@ -951,6 +1005,7 @@ else {
                 });
                 alert.show();
         }
+
         public void CopyReadAssetss(String documentPath) {
                 AssetManager assetManager = getAssets();
                 File outFile = null;
@@ -989,7 +1044,7 @@ else {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                String mimeType= MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
+                String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
                 // Uri uris = Uri.parse(documentPath);
                 intent.setDataAndType(uri, mimeType);
                 try {
@@ -1016,6 +1071,7 @@ else {
                 }
 
         }
+
         private void copyFiles(InputStream in, OutputStream out) throws IOException {
                 byte[] buffer = new byte[1024];
                 int read;
@@ -1025,10 +1081,10 @@ else {
 
 
         }
+
         private void showDocIcon(String extension, String originPath) {
-               // Toast.makeText(context,extension,Toast.LENGTH_SHORT).show();
-                switch (extension)
-                {
+                // Toast.makeText(context,extension,Toast.LENGTH_SHORT).show();
+                switch (extension) {
                         case "pdf":
                                 rlDoc.setBackgroundResource(R.drawable.pdf);
                                 break;

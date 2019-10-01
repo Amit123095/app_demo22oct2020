@@ -3,6 +3,7 @@ package com.mindyourlovedone.healthcare.DashBoard;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -66,6 +67,7 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
     TextInputLayout tilTitle,tilOther;
     Bitmap bitmap1, bitmap2;
     String imagePathFront = "", imagePathBack = "";
+    Card C;
     ImageView imgDone, imgHome, imgBack, imgEdit1, imgEdit2, imgfrontCard, imgBackCard;
     String imagepath = "";//
     String name = "", type = "", oter = "";
@@ -181,12 +183,13 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                 tilTitle.setHintEnabled(true);
             }
             Card card = (Card) i.getExtras().getSerializable("CardObject");
+            C=(Card) i.getExtras().getSerializable("CardObject");
             txtName.setText(card.getName());
             txttype.setText(card.getType());
             txtOther.setText(card.getOtertype());
             if (card.getType().equalsIgnoreCase("Other"))
             {
-tilOther.setVisibility(View.VISIBLE);
+                tilOther.setVisibility(View.VISIBLE);
             }
             else
             {
@@ -211,9 +214,9 @@ tilOther.setVisibility(View.VISIBLE);
                     imgEdit1.setVisibility(View.GONE);
                 }
                 else {*/
-                    imgfrontCard.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
-                    frontFlag = true;
-                    imgEdit1.setVisibility(View.VISIBLE);
+                imgfrontCard.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
+                frontFlag = true;
+                imgEdit1.setVisibility(View.VISIBLE);
                 //}
                 // imageLoaderProfile.displayImage(String.valueOf(Uri.fromFile(imgFile)), viewHolder.imgProfile, displayImageOptionsProfile);
             }
@@ -224,8 +227,8 @@ tilOther.setVisibility(View.VISIBLE);
                 //llFrontCam.setVisibility(View.VISIBLE);
             }//new change for default image display
 
-          /*  if (imgFile.exists()) {
-               *//* BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            /*  if (imgFile.exists()) {
+             *//* BitmapFactory.Options bmOptions = new BitmapFactory.Options();
                 Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath(),bmOptions);
                 Matrix matrix = new Matrix();
                 if (bitmap.getHeight()>bitmap.getWidth()) {
@@ -258,10 +261,10 @@ tilOther.setVisibility(View.VISIBLE);
                     imgEdit2.setVisibility(View.GONE);
                 }
                 else {*/
-                    imgBackCard.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile1))));
-                    imgEdit2.setVisibility(View.VISIBLE);
-                    backFlag = true;
-               // }
+                imgBackCard.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile1))));
+                imgEdit2.setVisibility(View.VISIBLE);
+                backFlag = true;
+                // }
                 // imageLoaderProfile.displayImage(String.valueOf(Uri.fromFile(imgFile)), viewHolder.imgProfile, displayImageOptionsProfile);
             }
             else {
@@ -293,7 +296,7 @@ tilOther.setVisibility(View.VISIBLE);
         switch (v.getId()) {
             case R.id.llFrontCam:
 
-                    imgEdit1.performClick();
+                imgEdit1.performClick();
 
                /* if (frontFlag == true) {
 
@@ -338,8 +341,8 @@ tilOther.setVisibility(View.VISIBLE);
                     type = txttype.getText().toString();
                     name = txtName.getText().toString();
                     oter=txtOther.getText().toString();
-                   storeImage(PHOTO1, "Front");
-                  storeImage(PHOTO2, "Back");
+                    storeImage(PHOTO1, "Front");
+                    storeImage(PHOTO2, "Back");
 
                     if (isEdit == false) {
                         boolean flag = CardQuery.insertInsuranceCardData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, type, imagePathFront, imagePathBack,oter);
@@ -360,7 +363,7 @@ tilOther.setVisibility(View.VISIBLE);
                         }
                         Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
                     }
-                  //  Toast.makeText(context, "Credentials Saved..", Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(context, "Credentials Saved..", Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(context, "Invalid Credentials..", Toast.LENGTH_SHORT).show();
@@ -370,7 +373,72 @@ tilOther.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.imgBack:
-                finish();
+                type = txttype.getText().toString();
+                name = txtName.getText().toString();
+                oter=txtOther.getText().toString();
+
+                if(isEdit==false) {
+                    if (type.equals("")&&name.equals("")&&
+                            oter.equals("")&&imagePathBack.equals("")&&
+                            imagePathFront.equals(""))
+                    {
+                        finish();
+                    }
+                    else{
+                        android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(context);
+                        alert.setTitle("Save");
+                        alert.setMessage("Do you want to save information?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                txtSave.performClick();
+
+                            }
+                        });
+
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
+                        alert.show();
+                    }
+
+                }
+                else{
+
+                    if (C.getType().equals(type)&&C.getName().equals(name)&&
+                            C.getOtertype().equals(oter)&&C.getImgFront().equals(imagePathFront)&&
+                            C.getImgBack().equals(imagePathBack))
+                    {
+                        finish();
+                    }
+                    else{
+                        android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(context);
+                        alert.setTitle("Save");
+                        alert.setMessage("Do you want to save information?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                txtSave.performClick();
+
+                            }
+                        });
+
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
+                        alert.show();
+                    }
+                }
                 break;
             case R.id.imgEdit1:
                 showDialogs(RESULT_CAMERA_IMAGE1, RESULT_SELECT_PHOTO1, "Front");
@@ -710,7 +778,7 @@ tilOther.setVisibility(View.VISIBLE);
                 llFrontCam.setVisibility(View.GONE);
                 imgEdit1.setVisibility(View.VISIBLE);
                 PHOTO1 = rotatedBitmap;
-                 storeImage(rotatedBitmap,"Front");
+                storeImage(rotatedBitmap,"Front");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -787,7 +855,7 @@ tilOther.setVisibility(View.VISIBLE);
                 imgEdit2.setVisibility(View.VISIBLE);
                 PHOTO2 = rotatedBitmap;
                 /*shradha*/
-               storeImage(rotatedBitmap, "Back");
+                storeImage(rotatedBitmap, "Back");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -866,7 +934,7 @@ tilOther.setVisibility(View.VISIBLE);
 
 */
         }
-       else if (requestCode == RESULT_INSURANCECard && data != null) {
+        else if (requestCode == RESULT_INSURANCECard && data != null) {
             type = data.getStringExtra("Category");
             txttype.setText(type);
             if (type.equals("Other")) {

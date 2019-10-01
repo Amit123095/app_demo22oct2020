@@ -1,7 +1,9 @@
 package com.mindyourlovedone.healthcare.DashBoard;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -196,7 +198,77 @@ txtDelete.setOnClickListener(new View.OnClickListener() {
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                getVales();
+                name = txtName.getText().toString();
+                breed = txtBreed.getText().toString();
+                color = txtColor.getText().toString();
+                chip = txtChip.getText().toString();
+                veterain = txtVeterian.getText().toString();
+                veterain_add = txtVeteranAd.getText().toString();
+                veterain_ph = txtVeteranPh.getText().toString();
+                care = txtCare.getText().toString();
+                care_add = txtCareAd.getText().toString();
+                care_ph = txtCarePh.getText().toString();
+                bdate = txtPetBirthDate.getText().toString();
+                notes = txtPetNotes.getText().toString();
+                if(isUpdate==false) {
+                    if (name.equals("") && breed.equals("") && color.equals("") && chip.equals("")&&
+                            veterain.equals("") && veterain_add.equals("") && veterain_ph.equals("") && care.equals("")&&
+                            care_add.equals("") && care_ph.equals("") && bdate.equals("") && notes.equals("")) {
+                        finish();
+                    } else {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setTitle("Save");
+                        alert.setMessage("Do you want to save information?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                txtSave.performClick();
+
+                            }
+                        });
+
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
+                        alert.show();
+                    }
+                }
+                else{
+                    if (name.equals(p.getName()) && breed.equals(p.getBreed()) && color.equals(p.getColor()) && chip.equals(p.getChip())&&
+                            veterain.equals(p.getVeterian()) && veterain_add.equals(p.getVeterian_add()) && veterain_ph.equals(p.getVeterian_ph()) && care.equals(p.getGuard())&&
+                            care_add.equals(p.getCare_add()) && care_ph.equals(p.getCare_ph()) && bdate.equals(p.getBdate()) && notes.equals(p.getNotes()))
+                    {
+                        finish();
+                    }
+                    else{
+                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setTitle("Save");
+                        alert.setMessage("Do you want to save information?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                txtSave.performClick();
+
+                            }
+                        });
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
+                        alert.show();
+                    }
+                }
+
             }
         });
         txtSave.setOnClickListener(new View.OnClickListener() {
@@ -231,6 +303,21 @@ txtDelete.setOnClickListener(new View.OnClickListener() {
 
             }
         });
+    }
+
+    private void getVales() {
+        name = txtName.getText().toString();
+        breed = txtBreed.getText().toString();
+        color = txtColor.getText().toString();
+        chip = txtChip.getText().toString();
+        veterain = txtVeterian.getText().toString();
+        veterain_add = txtVeteranAd.getText().toString();
+        veterain_ph = txtVeteranPh.getText().toString();
+        care = txtCare.getText().toString();
+        care_add = txtCareAd.getText().toString();
+        care_ph = txtCarePh.getText().toString();
+        bdate = txtPetBirthDate.getText().toString();
+        notes = txtPetNotes.getText().toString();
     }
 
     private boolean validate() {

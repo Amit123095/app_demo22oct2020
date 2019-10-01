@@ -3,12 +3,12 @@ package com.mindyourlovedone.healthcare.model;
 //Nikita#Sub
 public class SubscrptionData {
     int UserId;
-    String Source;
-    String TransactionID;
-    String StartDate;
-    String EndDate;
-    String Status;
-    String Email;
+    String Source="";
+    String TransactionID="";
+    String StartDate="";
+    String EndDate="";
+    String Status="";
+    String Email="";
 
     public int getUserId() {
         return UserId;

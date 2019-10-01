@@ -332,9 +332,7 @@ public class GrabConnectionActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.imgBack:
-                finish();
-                break;
+
 
            /* case R.id.txtsave:
               //  Toast.makeText(context,"clicked",Toast.LENGTH_SHORT).show();

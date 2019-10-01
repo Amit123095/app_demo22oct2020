@@ -206,7 +206,7 @@ public class AddDocumentActivity extends AppCompatActivity implements View.OnCli
         imgAdd = findViewById(R.id.imgAdd);
         spinnerDoc = findViewById(R.id.spinnerDoc);
         rlDocType = findViewById(R.id.rlDocType);
-       // rlDelete = findViewById(R.id.rlDelete);
+        // rlDelete = findViewById(R.id.rlDelete);
         flDelete = findViewById(R.id.flDelete);
         spinnerType = findViewById(R.id.spinnerType);
 
@@ -226,6 +226,7 @@ public class AddDocumentActivity extends AppCompatActivity implements View.OnCli
         txtDocTYpe = findViewById(R.id.txtDocType);
         tilOther = findViewById(R.id.tilOther);
         tilOtherDocType = findViewById(R.id.tilOtherDocType);
+        tilOtherDocType.setVisibility(View.GONE);
         txtOtherDocType = findViewById(R.id.txtOtherDocType);
         tilName = findViewById(R.id.tilName);
         tilPName = findViewById(R.id.tilPName);
@@ -299,7 +300,7 @@ public class AddDocumentActivity extends AppCompatActivity implements View.OnCli
                 alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-dialogInterface.dismiss();
+                        dialogInterface.dismiss();
                     }
                 });
                 alert.show();
@@ -437,7 +438,7 @@ dialogInterface.dismiss();
             txtAdd.setVisibility(View.GONE);
             imgDoc.setClickable(true);
             floatOptions.setVisibility(View.VISIBLE);
-           // rlDelete.setVisibility(View.VISIBLE);
+            // rlDelete.setVisibility(View.VISIBLE);
             flDelete.setVisibility(View.GONE);
             disableView();
         } else if (Goto.equals("Edit")) {
@@ -445,19 +446,19 @@ dialogInterface.dismiss();
             //imgDone.setVisibility(View.VISIBLE);
             imgDot.setVisibility(View.GONE);
             imgAdd.setVisibility(View.GONE);
-           // rlDelete.setVisibility(View.VISIBLE);
+            // rlDelete.setVisibility(View.VISIBLE);
             flDelete.setVisibility(View.GONE);
             floatOptions.setVisibility(View.VISIBLE);
             // txtAdd.setVisibility(View.VISIBLE);
             // txtAdd.setText("Edit File");
-         //   imgDoc.setClickable(false);
+            //   imgDoc.setClickable(false);
         } else {
             floatOptions.setVisibility(View.GONE);
             txtSave.setVisibility(View.VISIBLE);
             //imgDone.setVisibility(View.VISIBLE);
             imgDot.setVisibility(View.GONE);
             imgAdd.setVisibility(View.GONE);
-          //  rlDelete.setVisibility(View.GONE);
+            //  rlDelete.setVisibility(View.GONE);
             flDelete.setVisibility(View.GONE);
             // txtAdd.setVisibility(View.VISIBLE);
             // txtAdd.setText("Select File");
@@ -478,8 +479,10 @@ dialogInterface.dismiss();
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if (parent.getItemAtPosition(position).toString().equals("Other")) {
                             tilOtherDocType.setVisibility(View.VISIBLE);
+
                         } else {
                             tilOtherDocType.setVisibility(View.GONE);
+                            txtOtherDocType.setText("");
                         }
                     }
 
@@ -676,9 +679,9 @@ dialogInterface.dismiss();
 
             documentPath = f.getName();
             name = f.getName();
-          //  preferences.putInt(PrefConstants.CONNECTED_USERID, 1);
+            //  preferences.putInt(PrefConstants.CONNECTED_USERID, 1);
             txtFName.setText(name);
-           // imgDoc.setClickable(false);
+            // imgDoc.setClickable(false);
             if (!name.equalsIgnoreCase("")&&!documentPath.equalsIgnoreCase("")) {
                 String text = "You Have selected <b>" + name + "</b> Document";
                 Toast.makeText(context, Html.fromHtml(text), Toast.LENGTH_SHORT).show();
@@ -732,10 +735,142 @@ dialogInterface.dismiss();
                 break;
 
             case R.id.imgBack:
-                finish();
+                 //name, category, date, location, holder, photo, documentPath, docType, From, person, principle,
+                         //otherCategory, Hosp, otherDocType, locator,note);
+                getValues();
+
+                if(!Goto.equals("Edit")) {
+                    if (From.equals("AD")) {
+                        if (name.equals("") && documentPath.equals("") &&
+                                date.equals("") && location.equals("") &&
+                                holder.equals("") && docType.equals("") &&
+                                otherDocType.equals("") && note.equals("") && person.equals("")) {
+                            finish();
+                        } else {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                            alert.setTitle("Save");
+                            alert.setMessage("Do you want to save information?");
+                            alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    txtSave.performClick();
+
+                                }
+                            });
+
+                            alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            });
+                            alert.show();
+                        }
+
+                    }
+                    else{
+                        //category = txtDocuType.getText().toString();
+                        //otherCategory = txtOther.getText().toString();
+                        if (name.equals("") && documentPath.equals("") &&
+                                date.equals("") && location.equals("") &&
+                                holder.equals("") && docType.equals("") &&
+                                locator.equals("") && principle.equals("") &&
+                                Hosp.equals("") && category.equals("") &&
+                                otherCategory.equals("") && person.equals("")&&
+                                otherDocType.equals("") && note.equals("") ) {
+                            finish();
+                        } else {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                            alert.setTitle("Save");
+                            alert.setMessage("Do you want to save information?");
+                            alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    txtSave.performClick();
+
+                                }
+                            });
+
+                            alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            });
+                            alert.show();
+                        }
+                    }
+                }
+                else {
+                    if (From.equals("AD")) {
+                        if (document.getName().equals(name) && document.getDocument().equals(documentPath) &&
+                                document.getDate().equals(date) && document.getType().equals(docType) &&
+                                document.getOtherDoc().equals(otherDocType) && document.getNote().equals(note) &&
+                                document.getPerson().equals(person) && document.getHolder().equals(holder) && document.getLocation().equals(location)) {
+                            finish();
+                        } else {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                            alert.setTitle("Save");
+                            alert.setMessage("Do you want to save information?");
+                            alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    txtSave.performClick();
+
+                                }
+                            });
+
+                            alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            });
+                            alert.show();
+                        }
+                    } else {
+
+                        if (document.getName().equals(name) && document.getDocument().equals(documentPath) &&
+                                document.getDate().equals(date) && document.getType().equals(docType) &&
+                                document.getOtherDoc().equals(otherDocType) && document.getNote().equals(note) &&
+                                document.getLocator().equals(locator) && document.getHospital().equals(Hosp) && document.getPrinciple().equals(principle) &&
+                                document.getCategory().equals(category) && document.getOtherCategory().equals(otherCategory) &&
+                                document.getPerson().equals(person) && document.getHolder().equals(holder) && document.getLocation().equals(location)) {
+                            finish();
+                        } else {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                            alert.setTitle("Save");
+                            alert.setMessage("Do you want to save information?");
+                            alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    txtSave.performClick();
+
+                                }
+                            });
+
+                            alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            });
+                            alert.show();
+                        }
+                    }
+                }
+
                 break;
 
-           case R.id.txtFName:
+            case R.id.txtFName:
                 if (getIntent().hasExtra("PDF_EXT")) {
 
                 } else {
@@ -757,7 +892,7 @@ dialogInterface.dismiss();
                             }
                             // Uri uris = Uri.parse(documentPath);
                             String mimeType= MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
-                                            intent.setDataAndType(uri, mimeType);
+                            intent.setDataAndType(uri, mimeType);
                             try {
                                 context.startActivity(intent);
 
@@ -845,67 +980,67 @@ dialogInterface.dismiss();
 
                 break;
 
-           case R.id.imgDoc:
-               if (getIntent().hasExtra("PDF_EXT")) {
+            case R.id.imgDoc:
+                if (getIntent().hasExtra("PDF_EXT")) {
 
-               } else {
-                   if (!documentPath.equals("")) {
-                       Uri uri = null;
-                       if (path.equals("No")) {
+                } else {
+                    if (!documentPath.equals("")) {
+                        Uri uri = null;
+                        if (path.equals("No")) {
 
-                           CopyReadAssetss(documentPath);
+                            CopyReadAssetss(documentPath);
 
-                       } else {
-                           File targetFile = new File(preferences.getString(PrefConstants.CONNECTED_PATH), documentPath);
-                           Intent intent = new Intent();
-                           intent.setAction(Intent.ACTION_VIEW);
-                           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                               intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                               uri = FileProvider.getUriForFile(context, "com.mindyourlovedone.healthcare.HomeActivity.fileProvider", targetFile);
-                           } else {
-                               uri = Uri.fromFile(targetFile);
-                           }
-                           // Uri uris = Uri.parse(documentPath);
-                           String mimeType= MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
-                                            intent.setDataAndType(uri, mimeType);
-                         //  //intent.setPackage("com.adobe.reader");//varsa
-                           try {
-                               context.startActivity(intent);
+                        } else {
+                            File targetFile = new File(preferences.getString(PrefConstants.CONNECTED_PATH), documentPath);
+                            Intent intent = new Intent();
+                            intent.setAction(Intent.ACTION_VIEW);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                uri = FileProvider.getUriForFile(context, "com.mindyourlovedone.healthcare.HomeActivity.fileProvider", targetFile);
+                            } else {
+                                uri = Uri.fromFile(targetFile);
+                            }
+                            // Uri uris = Uri.parse(documentPath);
+                            String mimeType= MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
+                            intent.setDataAndType(uri, mimeType);
+                            //  //intent.setPackage("com.adobe.reader");//varsa
+                            try {
+                                context.startActivity(intent);
 
-                           } catch (ActivityNotFoundException e) {
-                               // No application to view, ask to download one
+                            } catch (ActivityNotFoundException e) {
+                                // No application to view, ask to download one
 
-                               AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                               builder.setTitle("No Application Found");
-                               builder.setMessage("Download Office Tool from Google Play ?");
-                               builder.setPositiveButton("Yes",
-                                       new DialogInterface.OnClickListener() {
-                                           public void onClick(DialogInterface dialog,
-                                                               int which) {
-                                               Intent marketIntent = new Intent(
-                                                       Intent.ACTION_VIEW);
-                                               marketIntent.setData(Uri
-                                                       .parse("market://details?id=cn.wps.moffice_eng"));
-                                               context.startActivity(marketIntent);
-                                           }
-                                       });
-                               builder.setNegativeButton("No", null);
-                               builder.create().show();
-                           }
-                       }
-                   }
-                   else
-                   {
-                       DirectiveDialog();
-                   }
+                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                builder.setTitle("No Application Found");
+                                builder.setMessage("Download Office Tool from Google Play ?");
+                                builder.setPositiveButton("Yes",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                Intent marketIntent = new Intent(
+                                                        Intent.ACTION_VIEW);
+                                                marketIntent.setData(Uri
+                                                        .parse("market://details?id=cn.wps.moffice_eng"));
+                                                context.startActivity(marketIntent);
+                                            }
+                                        });
+                                builder.setNegativeButton("No", null);
+                                builder.create().show();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        DirectiveDialog();
+                    }
 
-               }
+                }
 
 
 
                 break;
             case R.id.imgAdd:
-                        DirectiveDialog();
+                DirectiveDialog();
 
 
                 break;
@@ -940,10 +1075,10 @@ dialogInterface.dismiss();
                     public void onClick(View view) {
                         Uri uris = Uri.parse(documentPath);
                         String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + txtFName.getText().toString();
-Intent i=new Intent(context,FaxActivity.class);
-i.putExtra("PATH",preferences.getString(PrefConstants.CONNECTED_PATH) + documentPath);
-startActivity(i);
-                      //  new FaxCustomDialog(AddDocumentActivity.this, preferences.getString(PrefConstants.CONNECTED_PATH) + documentPath).show();
+                        Intent i=new Intent(context,FaxActivity.class);
+                        i.putExtra("PATH",preferences.getString(PrefConstants.CONNECTED_PATH) + documentPath);
+                        startActivity(i);
+                        //  new FaxCustomDialog(AddDocumentActivity.this, preferences.getString(PrefConstants.CONNECTED_PATH) + documentPath).show();
 /*
                         // Fax
                         //File localFile = UriHelpers.getFileForUri(AddDocumentActivity.this, Uri.parse(documentPath));
@@ -1215,6 +1350,29 @@ startActivity(i);
         }
     }
 
+    private void getValues() {
+        person = txtPName.getText().toString();
+        principle = txtName.getText().toString();
+        if (From.equals("AD")) {
+            category = "AD";
+            docType = txtSpinDoc.getText().toString();
+            otherDocType = txtOtherDocType.getText().toString().trim();
+        } else {
+            otherDocType = "";
+            docType = txtDocTYpe.getText().toString();
+            category = txtDocuType.getText().toString();
+            otherCategory = txtOther.getText().toString();
+        }
+
+        Hosp = txtHosp.getText().toString();
+        locator = txtLocator.getText().toString();
+        name = txtFName.getText().toString();
+        location = txtLocation.getText().toString();
+        note=txtNote.getText().toString();
+        holder = txtHolderName.getText().toString();
+        date = txtDate.getText().toString();
+    }
+
     //Shradha
     private void deleteDocument(final Document item) {
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
@@ -1412,7 +1570,7 @@ startActivity(i);
 
         String body = "Hi, \n" +
                 "\n" +
-              //  "\n" + name +
+                //  "\n" + name +
                 "I shared these document with you. Please check the attachment. \n" +
                 "\n" +
                 "Thank you,\n" +
@@ -1596,7 +1754,7 @@ startActivity(i);
             originPath = data.getExtras().getString("URI");
             if (!name.equalsIgnoreCase("")) {
                 txtFName.setText(name);
-              //  imgDoc.setClickable(false);
+                //  imgDoc.setClickable(false);
                 String text = "You Have selected <b>" + name + "</b> Document";
                 Toast.makeText(context, Html.fromHtml(text), Toast.LENGTH_SHORT).show();
                 showDialogWindow(text);
@@ -1611,7 +1769,7 @@ startActivity(i);
             originPath = preferences.getString(PrefConstants.URI);//data.getExtras().getString("URI");
             if (!name.equalsIgnoreCase("")) {
                 txtFName.setText(name);
-             //   imgDoc.setClickable(false);
+                //   imgDoc.setClickable(false);
                 String text = "You Have selected <b>" + name + "</b> Document";
                 Toast.makeText(context, Html.fromHtml(text), Toast.LENGTH_SHORT).show();
                 showDialogWindow(text);
@@ -1737,7 +1895,7 @@ startActivity(i);
     }
 
     private void showDocIcon(String extension, String originPath) {
-      //  Toast.makeText(context,extension,Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(context,extension,Toast.LENGTH_SHORT).show();
         switch (extension)
         {
             case "pdf":
@@ -1784,6 +1942,5 @@ startActivity(i);
         }
 
     }
-
 
 }

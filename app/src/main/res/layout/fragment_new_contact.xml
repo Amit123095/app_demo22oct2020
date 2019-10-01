@@ -49,8 +49,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Name of Insured"
                     android:imeOptions="actionNext"
-                    android:maxLength="30"
-                    android:maxLines="1"
+                    
+                   
 
                     android:includeFontPadding="true"
                     android:paddingBottom="@dimen/dimension18dp"
@@ -172,8 +172,6 @@
 
                                 android:hint="Specialty"
                                 android:imeOptions="actionNext"
-                                android:maxLength="30"
-                                android:maxLines="1"
                                 android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
                             android:paddingTop="@dimen/dimension8dp"
@@ -222,8 +220,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:imeOptions="actionNext"
-                                android:maxLength="30"
-                                android:maxLines="1"
 
                                 android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -286,8 +282,8 @@
 
                                         android:hint="Category"
                                         android:imeOptions="actionNext"
-                                        android:maxLength="30"
-                                        android:maxLines="1"
+                                        
+                                       
                                         android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
                             android:paddingTop="@dimen/dimension8dp"
@@ -337,8 +333,8 @@
                                     android:layout_height="wrap_content"
                                     android:hint="Other Category"
                                     android:imeOptions="actionNext"
-                                    android:maxLength="30"
-                                    android:maxLines="1"
+                                    
+                                   
 
                                     android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -375,8 +371,8 @@
                                 android:layout_height="wrap_content"
                                 android:hint="Name"
                                 android:imeOptions="actionNext"
-                                android:maxLength="30"
-                                android:maxLines="1"
+                                
+                               
 
                                 android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -409,8 +405,8 @@
                                 android:layout_height="wrap_content"
                                 android:hint="Contact Name"
                                 android:imeOptions="actionNext"
-                                android:maxLength="30"
-                                android:maxLines="1"
+                                
+                               
 
                                 android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -497,7 +493,7 @@
                                         android:imeOptions="actionNext"
                                         android:inputType="phone"
                                         android:maxLength="12"
-                                        android:maxLines="1"
+                                       
 
                                         android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -578,7 +574,7 @@
                                 android:imeOptions="actionNext"
                                 android:inputType="phone"
                                 android:maxLength="12"
-                                android:maxLines="1"
+                               
 
                                 android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -612,7 +608,7 @@
                                 android:imeOptions="actionNext"
                                 android:inputType="phone"
                                 android:maxLength="12"
-                                android:maxLines="1"
+                               
 
                                 android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -646,7 +642,7 @@
                                 android:imeOptions="actionNext"
                                 android:inputType="phone"
                                 android:maxLength="12"
-                                android:maxLines="1"
+                               
 
                                 android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -710,7 +706,7 @@
                                 android:imeOptions="actionNext"
                                 android:inputType="phone"
                                 android:maxLength="12"
-                                android:maxLines="1"
+                               
 
                                 android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -770,8 +766,8 @@
                                 android:layout_height="wrap_content"
                                 android:hint="Website"
                                 android:imeOptions="actionNext"
-                                android:maxLength="30"
-                                android:maxLines="1"
+                                
+                               
 
                                 android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -925,8 +921,8 @@
 
                                 android:hint="Category"
                                 android:imeOptions="actionNext"
-                                android:maxLength="30"
-                                android:maxLines="1"
+                                
+                               
                                 android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
                             android:paddingTop="@dimen/dimension8dp"
@@ -978,8 +974,8 @@
                                 android:layout_height="wrap_content"
                                 android:hint="Other Hospital"
                                 android:imeOptions="actionNext"
-                                android:maxLength="30"
-                                android:maxLines="1"
+                                
+                               
 
                                 android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -1013,8 +1009,8 @@
                             android:layout_height="wrap_content"
                             android:hint="Name"
                             android:imeOptions="actionNext"
-                            android:maxLength="30"
-                            android:maxLines="1"
+                            
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -1067,7 +1063,7 @@
                                     android:imeOptions="actionNext"
                                     android:inputType="phone"
                                     android:maxLength="12"
-                                    android:maxLines="1"
+                                   
 
                                     android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -1149,7 +1145,7 @@
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -1183,7 +1179,7 @@
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -1217,7 +1213,7 @@
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -1277,8 +1273,8 @@
                             android:layout_height="wrap_content"
                             android:hint="Website"
                             android:imeOptions="actionNext"
-                            android:maxLength="30"
-                            android:maxLines="1"
+                            
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -1462,8 +1458,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionNext"
-                            android:maxLength="30"
-                            android:maxLines="1"
+                            
+                           
                             android:fontFamily="@font/lato"
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -1533,8 +1529,8 @@ android:visibility="gone"
 
                                 android:hint="Relationship"
                                 android:imeOptions="actionNext"
-                                android:maxLength="30"
-                                android:maxLines="1"
+                                
+                               
                                 android:fontFamily="@font/lato"
                                 android:includeFontPadding="true"
                                 android:paddingBottom="@dimen/dimension18dp"
@@ -1570,8 +1566,8 @@ android:visibility="gone"
                                 android:layout_height="wrap_content"
                                 android:hint="Other Relationship"
                                 android:imeOptions="actionNext"
-                                android:maxLength="30"
-                                android:maxLines="1"
+                                
+                               
                                 android:fontFamily="@font/lato"
                                 android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -1697,7 +1693,7 @@ android:visibility="gone"
                                     android:imeOptions="actionNext"
                                     android:inputType="phone"
                                     android:maxLength="12"
-                                    android:maxLines="1"
+                                   
 
                                     android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -1793,7 +1789,7 @@ android:visibility="gone"
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -1827,7 +1823,7 @@ android:visibility="gone"
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -1861,7 +1857,7 @@ android:visibility="gone"
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -2084,8 +2080,8 @@ android:visibility="gone"
                             android:layout_height="wrap_content"
                             android:hint="Name of Doctor/Health Professionals"
                             android:imeOptions="actionNext"
-                            android:maxLength="30"
-                            android:maxLines="1"
+                            
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -2139,7 +2135,7 @@ android:visibility="gone"
                                     android:imeOptions="actionNext"
                                     android:inputType="phone"
                                     android:maxLength="12"
-                                    android:maxLines="1"
+                                   
 
                                     android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -2222,7 +2218,7 @@ android:visibility="gone"
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -2256,7 +2252,7 @@ android:visibility="gone"
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -2290,7 +2286,7 @@ android:visibility="gone"
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -2324,7 +2320,7 @@ android:visibility="gone"
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -2385,8 +2381,8 @@ android:visibility="gone"
                             android:layout_height="wrap_content"
                             android:hint="Website"
                             android:imeOptions="actionNext"
-                            android:maxLength="30"
-                            android:maxLines="1"
+                            
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -2507,8 +2503,8 @@ android:visibility="gone"
                             android:layout_height="wrap_content"
                             android:hint="Network Status"
                             android:imeOptions="actionNext"
-                            android:maxLength="30"
-                            android:maxLines="1"
+                            
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -2644,7 +2640,7 @@ android:visibility="gone"
                             android:imeOptions="actionNext"
                             android:inputType="text|none"
                             android:maxLength="200"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -2701,8 +2697,8 @@ android:visibility="gone"
 
                                 android:hint="Type of Insurance"
                                 android:imeOptions="actionNext"
-                                android:maxLength="30"
-                                android:maxLines="1"
+                                
+                               
                                 android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
                             android:paddingTop="@dimen/dimension8dp"
@@ -2753,7 +2749,7 @@ android:visibility="gone"
                                 android:hint="Other Insurance"
                                 android:imeOptions="actionNext"
                                 android:maxLength="100"
-                                android:maxLines="1"
+                               
 
                                 android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -2789,8 +2785,8 @@ android:visibility="gone"
                             android:layout_height="wrap_content"
                             android:hint="Member ID (Policy Number)"
                             android:imeOptions="actionNext"
-                            android:maxLength="30"
-                            android:maxLines="1"
+                            
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -2823,8 +2819,8 @@ android:visibility="gone"
                             android:layout_height="wrap_content"
                             android:hint="Group #"
                             android:imeOptions="actionNext"
-                            android:maxLength="30"
-                            android:maxLines="1"
+                            
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -2856,8 +2852,8 @@ android:visibility="gone"
                             android:layout_height="wrap_content"
                             android:hint="Name of Insured"
                             android:imeOptions="actionNext"
-                            android:maxLength="30"
-                            android:maxLines="1"
+                            
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -2910,7 +2906,7 @@ android:visibility="gone"
                                     android:imeOptions="actionNext"
                                     android:inputType="phone"
                                     android:maxLength="12"
-                                    android:maxLines="1"
+                                   
 
                                     android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -2991,7 +2987,7 @@ android:visibility="gone"
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -3025,7 +3021,7 @@ android:visibility="gone"
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -3088,7 +3084,7 @@ android:visibility="gone"
                             android:layout_height="wrap_content"
                             android:hint="Website"
                             android:imeOptions="actionNext"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -3179,7 +3175,7 @@ android:visibility="gone"
                                     android:imeOptions="actionNext"
                                     android:inputType="phone"
                                     android:maxLength="12"
-                                    android:maxLines="1"
+                                   
 
                                     android:includeFontPadding="true"
                                     android:paddingBottom="@dimen/dimension18dp"
@@ -3342,8 +3338,8 @@ android:maxLength="12"
                             android:layout_height="wrap_content"
                             android:hint="Member Services"
                             android:imeOptions="actionNext"
-                            android:maxLength="30"
-                            android:maxLines="1"
+                            
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -3386,8 +3382,8 @@ android:maxLength="12"
                             android:layout_height="wrap_content"
                             android:hint="Name of Company"
                             android:imeOptions="actionNext"
-                            android:maxLength="30"
-                            android:maxLines="1"
+                            
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -3420,7 +3416,7 @@ android:maxLength="12"
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -3453,7 +3449,7 @@ android:maxLength="12"
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -3486,7 +3482,7 @@ android:maxLength="12"
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -3519,7 +3515,7 @@ android:maxLength="12"
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -3610,8 +3606,8 @@ android:maxLength="12"
                             android:layout_height="wrap_content"
                             android:hint="Website"
                             android:imeOptions="actionNext"
-                            android:maxLength="30"
-                            android:maxLines="1"
+                            
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -3670,8 +3666,8 @@ android:maxLength="12"
                             android:layout_height="wrap_content"
                             android:hint="Name of Aide"
                             android:imeOptions="actionNext"
-                            android:maxLength="30"
-                            android:maxLines="1"
+                            
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -3703,8 +3699,8 @@ android:maxLength="12"
                             android:layout_height="wrap_content"
                             android:hint="Schedule"
                             android:imeOptions="actionNext"
-                            android:maxLength="30"
-                            android:maxLines="1"
+                            
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -3735,8 +3731,8 @@ android:maxLength="12"
                             android:layout_height="wrap_content"
                             android:hint="Other Information"
                             android:imeOptions="actionNext"
-                            android:maxLength="30"
-                            android:maxLines="1"
+                            
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -3801,8 +3797,8 @@ android:maxLength="12"
                             android:layout_height="wrap_content"
                             android:hint="Name"
                             android:imeOptions="actionNext"
-                            android:maxLength="30"
-                            android:maxLines="1"
+                            
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -3886,7 +3882,7 @@ android:maxLength="12"
                                     android:imeOptions="actionNext"
                                     android:inputType="phone"
                                     android:maxLength="12"
-                                    android:maxLines="1"
+                                   
 
                                     android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -3965,7 +3961,7 @@ android:maxLength="12"
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -3999,7 +3995,7 @@ android:maxLength="12"
                             android:imeOptions="actionNext"
                             android:inputType="phone"
                             android:maxLength="12"
-                            android:maxLines="1"
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -4030,8 +4026,8 @@ android:maxLength="12"
                             android:layout_height="wrap_content"
                             android:hint="Website"
                             android:imeOptions="actionNext"
-                            android:maxLength="30"
-                            android:maxLines="1"
+                            
+                           
 
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
@@ -4119,7 +4115,7 @@ android:maxLength="12"
                             android:layout_height="wrap_content"
                             android:hint="Notes"
                             android:imeOptions="actionNext"
-                            android:maxLength="30"
+                            
                             android:maxLines="3"
 
                             android:includeFontPadding="true"

@@ -93,7 +93,13 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
                 String[] healthSpeciality = {"In-Network", "Out of Network"};
                 RelationsAdapter rd = new RelationsAdapter(context, healthSpeciality, selected);
                 listRelation.setAdapter(rd);
-            } else if (category.equalsIgnoreCase("Category")) {
+            } else if (category.equalsIgnoreCase("SpecialtyNetwork")) {
+            titleheaders.setBackgroundColor(getResources().getColor(R.color.colorSpecialityYellow));
+            txtTitles.setText("Network Status");
+            String[] healthSpeciality = {"In-Network", "Out of Network"};
+            RelationsAdapter rd = new RelationsAdapter(context, healthSpeciality, selected);
+            listRelation.setAdapter(rd);
+        } else if (category.equalsIgnoreCase("Category")) {
                 titleheaders.setBackgroundColor(getResources().getColor(R.color.colorSpecialityYellow));
                 txtTitles.setText("Category");
                 String[] HospitalType = {"Home Health Care Agency", "Home Health Care Aide","Hospital", "Rehabilitation Center", "TeleMed", "Urgent Care", "Other"};

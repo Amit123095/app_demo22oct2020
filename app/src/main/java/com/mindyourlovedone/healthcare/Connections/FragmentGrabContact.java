@@ -53,6 +53,7 @@ public class FragmentGrabContact extends Fragment implements View.OnClickListene
     DBHelper dbHelper;
     RelativeLayout rlSearch;
     TextView txtTitle, txtsave;
+     ImageView imgBack;
 
     public static byte[] getBytes(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -101,9 +102,11 @@ public class FragmentGrabContact extends Fragment implements View.OnClickListene
 
     private void initListener() {
         imgRefresh.setOnClickListener(this);
+        imgBack.setOnClickListener(this);
     }
 
     private void initUI() {
+        imgBack=getActivity().findViewById(R.id.imgBack);
         txtTitle = getActivity().findViewById(R.id.txtTitle);
       txtsave = getActivity().findViewById(R.id.txtsave);
         txtsave.setVisibility(View.GONE);
@@ -114,7 +117,12 @@ public class FragmentGrabContact extends Fragment implements View.OnClickListene
         rlSearch = rootview.findViewById(R.id.rlSearch);
        // imgRefresh.setVisibility(View.GONE);
         rlSearch.setVisibility(View.GONE);
-
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
         switch (GrabConnectionActivity.source) {
             case "Connection":
                 rlSearch.setBackgroundColor(getResources().getColor(R.color.colorBlue));

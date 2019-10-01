@@ -354,7 +354,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         imgHome=findViewById(R.id.imgHome);
         imgAddpet = findViewById(R.id.imgAddPet);
         txtAddPet = findViewById(R.id.txtAddPet);
-        // txtSignUp = findViewById(R.id.txtSignUp);
+        if (pet.equals(""))
+        {
+            txtAddPet.setVisibility(View.GONE);
+        }
+
         tilName = findViewById(R.id.tilName);
         tilOtherRelation = findViewById(R.id.tilOtherRelation);
         tilOtherRelation.setHint("Other Relation");
@@ -919,11 +923,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     b.setItems(types, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+
                             if (types[which].equalsIgnoreCase("None")) {
                                 phonelist.get(position).setValue(phonelist.get(position).getValue());
                                 phonelist.get(position).setContactType("");
                                 mTextViewListType.get(pos).setText(phonelist.get(position).getContactType());
                             } else {
+                                backflap=true;
                                 phonelist.get(position).setValue(phonelist.get(position).getValue());
                                 phonelist.get(position).setContactType(types[which]);
                                 mTextViewListType.get(pos).setText(phonelist.get(position).getContactType());
@@ -1359,9 +1365,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
             case R.id.imgBack:
 
-                if (validateConnection()) {
-                    //   String contactchange1 = Originalphonelist.containsAll(phonelist) ? "Yes" : "No";
-                    String contactchange2 = phonelist.containsAll(Originalphonelist) ? "Yes" : "No";
+               getValues();
                     if (connection.getName().equals(name) && connection.getAddress().equals(address) && connection.getEmail().equals(email) && connection.getRelationType().equals(relation) &&
                             connection.getPhoto().equals(imagepath) && connection.getOtherRelation().equals(otherRelation) && connection.getHeight().equals(height) && connection.getWeight().equals(weight) &&
                             connection.getEyes().equals(eyes) && connection.getProfession().equals(profession) && connection.getEmployed().equals(employed) && connection.getLanguage().equals(language) &&
@@ -1370,7 +1374,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             connection.getChildren().equals(child) && connection.getFriend().equals(friend) && connection.getGrand().equals(grandParent) && connection.getParents().equals(parent) &&
                             connection.getSpouse().equals(spouse) && connection.getOther_person().equals(liveOther) && connection.getLive().equals(live) && connection.getSign_other().equals(other) && connection.getOtherLang().equals(OtherLang) &&
                             connection.getDob().equals(bdate) && connection.getGender().equals(gender) && connection.getSibling().equals(sibling) && connection.getHas_card().equals(has_card) && connection.getPeople().equals(people)
-                            && backflap==false){//&& contactchange2.equals("No")) {//&& contactchange1.equals("Yes")
+                            && backflap==false){
                         hideSoftKeyboard();
                         finish();
                     } else {
@@ -1406,7 +1410,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         });
                         alert.show();
                     }
-                }
+
                 break;
 
             case R.id.txtGender:
@@ -1528,6 +1532,41 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
         }
+    }
+
+    private void getValues() {
+        for (int i = 0; i < phonelist.size(); i++) {
+            if (phonelist.get(i).getContactType() == "" && phonelist.get(i).getValue() == "") {
+                phonelist.remove(phonelist.get(i));
+            }
+        }
+        storeImage(ProfileMap, "Profile");
+        storeImage(CardMap, "Card");
+        name = txtName.getText().toString().trim();
+        email = txtEmail.getText().toString().trim();
+        phone = txtPhone.getText().toString().trim();
+        workPhone = txtWorkPhone.getText().toString().trim();
+        homePhone = txtHomePhone.getText().toString().trim();
+        otherRelation = txtOtherRelation.getText().toString().trim();
+        address = txtAddress.getText().toString().trim();
+        relation=txtRelation.getText().toString();
+        eyes=txtSpinEye.getText().toString();
+        marital_status=txtSpinMarital.getText().toString();
+        language=txtSpinLang.getText().toString();
+        OtherLang = txtOtherLanguage.getText().toString();
+
+        bdate = txtBdate.getText().toString().trim();
+        homePhone = txtHomePhone.getText().toString().trim();
+        //  gender = txtGender.getText().toString().trim();
+        liveOther = txtOther.getText().toString();
+        idnumber = txtIdNumber.getText().toString();
+        height = txtHeight.getText().toString();
+        weight = txtWeight.getText().toString();
+        profession = txtProfession.getText().toString();
+        people = txtPeople.getText().toString();
+        employed = txtEmployed.getText().toString();
+        manager_phone = txttelephone.getText().toString();
+        religion = txtReligion.getText().toString();
     }
 
     private void showFloatPdfDialog() {

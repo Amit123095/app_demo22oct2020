@@ -186,18 +186,7 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
                 break;
             case R.id.imgBack:
                 getValues();
-                location = txtLocation.getText().toString().trim();
-                Date = txtDate.getText().toString().trim();
-                time = txtTime.getText().toString().trim();
-                bp = txtBP.getText().toString().trim();
 
-                heart = txtHeart.getText().toString().trim();
-                temperature = txtTemperature.getText().toString().trim();
-                pulse = txtPulseRate.getText().toString().trim();
-                respiratory = txtRespRate.getText().toString().trim();
-                note = txtNote.getText().toString().trim();
-                oter = txtOther.getText().toString().trim();
-                col = txtCol.getText().toString().trim();
                 if(isUpdate==false) {
                     if (location.equals("")&&bp.equals("")&&heart.equals("")&&temperature.equals("")&&
                             pulse.equals("")&&respiratory.equals("")&&note.equals("")&&note.equals("")&&

@@ -116,6 +116,8 @@ public class RelationshipActivity extends AppCompatActivity implements View.OnCl
     private void initListener() {
         imgBack.setOnClickListener(this);
         imgHome.setOnClickListener(this);
+        txtSpecialist.setOnClickListener(this);
+        txtType.setOnClickListener(this);
     }
 
     @Override
@@ -132,7 +134,7 @@ public class RelationshipActivity extends AppCompatActivity implements View.OnCl
                 finish();
                 break;
             case R.id.txtType:
-                txtTitles.setText("Select Type");
+                txtTitles.setText("Select Specialist");
                 txtType.setTextColor(getResources().getColor(R.color.colorWhite));
                 txtType.setBackgroundResource(R.drawable.border_type);
 
@@ -148,7 +150,7 @@ public class RelationshipActivity extends AppCompatActivity implements View.OnCl
 
                 break;
             case R.id.txtSpecialist:
-                txtTitles.setText("Select Specialist");
+                txtTitles.setText("Select Test");
                 txtType.setTextColor(getResources().getColor(R.color.colorBlue));
                 txtType.setBackgroundResource(R.drawable.border_type2);
 

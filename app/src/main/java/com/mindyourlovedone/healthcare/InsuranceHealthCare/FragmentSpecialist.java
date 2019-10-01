@@ -45,6 +45,8 @@ import com.mindyourlovedone.healthcare.utility.Preferences;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by varsha on 8/28/2017.
@@ -85,6 +87,12 @@ public class FragmentSpecialist extends Fragment implements View.OnClickListener
 
     private void setListData() {
         if (specialistList.size() != 0) {
+            Collections.sort(specialistList, new Comparator<Specialist>() {
+                @Override
+                public int compare(Specialist o1, Specialist o2) {
+                    return o1.getType().compareTo(o2.getType());
+                }
+            });
             SpecialistAdapter specialistAdapter = new SpecialistAdapter(getActivity(), specialistList, FragmentSpecialist.this, true);
             lvSpecialist.setAdapter(specialistAdapter);
             lvSpecialist.setVisibility(View.VISIBLE);
