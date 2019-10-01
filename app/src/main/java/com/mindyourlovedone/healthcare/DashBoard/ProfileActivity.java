@@ -116,7 +116,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     Context context = this;
     Bitmap ProfileMap = null, CardMap = null;
     ContentValues values;
-    boolean backflap;
+    boolean backflap, is_backpressed;
     Uri imageUriProfile = null, imageUriCard = null;
     // byte[] photoCard=null;
     ImageView imgRight, imgInfo, imgR;
@@ -810,6 +810,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             prevL = et.getText().toString().length();
+
         }
 
         @Override
@@ -820,12 +821,45 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         public void afterTextChanged(Editable editable) {
             int length = editable.length();
-//            int poss = Integer.parseInt(et.getTag().toString());
-            if ((prevL < length) && (length == 3 || length == 7)) {
-                et.setText(editable.toString() + "-");
-                et.setSelection(et.getText().length());
+            int poss = Integer.parseInt(et.getTag().toString());
+
+//            if (length != 12 && length > 4) {
+//                String first = editable.toString().substring(0, 3);
+//                String lastChar = editable.toString().charAt(3) + "";
+//                String lastString = editable.toString().substring(4);
+//                if (!lastChar.equalsIgnoreCase("-")) {
+//                    first = first + "-" + lastChar + lastString;
+//                    et.setText(first);
+//                    et.setSelection(et.getText().length());
+//                }
+//
+//                if (length != 12 && length > 7) {
+//                    String first2 = editable.toString().substring(0, 6);
+//                    String lastChar2 = editable.toString().charAt(6) + "";
+//                    String lastString2 = editable.toString().substring(7);
+//                    if (!lastChar2.equalsIgnoreCase("-")) {
+//                        first2 = first2 + "-" + lastChar2 + lastString2;
+//                        et.setText(first2);
+//                        et.setSelection(et.getText().length());
+//                    }
+//                }
+//            } else {
+            if (length == 4 || length == 8) {
+                String first = editable.toString().substring(0, length - 1);
+                String lastChar = editable.toString().substring(length - 1);
+                if (!lastChar.equalsIgnoreCase("-")) {
+                    first = first + "-" + lastChar;
+                    et.setText(first);
+                    et.setSelection(et.getText().length());
+                }
+            } else {
+                if ((prevL < length) && (length == 3 || length == 7)) {
+                    et.setText(editable.toString() + "-");
+                    et.setSelection(et.getText().length());
+                }
             }
-//            phonelist.get(poss).setValue(et.getText().toString());
+//            }
+            phonelist.get(poss).setValue(et.getText().toString());
         }
 
     }
@@ -1332,14 +1366,43 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
                 if (validateConnection()) {
                     if (email.equals("") || email.equals(Email)) {
+                        if (is_backpressed) {
+
+                            if (!connection.getName().equals(name) || !connection.getEmail().equals(address)) {
+                                isfinis = true;
+                            }
+
+                        }
                         editToConnection(imagepath, cardpath);
+                        if (is_backpressed) {
+                            is_backpressed = false;
+
+                            if (connection.getName().equals(name) || connection.getEmail().equals(address)) {
+                                finish();
+                            }
+                        }
                     } else {
                         Boolean flags = MyConnectionsQuery.fetchEmailRecord(email);
                         if (flags == true) {
                             Toast.makeText(context, "This email address is already registered by another profile, Please add another email address", Toast.LENGTH_SHORT).show();
                             txtEmail.setError("This email address is already registered by another profile, Please add another email address");
                         } else {
+                            if (is_backpressed) {
+
+                                if (!connection.getName().equals(name) || !connection.getEmail().equals(address)) {
+                                    isfinis = true;
+                                }
+
+                            }
                             editToConnection(imagepath, cardpath);
+                            if (is_backpressed) {
+                                is_backpressed = false;
+
+                                if (connection.getName().equals(name) || connection.getEmail().equals(address)) {
+                                    finish();
+                                }
+                            }
+
                         }
                     }
                 }
@@ -1363,7 +1426,21 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.imgBack:
 
                 getValues();
-                if (connection.getName().equals(name) && connection.getAddress().equals(address) && connection.getEmail().equals(email) && connection.getRelationType().equals(relation) &&
+
+                //nikita
+                String res = "No";
+                if (Originalphonelist.size() == phonelist.size()) {
+                    for (int m = 0; m < Originalphonelist.size(); m++) {
+                        res = (!Originalphonelist.get(m).getValue().equalsIgnoreCase(phonelist.get(m).getValue()) ? "Yes" : "No");
+                        if (res.equalsIgnoreCase("Yes")) {
+                            break;
+                        }
+                    }
+                } else {
+                    res = "Yes";
+                }
+
+                if (res.equalsIgnoreCase("No") && connection.getName().equals(name) && connection.getAddress().equals(address) && connection.getEmail().equals(email) && connection.getRelationType().equals(relation) &&
                         connection.getPhoto().equals(imagepath) && connection.getOtherRelation().equals(otherRelation) && connection.getHeight().equals(height) && connection.getWeight().equals(weight) &&
                         connection.getEyes().equals(eyes) && connection.getProfession().equals(profession) && connection.getEmployed().equals(employed) && connection.getLanguage().equals(language) &&
                         connection.getMarital_status().equals(marital_status) && connection.getReligion().equals(religion) && connection.getVeteran().equals(veteran) && connection.getIdnumber().equals(idnumber) &&
@@ -1381,16 +1458,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (!connection.getName().equals(name) || !connection.getEmail().equals(address)) {
-                                isfinis = true;
-                            }
+                            is_backpressed = true;
                             hideSoftKeyboard();
                             boolean s = txtSave.performClick();
                             backflap = false;
                             dialog.dismiss();
-                            if (connection.getName().equals(name) || connection.getEmail().equals(address)) {
-                                finish();
-                            }
+
 
                         }
                     });
@@ -1795,9 +1868,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
 
         for (int i = 0; i < phonelist.size(); i++) {
-            if (phonelist.get(i).getValue().isEmpty() && phonelist.get(i).getContactType().isEmpty()) {
+            if (!phonelist.get(i).getValue().isEmpty() && phonelist.get(i).getContactType().isEmpty()) {//nikita
                 // phonelist.remove(phonelist.get(i));
-                //  DialogManager.showAlert("Please add Phone number with Type", context);
+                DialogManager.showAlert("Please add Phone number with Type", context);
+                return false;
             } else if (phonelist.get(i).getValue() == "" && phonelist.get(i).getContactType() != "") {
                 DialogManager.showAlert("Please add Phone number with Type", context);
                 return false;

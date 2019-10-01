@@ -230,6 +230,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
     //    NonScrollListView listPrPhone,listDrPhone,listHospPhone,listPharmPhone,listFinPhone,listInsuPhone;
     public ArrayList<ContactData> phonelist = new ArrayList<>();
     public ArrayList<ContactData> Aphonelist = new ArrayList<>();
+    public ArrayList<ContactData> Originalphonelist = new ArrayList<>();
 
     FrameLayout flFront;
     RelativeLayout rlInsured;
@@ -248,7 +249,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
         txtsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backflap=false;
+                backflap = false;
                 savedata();
             }
         });
@@ -261,7 +262,6 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
         });
         return rootview;
     }
-
 
 
     @Override
@@ -302,12 +302,22 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
         @Override
         public void afterTextChanged(Editable editable) {
             int length = editable.length();
-//            int poss = Integer.parseInt(et.getTag().toString());
-            if ((prevL < length) && (length == 3 || length == 7)) {
-                et.setText(editable.toString() + "-");
-                et.setSelection(et.getText().length());
+            int poss = Integer.parseInt(et.getTag().toString());
+            if (length == 4 || length == 8) {
+                String first = editable.toString().substring(0, length - 1);
+                String lastChar = editable.toString().substring(length - 1);
+                if (!lastChar.equalsIgnoreCase("-")) {
+                    first = first + "-" + lastChar;
+                    et.setText(first);
+                    et.setSelection(et.getText().length());
+                }
+            } else {
+                if ((prevL < length) && (length == 3 || length == 7)) {
+                    et.setText(editable.toString() + "-");
+                    et.setSelection(et.getText().length());
+                }
             }
-//            phonelist.get(poss).setValue(et.getText().toString());
+            phonelist.get(poss).setValue(et.getText().toString());
         }
 
     }
@@ -406,7 +416,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
             mImageViewType.get(pos).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    backflap=true;
+                    backflap = true;
                     int poss = Integer.parseInt(mImageViewType.get(pos).getTag().toString());
                     if (poss == 0) {
                         ContactData c = new ContactData();
@@ -429,7 +439,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                     b.setItems(types, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            backflap=true;
+                            backflap = true;
                             if (types[which].equalsIgnoreCase("None")) {
                                 phonelist.get(position).setValue(phonelist.get(position).getValue());
                                 phonelist.get(position).setContactType("");
@@ -1802,6 +1812,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
 
                     id = specialist.getId();
                     ContactDataQuery c = new ContactDataQuery(context, dbHelper);
+                    Originalphonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), id, "Pharmacy");
                     phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), id, "Pharmacy");
 //                    setListPh(listPharmPhone);
                     PhoneLayout = llAddPharmPhone;
@@ -1993,6 +2004,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
 
                     id = rel.getId();
                     ContactDataQuery c = new ContactDataQuery(context, dbHelper);
+                    Originalphonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), id, "Emergency");
                     phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), id, "Emergency");
 //                    setListPh(listPharmPhone);
                     PhoneLayout = llAddPharmPhone;
@@ -2315,6 +2327,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                         txtAddress.setText(CAddress);
                     }*/
                     ContactDataQuery c = new ContactDataQuery(context, dbHelper);
+                    Originalphonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), rel.getId(), "Emergency");
                     phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), rel.getId(), "Emergency");
 //                    setListPh(listPrPhone);
                     PhoneLayout = llAddPhone;
@@ -2616,6 +2629,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                     }*/
 
                     ContactDataQuery c = new ContactDataQuery(context, dbHelper);
+                    Originalphonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), id, "Doctor");
                     phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), id, "Doctor");
 //                    setListPh(listDrPhone);
                     PhoneLayout = llAddDrPhone;
@@ -2764,6 +2778,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                         spinner.setSelection(index + 1);
                     }*/
                     ContactDataQuery c = new ContactDataQuery(context, dbHelper);
+                    Originalphonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), id, "Primary");
                     phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), id, "Primary");
 //                    setListPh(listDrPhone);
                     PhoneLayout = llAddDrPhone;
@@ -3100,6 +3115,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
 
                     id = insurance.getId();
                     ContactDataQuery c = new ContactDataQuery(context, dbHelper);
+                    Originalphonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), id, "Insurance");
                     phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), id, "Insurance");
 //                    setListPh(listInsuPhone);
                     PhoneLayout = llAddInsuPhone;
@@ -3503,6 +3519,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                     id = specialist.getId();
 
                     ContactDataQuery c = new ContactDataQuery(context, dbHelper);
+                    Originalphonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), id, "Hospital");
                     phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), id, "Hospital");
 //                    setListPh(listHospPhone);
                     PhoneLayout = llAddHospPhone;
@@ -3758,6 +3775,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                     id = specialist.getId();
 
                     ContactDataQuery c = new ContactDataQuery(context, dbHelper);
+                    Originalphonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), id, "Finance");
                     phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), id, "Finance");
 //                    setListPh(listFinPhone);
                     PhoneLayout = llAddFinPhone;
@@ -4538,7 +4556,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
 
     private void initUI() {
 
-        imgBack=getActivity().findViewById(R.id.imgBack);
+        imgBack = getActivity().findViewById(R.id.imgBack);
         scroll = rootview.findViewById(R.id.scroll);
         scroll.smoothScrollTo(0, rootview.getTop());
         layoutInflater = (LayoutInflater) getActivity().getSystemService(context.LAYOUT_INFLATER_SERVICE);
@@ -5994,20 +6012,17 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
         int indexValue = spinnerRelation.getSelectedItemPosition();
 
         for (int i = 0; i < phonelist.size(); i++) {
-            if (phonelist.get(i).getValue().isEmpty()&&phonelist.get(i).getContactType().isEmpty())
-            {
+            if (!phonelist.get(i).getValue().isEmpty() && phonelist.get(i).getContactType().isEmpty()) {//nikita
                 // phonelist.remove(phonelist.get(i));
-                //  DialogManager.showAlert("Please add Phone number with Type", context);
-            }else if (phonelist.get(i).getValue()==""&& phonelist.get(i).getContactType()!="")
-            {
                 DialogManager.showAlert("Please add Phone number with Type", context);
                 return false;
-            }else if (phonelist.get(i).getContactType()==""&&phonelist.get(i).getValue()!="")
-            {
+            } else if (phonelist.get(i).getValue() == "" && phonelist.get(i).getContactType() != "") {
                 DialogManager.showAlert("Please add Phone number with Type", context);
                 return false;
-            }else if (phonelist.get(i).getValue().length()<12||phonelist.get(i).getValue().length()>12)
-            {
+            } else if (phonelist.get(i).getContactType() == "" && phonelist.get(i).getValue() != "") {
+                DialogManager.showAlert("Please add Phone number with Type", context);
+                return false;
+            } else if (phonelist.get(i).getValue().length() < 12 || phonelist.get(i).getValue().length() > 12) {
                 DialogManager.showAlert("Phone number needs to be 10 digits", context);
                 return false;
             }
@@ -7024,16 +7039,18 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
 
     }
 
+    String res = "No";
+
     public void backFunction(String source) {
 
         switch (source) {
             case "Connection":
-                getValues("Connection");
-                if (name.equals("") && address.equals("") &&
+                res = getValues("Connection");
+                if (res.equalsIgnoreCase("No") && name.equals("") && address.equals("") &&
                         email.equals("") &&
-                        relation.equals("")&& otherRelation.equals("")&&
-                        imagepath.equals("")&&cardPath.equals("")&&
-                        has_card.equals("NO")&&backflap==false) {
+                        relation.equals("") && otherRelation.equals("") &&
+                        imagepath.equals("") && cardPath.equals("") &&
+                        has_card.equals("NO") && backflap == false) {
                     getActivity().finish();
                 } else {
                     showSaveAlert();
@@ -7041,13 +7058,13 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 break;
 
             case "Emergency":
-                getValues("Emergency");
+                res = getValues("Emergency");
 
-                if (name.equals("") && address.equals("") &&
-                        email.equals("") && prior==5 &&
-                        relation.equals("")&& otherRelation.equals("")&&note.equals("")&&
-                        imagepath.equals("")&&cardPath.equals("")&&
-                        has_card.equals("NO")&&backflap==false) {
+                if (res.equalsIgnoreCase("No") && name.equals("") && address.equals("") &&
+                        email.equals("") && prior == 5 &&
+                        relation.equals("") && otherRelation.equals("") && note.equals("") &&
+                        imagepath.equals("") && cardPath.equals("") &&
+                        has_card.equals("NO") && backflap == false) {
                     getActivity().finish();
                 } else {
                     showSaveAlert();
@@ -7055,12 +7072,12 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 break;
 
             case "EmergencyUpdate":
-                getValues("Emergency");
-                if (name.equals(rel.getName()) && address.equals(rel.getAddress()) &&
-                        email.equals(rel.getEmail()) && prior==rel.getIsPrimary() &&
-                        relation.equals(rel.getRelationType())&& otherRelation.equals(rel.getOtherRelation())&&note.equals(rel.getNote())&&
-                        imagepath.equals(rel.getPhoto())&&cardPath.equals(rel.getPhotoCard())&&
-                        has_card.equals(rel.getHas_card())&&backflap==false) {
+                res = getValues("Emergency");
+                if (res.equalsIgnoreCase("No") && name.equals(rel.getName()) && address.equals(rel.getAddress()) &&
+                        email.equals(rel.getEmail()) && prior == rel.getIsPrimary() &&
+                        relation.equals(rel.getRelationType()) && otherRelation.equals(rel.getOtherRelation()) && note.equals(rel.getNote()) &&
+                        imagepath.equals(rel.getPhoto()) && cardPath.equals(rel.getPhotoCard()) &&
+                        has_card.equals(rel.getHas_card()) && backflap == false) {
                     getActivity().finish();
                 } else {
                     showSaveAlert();
@@ -7068,16 +7085,16 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 break;
 
             case "Physician":
-                getValues("Physician");
+                res = getValues("Physician");
 
-                if (name.equals("") && address.equals("") &&
+                if (res.equalsIgnoreCase("No") && name.equals("") && address.equals("") &&
                         website.equals("") && lastseen.equals("") &&
-                        locator.equals("")&&speciality.equals("")&&
-                        practice_name.equals("")&&network.equals("")&&
-                        otherDoctor.equals("")&&affil.equals("")&&
-                        note.equals("")&&affil.equals("")&&
-                        imagepath.equals("")&&cardPath.equals("")&&
-                        has_card.equals("NO")&&backflap==false) {
+                        locator.equals("") && speciality.equals("") &&
+                        practice_name.equals("") && network.equals("") &&
+                        otherDoctor.equals("") && affil.equals("") &&
+                        note.equals("") && affil.equals("") &&
+                        imagepath.equals("") && cardPath.equals("") &&
+                        has_card.equals("NO") && backflap == false) {
                     getActivity().finish();
                 } else {
                     showSaveAlert();
@@ -7085,16 +7102,16 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 break;
 
             case "Speciality":
-                getValues("Physician");
+                res = getValues("Physician");
 
-                if (name.equals("") && address.equals("") &&
+                if (res.equalsIgnoreCase("No") && name.equals("") && address.equals("") &&
                         website.equals("") && lastseen.equals("") &&
-                        locator.equals("")&&speciality.equals("")&&
-                        practice_name.equals("")&&network.equals("")&&
-                        otherDoctor.equals("")&&affil.equals("")&&
-                        note.equals("")&&affil.equals("")&&
-                        imagepath.equals("")&&cardPath.equals("")&&
-                        has_card.equals("NO")&&backflap==false) {
+                        locator.equals("") && speciality.equals("") &&
+                        practice_name.equals("") && network.equals("") &&
+                        otherDoctor.equals("") && affil.equals("") &&
+                        note.equals("") && affil.equals("") &&
+                        imagepath.equals("") && cardPath.equals("") &&
+                        has_card.equals("NO") && backflap == false) {
                     getActivity().finish();
                 } else {
                     showSaveAlert();
@@ -7102,15 +7119,15 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 break;
 
             case "SpecialistData":
-                getValues("Physician");
-                if (name.equals(specialist.getName()) && address.equals(specialist.getAddress()) &&
+                res = getValues("Physician");
+                if (res.equalsIgnoreCase("No") && name.equals(specialist.getName()) && address.equals(specialist.getAddress()) &&
                         website.equals(specialist.getWebsite()) && lastseen.equals(specialist.getLastseen()) &&
-                        locator.equals(specialist.getLocator())&&speciality.equals(specialist.getType())&&
-                        practice_name.equals(specialist.getPracticeName())&&network.equals(specialist.getNetwork())&&
-                        otherDoctor.equals(specialist.getOtherType())&&affil.equals(specialist.getHospAffiliation())&&
-                        note.equals(specialist.getNote())&&
-                        imagepath.equals(specialist.getPhoto())&&cardPath.equals(specialist.getPhotoCard())&&
-                        has_card.equals(specialist.getHas_card())&&backflap==false) {
+                        locator.equals(specialist.getLocator()) && speciality.equals(specialist.getType()) &&
+                        practice_name.equals(specialist.getPracticeName()) && network.equals(specialist.getNetwork()) &&
+                        otherDoctor.equals(specialist.getOtherType()) && affil.equals(specialist.getHospAffiliation()) &&
+                        note.equals(specialist.getNote()) &&
+                        imagepath.equals(specialist.getPhoto()) && cardPath.equals(specialist.getPhotoCard()) &&
+                        has_card.equals(specialist.getHas_card()) && backflap == false) {
                     getActivity().finish();
                 } else {
                     showSaveAlert();
@@ -7118,15 +7135,15 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 break;
 
             case "PhysicianData":
-                getValues("Physician");
-                if (name.equals(specialist.getName()) && address.equals(specialist.getAddress()) &&
+                res = getValues("Physician");
+                if (res.equalsIgnoreCase("No") && name.equals(specialist.getName()) && address.equals(specialist.getAddress()) &&
                         website.equals(specialist.getWebsite()) && lastseen.equals(specialist.getLastseen()) &&
-                        locator.equals(specialist.getLocator())&&speciality.equals(specialist.getType())&&
-                        practice_name.equals(specialist.getPracticeName())&&network.equals(specialist.getNetwork())&&
-                        otherDoctor.equals(specialist.getOtherType())&&affil.equals(specialist.getHospAffiliation())&&
-                        note.equals(specialist.getNote())&&
-                        imagepath.equals(specialist.getPhoto())&&cardPath.equals(specialist.getPhotoCard())&&
-                        has_card.equals(specialist.getHas_card())&&backflap==false) {
+                        locator.equals(specialist.getLocator()) && speciality.equals(specialist.getType()) &&
+                        practice_name.equals(specialist.getPracticeName()) && network.equals(specialist.getNetwork()) &&
+                        otherDoctor.equals(specialist.getOtherType()) && affil.equals(specialist.getHospAffiliation()) &&
+                        note.equals(specialist.getNote()) &&
+                        imagepath.equals(specialist.getPhoto()) && cardPath.equals(specialist.getPhotoCard()) &&
+                        has_card.equals(specialist.getHas_card()) && backflap == false) {
                     getActivity().finish();
                 } else {
                     showSaveAlert();
@@ -7134,13 +7151,13 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 break;
 
             case "Pharmacy":
-                getValues("Pharmacy");
+                res = getValues("Pharmacy");
 
-                if (name.equals("") && address.equals("") &&
-                        website.equals("") && locator.equals("")&&
-                        note.equals("")&&
-                        imagepath.equals("")&&cardPath.equals("")&&
-                        has_card.equals("NO")&&backflap==false) {
+                if (res.equalsIgnoreCase("No") && name.equals("") && address.equals("") &&
+                        website.equals("") && locator.equals("") &&
+                        note.equals("") &&
+                        imagepath.equals("") && cardPath.equals("") &&
+                        has_card.equals("NO") && backflap == false) {
                     getActivity().finish();
                 } else {
                     showSaveAlert();
@@ -7148,12 +7165,12 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
 
                 break;
             case "PharmacyData":
-                getValues("Pharmacy");
-                if (name.equals(pharmacy.getName()) && address.equals(pharmacy.getAddress()) &&
-                        website.equals(pharmacy.getWebsite()) && locator.equals(pharmacy.getLocator())&&
-                        note.equals(pharmacy.getNote())&&
-                        imagepath.equals(pharmacy.getPhoto())&&cardPath.equals(pharmacy.getPhotoCard())&&
-                        has_card.equals(pharmacy.getHas_card())&&backflap==false) {
+                res = getValues("Pharmacy");
+                if (res.equalsIgnoreCase("No") && name.equals(pharmacy.getName()) && address.equals(pharmacy.getAddress()) &&
+                        website.equals(pharmacy.getWebsite()) && locator.equals(pharmacy.getLocator()) &&
+                        note.equals(pharmacy.getNote()) &&
+                        imagepath.equals(pharmacy.getPhoto()) && cardPath.equals(pharmacy.getPhotoCard()) &&
+                        has_card.equals(pharmacy.getHas_card()) && backflap == false) {
                     getActivity().finish();
                 } else {
                     showSaveAlert();
@@ -7161,14 +7178,14 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 break;
 
             case "Hospital":
-                getValues("Hospital");
-                if (name.equals("") && address.equals("") &&
+                res = getValues("Hospital");
+                if (res.equalsIgnoreCase("No") && name.equals("") && address.equals("") &&
                         website.equals("") && lastseen.equals("") &&
-                        locator.equals("")&&speciality.equals("")&&
-                        practice_name.equals("")&&location.equals("")&&
-                        otherCategory.equals("")&& note.equals("")&&
-                        imagepath.equals("")&&cardPath.equals("")&&
-                        has_card.equals("NO")&&backflap==false) {
+                        locator.equals("") && speciality.equals("") &&
+                        practice_name.equals("") && location.equals("") &&
+                        otherCategory.equals("") && note.equals("") &&
+                        imagepath.equals("") && cardPath.equals("") &&
+                        has_card.equals("NO") && backflap == false) {
                     getActivity().finish();
                 } else {
                     showSaveAlert();
@@ -7176,14 +7193,14 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 break;
 
             case "HospitalData":
-                getValues("Hospital");
-                if (name.equals(hospital.getName()) && address.equals(hospital.getAddress()) &&
+                res = getValues("Hospital");
+                if (res.equalsIgnoreCase("No") && name.equals(hospital.getName()) && address.equals(hospital.getAddress()) &&
                         website.equals(hospital.getWebsite()) && lastseen.equals(hospital.getLastseen()) &&
-                        locator.equals(hospital.getLocator())&&speciality.equals(hospital.getCategory())&&
-                        practice_name.equals(hospital.getPracticeName())&&location.equals(hospital.getLocation())&&
-                        otherCategory.equals(hospital.getOtherCategory())&& note.equals(hospital.getNote())&&
-                        imagepath.equals(hospital.getPhoto())&&cardPath.equals(hospital.getPhotoCard())&&
-                        has_card.equals(hospital.getHas_card())&&backflap==false) {
+                        locator.equals(hospital.getLocator()) && speciality.equals(hospital.getCategory()) &&
+                        practice_name.equals(hospital.getPracticeName()) && location.equals(hospital.getLocation()) &&
+                        otherCategory.equals(hospital.getOtherCategory()) && note.equals(hospital.getNote()) &&
+                        imagepath.equals(hospital.getPhoto()) && cardPath.equals(hospital.getPhotoCard()) &&
+                        has_card.equals(hospital.getHas_card()) && backflap == false) {
                     getActivity().finish();
                 } else {
                     showSaveAlert();
@@ -7191,14 +7208,14 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 break;
 
             case "Finance":
-                getValues("Finance");
-                if (name.equals("") && address.equals("") &&
+                res = getValues("Finance");
+                if (res.equalsIgnoreCase("No") && name.equals("") && address.equals("") &&
                         website.equals("") && lastseen.equals("") &&
-                        email.equals("")&&speciality.equals("")&&
-                        contactName.equals("")&&
-                        otherCategory.equals("")&& note.equals("")&&
-                        imagepath.equals("")&&cardPath.equals("")&&
-                        has_card.equals("NO")&&backflap==false) {
+                        email.equals("") && speciality.equals("") &&
+                        contactName.equals("") &&
+                        otherCategory.equals("") && note.equals("") &&
+                        imagepath.equals("") && cardPath.equals("") &&
+                        has_card.equals("NO") && backflap == false) {
                     getActivity().finish();
                 } else {
                     showSaveAlert();
@@ -7206,14 +7223,14 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 break;
 
             case "FinanceData":
-                getValues("Finance");
-                if (name.equals(finance.getName()) && address.equals(finance.getAddress()) &&
+                res = getValues("Finance");
+                if (res.equalsIgnoreCase("No") && name.equals(finance.getName()) && address.equals(finance.getAddress()) &&
                         website.equals(finance.getWebsite()) && lastseen.equals(finance.getLastseen()) &&
-                        email.equals(finance.getEmail())&&speciality.equals(finance.getCategory())&&
-                        contactName.equals(finance.getContactName())&&
-                        otherCategory.equals(finance.getOtherCategory())&& note.equals(finance.getNote())&&
-                        imagepath.equals(finance.getPhoto())&&cardPath.equals(finance.getPhotoCard())&&
-                        has_card.equals(finance.getHas_card())&&backflap==false) {
+                        email.equals(finance.getEmail()) && speciality.equals(finance.getCategory()) &&
+                        contactName.equals(finance.getContactName()) &&
+                        otherCategory.equals(finance.getOtherCategory()) && note.equals(finance.getNote()) &&
+                        imagepath.equals(finance.getPhoto()) && cardPath.equals(finance.getPhotoCard()) &&
+                        has_card.equals(finance.getHas_card()) && backflap == false) {
                     getActivity().finish();
                 } else {
                     showSaveAlert();
@@ -7221,16 +7238,16 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 break;
 
             case "Insurance":
-                getValues("Insurance");
+                res = getValues("Insurance");
 
-                if (name.equals("") &&
+                if (res.equalsIgnoreCase("No") && name.equals("") &&
                         website.equals("") && email.equals("") &&
-                        aentEmail.equals("")&&aentPhone.equals("")&&
-                        agent.equals("")&&member.equals("")&&subscriber.equals("")&&
-                        otherInsurance.equals("")&&type.equals("")&&
-                        note.equals("")&&group.equals("")&&
-                        imagepath.equals("")&&cardPath.equals("")&&
-                        has_card.equals("NO")&&backflap==false) {
+                        aentEmail.equals("") && aentPhone.equals("") &&
+                        agent.equals("") && member.equals("") && subscriber.equals("") &&
+                        otherInsurance.equals("") && type.equals("") &&
+                        note.equals("") && group.equals("") &&
+                        imagepath.equals("") && cardPath.equals("") &&
+                        has_card.equals("NO") && backflap == false) {
                     getActivity().finish();
                 } else {
                     showSaveAlert();
@@ -7238,15 +7255,15 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 break;
 
             case "InsuranceData":
-                getValues("Insurance");
-                if (name.equals(insurance.getName()) &&
+                res = getValues("Insurance");
+                if (res.equalsIgnoreCase("No") && name.equals(insurance.getName()) &&
                         website.equals(insurance.getWebsite()) && email.equals(insurance.getEmail()) &&
-                        aentEmail.equals(insurance.getAgent_email())&&aentPhone.equals(insurance.getAgentPhone())&&
-                        agent.equals(insurance.getAgent())&&member.equals(insurance.getMember())&&subscriber.equals(insurance.getSubscriber())&&
-                        otherInsurance.equals(insurance.getOtherInsurance())&&type.equals(insurance.getType())&&
-                        note.equals(insurance.getNote())&&group.equals(insurance.getGroup())&&
-                        imagepath.equals(insurance.getPhoto())&&cardPath.equals(insurance.getPhotoCard())&&
-                        has_card.equals(insurance.getHas_card())&&backflap==false) {
+                        aentEmail.equals(insurance.getAgent_email()) && aentPhone.equals(insurance.getAgentPhone()) &&
+                        agent.equals(insurance.getAgent()) && member.equals(insurance.getMember()) && subscriber.equals(insurance.getSubscriber()) &&
+                        otherInsurance.equals(insurance.getOtherInsurance()) && type.equals(insurance.getType()) &&
+                        note.equals(insurance.getNote()) && group.equals(insurance.getGroup()) &&
+                        imagepath.equals(insurance.getPhoto()) && cardPath.equals(insurance.getPhotoCard()) &&
+                        has_card.equals(insurance.getHas_card()) && backflap == false) {
                     getActivity().finish();
                 } else {
                     showSaveAlert();
@@ -7258,6 +7275,17 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
     }
 
     private void showSaveAlert() {
+
+//        //nikita
+//        String res = "No";
+//        for (int m = 0; m < phonelist.size(); m++) {
+//            res = (!phonelist.get(m).getValue().equalsIgnoreCase(phonelist.get(m).getValue()) ? "Yes" : "No");
+//            if (res.equalsIgnoreCase("Yes")) {
+//                break;
+//            }
+//        }
+
+
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle("Save");
         alert.setMessage("Do you want to save information?");
@@ -7280,148 +7308,160 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
         alert.show();
     }
 
-    private void getValues(String screen) {
+    private String getValues(String screen) {
         for (int i = 0; i < phonelist.size(); i++) {
             if (phonelist.get(i).getContactType() == "" && phonelist.get(i).getValue() == "") {
                 phonelist.remove(phonelist.get(i));
             }
         }
 
+        //nikita
+        String res = "No";
+        if (Originalphonelist.size() == phonelist.size()) {
+            for (int m = 0; m < Originalphonelist.size(); m++) {
+                res = (!Originalphonelist.get(m).getValue().equalsIgnoreCase(phonelist.get(m).getValue()) ? "Yes" : "No");
+                if (res.equalsIgnoreCase("Yes")) {
+                    break;
+                }
+            }
+        } else {
+            res = "Yes";
+        }
+
         if (!screen.equals("Connection")) {
             storeImage(ProfileMap, "Profile");
             storeImage(CardMap, "Card");
         }
-          name = txtName.getText().toString().trim();
-          email = txtEmail.getText().toString().trim();
-          address = txtAddress.getText().toString().trim();
+        name = txtName.getText().toString().trim();
+        email = txtEmail.getText().toString().trim();
+        address = txtAddress.getText().toString().trim();
 
 
-            if (screen.equals("Connection")) {
+        if (screen.equals("Connection")) {
 
-                relation = txtRelation.getText().toString();
-                otherRelation = txtOtherRelation.getText().toString();
+            relation = txtRelation.getText().toString();
+            otherRelation = txtOtherRelation.getText().toString();
 
-            } else if (screen.equals("Emergency")) {
+        } else if (screen.equals("Emergency")) {
 
-                relation = txtRelation.getText().toString();
-                otherRelation = txtOtherRelation.getText().toString();
-                note = txtEmergencyNote.getText().toString().trim();
+            relation = txtRelation.getText().toString();
+            otherRelation = txtOtherRelation.getText().toString();
+            note = txtEmergencyNote.getText().toString().trim();
 
-                if (priority.equals("Primary Emergency Contact")) {
-                    prior = 0;
-                } else if (priority.equals("Primary Health Care Proxy Agent")) {
-                    prior = 1;
-                } else if (priority.equals("Secondary Emergency Contact")) {
-                    prior = 2;
-                } else if (priority.equals("Secondary Health Care Proxy Agent")) {
-                    prior = 3;
-                } else if (priority.equals("Primary Emergency Contact and Health Care Proxy Agent")) {
+            if (priority.equals("Primary Emergency Contact")) {
+                prior = 0;
+            } else if (priority.equals("Primary Health Care Proxy Agent")) {
+                prior = 1;
+            } else if (priority.equals("Secondary Emergency Contact")) {
+                prior = 2;
+            } else if (priority.equals("Secondary Health Care Proxy Agent")) {
+                prior = 3;
+            } else if (priority.equals("Primary Emergency Contact and Health Care Proxy Agent")) {
 
-                    prior = 4;
-                } else {
-                    prior = 5;
-                }
+                prior = 4;
+            } else {
+                prior = 5;
             }
-               else if (screen.equals("Physician")) {
-                //  if (!fromDevice) {
-                name = txtDoctorName.getText().toString();
-                address = txtDoctorAddress.getText().toString();
-                //  }
+        } else if (screen.equals("Physician")) {
+            //  if (!fromDevice) {
+            name = txtDoctorName.getText().toString();
+            address = txtDoctorAddress.getText().toString();
+            //  }
 
-                fax = txtDoctorFax.getText().toString();
+            fax = txtDoctorFax.getText().toString();
 
-                website = txtDoctorWebsite.getText().toString();
-                lastseen = txtDoctorLastSeen.getText().toString();
-                locator = txtDoctorLocator.getText().toString();
+            website = txtDoctorWebsite.getText().toString();
+            lastseen = txtDoctorLastSeen.getText().toString();
+            locator = txtDoctorLocator.getText().toString();
 
-                speciality = txtSpecialty.getText().toString();
-                if (speciality.equals("Other")) {
-                    tilOtherCategoryDoctor.setVisibility(View.VISIBLE);
-                } else {
-                    tilOtherCategoryDoctor.setVisibility(View.GONE);
-                }
-                otherDoctor = txtOtherCategoryDoctor.getText().toString();
-                practice_name = txtPracticeName.getText().toString();
-                network = txtNetwork.getText().toString();
-                affil = txtAffiliation.getText().toString();
-                note = txtDoctorNote.getText().toString();
+            speciality = txtSpecialty.getText().toString();
+            if (speciality.equals("Other")) {
+                tilOtherCategoryDoctor.setVisibility(View.VISIBLE);
+            } else {
+                tilOtherCategoryDoctor.setVisibility(View.GONE);
+            }
+            otherDoctor = txtOtherCategoryDoctor.getText().toString();
+            practice_name = txtPracticeName.getText().toString();
+            network = txtNetwork.getText().toString();
+            affil = txtAffiliation.getText().toString();
+            note = txtDoctorNote.getText().toString();
 
-            }else if (screen.equals("Pharmacy")) {
-                name = txtPharmacyName.getText().toString();
-                address = txtPharmacyAddress.getText().toString();
-                website = txtPharmacyWebsite.getText().toString();
-                locator = txtPharmacyLocator.getText().toString();
-                note = txtPharmacyNote.getText().toString();
-            }  else if (screen.equals("Hospital")) {
+        } else if (screen.equals("Pharmacy")) {
+            name = txtPharmacyName.getText().toString();
+            address = txtPharmacyAddress.getText().toString();
+            website = txtPharmacyWebsite.getText().toString();
+            locator = txtPharmacyLocator.getText().toString();
+            note = txtPharmacyNote.getText().toString();
+        } else if (screen.equals("Hospital")) {
 
-                name = txtFNameHospital.getText().toString();
-                mobile = txtHospitalOfficePhone.getText().toString();
-                workphone = txtHospitalOtherPhone.getText().toString();
-                address = txtHospitalAddress.getText().toString();
-                email = "";
-                location = txtHospitalLocation.getText().toString();
-                phone = "";
-                fax = txtHospitalFax.getText().toString();
-                website = txtHospitalWebsite.getText().toString();
-                lastseen = txtHospitalLastSeen.getText().toString();
-                locator = txtHospitalLocator.getText().toString();
-                otherCategory = txtOtherCategoryHospital.getText().toString();
-                speciality = txtHCategory.getText().toString();
-                if (speciality.equals("Other")) {
-                    tilOtherCategoryHospital.setVisibility(View.VISIBLE);
-                } else {
-                    tilOtherCategoryHospital.setVisibility(View.GONE);
-                }
-
-                practice_name = txtHospitalPracticeName.getText().toString();
-                note = txtHospitalNote.getText().toString();
-
-            } else if (screen.equals("Finance")) {
-
-                name = txtFName.getText().toString();
-                email = txtFinanceEmail.getText().toString();
-                address = txtFinanceAddress.getText().toString();
-                contactName = txtContactName.getText().toString();
-                website = txtFinanceWebsite.getText().toString();
-                lastseen = txtLastSeen.getText().toString();
-                otherCategory = txtOtherCategory.getText().toString();
-                int indexValuex = spinnerFinance.getSelectedItemPosition();
-                String sources = preferences.getString(PrefConstants.SOURCE);
-                if (sources.equals("Finance") || sources.equals("FinanceViewData") || sources.equals("FinanceData")) {
-
-                    speciality = txtFCategory.getText().toString();
-                    if (speciality.equals("Other")) {
-                        tilOtherCategory.setVisibility(View.VISIBLE);
-                    } else {
-                        tilOtherCategory.setVisibility(View.GONE);
-                        txtOtherCategory.setText("");
-                    }
-                } else {
-                    if (indexValuex != 0) {
-                        speciality = HospitalType[indexValuex - 1];
-                    }
-                }
-                note = txtFinanceNote.getText().toString();
-
-            } else if (screen.equals("Insurance")) {
-
-                name = txtInsuaranceName.getText().toString();
-                phone = txtInsuarancePhone.getText().toString();
-                address = txtAddress.getText().toString();
-                email = txtInsuaranceEmail.getText().toString();
-                aentEmail = txtAentEmail.getText().toString();
-                aentPhone = txtAentPhone.getText().toString();
-                fax = txtInsuaranceFax.getText().toString();
-                website = txtWebsite.getText().toString();
-                note = txtInsuaranceNote.getText().toString();
-                member = txtId.getText().toString();
-                group = txtGroup.getText().toString();
-                subscriber = txtSubscribe.getText().toString();
-                type = txtInsuType.getText().toString();
-                agent = txtAgent.getText().toString();
-                otherInsurance = txtOtherInsurance.getText().toString();
-
+            name = txtFNameHospital.getText().toString();
+            mobile = txtHospitalOfficePhone.getText().toString();
+            workphone = txtHospitalOtherPhone.getText().toString();
+            address = txtHospitalAddress.getText().toString();
+            email = "";
+            location = txtHospitalLocation.getText().toString();
+            phone = "";
+            fax = txtHospitalFax.getText().toString();
+            website = txtHospitalWebsite.getText().toString();
+            lastseen = txtHospitalLastSeen.getText().toString();
+            locator = txtHospitalLocator.getText().toString();
+            otherCategory = txtOtherCategoryHospital.getText().toString();
+            speciality = txtHCategory.getText().toString();
+            if (speciality.equals("Other")) {
+                tilOtherCategoryHospital.setVisibility(View.VISIBLE);
+            } else {
+                tilOtherCategoryHospital.setVisibility(View.GONE);
             }
 
+            practice_name = txtHospitalPracticeName.getText().toString();
+            note = txtHospitalNote.getText().toString();
+
+        } else if (screen.equals("Finance")) {
+
+            name = txtFName.getText().toString();
+            email = txtFinanceEmail.getText().toString();
+            address = txtFinanceAddress.getText().toString();
+            contactName = txtContactName.getText().toString();
+            website = txtFinanceWebsite.getText().toString();
+            lastseen = txtLastSeen.getText().toString();
+            otherCategory = txtOtherCategory.getText().toString();
+            int indexValuex = spinnerFinance.getSelectedItemPosition();
+            String sources = preferences.getString(PrefConstants.SOURCE);
+            if (sources.equals("Finance") || sources.equals("FinanceViewData") || sources.equals("FinanceData")) {
+
+                speciality = txtFCategory.getText().toString();
+                if (speciality.equals("Other")) {
+                    tilOtherCategory.setVisibility(View.VISIBLE);
+                } else {
+                    tilOtherCategory.setVisibility(View.GONE);
+                    txtOtherCategory.setText("");
+                }
+            } else {
+                if (indexValuex != 0) {
+                    speciality = HospitalType[indexValuex - 1];
+                }
+            }
+            note = txtFinanceNote.getText().toString();
+
+        } else if (screen.equals("Insurance")) {
+
+            name = txtInsuaranceName.getText().toString();
+            phone = txtInsuarancePhone.getText().toString();
+            address = txtAddress.getText().toString();
+            email = txtInsuaranceEmail.getText().toString();
+            aentEmail = txtAentEmail.getText().toString();
+            aentPhone = txtAentPhone.getText().toString();
+            fax = txtInsuaranceFax.getText().toString();
+            website = txtWebsite.getText().toString();
+            note = txtInsuaranceNote.getText().toString();
+            member = txtId.getText().toString();
+            group = txtGroup.getText().toString();
+            subscriber = txtSubscribe.getText().toString();
+            type = txtInsuType.getText().toString();
+            agent = txtAgent.getText().toString();
+            otherInsurance = txtOtherInsurance.getText().toString();
+
+        }
+        return res;
     }
 }
