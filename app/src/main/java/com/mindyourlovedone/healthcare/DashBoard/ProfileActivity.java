@@ -109,9 +109,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public static final int REQUEST_RELATIONP = 100;
     public static final int REQUEST_MARITAL = 22;
     public static final int REQUEST_EYES = 23;
-    public static final int REQUEST_LANGUAGE= 24;
-    public ArrayList<ContactData> phonelist=new ArrayList<>();
-    public ArrayList<ContactData> Originalphonelist=new ArrayList<>();
+    public static final int REQUEST_LANGUAGE = 24;
+    public ArrayList<ContactData> phonelist = new ArrayList<>();
+    public ArrayList<ContactData> Originalphonelist = new ArrayList<>();
     final CharSequence[] dialog_items = {"View", "Email", "User Instructions"};
     Context context = this;
     Bitmap ProfileMap = null, CardMap = null;
@@ -122,26 +122,26 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     ImageView imgRight, imgInfo, imgR;
     RelativeLayout llIndividual;
     boolean isfinis;
-    String has_card="NO";
+    String has_card = "NO";
     //  Button floatingBtn;
-    TextView txtPeople,txtAddPet, txtSignUp, txtLogin, txtForgotPassword, txtOther, txtOtherLanguage, txtMsg, txtSave;
-    ImageView imgHome,imgEdit, imgProfile, imgDone, imgAddpet, imgEditCard, imgCard;
+    TextView txtPeople, txtAddPet, txtSignUp, txtLogin, txtForgotPassword, txtOther, txtOtherLanguage, txtMsg, txtSave;
+    ImageView imgHome, imgEdit, imgProfile, imgDone, imgAddpet, imgEditCard, imgCard;
     TextView txtHeight, txtWeight, txtProfession, txttelephone, txtEmployed, txtReligion, txtIdNumber, txtOtherRelation, txtTitle, txtName, txtEmail, txtAddress, txtCountry, txtPhone, txtHomePhone, txtWorkPhone, txtBdate, txtGender, txtPassword, txtRelation;
     TextInputLayout tilOtherRelation, tilId, tilOther, tilOtherLanguage;
     RelativeLayout rlPet, rlLive;
     String name = "", Email = "", email = "", phone = "", manager_phone = "", country = "", bdate = "", address = "", homePhone = "", workPhone = "", gender = "";
-    String height = "", weight = "", profession = "", employed = "", religion = "", idnumber = "",people="";
+    String height = "", weight = "", profession = "", employed = "", religion = "", idnumber = "", people = "";
     String pet = "", veteran = "", english = "", live = "";
-    String eyes="", language="", marital_status="";
+    String eyes = "", language = "", marital_status = "";
     String otherRelation;
     CheckBox chkOther, chkChild, chkFriend, chkGrandParent, chkParent, chkSpouse, chkSibling;
     String child = "", friend = "", grandParent = "", parent = "", spouse = "", other = "", sibling = "";
     String liveOther = "";
     ListView ListPet;
     MySpinner spinner, spinnerRelation, spinnerEyes, spinnerLanguage, spinnerMarital;
-    TextInputLayout tilSpinMarital,tilSpinEye,tilSpinLang;
+    TextInputLayout tilSpinMarital, tilSpinEye, tilSpinLang;
     FrameLayout flrel;
-    TextView txtEyes,txtvGender,txtSpinMarital,txtSpinEye,txtSpinLang;
+    TextView txtEyes, txtvGender, txtSpinMarital, txtSpinEye, txtSpinLang;
     View vgender;
     String[] countryList = {"Canada", "Mexico", "USA", "UK", "California", "India"};
     String imagepath = "", cardpath = "";//
@@ -158,9 +158,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     RelativeConnection connection;
     //   PersonalInfo personalInfo;
     RadioGroup rgGender;
-    RadioButton rbMale,rbFemale,rbTrans;
+    RadioButton rbMale, rbFemale, rbTrans;
     LinearLayout llAddPhone;
-    ToggleButton tbLive,tbEnglish,tbVeteran,tbPet,tbCard;
+    ToggleButton tbLive, tbEnglish, tbVeteran, tbPet, tbCard;
 
     TextInputLayout tilBdate, tilName, tilWorkPhone;
     String[] Relationship = {"Aunt", "Brother", "Brother-in-law", "Client", "Cousin", "Dad", "Daughter", "Father-in-law", "Friend", "GrandDaughter", "GrandMother", "GrandFather", "GrandSon", "Husband", "Mom", "Mother-in-law", "Neighbor", "Nephew", "Niece", "Patient", "Roommate", "Significant Other", "Sister", "Sister-in-law", "Son", "Uncle", "Wife", "Other"};
@@ -173,7 +173,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     boolean isOnActivityResult = false;
     String cardImgPath = "";
     FloatingActionButton floatProfile;
-    ImageView floatOptions;;
+    ImageView floatOptions;
+    ;
     NonScrollListView listPhone;
     ContactData contactData;
     RelativeConnection con;
@@ -242,11 +243,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         dbHelper1 = new DBHelper(context, ss);
 
         PetQuery p = new PetQuery(context, dbHelper1);
-        ContactDataQuery c=new ContactDataQuery(context,dbHelper1);
-        MyConnectionsQuery md = new MyConnectionsQuery(context, dbHelper1);con = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
+        ContactDataQuery c = new ContactDataQuery(context, dbHelper1);
+        MyConnectionsQuery md = new MyConnectionsQuery(context, dbHelper1);
+        con = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
 
-        phonelist=ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID),-1,"Personal Profile");
-        Originalphonelist=ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID),-1,"Personal Profile");
+        phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), -1, "Personal Profile");
+        Originalphonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), -1, "Personal Profile");
 
         MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
         connection = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
@@ -283,24 +285,24 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         floatOptions = findViewById(R.id.floatOptions);
         int user = preferences.getInt(PrefConstants.CONNECTED_USERID);
 
-        flrel=findViewById(R.id.flrel);
-        txtRelation=findViewById(R.id.txtRelation);
+        flrel = findViewById(R.id.flrel);
+        txtRelation = findViewById(R.id.txtRelation);
         txtRelation.setFocusable(false);
-        listPhone=findViewById(R.id.listPhone);
-        tilSpinEye=findViewById(R.id.tilSpinEyes);
-        txtSpinEye=findViewById(R.id.txtSpinEyes);
+        listPhone = findViewById(R.id.listPhone);
+        tilSpinEye = findViewById(R.id.tilSpinEyes);
+        txtSpinEye = findViewById(R.id.txtSpinEyes);
         txtSpinEye.setFocusable(false);
 
-        tilSpinLang=findViewById(R.id.tilSpinLang);
-        txtSpinLang=findViewById(R.id.txtSpinLang);
+        tilSpinLang = findViewById(R.id.tilSpinLang);
+        txtSpinLang = findViewById(R.id.txtSpinLang);
         txtSpinLang.setFocusable(false);
 
-        tilSpinMarital=findViewById(R.id.tilSpinMarital);
-        txtSpinMarital=findViewById(R.id.txtSpinMarital);
+        tilSpinMarital = findViewById(R.id.tilSpinMarital);
+        txtSpinMarital = findViewById(R.id.txtSpinMarital);
         txtSpinMarital.setFocusable(false);
 
-        txtvGender=findViewById(R.id.txtvGender);
-        vgender=findViewById(R.id.vgender);
+        txtvGender = findViewById(R.id.txtvGender);
+        vgender = findViewById(R.id.vgender);
         imgInfo = findViewById(R.id.imgInfo);
         imgInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -356,11 +358,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         imgCard = findViewById(R.id.imgCard);
         imgEditCard = findViewById(R.id.imgEditCard);
         flFront = findViewById(R.id.flFront);
-        imgHome=findViewById(R.id.imgHome);
+        imgHome = findViewById(R.id.imgHome);
         imgAddpet = findViewById(R.id.imgAddPet);
         txtAddPet = findViewById(R.id.txtAddPet);
-        if (pet.equals(""))
-        {
+        if (pet.equals("")) {
             txtAddPet.setVisibility(View.GONE);
         }
 
@@ -394,7 +395,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         txtHeight = findViewById(R.id.txtHeight);
         txtWeight = findViewById(R.id.txtWeight);
         txtProfession = findViewById(R.id.txtProfession);
-        txtPeople= findViewById(R.id.txtPeople);
+        txtPeople = findViewById(R.id.txtPeople);
         txtEmployed = findViewById(R.id.txtEmployedBy);
         txttelephone = findViewById(R.id.txttelephone);
         txtReligion = findViewById(R.id.txtReligion);
@@ -402,10 +403,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         txtOther = findViewById(R.id.txtOther);
         tilOther = findViewById(R.id.tilOther);
 
-        rgGender=findViewById(R.id.rgGender);
-        rbMale=findViewById(R.id.rbMale);
-        rbFemale=findViewById(R.id.rbFemale);
-        rbTrans=findViewById(R.id.rbTrans);
+        rgGender = findViewById(R.id.rgGender);
+        rbMale = findViewById(R.id.rbMale);
+        rbFemale = findViewById(R.id.rbFemale);
+        rbTrans = findViewById(R.id.rbTrans);
 
         spinner = findViewById(R.id.spinner);
         spinnerEyes = findViewById(R.id.spinnerEyes);
@@ -465,32 +466,30 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 } else if (isChecked == false) {
                     tilOther.setVisibility(View.GONE);
                     other = "NO";
-                    liveOther="";
+                    liveOther = "";
                 }
             }
         });
 
-        tbLive=findViewById(R.id.tbLive);
-        tbEnglish=findViewById(R.id.tbEnglish);
-        tbVeteran=findViewById(R.id.tbVeteran);
-        tbCard=findViewById(R.id.tbCard);
+        tbLive = findViewById(R.id.tbLive);
+        tbEnglish = findViewById(R.id.tbEnglish);
+        tbVeteran = findViewById(R.id.tbVeteran);
+        tbCard = findViewById(R.id.tbCard);
         tbCard.setChecked(false);
-        tbPet=findViewById(R.id.tbPet);
+        tbPet = findViewById(R.id.tbPet);
 
         tbCard.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked==true)
-                {
-                    has_card="YES";
+                if (isChecked == true) {
+                    has_card = "YES";
                     rlCard.setVisibility(View.VISIBLE);
                     imgEditCard.setVisibility(View.VISIBLE);
-                    if(flFront.getVisibility()==View.VISIBLE){
+                    if (flFront.getVisibility() == View.VISIBLE) {
                         imgEditCard.setVisibility(View.GONE);
                     }
-                }
-                else{
-                    has_card="NO";
+                } else {
+                    has_card = "NO";
                     // imgCard.setImageResource(R.drawable.busi_card);
                     txtCard.setVisibility(View.VISIBLE);
                     flFront.setVisibility(View.VISIBLE);
@@ -525,8 +524,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     chkParent.setChecked(false);
                     chkSpouse.setChecked(false);
                     chkOther.setChecked(false);
-                }
-                else {
+                } else {
                     live = "NO";
                     rlLive.setVisibility(View.VISIBLE);
                 }
@@ -551,7 +549,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     rlPet.setVisibility(View.VISIBLE);
                     txtAddPet.setVisibility(View.VISIBLE);
 
-                }else {
+                } else {
                     pet = "NO";
                     rlPet.setVisibility(View.GONE);
                     txtAddPet.setVisibility(View.GONE);
@@ -572,8 +570,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 if (isChecked == true) {
                     veteran = "YES";
                     tilId.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     veteran = "NO";
                     tilId.setVisibility(View.GONE);
                     idnumber = "";
@@ -587,13 +584,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 if (checkedId == R.id.rbMale) {
-                    gender="Male";
+                    gender = "Male";
 
                 } else if (checkedId == R.id.rbFemale) {
-                    gender="Female";
-                }
-                else if (checkedId == R.id.rbTrans) {
-                    gender="Trans";
+                    gender = "Female";
+                } else if (checkedId == R.id.rbTrans) {
+                    gender = "Trans";
                 }
             }
         });
@@ -722,7 +718,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             public void onClick(View v) {
                 Intent i = new Intent(context, RelationActivity.class);
                 i.putExtra("Category", "Relationp");
-                i.putExtra("Selected",txtRelation.getText().toString());
+                i.putExtra("Selected", txtRelation.getText().toString());
                 startActivityForResult(i, REQUEST_RELATIONP);
             }
         });
@@ -732,7 +728,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             public void onClick(View v) {
                 Intent i = new Intent(context, RelationActivity.class);
                 i.putExtra("Category", "Marital");
-                i.putExtra("Selected",txtSpinMarital.getText().toString());
+                i.putExtra("Selected", txtSpinMarital.getText().toString());
                 startActivityForResult(i, REQUEST_MARITAL);
             }
         });
@@ -742,7 +738,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             public void onClick(View v) {
                 Intent i = new Intent(context, RelationActivity.class);
                 i.putExtra("Category", "language");
-                i.putExtra("Selected",txtSpinLang.getText().toString());
+                i.putExtra("Selected", txtSpinLang.getText().toString());
                 startActivityForResult(i, REQUEST_LANGUAGE);
             }
         });
@@ -752,7 +748,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             public void onClick(View v) {
                 Intent i = new Intent(context, RelationActivity.class);
                 i.putExtra("Category", "eyes");
-                i.putExtra("Selected",txtSpinEye.getText().toString());
+                i.putExtra("Selected", txtSpinEye.getText().toString());
                 startActivityForResult(i, REQUEST_EYES);
             }
         });
@@ -905,7 +901,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             mImageViewType.get(pos).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    backflap=true;
+                    backflap = true;
                     int poss = Integer.parseInt(mImageViewType.get(pos).getTag().toString());
                     if (poss == 0) {
                         ContactData c = new ContactData();
@@ -934,7 +930,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 phonelist.get(position).setContactType("");
                                 mTextViewListType.get(pos).setText(phonelist.get(position).getContactType());
                             } else {
-                                backflap=true;
+                                backflap = true;
                                 phonelist.get(position).setValue(phonelist.get(position).getValue());
                                 phonelist.get(position).setContactType(types[which]);
                                 mTextViewListType.get(pos).setText(phonelist.get(position).getContactType());
@@ -956,7 +952,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void setListPh() {
 
         if (phonelist.isEmpty()) {
-            ContactData c=new ContactData();
+            ContactData c = new ContactData();
             c.setId(0);
             phonelist.add(c);
             addNewPhone(0);
@@ -966,7 +962,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     phonelist.get(i).setId(i);
                     String input = phonelist.get(i).getValue();
 
-                    if(!input.contains("-")) {
+                    if (!input.contains("-")) {
                         if (input.contains("(")) {
                             input = input.replace("(", "");
                         }
@@ -975,7 +971,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             input = input.replace(")", "");
                         }
 
-                        if(input.contains("+")) {
+                        if (input.contains("+")) {
                             if (input.length() == 13) {
                                 String str_getMOBILE = input.substring(3);
 
@@ -1037,7 +1033,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             txtPhone.setText(connection.getMobile());
             txtOtherRelation.setText(connection.getOtherRelation());
             txtHomePhone.setText(connection.getPhone());
-            txtWorkPhone.setText(connection.getWorkPhone());txtBdate.setText(connection.getDob());
+            txtWorkPhone.setText(connection.getWorkPhone());
+            txtBdate.setText(connection.getDob());
             //txtGender.setText(connection.getGender());
             if (connection.getGender() != null) {
                 if (connection.getGender().equalsIgnoreCase("Male")) {
@@ -1052,7 +1049,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     rbTrans.setChecked(false);
                     gender = "Female";
 
-                }else  if (connection.getGender().equalsIgnoreCase("Trans")||connection.getGender().equalsIgnoreCase("Trans*")) {
+                } else if (connection.getGender().equalsIgnoreCase("Trans") || connection.getGender().equalsIgnoreCase("Trans*")) {
                     rbMale.setChecked(false);
                     rbFemale.setChecked(false);
                     rbTrans.setChecked(true);
@@ -1063,11 +1060,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             txtBdate.setText(connection.getDob());
             txtRelation.setText(connection.getRelationType());
 
-            if (connection.getRelationType().equalsIgnoreCase("Other"))
-            {
+            if (connection.getRelationType().equalsIgnoreCase("Other")) {
                 tilOtherRelation.setVisibility(View.VISIBLE);
                 txtOtherRelation.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 tilOtherRelation.setVisibility(View.GONE);
                 txtOtherRelation.setVisibility(View.GONE);
             }
@@ -1080,7 +1076,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     tbLive.setChecked(true);
                     live = "YES";
                     rlLive.setVisibility(View.GONE);
-                } else if (connection.getLive().equals("NO")){
+                } else if (connection.getLive().equals("NO")) {
                     tbLive.setChecked(false);
 
                     live = "NO";
@@ -1208,7 +1204,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             txtHeight.setText(connection.getHeight());
             txtWeight.setText(connection.getWeight());
             txtProfession.setText(connection.getProfession());
-            if(connection.getPeople()!=null) {
+            if (connection.getPeople() != null) {
                 if (connection.getPeople().equalsIgnoreCase("null")) {
                     txtPeople.setText("");
                 } else {
@@ -1224,28 +1220,24 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             int indexd = 0;
             txtBdate.setText(connection.getDob());
 
-            if (connection.getEyes().equalsIgnoreCase("null"))
-            {
+            if (connection.getEyes().equalsIgnoreCase("null")) {
                 txtSpinEye.setText("");
-            }else {
+            } else {
                 txtSpinEye.setText(connection.getEyes());
             }
 
             txtSpinLang.setText(connection.getLanguage());
-            if (connection.getLanguage().equalsIgnoreCase("Other"))
-            {
+            if (connection.getLanguage().equalsIgnoreCase("Other")) {
                 tilOtherLanguage.setVisibility(View.VISIBLE);
                 txtOtherLanguage.setText(connection.getOtherLang());
-            }else{
+            } else {
                 tilOtherLanguage.setVisibility(View.GONE);
                 txtOtherLanguage.setText("");
             }
 
-            if (connection.getMarital_status().equalsIgnoreCase("null"))
-            {
+            if (connection.getMarital_status().equalsIgnoreCase("null")) {
                 txtSpinMarital.setText("");
-            }else
-            {
+            } else {
                 txtSpinMarital.setText(connection.getMarital_status());
             }
 
@@ -1253,28 +1245,28 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             if (connection.getVeteran() != null) {
                 if (connection.getVeteran().equals("YES")) {
                     tbVeteran.setChecked(true);
-                    veteran="YES";
-                } else if (connection.getVeteran().equals("NO")){
+                    veteran = "YES";
+                } else if (connection.getVeteran().equals("NO")) {
                     tbVeteran.setChecked(false);
-                    veteran="NO";
+                    veteran = "NO";
                 }
             }
 
             if (connection.getHas_card() != null) {
                 if (connection.getHas_card().equals("YES")) {
                     tbCard.setChecked(true);
-                    has_card="YES";
+                    has_card = "YES";
                     rlCard.setVisibility(View.VISIBLE);
-                } else if (connection.getHas_card().equals("NO")){
+                } else if (connection.getHas_card().equals("NO")) {
                     tbCard.setChecked(false);
-                    has_card="NO";
+                    has_card = "NO";
                     rlCard.setVisibility(View.GONE);
                     cardpath = "";
                     CardMap = null;
                 }
-            }else{
+            } else {
                 tbCard.setChecked(false);
-                has_card="NO";
+                has_card = "NO";
                 rlCard.setVisibility(View.GONE);
                 cardpath = "";
                 CardMap = null;
@@ -1282,21 +1274,21 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             if (connection.getEnglish() != null) {
                 if (connection.getEnglish().equals("YES")) {
                     tbEnglish.setChecked(true);
-                    english="YES";
-                } else if (connection.getEnglish().equals("NO")){
+                    english = "YES";
+                } else if (connection.getEnglish().equals("NO")) {
                     tbEnglish.setChecked(false);
-                    english="NO";
+                    english = "NO";
                 }
             }
             if (connection.getPet() != null) {
                 if (connection.getPet().equals("YES")) {
                     tbPet.setChecked(true);
-                    pet="YES";
+                    pet = "YES";
 
                     txtAddPet.setVisibility(View.VISIBLE);
-                } else if (connection.getPet().equals("NO")){
+                } else if (connection.getPet().equals("NO")) {
                     tbPet.setChecked(false);
-                    pet="NO";
+                    pet = "NO";
                     txtAddPet.setVisibility(View.GONE);
                 }
             }
@@ -1370,51 +1362,49 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
             case R.id.imgBack:
 
-               getValues();
-                    if (connection.getName().equals(name) && connection.getAddress().equals(address) && connection.getEmail().equals(email) && connection.getRelationType().equals(relation) &&
-                            connection.getPhoto().equals(imagepath) && connection.getOtherRelation().equals(otherRelation) && connection.getHeight().equals(height) && connection.getWeight().equals(weight) &&
-                            connection.getEyes().equals(eyes) && connection.getProfession().equals(profession) && connection.getEmployed().equals(employed) && connection.getLanguage().equals(language) &&
-                            connection.getMarital_status().equals(marital_status) && connection.getReligion().equals(religion) && connection.getVeteran().equals(veteran) && connection.getIdnumber().equals(idnumber) &&
-                            connection.getPet().equals(pet) && connection.getManager_phone().equals(manager_phone) && connection.getPhotoCard().equals(cardpath) && connection.getEnglish().equals(english) &&
-                            connection.getChildren().equals(child) && connection.getFriend().equals(friend) && connection.getGrand().equals(grandParent) && connection.getParents().equals(parent) &&
-                            connection.getSpouse().equals(spouse) && connection.getOther_person().equals(liveOther) && connection.getLive().equals(live) && connection.getSign_other().equals(other) && connection.getOtherLang().equals(OtherLang) &&
-                            connection.getDob().equals(bdate) && connection.getGender().equals(gender) && connection.getSibling().equals(sibling) && connection.getHas_card().equals(has_card) && connection.getPeople().equals(people)
-                            && backflap==false){
-                        hideSoftKeyboard();
-                        finish();
-                    } else {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                        alert.setTitle("Save");
-                        alert.setMessage("Do you want to save information?");
-                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (!connection.getName().equals(name) || !connection.getEmail().equals(address))
-                                {
-                                    isfinis=true;
-                                }
-                                hideSoftKeyboard();
-                                boolean s=  txtSave.performClick();
-                                backflap=false;
-                                dialog.dismiss();
-                                if (connection.getName().equals(name) || connection.getEmail().equals(address))
-                                {
-                                    finish();
-                                }
-
+                getValues();
+                if (connection.getName().equals(name) && connection.getAddress().equals(address) && connection.getEmail().equals(email) && connection.getRelationType().equals(relation) &&
+                        connection.getPhoto().equals(imagepath) && connection.getOtherRelation().equals(otherRelation) && connection.getHeight().equals(height) && connection.getWeight().equals(weight) &&
+                        connection.getEyes().equals(eyes) && connection.getProfession().equals(profession) && connection.getEmployed().equals(employed) && connection.getLanguage().equals(language) &&
+                        connection.getMarital_status().equals(marital_status) && connection.getReligion().equals(religion) && connection.getVeteran().equals(veteran) && connection.getIdnumber().equals(idnumber) &&
+                        connection.getPet().equals(pet) && connection.getManager_phone().equals(manager_phone) && connection.getPhotoCard().equals(cardpath) && connection.getEnglish().equals(english) &&
+                        connection.getChildren().equals(child) && connection.getFriend().equals(friend) && connection.getGrand().equals(grandParent) && connection.getParents().equals(parent) &&
+                        connection.getSpouse().equals(spouse) && connection.getOther_person().equals(liveOther) && connection.getLive().equals(live) && connection.getSign_other().equals(other) && connection.getOtherLang().equals(OtherLang) &&
+                        connection.getDob().equals(bdate) && connection.getGender().equals(gender) && connection.getSibling().equals(sibling) && (connection.getHas_card() != null ? connection.getHas_card().equals(has_card) : true) && connection.getPeople().equals(people)
+                        && backflap == false) { //nikita - added condition for has card - (connection.getHas_card() != null ? connection.getHas_card().equals(has_card) : true)
+                    hideSoftKeyboard();
+                    finish();
+                } else {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setTitle("Save");
+                    alert.setMessage("Do you want to save information?");
+                    alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (!connection.getName().equals(name) || !connection.getEmail().equals(address)) {
+                                isfinis = true;
                             }
-                        });
-
-                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                hideSoftKeyboard();
+                            hideSoftKeyboard();
+                            boolean s = txtSave.performClick();
+                            backflap = false;
+                            dialog.dismiss();
+                            if (connection.getName().equals(name) || connection.getEmail().equals(address)) {
                                 finish();
                             }
-                        });
-                        alert.show();
-                    }
+
+                        }
+                    });
+
+                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            hideSoftKeyboard();
+                            finish();
+                        }
+                    });
+                    alert.show();
+                }
 
                 break;
 
@@ -1554,10 +1544,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         homePhone = txtHomePhone.getText().toString().trim();
         otherRelation = txtOtherRelation.getText().toString().trim();
         address = txtAddress.getText().toString().trim();
-        relation=txtRelation.getText().toString();
-        eyes=txtSpinEye.getText().toString();
-        marital_status=txtSpinMarital.getText().toString();
-        language=txtSpinLang.getText().toString();
+        relation = txtRelation.getText().toString();
+        eyes = txtSpinEye.getText().toString();
+        marital_status = txtSpinMarital.getText().toString();
+        language = txtSpinLang.getText().toString();
         OtherLang = txtOtherLanguage.getText().toString();
 
         bdate = txtBdate.getText().toString().trim();
@@ -1585,14 +1575,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         // Pdf New
-        Image pdflogo = null,calendar= null,profile= null,calendarWite= null,profileWite= null;
-        pdflogo=preferences.addFile("pdflogo.png", context);
+        Image pdflogo = null, calendar = null, profile = null, calendarWite = null, profileWite = null;
+        pdflogo = preferences.addFile("pdflogo.png", context);
 
-        calendar=preferences.addFile("calpdf.png", context);calendarWite=preferences.addFile("calpdf_wite.png", context);
-        profile=preferences.addFile("profpdf.png", context); profileWite=preferences.addFile("profpdf_wite.png", context);
+        calendar = preferences.addFile("calpdf.png", context);
+        calendarWite = preferences.addFile("calpdf_wite.png", context);
+        profile = preferences.addFile("profpdf.png", context);
+        profileWite = preferences.addFile("profpdf_wite.png", context);
 
         new HeaderNew().createPdfHeaders(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME),preferences.getString(PrefConstants.CONNECTED_PATH) + imagepath,pdflogo,calendar,profile,"PERSONAL PROFILE", calendarWite, profileWite);
+                "" + preferences.getString(PrefConstants.CONNECTED_NAME), preferences.getString(PrefConstants.CONNECTED_PATH) + imagepath, pdflogo, calendar, profile, "PERSONAL PROFILE", calendarWite, profileWite);
 
         HeaderNew.addusereNameChank("PERSONAL PROFILE");//preferences.getString(PrefConstants.CONNECTED_NAME));
         HeaderNew.addEmptyLine(1);
@@ -1600,11 +1592,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         final RelativeConnection personalInfoList = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
         final ArrayList<Pet> PetList = PetQuery.fetchAllRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        final ArrayList<ContactData> phonelist=ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID),-1,"Personal Profile");
+        final ArrayList<ContactData> phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), -1, "Personal Profile");
 
         Image pp = null;
-        pp=preferences.addFile("pp.png", context);
-        new IndividualNew(personalInfoList, PetList, phonelist,pp);
+        pp = preferences.addFile("pp.png", context);
+        new IndividualNew(personalInfoList, PetList, phonelist, pp);
 
         HeaderNew.document.close();
 
@@ -1802,28 +1794,23 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
 
 
-        for (int i=0;i<phonelist.size();i++)
-        {
-            if (phonelist.get(i).getValue().isEmpty()&&phonelist.get(i).getContactType().isEmpty())
-            {
+        for (int i = 0; i < phonelist.size(); i++) {
+            if (phonelist.get(i).getValue().isEmpty() && phonelist.get(i).getContactType().isEmpty()) {
                 // phonelist.remove(phonelist.get(i));
                 //  DialogManager.showAlert("Please add Phone number with Type", context);
-            }else if (phonelist.get(i).getValue()==""&& phonelist.get(i).getContactType()!="")
-            {
+            } else if (phonelist.get(i).getValue() == "" && phonelist.get(i).getContactType() != "") {
                 DialogManager.showAlert("Please add Phone number with Type", context);
                 return false;
-            }else if (phonelist.get(i).getContactType()==""&&phonelist.get(i).getValue()!="")
-            {
+            } else if (phonelist.get(i).getContactType() == "" && phonelist.get(i).getValue() != "") {
                 DialogManager.showAlert("Please add Phone number with Type", context);
                 return false;
-            }else if (phonelist.get(i).getValue().length()<12||phonelist.get(i).getValue().length()>12)
-            {
+            } else if (phonelist.get(i).getValue().length() < 12 || phonelist.get(i).getValue().length() > 12) {
                 DialogManager.showAlert("Phone number needs to be 10 digits", context);
                 return false;
             }
         }
 
-        if(tbCard.isChecked() && (CardMap==null && imgEditCard.getVisibility()!=View.VISIBLE)){
+        if (tbCard.isChecked() && (CardMap == null && imgEditCard.getVisibility() != View.VISIBLE)) {
             DialogManager.showAlert("Please Add Business Card.", context);
             return false;
         }
@@ -1837,10 +1824,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         homePhone = txtHomePhone.getText().toString().trim();
         otherRelation = txtOtherRelation.getText().toString().trim();
         address = txtAddress.getText().toString().trim();
-        relation=txtRelation.getText().toString();
-        eyes=txtSpinEye.getText().toString();
-        marital_status=txtSpinMarital.getText().toString();
-        language=txtSpinLang.getText().toString();
+        relation = txtRelation.getText().toString();
+        eyes = txtSpinEye.getText().toString();
+        marital_status = txtSpinMarital.getText().toString();
+        language = txtSpinLang.getText().toString();
         OtherLang = txtOtherLanguage.getText().toString();
 
         bdate = txtBdate.getText().toString().trim();
@@ -1855,10 +1842,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         employed = txtEmployed.getText().toString();
         manager_phone = txttelephone.getText().toString();
         religion = txtReligion.getText().toString();
-        for (int i=0;i<phonelist.size();i++)
-        {
-            if (phonelist.get(i).getContactType()=="" && phonelist.get(i).getValue()=="")
-            {
+        for (int i = 0; i < phonelist.size(); i++) {
+            if (phonelist.get(i).getContactType() == "" && phonelist.get(i).getValue() == "") {
                 phonelist.remove(phonelist.get(i));
             }
             // Log.d("TERE",phonelist.get(i).getContactType()+"-"+phonelist.get(i).getValue());
@@ -1874,19 +1859,17 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             DialogManager.showAlert("Please Enter Other Relation", context);
         } else if (email.equals("")) {
             txtEmail.setError("Please Enter email");
-            DialogManager.showAlert("Please Enter email",  context);
+            DialogManager.showAlert("Please Enter email", context);
         } else if (!email.equals("") && !email.trim().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
             txtEmail.setError("Please enter valid email");
             DialogManager.showAlert("Please enter valid email", context);
-        }
-        else if (phone.length() != 0 && phone.length() < 10) {
+        } else if (phone.length() != 0 && phone.length() < 10) {
             txtPhone.setError("Phone number should be 10 digits");
             DialogManager.showAlert("Phone number should be 10 digits", context);
         } else if (manager_phone.length() != 0 && manager_phone.length() < 10) {
             txttelephone.setError("Mobile number should be 10 digits");
             DialogManager.showAlert("Mobile number should be 10 digits", context);
-        }
-        else {
+        } else {
             return true;
         }
         return false;
@@ -1894,17 +1877,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-
-
     private void editToConnection(String photo, String photoCard) {
 
         if (connection.getRelationType().equals("Self")) {
             if (connection.getName().equals(name) && connection.getEmail().equals(email)) {
-                DBHelper dbHelper1 =new DBHelper(context, "MASTER");
+                DBHelper dbHelper1 = new DBHelper(context, "MASTER");
                 MyConnectionsQuery ms = new MyConnectionsQuery(context, dbHelper1);
-                Boolean flag = MyConnectionsQuery.updateMyConnectionsData(1, name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card,people);
+                Boolean flag = MyConnectionsQuery.updateMyConnectionsData(1, name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
                 if (flag == true) {
-                    preferences.putString(PrefConstants.CONNECTED_PHOTO,imagepath);
+                    preferences.putString(PrefConstants.CONNECTED_PHOTO, imagepath);
                     DBHelper dbHelper = new DBHelper(context, preferences.getString(PrefConstants.CONNECTED_USERDB));
                     MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
                     Boolean flags = MyConnectionsQuery.updateMyConnectionsData(connection.getId(), name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
@@ -1921,13 +1902,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                     Boolean flagc = ContactDataQuery.insertContactsData(-1, preferences.getInt(PrefConstants.CONNECTED_USERID), connection.getEmail(), phonelist.get(i).getValue(), phonelist.get(i).getContactType(), "Personal Profile");
                                     if (flagc == true) {
                                         // Toast.makeText(context, "record inserted", Toast.LENGTH_SHORT).show();
-                                        backflap=false;
+                                        backflap = false;
                                     }
                                 }
                             }
                         }
-                        if (isfinis==true){
-                            isfinis=false;
+                        if (isfinis == true) {
+                            isfinis = false;
                             finish();
                         }
                     }
@@ -1956,7 +1937,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
                 Boolean flags = MyConnectionsQuery.updateMyConnectionsData(1, name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
                 if (flags == true) {
-                    preferences.putString(PrefConstants.CONNECTED_PHOTO,imagepath);
+                    preferences.putString(PrefConstants.CONNECTED_PHOTO, imagepath);
                     Toast.makeText(context, "You have edited profile data successfully", Toast.LENGTH_SHORT).show();
                     connection = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
                     validateConnection();
@@ -1981,14 +1962,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 Boolean flagc = ContactDataQuery.insertContactsData(-1, preferences.getInt(PrefConstants.CONNECTED_USERID), connection.getEmail(), phonelist.get(i).getValue(), phonelist.get(i).getContactType(), "Personal Profile");
                                 if (flagc == true) {
                                     //     Toast.makeText(context, "record inserted", Toast.LENGTH_SHORT).show();
-                                    backflap=false;
+                                    backflap = false;
 
                                 }
                             }
                         }
                     }
-                    if (isfinis==true){
-                        isfinis=false;
+                    if (isfinis == true) {
+                        isfinis = false;
                         finish();
                     }
                 }
@@ -2126,7 +2107,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 cardpath = "";
             }
             //photoCard=null;
-        }if (requestCode == REQUEST_RELATIONP && data != null) {
+        }
+        if (requestCode == REQUEST_RELATIONP && data != null) {
             String relation = data.getStringExtra("Category");
             txtRelation.setText(relation);
             if (relation.equals("Other")) {
@@ -2136,7 +2118,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 tilOtherRelation.setVisibility(View.GONE);
                 txtOtherRelation.setVisibility(View.GONE);
             }
-        }else if (requestCode == REQUEST_LANGUAGE && data != null) {
+        } else if (requestCode == REQUEST_LANGUAGE && data != null) {
             language = data.getStringExtra("Category");
             txtSpinLang.setText(language);
             if (language.equals("Other")) {
@@ -2146,25 +2128,24 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 tilOtherLanguage.setVisibility(View.GONE);
                 txtOtherRelation.setVisibility(View.GONE);
             }
-        }
-        else if (requestCode == REQUEST_EYES && data != null) {
+        } else if (requestCode == REQUEST_EYES && data != null) {
             eyes = data.getStringExtra("Category");
             txtSpinEye.setText(eyes);
-        }
-        else if (requestCode == REQUEST_MARITAL && data != null) {
+        } else if (requestCode == REQUEST_MARITAL && data != null) {
             marital_status = data.getStringExtra("Category");
             txtSpinMarital.setText(marital_status);
 
         }
 
     }
+
     private void setPetData() {
         final ArrayList allergyList = new ArrayList();
         final ArrayList<Pet> AllargyLists = PetQuery.fetchAllRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
         if (AllargyLists.size() != 0) {
             ListPet.setVisibility(View.VISIBLE);
 
-            PetAdapter adapter=new PetAdapter(context,AllargyLists);
+            PetAdapter adapter = new PetAdapter(context, AllargyLists);
             ListPet.setAdapter(adapter);
             ListPet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -2452,7 +2433,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             }
                             //  Toast.makeText(context, "You have edited connection successfully", Toast.LENGTH_SHORT).show();
                             preferences.putString(PrefConstants.CONNECTED_NAME, name);
-                            preferences.putString(PrefConstants.CONNECTED_RELATION,relation);
+                            preferences.putString(PrefConstants.CONNECTED_RELATION, relation);
                             //   finish(); //Varsa
                         } else {
                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
