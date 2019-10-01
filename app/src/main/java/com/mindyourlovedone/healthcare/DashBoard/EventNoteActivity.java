@@ -65,6 +65,11 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
    ImageView floatAdd, floatOptions;
 
     @Override
+    public void onBackPressed() {//Nikita-1-10-19
+//        super.onBackPressed();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_note);

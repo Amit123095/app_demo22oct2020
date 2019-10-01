@@ -44,6 +44,10 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
     boolean isUpdate=false;
     FragmentVitalSigns fragmentVitalSigns = null;
 
+    @Override
+    public void onBackPressed() {//Nikita-1-10-19
+//        super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

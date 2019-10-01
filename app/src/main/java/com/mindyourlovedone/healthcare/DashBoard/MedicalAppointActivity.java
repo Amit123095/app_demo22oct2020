@@ -68,6 +68,11 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
    // FloatingActionButton floatProfile, floatAdd;
     ImageView floatProfile, floatAdd,floatOptions;
 
+    @Override
+    public void onBackPressed() {//Nikita-1-10-19
+//        super.onBackPressed();
+    }
+
     public static String getFormattedDate(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);

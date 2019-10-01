@@ -115,6 +115,10 @@ public class AddDocumentActivity extends AppCompatActivity implements View.OnCli
     FrameLayout flDelete,flProfile;
     ImageView floatOptions;
 
+    @Override
+    public void onBackPressed() {//Nikita-1-10-19
+//        super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

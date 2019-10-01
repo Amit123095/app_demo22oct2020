@@ -48,6 +48,10 @@ public class AddPetActivity extends AppCompatActivity {
    TextView txtVeteranAd,txtCareAd;
    EditText txtCarePh,txtVeteranPh;
 
+    @Override
+    public void onBackPressed() {//Nikita-1-10-19
+//        super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

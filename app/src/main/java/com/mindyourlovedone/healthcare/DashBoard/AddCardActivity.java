@@ -82,7 +82,10 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
     LinearLayout llFrontCam, llBackCam;
     boolean frontFlag, backFlag;
 
-
+    @Override
+    public void onBackPressed() {//Nikita-1-10-19
+//        super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

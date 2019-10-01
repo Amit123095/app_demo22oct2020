@@ -938,6 +938,9 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
 
     public void callBackup() {
     }
+
+    String txt = "Profile";
+
     private void showEmailDialog() {
         final Dialog customDialog;
         customDialog = new Dialog(getActivity());
@@ -976,10 +979,17 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
                     newMembers.add(newMember);
                     // newMembers.add(newMember1);
 
+
+                    if(preferences.getString(PrefConstants.FILE).contains("MYLO.zip")){
+                        txt = "Whole Backup";
+                    }else{
+                        txt = "Profile";
+                    }
+
                     final ProgressDialog dialog = new ProgressDialog(getActivity());
                     dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     dialog.setCancelable(false);
-                    dialog.setMessage("Sharing profile can take several minutes");
+                    dialog.setMessage("Sharing "+txt+" can take several minutes");
                     dialog.show();
                     new ShareFileTask(newMembers, getActivity(), DropboxClientFactory.getClient(), new ShareFileTask.Callback() {
                         @Override
@@ -987,7 +997,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
                             dialog.dismiss();
                             final AlertDialog.Builder alerts = new AlertDialog.Builder(getActivity());
                             alerts.setTitle("Success");
-                            alerts.setMessage("Profile shared successfully");
+                            alerts.setMessage(txt+" shared successfully");
                             alerts.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

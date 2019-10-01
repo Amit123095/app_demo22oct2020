@@ -69,6 +69,11 @@ public class CarePlanActivity extends AppCompatActivity implements View.OnClickL
     ImageView floatOptions;
 
     @Override
+    public void onBackPressed() {//Nikita-1-10-19
+//        super.onBackPressed();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_care_plan_new);

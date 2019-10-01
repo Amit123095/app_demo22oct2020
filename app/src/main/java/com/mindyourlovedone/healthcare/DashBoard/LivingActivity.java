@@ -55,6 +55,12 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
     // FloatingActionButton floatOptions;
     ImageView floatOptions;
     Living medInfo;
+
+    @Override
+    public void onBackPressed() {//Nikita-1-10-19
+//        super.onBackPressed();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -27,6 +27,11 @@ public class OverviewActivity extends AppCompatActivity implements View.OnClickL
     LayoutInflater layoutInflater;
 
     @Override
+    public void onBackPressed() {//Nikita-1-10-19
+//        super.onBackPressed();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview);

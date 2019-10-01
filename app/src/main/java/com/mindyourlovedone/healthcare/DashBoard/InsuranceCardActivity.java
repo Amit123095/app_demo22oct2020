@@ -27,6 +27,11 @@ public class InsuranceCardActivity extends AppCompatActivity implements View.OnC
     TextView txtView;
 
     @Override
+    public void onBackPressed() {//Nikita-1-10-19
+//        super.onBackPressed();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insurance_card);

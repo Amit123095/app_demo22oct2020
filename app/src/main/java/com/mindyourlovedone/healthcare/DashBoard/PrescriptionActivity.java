@@ -71,6 +71,11 @@ public class PrescriptionActivity extends AppCompatActivity implements View.OnCl
     FragmentPrescriptionInfo fragmentPrescriptionInfo = null;
 
     @Override
+    public void onBackPressed() {//Nikita-1-10-19
+//        super.onBackPressed();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prescription);

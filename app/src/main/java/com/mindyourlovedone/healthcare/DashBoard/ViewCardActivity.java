@@ -66,6 +66,11 @@ public class ViewCardActivity extends AppCompatActivity implements View.OnClickL
     Card card;
 
     @Override
+    public void onBackPressed() {//Nikita-1-10-19
+//        super.onBackPressed();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_card);

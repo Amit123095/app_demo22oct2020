@@ -102,7 +102,7 @@ public class FragmentGrabContact extends Fragment implements View.OnClickListene
 
     private void initListener() {
         imgRefresh.setOnClickListener(this);
-        imgBack.setOnClickListener(this);
+//        imgBack.setOnClickListener(this);
     }
 
     private void initUI() {
@@ -121,6 +121,7 @@ public class FragmentGrabContact extends Fragment implements View.OnClickListene
             @Override
             public void onClick(View v) {
                 getActivity().finish();
+//                ((GrabConnectionActivity) getActivity()).finish();
             }
         });
         switch (GrabConnectionActivity.source) {

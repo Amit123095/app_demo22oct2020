@@ -85,6 +85,11 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
     int id;
 
     @Override
+    public void onBackPressed() {//Nikita-1-10-19
+//        super.onBackPressed();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_insurance_form);

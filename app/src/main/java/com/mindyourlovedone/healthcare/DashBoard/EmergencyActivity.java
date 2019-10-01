@@ -50,6 +50,11 @@ public class EmergencyActivity extends AppCompatActivity implements View.OnClick
     RecyclerView lvEmergency;
 
     @Override
+    public void onBackPressed() {//Nikita-1-10-19
+//        super.onBackPressed();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emergency);

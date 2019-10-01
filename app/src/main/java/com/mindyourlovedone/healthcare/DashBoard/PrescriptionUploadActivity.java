@@ -87,6 +87,11 @@ public class PrescriptionUploadActivity extends AppCompatActivity implements Vie
 
         }
 
+        @Override
+        public void onBackPressed() {//Nikita-1-10-19
+//        super.onBackPressed();
+        }
+
 
         private void initListener() {
                 imgBack.setOnClickListener(this);

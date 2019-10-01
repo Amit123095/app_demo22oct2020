@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/border_white_gray"
-    >
+    android:background="@drawable/border_white_gray">
 
     <com.mindyourlovedone.healthcare.SwipeCode.SwipeLayout
         android:id="@+id/swipe"
@@ -65,94 +64,94 @@
         </LinearLayout>
 
         <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:background="#00ffffff"-->
-            <!--android:paddingRight="@dimen/dimension10dp"-->
-            <!--android:paddingTop="@dimen/dimension10dp"-->
-            <!--android:paddingBottom="@dimen/dimension10dp"-->
-            <!--android:gravity="center_vertical">-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:background="#00ffffff"-->
+        <!--android:paddingRight="@dimen/dimension10dp"-->
+        <!--android:paddingTop="@dimen/dimension10dp"-->
+        <!--android:paddingBottom="@dimen/dimension10dp"-->
+        <!--android:gravity="center_vertical">-->
+
+        <RelativeLayout
+            android:id="@+id/rlEmergencyContact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/border_white_stroke"
+            android:gravity="center_vertical"
+            android:paddingTop="@dimen/dimension10dp"
+            android:paddingRight="@dimen/dimension10dp"
+            android:paddingBottom="@dimen/dimension10dp">
+
+            <!--  android:background="@drawable/rlborder"
+              android:elevation="@dimen/dimension10dp"
+            -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgConPhoto"
+                android:layout_width="@dimen/dimension70dp"
+                android:layout_height="@dimen/dimension70dp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/dimension2dp"
+                android:layout_marginRight="@dimen/dimension2dp"
+                android:layout_marginBottom="@dimen/dimension2dp"
+                android:background="@color/colorWhite"
+                android:src="@drawable/lightblue" />
 
             <RelativeLayout
-                android:paddingRight="@dimen/dimension10dp"
-                android:paddingTop="@dimen/dimension10dp"
-                android:paddingBottom="@dimen/dimension10dp"
-                android:id="@+id/rlEmergencyContact"
-                android:layout_width="match_parent"
+                android:id="@+id/rlProf"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/border_white_stroke"
-                android:gravity="center_vertical">
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dimension5dp"
+                android:layout_marginRight="@dimen/dimension10dp"
+                android:layout_toLeftOf="@+id/imgSelfFolder"
+                android:layout_toRightOf="@+id/imgConPhoto"
+                android:gravity="center_vertical"
 
-                <!--  android:background="@drawable/rlborder"
-                  android:elevation="@dimen/dimension10dp"
-                -->
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imgConPhoto"
-                    android:layout_width="@dimen/dimension70dp"
-                    android:layout_height="@dimen/dimension70dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="@dimen/dimension2dp"
-                    android:layout_marginRight="@dimen/dimension2dp"
-                    android:layout_marginBottom="@dimen/dimension2dp"
-                    android:background="@color/colorWhite"
-                    android:src="@drawable/lightblue" />
+                >
 
-                <RelativeLayout
-                    android:id="@+id/rlProf"
+                <TextView
+                    android:id="@+id/txtConName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimension5dp"
-                    android:layout_marginRight="@dimen/dimension10dp"
-                    android:layout_toLeftOf="@+id/imgSelfFolder"
-                    android:layout_toRightOf="@+id/imgConPhoto"
-                    android:gravity="center_vertical"
+                    android:fontFamily="@font/lato"
+                    android:singleLine="true"
+                    android:text="Suzy Jon"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/dimension20dp"
+                    android:textStyle="bold" />
 
-                    >
-
-                    <TextView
-                        android:id="@+id/txtConName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lato"
-                        android:singleLine="true"
-                        android:text="Suzy Jon"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/dimension20dp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txtConRelation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/txtConName"
-                        android:fontFamily="@font/lato"
-                        android:gravity="center"
-                        android:text="Mother"
-                        android:textColor="@color/colorGray"
-                        android:textSize="@dimen/dimension18dp" />
-                </RelativeLayout>
-
-                <ImageView
-                    android:id="@+id/imgSelfFolder"
-                    android:layout_width="@dimen/dimension20dp"
-                    android:layout_height="@dimen/dimension20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="@dimen/dimension10dp"
-                    android:layout_marginRight="@dimen/dimension5dp"
-                    android:src="@drawable/rite_arrow" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimension1dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/colorLightGray"
-
-                    android:visibility="gone" />
+                <TextView
+                    android:id="@+id/txtConRelation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtConName"
+                    android:fontFamily="@font/lato"
+                    android:gravity="center"
+                    android:text="Mother"
+                    android:textColor="@color/colorGray"
+                    android:textSize="@dimen/dimension18dp" />
             </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/imgSelfFolder"
+                android:layout_width="@dimen/dimension20dp"
+                android:layout_height="@dimen/dimension20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/dimension10dp"
+                android:layout_marginRight="@dimen/dimension5dp"
+                android:src="@drawable/rite_arrow" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimension1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorLightGray"
+
+                android:visibility="gone" />
+        </RelativeLayout>
         <!--</RelativeLayout>-->
     </com.mindyourlovedone.healthcare.SwipeCode.SwipeLayout>
 </RelativeLayout><!--

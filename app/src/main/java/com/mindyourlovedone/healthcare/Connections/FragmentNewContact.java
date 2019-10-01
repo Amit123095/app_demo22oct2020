@@ -263,6 +263,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
     }
 
 
+
     @Override
     public void onAttachFragment(Fragment childFragment) {
         super.onAttachFragment(childFragment);

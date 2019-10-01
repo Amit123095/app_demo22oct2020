@@ -37,6 +37,11 @@ public class DocumentSdCardList extends AppCompatActivity {
     ImageView imgBack;
     private File[] imagelist1;
 
+    @Override
+    public void onBackPressed() {//Nikita-1-10-19
+//        super.onBackPressed();
+    }
+
     /**
      * Called when the activity is first created.
      */

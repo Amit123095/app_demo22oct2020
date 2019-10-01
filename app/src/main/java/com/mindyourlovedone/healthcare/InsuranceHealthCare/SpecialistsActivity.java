@@ -119,6 +119,11 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
     public static final int REQUEST_PRES = 100;
 
     @Override
+    public void onBackPressed() {//Nikita-1-10-19
+//        super.onBackPressed();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specialists);

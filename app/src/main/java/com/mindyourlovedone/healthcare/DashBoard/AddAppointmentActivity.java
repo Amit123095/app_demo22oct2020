@@ -87,6 +87,11 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
 
     }
 
+    @Override
+    public void onBackPressed() {//Nikita-1-10-19
+//        super.onBackPressed();
+    }
+
     private void initComponent() {
         preferences = new Preferences(context);
         dbHelper = new DBHelper(context, preferences.getString(PrefConstants.CONNECTED_USERDB));
