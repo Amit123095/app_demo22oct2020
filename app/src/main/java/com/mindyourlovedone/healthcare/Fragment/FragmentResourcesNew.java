@@ -124,10 +124,19 @@ public class FragmentResourcesNew extends Fragment {
                         break;
 
                     case 1://Wallet Cards
-                        String formatD = "https://drive.google.com/viewerng/viewer?embedded=true&url=%s";
+                        // Code for Server side pdf
+                     /*   String formatD = "https://drive.google.com/viewerng/viewer?embedded=true&url=%s";
                         String fullPathD = String.format(Locale.ENGLISH, formatD, "http://mindyour-lovedones.com/MYLO/uploads/MYLO_App_Wallet_Card.pdf");
                         Intent browserIntentDs = new Intent(Intent.ACTION_VIEW, Uri.parse(fullPathD));
-                        startActivity(browserIntentDs);
+                        startActivity(browserIntentDs);*/
+
+                     // New code for local pdf // varsha
+                        Intent intentp = new Intent();
+                        intentp.setAction(Intent.ACTION_VIEW);
+                        intentp.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        intentp.setData(Uri.parse("market://details?id=cn.wps.moffice_eng"));//varsa ("market://details?id=com.adobe.reader"));
+                        intentp.setType(String.valueOf(Uri.parse("application/pdf")));
+                        CopyReadAssetss("wallet_card_new.pdf");
                         break;
 
                     case 2://End User License Agreement-Section and Privacy
