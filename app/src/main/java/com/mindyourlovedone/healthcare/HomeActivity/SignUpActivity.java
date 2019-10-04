@@ -1500,7 +1500,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(context, "Exception detected : " + (e.getCause()), Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "Exception detected : " + (e.getCause()), Toast.LENGTH_LONG).show();
             }
 
         }

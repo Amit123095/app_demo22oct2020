@@ -1868,10 +1868,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
 
         for (int i = 0; i < phonelist.size(); i++) {
-            if (!phonelist.get(i).getValue().isEmpty() && phonelist.get(i).getContactType().isEmpty()) {//nikita
-                // phonelist.remove(phonelist.get(i));
-                DialogManager.showAlert("Please add Phone number with Type", context);
-                return false;
+            if (phonelist.get(i).getValue().isEmpty() && phonelist.get(i).getContactType().isEmpty()) {//nikita
+                 phonelist.remove(phonelist.get(i));
+               // DialogManager.showAlert("Please add Phone number with Type", context);
+                //return false;
             } else if (phonelist.get(i).getValue() == "" && phonelist.get(i).getContactType() != "") {
                 DialogManager.showAlert("Please add Phone number with Type", context);
                 return false;
@@ -1977,6 +1977,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                     if (flagc == true) {
                                         // Toast.makeText(context, "record inserted", Toast.LENGTH_SHORT).show();
                                         backflap = false;
+                                        Originalphonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), -1, "Personal Profile");
+
                                     }
                                 }
                             }
@@ -2037,6 +2039,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 if (flagc == true) {
                                     //     Toast.makeText(context, "record inserted", Toast.LENGTH_SHORT).show();
                                     backflap = false;
+                                    Originalphonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), -1, "Personal Profile");
 
                                 }
                             }

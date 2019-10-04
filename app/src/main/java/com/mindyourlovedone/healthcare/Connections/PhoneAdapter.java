@@ -128,7 +128,7 @@ public class PhoneAdapter extends BaseAdapter {
 //                    txtPhoNum.setText(editable.toString());
 //                    phonelist.get((Integer) txtPhoNum.getTag()).setValue(editable.toString()+"-");
 //                    notifyDataSetChanged();
-                    Toast.makeText(context,""+length,Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context,""+length,Toast.LENGTH_SHORT).show();
                 }
             }
         });

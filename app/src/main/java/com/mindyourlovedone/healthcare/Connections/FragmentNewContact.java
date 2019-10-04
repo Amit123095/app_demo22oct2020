@@ -6012,10 +6012,10 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
         int indexValue = spinnerRelation.getSelectedItemPosition();
 
         for (int i = 0; i < phonelist.size(); i++) {
-            if (!phonelist.get(i).getValue().isEmpty() && phonelist.get(i).getContactType().isEmpty()) {//nikita
-                // phonelist.remove(phonelist.get(i));
-                DialogManager.showAlert("Please add Phone number with Type", context);
-                return false;
+            if (phonelist.get(i).getValue().isEmpty() && phonelist.get(i).getContactType().isEmpty()) {//nikita
+                 phonelist.remove(phonelist.get(i));
+                //DialogManager.showAlert("Please add Phone number with Type", context);
+               // return false;
             } else if (phonelist.get(i).getValue() == "" && phonelist.get(i).getContactType() != "") {
                 DialogManager.showAlert("Please add Phone number with Type", context);
                 return false;

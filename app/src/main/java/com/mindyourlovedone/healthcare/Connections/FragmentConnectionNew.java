@@ -1041,18 +1041,18 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
                 if (connection.getRelationType().equals("Self")) {
                     Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
                     if (flags == true) {
-                        Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
                         storeImage(connection.getPhoto(), "Profile", backupDBPath);
                     }
                 } else {
                     Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
                     if (flags == true) {
-                        Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
                         storeImage(connection.getPhoto(), "Profile", backupDBPath);
                         ContactDataQuery c = new ContactDataQuery(context, dbHelpers);
                         Boolean flagf = ContactDataQuery.updateUserId(connections.getId());
                         if (flagf == true) {
-                            Toast.makeText(context, "updated", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(context, "updated", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -1062,7 +1062,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
                 Boolean flags = MyConnectionsQuery.insertMyConnectionsDataBACKUP(connection, true);
 
                 if (flags == true) {
-                    Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
                     storeImage(connection.getPhoto(), "Profile", backupDBPath);
                    /* RelativeConnection con = MyConnectionsQuery.fetchEmailRecords(connection.getEmail());
                     ContactDataQuery c=new ContactDataQuery(context,dbHelpers);
@@ -1115,13 +1115,13 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
                     if (connection.getRelationType().equals("Self")) {
                         Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
                         if (flags == true) {
-                            Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
                             storeImage(connection.getPhoto(), "Profile", backupDBPath);
                         }
                     } else {
                         Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
                         if (flags == true) {
-                            Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
                             storeImage(connection.getPhoto(), "Profile", backupDBPath);
                         }
                     }
@@ -1130,7 +1130,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
 
                     Boolean flags = MyConnectionsQuery.insertMyConnectionsDataBACKUP(connection, false);
                     if (flags == true) {
-                        Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
                         storeImage(connection.getPhoto(), "Profile", backupDBPath);
                     }
                 }

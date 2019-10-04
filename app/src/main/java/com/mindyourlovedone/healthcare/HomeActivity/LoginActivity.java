@@ -616,7 +616,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String startdate = toDateStr(purchase.getPurchaseTime());
                 String enddate = toDateEnd(purchase.getPurchaseTime() + DateUtils.YEAR_IN_MILLIS);
 
-                Toast.makeText(LoginActivity.this, "SUB_DATA\nTID : " + purchase.getToken() + "\nSdate : " + startdate + "\nEdate : " + enddate + "\nUID : " + userid, Toast.LENGTH_LONG).show();
+                //Toast.makeText(LoginActivity.this, "SUB_DATA\nTID : " + purchase.getToken() + "\nSdate : " + startdate + "\nEdate : " + enddate + "\nUID : " + userid, Toast.LENGTH_LONG).show();
 
                 SubscrptionData sub = new SubscrptionData();
                 sub.setSource("Android");
@@ -763,7 +763,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String startdate = toDateStr(purchase.getPurchaseTime());
                 String enddate = toDateEnd(purchase.getPurchaseTime() + DateUtils.YEAR_IN_MILLIS);
 
-                Toast.makeText(LoginActivity.this, "SUB_DATA\nTID : " + purchase.getToken() + "\nSdate : " + startdate + "\nEdate : " + enddate + "\nUID : " + userid, Toast.LENGTH_LONG).show();
+                //Toast.makeText(LoginActivity.this, "SUB_DATA\nTID : " + purchase.getToken() + "\nSdate : " + startdate + "\nEdate : " + enddate + "\nUID : " + userid, Toast.LENGTH_LONG).show();
 
                 SubscrptionData sub = new SubscrptionData();
                 sub.setSource("Android");
