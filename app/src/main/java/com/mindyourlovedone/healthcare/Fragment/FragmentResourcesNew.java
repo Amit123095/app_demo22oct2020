@@ -24,6 +24,8 @@ import com.mindyourlovedone.healthcare.InsuranceHealthCare.ResourceAdapter;
 import com.mindyourlovedone.healthcare.model.Links;
 import com.mindyourlovedone.healthcare.model.ResourcesNew;
 import com.mindyourlovedone.healthcare.model.Setting;
+import com.mindyourlovedone.healthcare.utility.WebPDFActivity;
+import com.mindyourlovedone.healthcare.webservice.WebService;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,9 +37,9 @@ import java.util.Locale;
 
 public class FragmentResourcesNew extends Fragment {
     View rootView;
-    ArrayList<ResourcesNew> resourcesList,supportList,enduserList;
+    ArrayList<ResourcesNew> resourcesList, supportList, enduserList;
     ListView lvResources;
-    ImageView imgHelp,imgProfile;
+    ImageView imgHelp, imgProfile;
     TextView txtTitle;
 
     @Nullable
@@ -99,8 +101,6 @@ public class FragmentResourcesNew extends Fragment {
         resourcesList.add(s2);
 
 
-
-
     }
 
     private void initUi() {
@@ -130,18 +130,26 @@ public class FragmentResourcesNew extends Fragment {
                         Intent browserIntentDs = new Intent(Intent.ACTION_VIEW, Uri.parse(fullPathD));
                         startActivity(browserIntentDs);*/
 
-                     // New code for local pdf // varsha
-                        Intent intentp = new Intent();
-                        intentp.setAction(Intent.ACTION_VIEW);
-                        intentp.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        intentp.setData(Uri.parse("market://details?id=cn.wps.moffice_eng"));//varsa ("market://details?id=com.adobe.reader"));
-                        intentp.setType(String.valueOf(Uri.parse("application/pdf")));
-                        CopyReadAssetss("wallet_card_new.pdf");
+//                     // New code for local pdf // varsha
+//                        Intent intentp = new Intent();
+//                        intentp.setAction(Intent.ACTION_VIEW);
+//                        intentp.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                        intentp.setData(Uri.parse("market://details?id=cn.wps.moffice_eng"));//varsa ("market://details?id=com.adobe.reader"));
+//                        intentp.setType(String.valueOf(Uri.parse("application/pdf")));
+//                        CopyReadAssetss("wallet_card_new.pdf");
+
+
+                        //nikita
+                        Intent browserIntentD2 = new Intent(getActivity(), WebPDFActivity.class);
+                        browserIntentD2.putExtra("Name", "Wallet Card");
+                        browserIntentD2.putExtra("URL", WebService.WALLET_URL);
+                        startActivity(browserIntentD2);
+
                         break;
 
                     case 2://End User License Agreement-Section and Privacy
-                        Intent i=new Intent(getActivity(),SupportActivity.class);
-                        i.putExtra("FROM","EndUser");
+                        Intent i = new Intent(getActivity(), SupportActivity.class);
+                        i.putExtra("FROM", "EndUser");
                         startActivity(i);
                         break;
                     case 3: //HelpForm
@@ -157,8 +165,8 @@ public class FragmentResourcesNew extends Fragment {
                         break;
 
                     case 5://Support Faq and User uide
-                        Intent ij=new Intent(getActivity(),SupportActivity.class);
-                        ij.putExtra("FROM","Support");
+                        Intent ij = new Intent(getActivity(), SupportActivity.class);
+                        ij.putExtra("FROM", "Support");
                         startActivity(ij);
                         break;
                 }
@@ -167,6 +175,7 @@ public class FragmentResourcesNew extends Fragment {
 
 
     }
+
     public void CopyReadAssetss(String documentPath) {
         AssetManager assetManager = getActivity().getAssets();
         File outFile = null;

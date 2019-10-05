@@ -62,6 +62,17 @@ public class WebService {
     private final String POST_SUBSCRIPTION = Base_URL + "/user/postSubscription";//Nikita#Sub
     private final String GET_SUBSCRIPTION = Base_URL + "/user/getSubscription";//Nikita#Sub
 
+//    //PROD
+//    private final String PRIVACY_URL = "http://18.188.114.139/PRIVACY_POLICY.pdf";
+//    private final String EULA_URL = "http://18.188.114.139/LICENSE_AGREEMENT.pdf";
+//    private final String WALLET_URL = "http://18.188.114.139/Wallet_Card.pdf";
+
+    //TEST
+    public static String PRIVACY_URL = "http://18.188.114.139/test/public/PRIVACY_POLICY.pdf";
+    public static String EULA_URL = "http://18.188.114.139/test/public/LICENSE_AGREEMENT.pdf";
+    public static String WALLET_URL = "http://18.188.114.139/test/public/Wallet_Card.pdf";
+
+
 //Test Server
    /* private final static String POST_PDF_URL = "http://demo.arihantwebconsultancy.com/mylo/public/webservices/fax/sendFax";
     private final String CREATE_PROFILE_URL = "http://demo.arihantwebconsultancy.com/mylo/public/webservices/user/createProfile";
@@ -336,13 +347,13 @@ public class WebService {
 //        HttpPost httppost = new HttpPost(CREATE_PROFILE_URL);
 
         // new changes - nikita
-        HttpURLConnection conn=null;
+        HttpURLConnection conn = null;
         String result = "";
         InputStream is = null;
         try {
             URL url = new URL(CREATE_PROFILE_URL);
 
-            conn = (HttpURLConnection)url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
             Log.e("URL parameter", "First Name :" + firstName + "\nlastName : "
                     + lastName + " \nState : " + state + " \nemail :" + mail
                     + "\npassword :" + password + " \nDeviceId :" + deviceUdid
@@ -353,8 +364,8 @@ public class WebService {
             conn.setRequestMethod("POST");
             conn.setDoInput(true);
             conn.setDoOutput(true);
-            conn.setRequestProperty( "Content-Type", "application/json");
-            conn.setRequestProperty( "charset", "utf-8");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("charset", "utf-8");
             conn.setRequestProperty("firstName", firstName);
             conn.setRequestProperty("lastName", lastName);
             conn.setRequestProperty("state", state);
@@ -426,7 +437,7 @@ public class WebService {
     public String getProfile(String name, String email) {
         // new changes - nikita
 
-        HttpURLConnection conn=null;
+        HttpURLConnection conn = null;
 //        HttpClient httpclient = new DefaultHttpClient();
 //        HttpPost httppost = new HttpPost(LOGIN_PROFILE_URL);
         String result = "";
@@ -434,12 +445,12 @@ public class WebService {
         try {
             URL url = new URL(LOGIN_PROFILE_URL);
 
-            conn = (HttpURLConnection)url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
             Log.e("Encode String", name);
             Log.e("Encode String", email);
 
-            conn.setRequestProperty( "Content-Type", "application/json");
-            conn.setRequestProperty( "charset", "utf-8");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("charset", "utf-8");
             conn.setReadTimeout(10000);
             conn.setConnectTimeout(15000);
             conn.setRequestMethod("POST");
@@ -486,7 +497,7 @@ public class WebService {
             return "exception";
         } catch (IOException e) {
             return "exception";
-        }finally {
+        } finally {
             if (conn != null) {
                 conn.disconnect();
             }
@@ -536,7 +547,7 @@ public class WebService {
                               String state, String email, String password) {
         // new changes - nikita
 
-        HttpURLConnection conn=null;
+        HttpURLConnection conn = null;
 //        HttpClient httpclient = new DefaultHttpClient();
 //        HttpPost httppost = new HttpPost(EDIT_PROFILE_URL);
         String result = "";
@@ -544,7 +555,7 @@ public class WebService {
         try {
             URL url = new URL(EDIT_PROFILE_URL);
 
-            conn = (HttpURLConnection)url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
             Log.e("URL parameter", "id :" + id + "First Name :" + firstName
                     + "\nlastName : " + lastName + " \nState : " + state
                     + " \nemail :" + email + "\npassword :" + password);
@@ -554,8 +565,8 @@ public class WebService {
             conn.setRequestMethod("POST");
             conn.setDoInput(true);
             conn.setDoOutput(true);
-            conn.setRequestProperty( "Content-Type", "application/json");
-            conn.setRequestProperty( "charset", "utf-8");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("charset", "utf-8");
             conn.setRequestProperty("userId", id);
             conn.setRequestProperty("firstName", firstName);
             conn.setRequestProperty("lastName", lastName);
@@ -611,7 +622,7 @@ public class WebService {
             return "exception";
         } catch (IOException e) {
             return "exception";
-        }finally {
+        } finally {
             if (conn != null) {
                 conn.disconnect();
             }

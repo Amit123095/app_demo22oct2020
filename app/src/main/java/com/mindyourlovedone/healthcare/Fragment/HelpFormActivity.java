@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.mindyourlovedone.healthcare.HomeActivity.LinkAdapter;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.model.Links;
+import com.mindyourlovedone.healthcare.utility.WebPDFActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,11 +31,12 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class HelpFormActivity extends AppCompatActivity {
-    Context context=this;
+    Context context = this;
     ArrayList<Links> UrlList;
     ListView list;
     TextView txtTitle, txtName;
-    ImageView imgNoti, imgProfile, imgLogo,imgPdf, imgBack;
+    ImageView imgNoti, imgProfile, imgLogo, imgPdf, imgBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,7 @@ public class HelpFormActivity extends AppCompatActivity {
         getData();
         setData();
     }
+
     private void setData() {
         LinkAdapter adapter = new LinkAdapter(context, UrlList);
         list.setAdapter(adapter);
@@ -146,7 +149,7 @@ public class HelpFormActivity extends AppCompatActivity {
         UrlList.add(l9);
         UrlList.add(l10);
         UrlList.add(l11);
-     //   UrlList.add(l12);
+        //   UrlList.add(l12);
        /* UrlList.add(l8);
         UrlList.add(l9);
         UrlList.add(l10);
@@ -174,7 +177,7 @@ public class HelpFormActivity extends AppCompatActivity {
 //        imgProfile.setVisibility(View.GONE);
 //        imgNoti = findViewById(R.id.imgNoti);
 //        imgNoti.setVisibility(View.GONE);
-       imgBack = findViewById(R.id.imgBack);
+        imgBack = findViewById(R.id.imgBack);
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,11 +186,18 @@ public class HelpFormActivity extends AppCompatActivity {
         });
 
 
-        list =findViewById(R.id.list);
+        list = findViewById(R.id.list);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+//                Intent browserIntentD2 = new Intent(HelpFormActivity.this, WebPDFActivity.class);
+//                Uri uri = Uri.fromFile(new File("//assets/"+ UrlList.get(position).getUrl()));
+//                browserIntentD2.putExtra("URL", uri.toString());//"file:///android_asset/" + UrlList.get(position).getUrl());
+//                browserIntentD2.putExtra("Name", UrlList.get(position).getName());
+//                startActivity(browserIntentD2);
+
                 CopyReadAssetss(UrlList.get(position).getUrl());
                 /*if (position==7)
                 {
@@ -319,7 +329,6 @@ public class HelpFormActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setDataAndType(uri, "application/pdf");
         startActivity(intent);
-
     }
 
     private void copyFiles(InputStream in, OutputStream out) throws IOException {

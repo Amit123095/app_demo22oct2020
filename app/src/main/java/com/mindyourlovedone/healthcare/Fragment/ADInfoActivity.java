@@ -11,9 +11,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.mindyourlovedone.healthcare.DashBoard.AddInfoActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.LinkAdapter;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.model.Links;
+import com.mindyourlovedone.healthcare.utility.WebPDFActivity;
 
 import java.util.ArrayList;
 
@@ -161,11 +163,16 @@ public class ADInfoActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                      /*  if (Datalist.get(position).equals(UrlList.get(position).getName()))
                        {*/
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_VIEW);
-                intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                intent.setData(Uri.parse(UrlList.get(position).getUrl()));
-                startActivity(intent);
+//                Intent intent = new Intent();
+//                intent.setAction(Intent.ACTION_VIEW);
+//                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+//                intent.setData(Uri.parse(UrlList.get(position).getUrl()));
+//                startActivity(intent);
+
+                Intent browserIntentD = new Intent(ADInfoActivity.this, WebPDFActivity.class);
+                browserIntentD.putExtra("URL", UrlList.get(position).getUrl());
+                browserIntentD.putExtra("Name", UrlList.get(position).getName());
+                startActivity(browserIntentD);
                 //    }
             }
         });

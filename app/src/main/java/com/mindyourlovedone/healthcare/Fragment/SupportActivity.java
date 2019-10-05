@@ -21,6 +21,8 @@ import android.widget.TextView;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.InsuranceHealthCare.ResourceAdapter;
 import com.mindyourlovedone.healthcare.model.ResourcesNew;
+import com.mindyourlovedone.healthcare.utility.WebPDFActivity;
+import com.mindyourlovedone.healthcare.webservice.WebService;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -98,19 +100,17 @@ public class SupportActivity extends AppCompatActivity {
             }
         });
 
-        txtTitle=findViewById(R.id.txtTitle);
+        txtTitle = findViewById(R.id.txtTitle);
         lvSupport = findViewById(R.id.lvSupport);
         lvEndUser = findViewById(R.id.lvEndUser);
-        Intent i=getIntent();
-        String from=i.getExtras().getString("FROM");
-        if (from.equals("Support"))
-        {
-lvSupport.setVisibility(View.VISIBLE);
+        Intent i = getIntent();
+        String from = i.getExtras().getString("FROM");
+        if (from.equals("Support")) {
+            lvSupport.setVisibility(View.VISIBLE);
             lvEndUser.setVisibility(View.GONE);
             txtTitle.setText("Support FAQs and User Guide");
 
-        }else if (from.equals("EndUser"))
-        {
+        } else if (from.equals("EndUser")) {
             lvSupport.setVisibility(View.GONE);
             lvEndUser.setVisibility(View.VISIBLE);
             txtTitle.setText("End User License Agreement \nand Privacy Policy");
@@ -120,16 +120,17 @@ lvSupport.setVisibility(View.VISIBLE);
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0://Support Faq
-                        Intent browserIntent = new Intent(context, WebViewActivity.class);
+                        Intent browserIntent = new Intent(context, WebPDFActivity.class);
                         browserIntent.putExtra("Name", "Support FAQs");
+                        browserIntent.putExtra("URL", "http://mindyour-lovedones.com/MYLO/faq.html");
                         startActivity(browserIntent);
 
                         break;
                     case 1://User Guide-Section
-                        //   Intent browserIntents = new Intent(context,WebViewActivity.class);
-                        // browserIntents.putExtra("Name","User Guide");
-                        // startActivity(browserIntents);
-                        Intent browserIntentD = new Intent(Intent.ACTION_VIEW, Uri.parse("http://mindyour-lovedones.com/MYLO/uploads/User_Guide.pdf"));
+//                           Intent browserIntents = new Intent(context,WebViewActivity.class);
+//                         browserIntents.putExtra("Name","User Guide");
+//                         startActivity(browserIntents);
+                        Intent browserIntentD = new Intent(Intent.ACTION_VIEW, Uri.parse("http://docs.google.com/gview?embedded=true&url=http://mindyour-lovedones.com/MYLO/uploads/User_Guide.pdf"));
                         startActivity(browserIntentD);
 
                         break;
@@ -141,20 +142,29 @@ lvSupport.setVisibility(View.VISIBLE);
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0://End User License Agreement-Section
-                        Intent intentx = new Intent();
-                        intentx.setAction(Intent.ACTION_VIEW);
-                        intentx.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        intentx.setData(Uri.parse("market://details?id=cn.wps.moffice_eng"));//varsa ("market://details?id=com.adobe.reader"));
-                        intentx.setType(String.valueOf(Uri.parse("application/pdf")));
-                        CopyReadAssetss("eula_new.pdf");
+//                        Intent intentx = new Intent();
+//                        intentx.setAction(Intent.ACTION_VIEW);
+//                        intentx.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                        intentx.setData(Uri.parse("market://details?id=cn.wps.moffice_eng"));//varsa ("market://details?id=com.adobe.reader"));
+//                        intentx.setType(String.valueOf(Uri.parse("application/pdf")));
+//                        CopyReadAssetss("eula_new.pdf");
+                        Intent browserIntentD = new Intent(SupportActivity.this, WebPDFActivity.class);
+                        browserIntentD.putExtra("Name", "End User License Agreement");
+                        browserIntentD.putExtra("URL", WebService.EULA_URL);
+                        startActivity(browserIntentD);
                         break;
                     case 1://Privacy Policy-Section
-                        Intent intentp = new Intent();
-                        intentp.setAction(Intent.ACTION_VIEW);
-                        intentp.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        intentp.setData(Uri.parse("market://details?id=cn.wps.moffice_eng"));//varsa ("market://details?id=com.adobe.reader"));
-                        intentp.setType(String.valueOf(Uri.parse("application/pdf")));
-                       CopyReadAssetss("Privacy Policy.pdf");
+                        Intent browserIntentD2 = new Intent(SupportActivity.this, WebPDFActivity.class);
+                        browserIntentD2.putExtra("Name", "Privacy Policy");
+                        browserIntentD2.putExtra("URL", WebService.PRIVACY_URL);
+                        startActivity(browserIntentD2);
+
+//                        Intent intentp = new Intent();
+//                        intentp.setAction(Intent.ACTION_VIEW);
+//                        intentp.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                        intentp.setData(Uri.parse("market://details?id=cn.wps.moffice_eng"));//varsa ("market://details?id=com.adobe.reader"));
+//                        intentp.setType(String.valueOf(Uri.parse("application/pdf")));
+//                       CopyReadAssetss("Privacy Policy.pdf");
                         break;
                 }
             }
@@ -226,10 +236,9 @@ lvSupport.setVisibility(View.VISIBLE);
         }
 
 
-
     }
 
-    private void copyFiles (InputStream in, OutputStream out) throws IOException {
+    private void copyFiles(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int read;
         while ((read = in.read(buffer)) != -1) {

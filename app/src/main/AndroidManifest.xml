@@ -41,7 +41,8 @@
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.mindyourlovedone.healthcare.DashBoard.ReactionListActivity"></activity>
+        <activity android:name="com.mindyourlovedone.healthcare.utility.WebPDFActivity"></activity>
+        <activity android:name="com.mindyourlovedone.healthcare.DashBoard.ReactionListActivity" />
         <activity android:name="com.mindyourlovedone.healthcare.Fragment.WebViewActivity" />
         <activity android:name="com.mindyourlovedone.healthcare.Fragment.ADInfoActivity" />
         <activity android:name="com.mindyourlovedone.healthcare.Fragment.VideoActivity" />

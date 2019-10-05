@@ -48,6 +48,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mindyourlovedone.healthcare.Fragment.SupportActivity;
 import com.mindyourlovedone.healthcare.customview.MySpinner;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.MyConnectionsQuery;
@@ -59,6 +60,7 @@ import com.mindyourlovedone.healthcare.utility.DialogManager;
 import com.mindyourlovedone.healthcare.utility.NetworkUtils;
 import com.mindyourlovedone.healthcare.utility.PrefConstants;
 import com.mindyourlovedone.healthcare.utility.Preferences;
+import com.mindyourlovedone.healthcare.utility.WebPDFActivity;
 import com.mindyourlovedone.healthcare.webservice.WebService;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -250,8 +252,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         txtPolicy2.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
-                CopyReadAssetss("Privacy Policy.pdf");
+                Intent browserIntentD2 = new Intent(SignUpActivity.this, WebPDFActivity.class);
+                browserIntentD2.putExtra("Name", "Privacy Policy");
+                browserIntentD2.putExtra("URL", WebService.PRIVACY_URL);
+                startActivity(browserIntentD2);
+//                CopyReadAssetss("Privacy Policy.pdf");
                 return false;
             }
         });
@@ -259,7 +264,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         txtPolicy4.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                CopyReadAssetss("eula_new.pdf");
+                Intent browserIntentD = new Intent(SignUpActivity.this, WebPDFActivity.class);
+                browserIntentD.putExtra("Name", "End User License Agreement");
+                browserIntentD.putExtra("URL", WebService.EULA_URL);
+                startActivity(browserIntentD);
+//                CopyReadAssetss("eula_new.pdf");
                 return false;
             }
         });
