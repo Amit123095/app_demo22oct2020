@@ -7,6 +7,16 @@ import com.dropbox.core.v2.sharing.SharedFileMetadata;
 Created by Nikita on 7-9-19
  */
 public class DropBoxFileItem {
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
+    }
+
+    String datetime="";
+
     int shared = 0;
     SharedFileMetadata sharefmd;
 

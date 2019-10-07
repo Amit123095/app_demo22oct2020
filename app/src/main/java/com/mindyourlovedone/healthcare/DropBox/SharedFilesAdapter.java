@@ -27,9 +27,11 @@ public class SharedFilesAdapter extends RecyclerView.Adapter<SharedFilesAdapter.
     private final Picasso mPicasso;
     private final Callback mCallback;
     private List<DropBoxFileItem> mFiles;
+    Context context;
 
-    public SharedFilesAdapter(Picasso picasso, Callback callback) {
+    public SharedFilesAdapter(Context contex, Picasso picasso, Callback callback) {
         mPicasso = picasso;
+        this.context = contex;
         mCallback = callback;
     }
 
@@ -117,6 +119,7 @@ public class SharedFilesAdapter extends RecyclerView.Adapter<SharedFilesAdapter.
                 } else {
                     txttype.setText("Shared on " + ss.getTimeInvited());
                 }
+                txttype.setTextColor(context.getResources().getColor(R.color.colorBlueText));
 
                 if (ss instanceof SharedFileMetadata) {
                     MimeTypeMap mime = MimeTypeMap.getSingleton();
@@ -139,7 +142,11 @@ public class SharedFilesAdapter extends RecyclerView.Adapter<SharedFilesAdapter.
                 }
             } else {
                 Metadata ff = item.getFilemd();
+                txttype.setText("Backed up on " + item.getDatetime());
+                txttype.setTextColor(context.getResources().getColor(R.color.colorGray));
+
                 mTextView.setText(ff.getName());
+
                 if (ff instanceof FileMetadata) {
                     MimeTypeMap mime = MimeTypeMap.getSingleton();
                     String ext = ff.getName().substring(ff.getName().indexOf(".") + 1);

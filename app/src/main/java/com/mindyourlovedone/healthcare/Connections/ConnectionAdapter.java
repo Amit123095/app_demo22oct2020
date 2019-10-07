@@ -553,6 +553,7 @@ public class ConnectionAdapter extends RecyclerSwipeAdapter<ConnectionAdapter.Vi
                         String mail = connectionList.get(position).getEmail();;
                         mail = mail.replace(".", "_");
                         mail = mail.replace("@", "_");
+
                         preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
                         preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
                         context.startActivity(i);

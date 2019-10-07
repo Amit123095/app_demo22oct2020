@@ -104,12 +104,13 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
     static int ni;
     View rootview;
     GridView lvConnection;
-    RecyclerView lvSelf;
-    TextView txtUser, txtRelation;
+    RecyclerView lvSelf,rlselflist;
+//    TextView txtUser, txtRelation;
 
     ImageView fab;
-    LinearLayout llSelf;
-    ImageView imgSelfFolder, imgSelf, imgBacks;
+//    LinearLayout llSelf;
+//    ImageView imgSelfFolder, imgSelf;
+    ImageView imgBacks;
     ArrayList<RelativeConnection> connectionList;
     TextView txtFTU;
 
@@ -119,7 +120,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
     ConnectionAdapter connectionAdapter;
     Preferences preferences;
 
-    RelativeLayout leftDrawer, rlMsg, rlSelf;
+    RelativeLayout leftDrawer, rlMsg;//rlSelf;
     ImageLoader imageLoader;
     DisplayImageOptions displayImageOptions;
     RelativeLayout rlGuide;
@@ -174,18 +175,19 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
 
     private void initUI() {
         lvSelf = rootview.findViewById(R.id.lvSelf);
-        rlSelf = rootview.findViewById(R.id.rlSelf);
+        rlselflist = rootview.findViewById(R.id.rlselflist);
+//        rlSelf = rootview.findViewById(R.id.rlSelf);
         imghelp = rootview.findViewById(R.id.imghelp);
         txthelp = rootview.findViewById(R.id.txthelp);
         txtYour = rootview.findViewById(R.id.txtYour);
         fab = rootview.findViewById(R.id.fab);
-        llSelf = rootview.findViewById(R.id.llSelf);
-        imgSelfFolder = rootview.findViewById(R.id.imgSelfFolder);
-        imgSelf = rootview.findViewById(R.id.imgSelf);
+//        llSelf = rootview.findViewById(R.id.llSelf);
+//        imgSelfFolder = rootview.findViewById(R.id.imgSelfFolder);
+//        imgSelf = rootview.findViewById(R.id.imgSelf);
         imgBacks = getActivity().findViewById(R.id.imgBacks);
         imgBacks.setVisibility(View.GONE);
-        txtUser = rootview.findViewById(R.id.txtUser);
-        txtRelation = rootview.findViewById(R.id.txtRelation);
+//        txtUser = rootview.findViewById(R.id.txtUser);
+//        txtRelation = rootview.findViewById(R.id.txtRelation);
 
         imgR = getActivity().findViewById(R.id.imgR);
         imgR.setVisibility(View.GONE);
@@ -233,14 +235,25 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         //or
         lvSelf.addItemDecoration(
                 new DividerItemDecoration(getActivity(), R.drawable.divider));
+
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getActivity());
+        rlselflist.setLayoutManager(linearLayoutManager2);
+
+        //add ItemDecoration
+        rlselflist.addItemDecoration(new VerticalSpaceItemDecoration(0));
+
+        //or
+        rlselflist.addItemDecoration(
+                new DividerItemDecoration(getActivity(), R.drawable.divider));
+
         //...
-        rlSelf.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                ShowOptionDialog("Profiles", -1, preferences.getString(PrefConstants.USER_EMAIL));
-                return true;
-            }
-        });
+//        rlSelf.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                ShowOptionDialog("Profiles", -1, preferences.getString(PrefConstants.USER_EMAIL));
+//                return true;
+//            }
+//        });
 
       /*  lvSelf.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -261,6 +274,11 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
     }
 
     public void setListData() {
+        ArrayList<RelativeConnection> selflist = new ArrayList<>();
+        selflist.clear();
+        selflist.add(new RelativeConnection());
+        SelfAdapter selfAdapter = new SelfAdapter(getActivity(), selflist,FragmentConnectionNew.this);
+        rlselflist.setAdapter(selfAdapter);
         if (connectionList.size() != 0) {
             ConnectionAdapter connectionAdapter = new ConnectionAdapter(getActivity(), connectionList,FragmentConnectionNew.this);
             lvSelf.setAdapter(connectionAdapter);
@@ -282,9 +300,9 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         imgLogo.setOnClickListener(this);
         imgRight.setOnClickListener(this);
         fab.setOnClickListener(this);
-        imgSelfFolder.setOnClickListener(this);
-        rlSelf.setOnClickListener(this);
-        imgSelf.setOnClickListener(this);
+//        imgSelfFolder.setOnClickListener(this);
+//        rlSelf.setOnClickListener(this);
+//        imgSelf.setOnClickListener(this);
     }
 
     private void ShowOptionDialog(final String Type, final int position, final String email) {
@@ -419,7 +437,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
                 break;
 
             case R.id.rlSelf:
-                imgSelfFolder.performClick();
+//                imgSelfFolder.performClick();
                 break;
 
             case R.id.imgSelfFolder:
@@ -547,9 +565,9 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         getData();
         setListData();
         String image = preferences.getString(PrefConstants.USER_PROFILEIMAGE);
-        //byte[] photo = Base64.decode(image, Base64.DEFAULT);
+//        //byte[] photo = Base64.decode(image, Base64.DEFAULT);
         txtDrawerName.setText(preferences.getString(PrefConstants.USER_NAME));
-        txtUser.setText(preferences.getString(PrefConstants.USER_NAME));
+//        txtUser.setText(preferences.getString(PrefConstants.USER_NAME));
         if (!image.equals("")) {
             String mail1 = preferences.getString(PrefConstants.USER_EMAIL);
             mail1 = mail1.replace(".", "_");
@@ -564,15 +582,15 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
                 } else {
                     imgDrawerProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
                 }
-                if (imgSelf.getDrawable() == null) {
-                    imgSelf.setImageResource(R.drawable.lightblue);
-                } else {
-                    imgSelf.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
-                }
+//                if (imgSelf.getDrawable() == null) {
+//                    imgSelf.setImageResource(R.drawable.lightblue);
+//                } else {
+//                    imgSelf.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
+//                }
             }
         } else {
             imgDrawerProfile.setImageResource(R.drawable.lightblue);
-            imgSelf.setImageResource(R.drawable.lightblue);
+//            imgSelf.setImageResource(R.drawable.lightblue);
         }
         if (preferences.getString(PrefConstants.FINIS).equals("Share"))
         {

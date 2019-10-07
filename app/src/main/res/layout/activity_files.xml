@@ -73,6 +73,17 @@
             android:tint="@color/colorWhite"
             android:visibility="visible" />
 
+        <ImageView
+            android:id="@+id/imgRight"
+            android:layout_width="@dimen/dimension30dp"
+            android:layout_height="@dimen/dimension50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dimension10dp"
+            android:src="@drawable/information"
+            android:tint="@color/colorWhite"
+            android:visibility="gone" />
+
     </RelativeLayout>
 
 

@@ -5,75 +5,83 @@
     android:layout_height="match_parent"
     android:background="@color/colorOnesGray">
 
-    <RelativeLayout
-        android:id="@+id/rlSelf"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rlselflist"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorSelfBlue"
-      >
+        android:layout_height="@dimen/dimension100dp"
+        android:divider="@null"
+        android:scrollbars="none"
+        ></android.support.v7.widget.RecyclerView>
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imgSelf"
-            android:layout_width="@dimen/dimension100dp"
-            android:layout_height="@dimen/dimension100dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:padding="@dimen/dimension10dp"
-            android:src="@drawable/lightblue" />
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/rlSelf"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/colorSelfBlue"-->
+      <!--&gt;-->
 
-        <LinearLayout
-            android:id="@+id/llSelf"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="@dimen/dimension10dp"
-            android:layout_toLeftOf="@+id/imgSelfFolder"
-            android:layout_toRightOf="@+id/imgSelf"
-            android:orientation="vertical">
+        <!--<de.hdodenhof.circleimageview.CircleImageView-->
+            <!--android:id="@+id/imgSelf"-->
+            <!--android:layout_width="@dimen/dimension100dp"-->
+            <!--android:layout_height="@dimen/dimension100dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:padding="@dimen/dimension10dp"-->
+            <!--android:src="@drawable/lightblue" />-->
 
-            <TextView
-                android:fontFamily="@font/lato"
-                android:id="@+id/txtUser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Prashant M"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/dimension22dp"
-                android:textStyle="bold" />
+        <!--<LinearLayout-->
+            <!--android:id="@+id/llSelf"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:layout_marginRight="@dimen/dimension10dp"-->
+            <!--android:layout_toLeftOf="@+id/imgSelfFolder"-->
+            <!--android:layout_toRightOf="@+id/imgSelf"-->
+            <!--android:orientation="vertical">-->
 
-            <TextView
-                android:fontFamily="@font/lato"
-                android:id="@+id/txtRelation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimension3dp"
-                android:text="Self"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/dimension19dp"
-                android:textStyle="normal" />
+            <!--<TextView-->
+                <!--android:fontFamily="@font/lato"-->
+                <!--android:id="@+id/txtUser"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Prashant M"-->
+                <!--android:textColor="@color/colorWhite"-->
+                <!--android:textSize="@dimen/dimension22dp"-->
+                <!--android:textStyle="bold" />-->
 
-        </LinearLayout>
+            <!--<TextView-->
+                <!--android:fontFamily="@font/lato"-->
+                <!--android:id="@+id/txtRelation"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="@dimen/dimension3dp"-->
+                <!--android:text="Self"-->
+                <!--android:textColor="@color/colorWhite"-->
+                <!--android:textSize="@dimen/dimension19dp"-->
+                <!--android:textStyle="normal" />-->
 
-        <ImageView
-            android:id="@+id/imgSelfFolder"
-            android:layout_width="@dimen/dimension35dp"
-            android:layout_height="@dimen/dimension35dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="@dimen/dimension10dp"
-            android:layout_marginTop="@dimen/dimension10dp"
-            android:layout_marginRight="@dimen/dimension15dp"
-            android:src="@drawable/prof_folder"
-            android:tint="@color/colorWhite" />
+        <!--</LinearLayout>-->
 
-    </RelativeLayout>
+        <!--<ImageView-->
+            <!--android:id="@+id/imgSelfFolder"-->
+            <!--android:layout_width="@dimen/dimension35dp"-->
+            <!--android:layout_height="@dimen/dimension35dp"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:layout_marginLeft="@dimen/dimension10dp"-->
+            <!--android:layout_marginTop="@dimen/dimension10dp"-->
+            <!--android:layout_marginRight="@dimen/dimension15dp"-->
+            <!--android:src="@drawable/prof_folder"-->
+            <!--android:tint="@color/colorWhite" />-->
+
+    <!--</RelativeLayout>-->
 
     <TextView
         android:fontFamily="@font/lato"
         android:id="@+id/txtYour"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rlSelf"
+        android:layout_below="@+id/rlselflist"
         android:background="@color/colorOnesGray"
         android:paddingLeft="@dimen/dimension15dp"
         android:paddingTop="@dimen/dimension7dp"

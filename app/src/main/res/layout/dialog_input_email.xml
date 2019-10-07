@@ -11,8 +11,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:background="@drawable/gray_white_border"
             android:padding="@dimen/dimension5dp">
@@ -44,10 +44,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimension40dp"
                 android:layout_below="@+id/txtNoteHeader"
-                android:layout_marginBottom="@dimen/dimension10dp"
                 android:layout_marginLeft="@dimen/dimension15dp"
-                android:layout_marginRight="@dimen/dimension15dp"
                 android:layout_marginTop="@dimen/dimension15dp"
+                android:layout_marginRight="@dimen/dimension15dp"
+                android:layout_marginBottom="@dimen/dimension10dp"
                 android:text="Email"
                 android:textSize="@dimen/dimension20dp" />
 
@@ -57,7 +57,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtNotes"
-                android:layout_marginBottom="@dimen/dimension10dp"
                 android:layout_marginLeft="@dimen/dimension10dp"
                 android:layout_marginRight="@dimen/dimension10dp"
                 android:background="@drawable/darkgray_white_border"
@@ -66,11 +65,22 @@
 
             <requestFocus />
 
-            <LinearLayout
+            <TextView
+                android:textStyle="bold"
+                android:id="@+id/txt_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/etNote"
-                android:layout_marginTop="@dimen/dimension10dp"
+                android:layout_margin="@dimen/dimension10dp"
+                android:gravity="center"
+                android:text="Share the Profile by emailing the
+recipient. Use the recipient’s dropbox
+email account." />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_note"
                 android:background="@color/colorWhite"
                 android:orientation="horizontal"
                 android:padding="@dimen/dimension10dp">

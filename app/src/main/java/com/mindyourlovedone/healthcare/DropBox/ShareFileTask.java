@@ -21,11 +21,12 @@ public class ShareFileTask extends AsyncTask<String, Void, List<FileMemberAction
     private final Callback mCallback;
     private Exception mException;
     List<MemberSelector> mnewMembers;
+
     public ShareFileTask(List<MemberSelector> newMembers, Context context, DbxClientV2 dbxClient, Callback callback) {
         mContext = context;
         mDbxClient = dbxClient;
         mCallback = callback;
-        mnewMembers=newMembers;
+        mnewMembers = newMembers;
     }
 
 
@@ -48,21 +49,23 @@ public class ShareFileTask extends AsyncTask<String, Void, List<FileMemberAction
         List<FileMemberActionResult> fileMemberActionResults =
                 null;
         try {
-if (params[1].equals("MYLO.zip")) {
-    return mDbxClient.sharing().addFileMemberBuilder(params[0], mnewMembers).withCustomMessage("I have shared a MYLO Profile with you (" + params[1] + "). \n" +
-            "\n" +
-            "To upload the whole backup, open MYLO and tap “Backup,Restore,Share” from menu, then tap Restore button. It will automatically load into the App \n").start();
-}else{
-    return mDbxClient.sharing().addFileMemberBuilder(params[0], mnewMembers).withCustomMessage("I have shared a MYLO Profile with you (" + params[1] + "). \n" +
-            "\n" +
-            "To upload the profile, open MYLO and tap “Add a new Profile”, then tap import from Dropbox, then tap restore. It will automatically load into the App \n").start();
+            if (params[1].equals("MYLO.zip")) {
+                return mDbxClient.sharing().addFileMemberBuilder(params[0], mnewMembers).withCustomMessage("" +
+                        "Hi, \n\n" +
+                        "I have shared a MYLO whole backup with you (" + params[1] + "). \n\n" +
+                        "" +
+                        "To upload the whole backup, open MYLO and tap “Backup,Restore,Share” from menu, then tap Restore button. \n\nThe backup will automatically load onto the MYLO profile screen.\n\n").start();
+            } else {
+                return mDbxClient.sharing().addFileMemberBuilder(params[0], mnewMembers).withCustomMessage(
+                        "Hi, \n\n" + "I have shared a MYLO Profile with you (" + params[1] + "). \n\n" +
+                                "To upload the profile, open MYLO and tap “Add a new Profile”, then tap import from Dropbox, then tap restore. \n\nThe Profile will automatically load onto the MYLO profile screen.\n\n").start();
 
-}
+            }
         } catch (DbxException e) {
             e.printStackTrace();
-        }catch (ClassCastException e) {
+        } catch (ClassCastException e) {
             e.printStackTrace();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.print(fileMemberActionResults);

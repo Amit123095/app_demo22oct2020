@@ -9,7 +9,10 @@ import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
 import com.dropbox.core.v2.sharing.ListFilesResult;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Async task to list items in a folder
@@ -56,6 +59,20 @@ public class ListReceivedFolderTask extends AsyncTask<String, Void, ArrayList<Dr
                 DropBoxFileItem db = new DropBoxFileItem();
                 db.setShared(0);
                 db.setFilemd(ff.getEntries().get(i));
+
+                Metadata pathMetadata = mDbxClient.files().getMetadata(ff.getEntries().get(i).getPathLower());
+
+                if (pathMetadata instanceof FileMetadata) {
+                    FileMetadata metadata = (FileMetadata) pathMetadata;
+                    long mtime = metadata.getServerModified().getTime();
+                    SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+                    String dateString = formatter.format(new Date(mtime));
+                    db.setDatetime(dateString);
+                } else {
+
+                }
+
+
                 rr.add(db);
             }
 

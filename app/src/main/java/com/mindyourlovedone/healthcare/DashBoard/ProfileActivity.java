@@ -1937,13 +1937,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         } else if (!email.equals("") && !email.trim().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
             txtEmail.setError("Please enter valid email");
             DialogManager.showAlert("Please enter valid email", context);
-        } else if (phone.length() != 0 && phone.length() < 10) {
-            txtPhone.setError("Phone number should be 10 digits");
-            DialogManager.showAlert("Phone number should be 10 digits", context);
-        } else if (manager_phone.length() != 0 && manager_phone.length() < 10) {
-            txttelephone.setError("Mobile number should be 10 digits");
-            DialogManager.showAlert("Mobile number should be 10 digits", context);
-        } else {
+        }
+//        else if (phone.length() != 0 && phone.length() < 10) {
+//            txtPhone.setError("Phone number should be 10 digits");
+//            DialogManager.showAlert("Phone number should be 10 digits", context);
+//        } else if (manager_phone.length() != 0 && manager_phone.length() < 10) {
+//            txttelephone.setError("Mobile number should be 10 digits");
+//            DialogManager.showAlert("Mobile number should be 10 digits", context);
+//        }
+        else {
             return true;
         }
         return false;

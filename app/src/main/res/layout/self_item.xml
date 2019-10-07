@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.mindyourlovedone.healthcare.SwipeCode.SwipeLayout
+        android:id="@+id/swipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#E6E6E6"
+        android:longClickable="true">
+
+        <LinearLayout
+            android:id="@+id/linswipe"
+            android:layout_width="@dimen/dimension150dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+
+            >
+
+            <LinearLayout
+                android:id="@+id/lincall"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="#E6E6E6">
+
+                <ImageView
+                    android:id="@+id/imgBackup"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimension50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/dimension10dp"
+                    android:layout_marginRight="@dimen/dimension2dp"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:src="@drawable/backup_s" />
+
+                <ImageView
+                    android:id="@+id/imgShare"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimension50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/dimension10dp"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:src="@drawable/share_s" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:visibility="visible"
+            android:id="@+id/rlSelf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorSelfBlue">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgSelf"
+                android:layout_width="@dimen/dimension100dp"
+                android:layout_height="@dimen/dimension100dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:padding="@dimen/dimension10dp"
+                android:src="@drawable/lightblue" />
+
+            <LinearLayout
+                android:id="@+id/llSelf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="@dimen/dimension10dp"
+                android:layout_toLeftOf="@+id/imgSelfFolder"
+                android:layout_toRightOf="@+id/imgSelf"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato"
+                    android:text="Prashant M"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/dimension22dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtRelation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimension3dp"
+                    android:fontFamily="@font/lato"
+                    android:text="Self"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/dimension19dp"
+                    android:textStyle="normal" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imgSelfFolder"
+                android:layout_width="@dimen/dimension35dp"
+                android:layout_height="@dimen/dimension35dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/dimension10dp"
+                android:layout_marginTop="@dimen/dimension10dp"
+                android:layout_marginRight="@dimen/dimension15dp"
+                android:src="@drawable/prof_folder"
+                android:tint="@color/colorWhite" />
+
+        </RelativeLayout>
+    </com.mindyourlovedone.healthcare.SwipeCode.SwipeLayout>
+</RelativeLayout>
