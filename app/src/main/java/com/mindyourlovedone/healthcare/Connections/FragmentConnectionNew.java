@@ -175,7 +175,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
 
     private void initUI() {
         lvSelf = rootview.findViewById(R.id.lvSelf);
-        rlselflist = rootview.findViewById(R.id.rlselflist);
+       rlselflist = rootview.findViewById(R.id.rlselflist);
 //        rlSelf = rootview.findViewById(R.id.rlSelf);
         imghelp = rootview.findViewById(R.id.imghelp);
         txthelp = rootview.findViewById(R.id.txthelp);
@@ -596,6 +596,10 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         {
             preferences.putString(PrefConstants.FINIS,"False");
             showEmailDialog();
+        }else if (preferences.getString(PrefConstants.FINIS).equals("Backup"))
+        {
+            preferences.putString(PrefConstants.FINIS,"False");
+            showBackupDialog();
         }
      /*   if (preferences.getString(PrefConstants.FINIS).equals("Restore"))
         {
@@ -686,6 +690,33 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
             String backupdatestring = preferences.getString(PrefConstants.BACKUPDATE);
            // Toast.makeText(getActivity(),backupdatestring,Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void showBackupDialog() {
+        String message="";
+        if (preferences.getString(PrefConstants.MSG)!=null) {
+             message = preferences.getString(PrefConstants.MSG);
+        }
+        if (preferences.getString(PrefConstants.FILE).equals("MYLO.zip")) {
+            Calendar c = Calendar.getInstance();
+            c.getTime();
+            c.add(Calendar.MONTH, 1);
+            DateFormat df = new SimpleDateFormat("dd MM yy HH:mm:ss");
+            String date = df.format(c.getTime());
+            preferences.putString(PrefConstants.BACKUPDATE, date);
+            preferences.putBoolean(PrefConstants.NOTIFIED, true);
+        }
+
+        final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle("Backup Stored successfully");
+        alert.setMessage(message);
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alert.show();
     }
 
     private void validateBackupDate() {

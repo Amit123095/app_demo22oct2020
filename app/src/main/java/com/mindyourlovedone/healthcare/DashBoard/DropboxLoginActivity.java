@@ -79,8 +79,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -1114,30 +1116,133 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
             }
         }if (!preferences.getString(PrefConstants.SHARE).equals("")) {
             if (preferences.getString(PrefConstants.STORE).equals("Backup")) {
-                String message = "Backup stored successfully, Do you want to share profile?";
-                final AlertDialog.Builder alert = new AlertDialog.Builder(DropboxLoginActivity.this);
-                alert.setTitle("Share Profile");
-                alert.setMessage(message);
-                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogs, int which) {
-                        dialogs.dismiss();
-                        // showEmailDialog();
-                    }
-                });
-                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        DropboxLoginActivity.this.finish();
-                    }
-                });
-                alert.show();
-            } else if (preferences.getString(PrefConstants.STORE).equals("Share")) {
-                preferences.putString(PrefConstants.FINIS,"Share");
-                DropboxLoginActivity.this.finish();
+                if (preferences.getString(PrefConstants.FILE).equals("MYLO.zip")) {
+                    showWoleBackupDialog();
+                }
+                else {
+                    preferences.putString(PrefConstants.FINIS,"Backup");
+                    DropboxLoginActivity.this.finish();
+                }
+            }
+            if (preferences.getString(PrefConstants.STORE).equals("Share")) {
+                if (preferences.getString(PrefConstants.FILE).equals("MYLO.zip")) {
+                    showWoleEmailDialog();
+                }
+                else {
+                    preferences.putString(PrefConstants.FINIS,"Share");
+                    DropboxLoginActivity.this.finish();
+                }
+
             }
         }
+    }
+    String txt = "Profile";
+    private void showWoleEmailDialog() {
+        final Dialog customDialog;
+        customDialog = new Dialog(context);
+        customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        customDialog.setContentView(R.layout.dialog_input_email);
+        customDialog.setCancelable(false);
+        final EditText etNote = customDialog.findViewById(R.id.etNote);
+        TextView btnAdd = customDialog.findViewById(R.id.btnYes);
+        TextView btnCancel = customDialog.findViewById(R.id.btnNo);
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideSoftKeyboard();
+                customDialog.dismiss();
+
+            }
+        });
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideSoftKeyboard();
+                String username = etNote.getText().toString();
+                if (username.equals("")) {
+                    etNote.setError("Please Enter email");
+                    DialogManager.showAlert("Please Enter email", context);
+                } else if (!username.trim().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
+                    etNote.setError("Please enter valid email");
+                    DialogManager.showAlert("Please enter valid email", context);
+                } else {
+                    customDialog.dismiss();
+                    List<MemberSelector> newMembers = new ArrayList<MemberSelector>();
+                    MemberSelector newMember = MemberSelector.email(username);
+                    // MemberSelector newMember1 = MemberSelector.email("kmllnk@j.uyu");
+                    newMembers.add(newMember);
+                    // newMembers.add(newMember1);
+
+
+                    if(preferences.getString(PrefConstants.FILE).contains("MYLO.zip")){
+                        txt = "Whole Backup";
+                    }else{
+                        txt = "Profile";
+                    }
+
+                    final ProgressDialog dialog = new ProgressDialog(context);
+                    dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    dialog.setCancelable(false);
+                    dialog.setMessage("Sharing "+txt+" can take several minutes");
+                    dialog.show();
+                    new ShareFileTask(newMembers,context, DropboxClientFactory.getClient(), new ShareFileTask.Callback() {
+                        @Override
+                        public void onUploadComplete(List<FileMemberActionResult> result) {
+                            dialog.dismiss();
+                            final AlertDialog.Builder alerts = new AlertDialog.Builder(context);
+                            alerts.setTitle("Success");
+                            alerts.setMessage(txt+" shared successfully");
+                            alerts.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+
+
+                                }
+                            });
+                            alerts.show();
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            dialog.dismiss();
+
+                        }
+                    }).execute(preferences.getString(PrefConstants.SHARE), preferences.getString(PrefConstants.FILE));
+                }
+            }
+        });
+
+        customDialog.show();
+    }
+
+    private void showWoleBackupDialog() {
+        String message="";
+        if (preferences.getString(PrefConstants.MSG)!=null) {
+            message = preferences.getString(PrefConstants.MSG);
+        }
+        if (preferences.getString(PrefConstants.FILE).equals("MYLO.zip")) {
+            Calendar c = Calendar.getInstance();
+            c.getTime();
+            c.add(Calendar.MONTH, 1);
+            DateFormat df = new SimpleDateFormat("dd MM yy HH:mm:ss");
+            String date = df.format(c.getTime());
+            preferences.putString(PrefConstants.BACKUPDATE, date);
+            preferences.putBoolean(PrefConstants.NOTIFIED, true);
+        }
+
+        final AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        alert.setTitle("Backup Stored successfully");
+        alert.setMessage(message);
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alert.show();
     }
 
     private void showEmailDialog() {

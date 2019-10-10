@@ -44,4 +44,5 @@ public class PrefConstants {
     public static final String WOLE ="WOLE"  ;
     public static final String MYACCESS = "LO";
     public static final String NOTIFIED ="NOTIFIED" ;
+    public static final String MSG ="BackupMessage" ;
 }
