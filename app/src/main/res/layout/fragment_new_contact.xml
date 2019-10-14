@@ -1635,7 +1635,6 @@ android:visibility="gone"
                             android:id="@+id/txtPriority"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
                             android:hint="Priority"
                             android:imeOptions="actionNext"
 
@@ -1646,6 +1645,7 @@ android:visibility="gone"
                             android:includeFontPadding="true"
                             android:paddingBottom="@dimen/dimension18dp"
                             android:paddingTop="@dimen/dimension8dp"
+                            android:textSize="@dimen/dimension20dp"
                             />
 
                         <requestFocus />

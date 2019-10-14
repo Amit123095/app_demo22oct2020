@@ -6117,6 +6117,14 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 txtMobile.setError("Mobile number should be 10 digits");
                 DialogManager.showAlert("Mobile number should be 10 digits", context);
             }
+            else if (relation.equals("")) {
+                txtRelation.setError("Please select relationship");
+                DialogManager.showAlert("Please select relationship", context);
+            }
+            else if (prior==5) {
+                txtPriority.setError("Please select priority");
+                DialogManager.showAlert("Please select priority", context);
+            }
            /* else if (phone.equals("")) {
                 txtHomePhone.setError("Please Enter Home Phone");
                 showAlert("Please Enter Mobile", context);
@@ -6218,10 +6226,10 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 txtDoctorName.setError("Please Doctor Enter Name");
                 DialogManager.showAlert("Please Enter Doctor Name", context);
             }
-             /* if (mobile.equals("")) {
-                  txtDoctorOfficePhone.setError("Please Enter Mobile");
-                showAlert("Please Enter Mobile", context);
-            }*/
+             else if (speciality.equals("")) {
+                txtSpecialty.setError("Please select doctor speciality");
+                DialogManager.showAlert("Please select doctor speciality", context);
+            }
             else if (mobile.length() != 0 && mobile.length() < 10) {
                 txtDoctorOfficePhone.setError("Mobile number should be 10 digits");
                 DialogManager.showAlert("Mobile number should be 10 digits", context);
