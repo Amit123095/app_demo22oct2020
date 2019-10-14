@@ -667,7 +667,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                     if (!destfolder.exists()) {
                                         destfolder.mkdir();
                                         // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
-                                        new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath()).execute();//nikita
+                                        new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
                                     } else {
 
                                         AlertDialog.Builder alert = new AlertDialog.Builder(FilesActivity.this);
@@ -682,7 +682,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                                 } catch (IOException e) {
                                                     e.printStackTrace();
                                                 }
-                                                new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath()).execute();//nikita
+                                                new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
                                                 // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
                                                 dialog.dismiss();
                                             }
@@ -710,7 +710,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                             newname);
                                     // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath());
 
-                                    new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath()).execute();//nikita
+                                    new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath(),FilesActivity.this).execute();//nikita
 
 
                                 }
@@ -810,7 +810,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                     if (!destfolder.exists()) {
                                         destfolder.mkdir();
                                         // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
-                                        new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath()).execute();//nikita
+                                        new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
                                     } else {
 
                                         AlertDialog.Builder alert = new AlertDialog.Builder(FilesActivity.this);
@@ -825,7 +825,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                                 } catch (IOException e) {
                                                     e.printStackTrace();
                                                 }
-                                                new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath()).execute();//nikita
+                                                new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
                                                 // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
                                                 dialog.dismiss();
                                             }
@@ -852,7 +852,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                             newname);
                                     // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath());
 
-                                    new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath()).execute();//nikita
+                                    new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath(),FilesActivity.this).execute();//nikita
 
 
                                 }

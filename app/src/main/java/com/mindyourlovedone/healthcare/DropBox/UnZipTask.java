@@ -26,22 +26,24 @@ public class UnZipTask extends AsyncTask<String, Void, String> {
     String inputFolderPath;
     ZipListner context;
     ProgressDialog dialog;
+    Context cont;
 
-    public UnZipTask(FilesActivity filesActivity, String absolutePath, String path) {
+    public UnZipTask(FilesActivity filesActivity, String absolutePath, String path,Context cont) {
         inputFolderPath = absolutePath;
         outZipPath = path;
         context = filesActivity;
         con = filesActivity;
+        this.cont=cont;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-       /* dialog = new ProgressDialog(con);
+        dialog = new ProgressDialog(cont);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setCancelable(false);
         dialog.setMessage("Unzipping");
-        dialog.show();*/
+        dialog.show();
     }
 
     @Override
@@ -141,9 +143,9 @@ public class UnZipTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-       /* if (dialog.isShowing()) {
+       if (dialog.isShowing()) {
             dialog.dismiss();
-        }*/
+        }
 
         context.getFile(s);
     }

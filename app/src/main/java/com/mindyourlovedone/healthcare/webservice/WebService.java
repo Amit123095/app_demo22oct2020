@@ -51,7 +51,7 @@ public class WebService {
     */
 
     //Live Server
-//    private final static String Base_URL ="http://mindyour-lovedones.com/MYLO/index.php/webservices"; //Production
+//    private final static String Base_URL ="http://mindyour-lovedones.com/MYLO/index.php/webservices"; //OLD Production
     private final static String Base_URL = "http://18.188.114.139/public/test/public/webservices"; //test -Nikita#Sub
     private final static String POST_PDF_URL = Base_URL + "/fax/sendFax";
     private final String CREATE_PROFILE_URL = Base_URL + "/user/createProfile";
