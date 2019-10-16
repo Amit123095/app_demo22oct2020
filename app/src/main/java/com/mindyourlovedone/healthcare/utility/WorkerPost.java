@@ -170,7 +170,7 @@ public class WorkerPost extends Worker {
         @Override
         protected String doInBackground(Void... params) {
             WebService webService = new WebService();
-            String result = webService.getSubscriptionData(userid + "");
+            String result = webService.getSubscriptionData(userid + "",email);
             return result;
         }
 
@@ -289,7 +289,10 @@ public class WorkerPost extends Worker {
         @Override
         protected String doInBackground(Void... params) {
             WebService webService = new WebService();
-            String result = webService.postSubscriptionData(sub.getUserId() + "", sub.getTransactionID(), sub.getStartDate(), sub.getEndDate());
+            //String result = webService.postSubscriptionData(sub.getUserId() + "", sub.getTransactionID(), sub.getStartDate(), sub.getEndDate());
+// Varsha changed parameter userid to email
+            String result = webService.postSubscriptionData(sub.getEmail() + "", sub.getTransactionID(), sub.getStartDate(), sub.getEndDate(),sub.getEmail());
+
             return result;
         }
 

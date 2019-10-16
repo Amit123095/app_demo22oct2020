@@ -239,7 +239,7 @@ public class WebService {
 
     //    Nikita#Sub
     public String postSubscriptionData(String userid,
-                                       String transactionId, String startDate, String endDate) {
+                                       String transactionId, String startDate, String endDate, String email) {
 
         // new changes - nikita
         HttpURLConnection conn = null;
@@ -260,7 +260,8 @@ public class WebService {
             conn.setDoOutput(true);
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("charset", "utf-8");
-            conn.setRequestProperty("userid", userid);
+            //conn.setRequestProperty("userid", userid);
+            conn.setRequestProperty("email", email);// Varsha 15 oct 2019
             conn.setRequestProperty("transactionId", transactionId);
             conn.setRequestProperty("startDate", startDate);
             conn.setRequestProperty("endDate", endDate);
@@ -292,7 +293,7 @@ public class WebService {
     }
 
     //    Nikita#Sub
-    public String getSubscriptionData(String userid) {
+    public String getSubscriptionData(String userid, String email) {
 
         // new changes - nikita
         HttpURLConnection conn = null;
@@ -311,7 +312,8 @@ public class WebService {
             conn.setDoOutput(true);
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("charset", "utf-8");
-            conn.setRequestProperty("userid", userid);
+           // conn.setRequestProperty("userid", userid);
+            conn.setRequestProperty("email", email);// Varsha 15 oct 2019
 
             conn.connect();
 
