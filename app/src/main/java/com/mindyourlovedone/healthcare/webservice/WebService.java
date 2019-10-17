@@ -52,7 +52,9 @@ public class WebService {
 
     //Live Server
 //    private final static String Base_URL ="http://mindyour-lovedones.com/MYLO/index.php/webservices"; //OLD Production
-    private final static String Base_URL = "http://18.188.114.139/public/test/public/webservices"; //test -Nikita#Sub
+   // private final static String Base_URL = "http://18.188.114.139/public/test/public/webservices"; //test -Nikita#Sub
+    private final static String Base_URL = "http://app.mindyour-lovedones.com/public/test/public/webservices"; //test -Nikita#Sub
+
     private final static String POST_PDF_URL = Base_URL + "/fax/sendFax";
     private final String CREATE_PROFILE_URL = Base_URL + "/user/createProfile";
     private final String GET_PROFILE_URL = Base_URL + "/user/getProfile";
@@ -68,9 +70,9 @@ public class WebService {
 //    private final String WALLET_URL = "http://18.188.114.139/Wallet_Card.pdf";
 
     //TEST
-    public static String PRIVACY_URL = "http://18.188.114.139/test/public/PRIVACY_POLICY.pdf";
-    public static String EULA_URL = "http://18.188.114.139/test/public/LICENSE_AGREEMENT.pdf";
-    public static String WALLET_URL = "http://18.188.114.139/test/public/Wallet_Card.pdf";
+    public static String PRIVACY_URL = "http://app.mindyour-lovedones.com/test/public/PRIVACY_POLICY.pdf";
+    public static String EULA_URL = "http://app.mindyour-lovedones.com/test/public/LICENSE_AGREEMENT.pdf";
+    public static String WALLET_URL = "http://app.mindyour-lovedones.com/test/public/Wallet_Card.pdf";
 
 
 //Test Server

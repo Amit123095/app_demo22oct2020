@@ -767,7 +767,7 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
         new GetCurrentAccountTask(DropboxClientFactory.getClient(), new GetCurrentAccountTask.Callback() {
             @Override
             public void onComplete(FullAccount result) {
-                String value = "You are logged in Dropbox as " + result.getName().getDisplayName() ;
+                String value = "You are logged in Dropbox as " + result.getEmail() ;
                 txtName.setText(value);
 //                txtLogoutDropbox.setVisibility(View.VISIBLE);
 //                TextView txtLoginDropbox = findViewById(R.id.txtLoginDropbox);
