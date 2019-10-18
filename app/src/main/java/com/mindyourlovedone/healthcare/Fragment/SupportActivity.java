@@ -122,14 +122,14 @@ public class SupportActivity extends AppCompatActivity {
                     case 0://Support Faq
                         Intent browserIntent = new Intent(context, WebPDFActivity.class);
                         browserIntent.putExtra("Name", "Support FAQs");
-                        browserIntent.putExtra("URL", "http://mindyour-lovedones.com/MYLO/faq.html");
+                        browserIntent.putExtra("URL", WebService.FAQ_URL);
                         startActivity(browserIntent);
 
                         break;
                     case 1://User Guide-Section
                           Intent browserIntents = new Intent(context,WebPDFActivity.class);
                         browserIntents.putExtra("Name","User Guide");
-                        browserIntents.putExtra("URL", "http://mindyour-lovedones.com/MYLO/uploads/User_Guide.pdf");
+                        browserIntents.putExtra("URL", WebService.USERGUIDE_URL);
                          startActivity(browserIntents);
                        // Intent browserIntentD = new Intent(Intent.ACTION_VIEW, Uri.parse("http://docs.google.com/gview?embedded=true&url=http://mindyour-lovedones.com/MYLO/uploads/User_Guide.pdf"));
                        // startActivity(browserIntentD);
