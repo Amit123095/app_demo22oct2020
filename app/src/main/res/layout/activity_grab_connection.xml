@@ -28,14 +28,14 @@
             android:layout_centerInParent="true"
             android:layout_marginRight="@dimen/dimension20dp"
             android:layout_toLeftOf="@+id/txtsave"
-        android:fontFamily="@font/lato"
-            android:textStyle="bold"
             android:layout_toRightOf="@+id/imgBack"
+            android:fontFamily="@font/lato"
             android:gravity="center"
             android:text=""
-            android:visibility="gone"
             android:textColor="#FFFFFF"
-            android:textSize="@dimen/dimension22dp" />
+            android:textSize="@dimen/dimension22dp"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/imgdg"
@@ -68,8 +68,8 @@
             android:layout_marginLeft="@dimen/dimension10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
-            android:text="SAVE"
             android:fontFamily="@font/lato"
+            android:text="SAVE"
             android:textAllCaps="true"
             android:textColor="#FFFFFF"
             android:textSize="@dimen/dimension20dp"
@@ -84,8 +84,7 @@
         android:layout_below="@+id/header"
         android:background="@color/colorLightBlue"
         android:orientation="horizontal"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/txtNew"

@@ -251,10 +251,12 @@
             android:configChanges="keyboard|keyboardHidden|uiMode|screenLayout|orientation|screenSize|smallestScreenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar"
             android:name="com.mindyourlovedone.healthcare.DashBoard.DropboxLoginActivity"
             android:configChanges="keyboard|keyboardHidden|uiMode|screenLayout|orientation|screenSize|smallestScreenSize"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar"
             android:name="com.mindyourlovedone.healthcare.DropBox.FilesActivity"
             android:configChanges="keyboard|keyboardHidden|uiMode|screenLayout|orientation|screenSize|smallestScreenSize"
             android:windowSoftInputMode="stateHidden" />

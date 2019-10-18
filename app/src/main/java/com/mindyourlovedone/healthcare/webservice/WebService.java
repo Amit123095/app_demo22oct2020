@@ -52,8 +52,9 @@ public class WebService {
 
     //Live Server
 //    private final static String Base_URL ="http://mindyour-lovedones.com/MYLO/index.php/webservices"; //OLD Production
-   // private final static String Base_URL = "http://18.188.114.139/public/test/public/webservices"; //test -Nikita#Sub
-    private final static String Base_URL = "http://app.mindyour-lovedones.com/public/test/public/webservices"; //test -Nikita#Sub
+    // private final static String Base_URL = "http://18.188.114.139/public/test/public/webservices"; //test -Nikita#Sub
+//    private final static String Base_URL = "http://app.mindyour-lovedones.com/public/test/public/webservices"; //test -Nikita#Sub
+    private final static String Base_URL = "http://app.mindyour-lovedones.com/webservices";
 
     private final static String POST_PDF_URL = Base_URL + "/fax/sendFax";
     private final String CREATE_PROFILE_URL = Base_URL + "/user/createProfile";
@@ -64,15 +65,20 @@ public class WebService {
     private final String POST_SUBSCRIPTION = Base_URL + "/user/postSubscription";//Nikita#Sub
     private final String GET_SUBSCRIPTION = Base_URL + "/user/getSubscription";//Nikita#Sub
 
-//    //PROD
+//    //test
 //    private final String PRIVACY_URL = "http://18.188.114.139/PRIVACY_POLICY.pdf";
 //    private final String EULA_URL = "http://18.188.114.139/LICENSE_AGREEMENT.pdf";
 //    private final String WALLET_URL = "http://18.188.114.139/Wallet_Card.pdf";
 
-    //TEST
-    public static String PRIVACY_URL = "http://app.mindyour-lovedones.com/test/public/PRIVACY_POLICY.pdf";
-    public static String EULA_URL = "http://app.mindyour-lovedones.com/test/public/LICENSE_AGREEMENT.pdf";
-    public static String WALLET_URL = "http://app.mindyour-lovedones.com/test/public/Wallet_Card.pdf";
+//    //TEST
+//    public static String PRIVACY_URL = "http://app.mindyour-lovedones.com/test/public/PRIVACY_POLICY.pdf";
+//    public static String EULA_URL = "http://app.mindyour-lovedones.com/test/public/LICENSE_AGREEMENT.pdf";
+//    public static String WALLET_URL = "http://app.mindyour-lovedones.com/test/public/Wallet_Card.pdf";
+
+    //Prod
+    public static String PRIVACY_URL = "http://app.mindyour-lovedones.com/PRIVACY_POLICY.pdf";
+    public static String EULA_URL = "http://app.mindyour-lovedones.com/LICENSE_AGREEMENT.pdf";
+    public static String WALLET_URL = "http://app.mindyour-lovedones.com/Wallet_Card.pdf";
 
 
 //Test Server
@@ -314,7 +320,7 @@ public class WebService {
             conn.setDoOutput(true);
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("charset", "utf-8");
-           // conn.setRequestProperty("userid", userid);
+            // conn.setRequestProperty("userid", userid);
             conn.setRequestProperty("email", email);// Varsha 15 oct 2019
 
             conn.connect();
