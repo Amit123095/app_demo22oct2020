@@ -127,11 +127,12 @@ public class SupportActivity extends AppCompatActivity {
 
                         break;
                     case 1://User Guide-Section
-//                           Intent browserIntents = new Intent(context,WebViewActivity.class);
-//                         browserIntents.putExtra("Name","User Guide");
-//                         startActivity(browserIntents);
-                        Intent browserIntentD = new Intent(Intent.ACTION_VIEW, Uri.parse("http://docs.google.com/gview?embedded=true&url=http://mindyour-lovedones.com/MYLO/uploads/User_Guide.pdf"));
-                        startActivity(browserIntentD);
+                          Intent browserIntents = new Intent(context,WebPDFActivity.class);
+                        browserIntents.putExtra("Name","User Guide");
+                        browserIntents.putExtra("URL", "http://mindyour-lovedones.com/MYLO/uploads/User_Guide.pdf");
+                         startActivity(browserIntents);
+                       // Intent browserIntentD = new Intent(Intent.ACTION_VIEW, Uri.parse("http://docs.google.com/gview?embedded=true&url=http://mindyour-lovedones.com/MYLO/uploads/User_Guide.pdf"));
+                       // startActivity(browserIntentD);
 
                         break;
                 }

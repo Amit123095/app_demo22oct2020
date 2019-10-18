@@ -68,7 +68,7 @@ public class WebPDFActivity extends AppCompatActivity {
             }
         });
 
-        if (name.equalsIgnoreCase("Support FAQs")) {
+        if (name.equalsIgnoreCase("Support FAQs")||name.equalsIgnoreCase("User Guide")) {
             webview_pdf.setInitialScale(1);
             webview_pdf.getSettings().setLoadWithOverviewMode(true);
             webview_pdf.getSettings().setUseWideViewPort(true);
