@@ -79,8 +79,8 @@ public class WebService {
     public static String PRIVACY_URL = "http://app.mindyour-lovedones.com/PRIVACY_POLICY.pdf";
     public static String EULA_URL = "http://app.mindyour-lovedones.com/LICENSE_AGREEMENT.pdf";
     public static String WALLET_URL = "http://app.mindyour-lovedones.com/Wallet_Card.pdf";
-    public static String USERGUIDE_URL = "http://mindyour-lovedones.com/MYLO/faq.html";
-    public static String FAQ_URL = "http://mindyour-lovedones.com/MYLO/uploads/User_Guide.pdf";
+    public static String FAQ_URL= "http://mindyour-lovedones.com/MYLO/faq.html";
+    public static String USERGUIDE_URL  = "http://mindyour-lovedones.com/MYLO/uploads/User_Guide.pdf";
 
 
 //Test Server
