@@ -1731,7 +1731,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
         source = preferences.getString(PrefConstants.SOURCE);
         switch (source) {
             case "Connection":
-                changeIcon(source);
+               // changeIcon(source);
                 rlTop.setVisibility(View.GONE);
                 rlCommon.setVisibility(View.VISIBLE);
                 spinnerRelation.setVisibility(View.GONE);

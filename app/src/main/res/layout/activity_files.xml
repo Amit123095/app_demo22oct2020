@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/rlParent"
-    android:background="#00000000"
+
     >
 
     <!--<android.support.design.widget.CoordinatorLayout-->
