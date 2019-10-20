@@ -165,7 +165,7 @@ public class CallDialog {
 
         }
 
-        String value = a.get(0);
+        /*String value = a.get(0);
         new AlertDialog.Builder(context)
 //                    .setTitle("Calling Alert")
                 .setMessage(a.get(0))
@@ -176,34 +176,34 @@ public class CallDialog {
                                 onCall(a.get(0));
                             }
                         })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialohgInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                     }
                 })
-                .setCancelable(true).show();
+                .setCancelable(true).show();*/
 
-//        final Dialog dialog = new Dialog(context);
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//       // dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-//        LayoutInflater lf = (LayoutInflater) context
-//                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View dialogview = lf.inflate(R.layout.dialog_call, null);
-//        dialog.setContentView(dialogview);
-//
-//        ListView listCall=dialog.findViewById(R.id.listCall);
-//        ArrayAdapter<String> ad=new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1,android.R.id.text1,a);
-//        listCall.setAdapter(ad);
-//
-//        listCall.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                onCall(a.get(position));
-//                dialog.dismiss();
-//            }
-//        });
-//        dialog.show();
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+       // dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        LayoutInflater lf = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View dialogview = lf.inflate(R.layout.dialog_call, null);
+        dialog.setContentView(dialogview);
+
+        ListView listCall=dialog.findViewById(R.id.listCall);
+        ArrayAdapter<String> ad=new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1,android.R.id.text1,a);
+        listCall.setAdapter(ad);
+
+        listCall.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                onCall(a.get(position));
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
 
 
       /*  if (a.size() == 1) {

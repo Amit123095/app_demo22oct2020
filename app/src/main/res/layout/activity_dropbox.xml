@@ -389,7 +389,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimension10dp"
                     android:gravity="center"
-                    android:text="Impotant Note"
+                    android:text="Important Note"
                     android:textColor="@color/colorImpGray"
                     android:textSize="@dimen/dimension20dp"
                     android:textStyle="bold"
