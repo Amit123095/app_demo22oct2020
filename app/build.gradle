@@ -12,7 +12,7 @@ android {
         applicationId "com.mindyourlovedone.healthcare.HomeActivity"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 22
+        versionCode 24
         versionName "2.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

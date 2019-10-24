@@ -308,5 +308,5 @@
             android:configChanges="keyboard|keyboardHidden|uiMode|screenLayout|orientation|screenSize|smallestScreenSize"
             android:windowSoftInputMode="stateHidden" />
     </application>
-1
+
 </manifest>
