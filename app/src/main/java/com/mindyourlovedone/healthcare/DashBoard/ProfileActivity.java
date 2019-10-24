@@ -1608,8 +1608,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 phonelist.remove(phonelist.get(i));
             }
         }
-        storeImage(ProfileMap, "Profile");
-        storeImage(CardMap, "Card");
+      //  storeImage(ProfileMap, "Profile");
+       // storeImage(CardMap, "Card");
         name = txtName.getText().toString().trim();
         email = txtEmail.getText().toString().trim();
         phone = txtPhone.getText().toString().trim();
@@ -1889,8 +1889,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             return false;
         }
 
-        storeImage(ProfileMap, "Profile");
-        storeImage(CardMap, "Card");
+       // storeImage(ProfileMap, "Profile");
+        //storeImage(CardMap, "Card");
         name = txtName.getText().toString().trim();
         email = txtEmail.getText().toString().trim();
         phone = txtPhone.getText().toString().trim();
@@ -2167,11 +2167,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 txtCard.setVisibility(View.GONE);
                 flFront.setVisibility(View.GONE);
                 imgEditCard.setVisibility(View.VISIBLE);
-                //  storeImage(bitmap,"Card");
+
                 CardMap = selectedImage;
 
                 isOnActivityResult = true;
                 cardImgPath = String.valueOf(imageUriCard);
+                storeImage(selectedImage,"Card");
             } catch (Exception e) {
                 e.printStackTrace();
             }
