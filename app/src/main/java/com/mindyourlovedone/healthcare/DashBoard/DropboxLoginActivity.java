@@ -183,7 +183,7 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
             @Override
             public void onClick(View v) {
                 //Toast.makeText(context, "Please Wait in progress..!!!", Toast.LENGTH_SHORT).show();
-                CopyReadAssetss("mylo_restore.pdf");
+               // CopyReadAssetss("mylo_restore.pdf");
 
             }
         });
@@ -193,7 +193,7 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
             @Override
             public void onClick(View v) {
                 //Toast.makeText(context, "Please Wait in progress..!!!", Toast.LENGTH_SHORT).show();
-                CopyReadAssetss("mylo_share.pdf");
+               // CopyReadAssetss("mylo_share.pdf");
 
             }
         });
@@ -201,7 +201,7 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
         llHowToShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CopyReadAssetss("mylo_share.pdf");
+               // CopyReadAssetss("mylo_share.pdf");
 
             }
         });

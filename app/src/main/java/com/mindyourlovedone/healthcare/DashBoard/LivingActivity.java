@@ -50,7 +50,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
     ImageView imgInfoF, imgInfoI;
     EditText etOtherFunction, etFunctionalNote, etOtherInstrument, etInstrumentalNote;
     ToggleButton tbAlert, tbComputer, tbRemote, tbFinances, tbPreparing, tbShopping, tbUsing, tbBathing, tbContinence, tbDressing, tbfeed, tbToileting, tbTranfering, tbTransport, tbPets, tbDriving, tbKeeping, tbMedication;
-    String alert = "", computer = "", remote = "", eating = "", finance = "", prepare = "", shop = "", use = "", bath = "", continence = "", dress = "", feed = "", toileting = "", transfer = "", transport = "", pets = "", drive = "", keep = "", medication = "";
+    String alert = "NO", computer = "NO", remote = "NO", eating = "NO", finance = "NO", prepare = "NO", shop = "NO", use = "NO", bath = "NO", continence = "NO", dress = "NO", feed = "NO", toileting = "NO", transfer = "NO", transport = "NO", pets = "NO", drive = "NO", keep = "NO", medication = "NO";
     String functionnote = "", fouctionOther = "", instaOther = "", instaNote = "";
     // FloatingActionButton floatOptions;
     ImageView floatOptions;
@@ -199,6 +199,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void setLivingInfo() {
+        LivingQuery l=new LivingQuery(context,dbHelper);
         medInfo = LivingQuery.fetchOneRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
         if (medInfo != null) {
             etFunctionalNote.setText(medInfo.getFunctionNote());
@@ -210,7 +211,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getFinance().equals("YES")) {
                 tbFinances.setChecked(true);
                 finance = "YES";
-            } else if (medInfo.getFinance().equals("NO")) {
+            } else if (medInfo.getFinance().equals("NO")||medInfo.getFinance().equals("")) {
                 tbFinances.setChecked(false);
                 finance = "NO";
             }
@@ -218,7 +219,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getAlert().equals("YES")) {
                 tbAlert.setChecked(true);
                 alert = "YES";
-            } else if (medInfo.getAlert().equals("NO")) {
+            } else if (medInfo.getAlert().equals("NO")||medInfo.getAlert().equals("")) {
                 tbAlert.setChecked(false);
                 alert = "NO";
             }
@@ -226,7 +227,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getComputer().equals("YES")) {
                 tbComputer.setChecked(true);
                 computer = "YES";
-            } else if (medInfo.getComputer().equals("NO")) {
+            } else if (medInfo.getComputer().equals("NO")||medInfo.getComputer().equals("")) {
                 tbComputer.setChecked(false);
                 computer = "NO";
             }
@@ -234,7 +235,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getRemote().equals("YES")) {
                 tbRemote.setChecked(true);
                 remote = "YES";
-            } else if (medInfo.getRemote().equals("NO")) {
+            } else if (medInfo.getRemote().equals("NO")||medInfo.getRemote().equals("")) {
                 tbRemote.setChecked(false);
                 remote = "NO";
             }
@@ -242,7 +243,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getPrepare().equals("YES")) {
                 tbPreparing.setChecked(true);
                 prepare = "YES";
-            } else if (medInfo.getPrepare().equals("NO")) {
+            } else if (medInfo.getPrepare().equals("NO")||medInfo.getPrepare().equals("")) {
                 tbPreparing.setChecked(false);
                 prepare = "NO";
             }
@@ -250,7 +251,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getShop().equals("YES")) {
                 tbShopping.setChecked(true);
                 shop = "YES";
-            } else if (medInfo.getShop().equals("NO")) {
+            } else if (medInfo.getShop().equals("NO")||medInfo.getShop().equals("")) {
                 tbShopping.setChecked(false);
                 shop = "NO";
             }
@@ -258,21 +259,21 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getUse().equals("YES")) {
                 tbUsing.setChecked(true);
                 use = "YES";
-            } else if (medInfo.getUse().equals("NO")) {
+            } else if (medInfo.getUse().equals("NO")||medInfo.getUse().equals("")) {
                 tbUsing.setChecked(false);
                 use = "NO";
             }
             if (medInfo.getBath().equals("YES")) {
                 tbBathing.setChecked(true);
                 bath = "YES";
-            } else if (medInfo.getBath().equals("NO")) {
+            } else if (medInfo.getBath().equals("NO")||medInfo.getBath().equals("")) {
                 tbBathing.setChecked(false);
                 bath = "NO";
             }
             if (medInfo.getContinence().equals("YES")) {
                 tbContinence.setChecked(true);
                 continence = "YES";
-            } else if (medInfo.getContinence().equals("NO")) {
+            } else if (medInfo.getContinence().equals("NO")||medInfo.getContinence().equals("")) {
                 tbContinence.setChecked(false);
                 continence = "NO";
             }
@@ -280,7 +281,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getDress().equals("YES")) {
                 tbDressing.setChecked(true);
                 dress = "YES";
-            } else if (medInfo.getDress().equals("NO")) {
+            } else if (medInfo.getDress().equals("NO")||medInfo.getDress().equals("")) {
                 tbDressing.setChecked(false);
                 dress = "NO";
             }
@@ -288,7 +289,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getFeed().equals("YES")) {
                 tbfeed.setChecked(true);
                 feed = "YES";
-            } else if (medInfo.getFeed().equals("NO")) {
+            } else if (medInfo.getFeed().equals("NO")||medInfo.getFeed().equals("")) {
                 tbfeed.setChecked(false);
                 feed = "NO";
             }
@@ -296,7 +297,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getToileting().equals("YES")) {
                 tbToileting.setChecked(true);
                 toileting = "YES";
-            } else if (medInfo.getToileting().equals("NO")) {
+            } else if (medInfo.getToileting().equals("NO")||medInfo.getToileting().equals("")) {
                 tbToileting.setChecked(false);
                 toileting = "NO";
             }
@@ -304,7 +305,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getTransfer().equals("YES")) {
                 tbTranfering.setChecked(true);
                 transfer = "YES";
-            } else if (medInfo.getTransfer().equals("NO")) {
+            } else if (medInfo.getTransfer().equals("NO")||medInfo.getTransfer().equals("")) {
                 tbTranfering.setChecked(false);
                 transfer = "NO";
             }
@@ -312,7 +313,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getTransport().equals("YES")) {
                 tbTransport.setChecked(true);
                 transport = "YES";
-            } else if (medInfo.getTransport().equals("NO")) {
+            } else if (medInfo.getTransport().equals("NO")||medInfo.getTransport().equals("")) {
                 tbTransport.setChecked(false);
                 transport = "NO";
             }
@@ -320,7 +321,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getPets().equals("YES")) {
                 tbPets.setChecked(true);
                 pets = "YES";
-            } else if (medInfo.getPets().equals("NO")) {
+            } else if (medInfo.getPets().equals("NO")||medInfo.getPets().equals("")) {
                 tbPets.setChecked(false);
                 pets = "NO";
             }
@@ -328,7 +329,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getDrive().equals("YES")) {
                 tbDriving.setChecked(true);
                 drive = "YES";
-            } else if (medInfo.getDrive().equals("NO")) {
+            } else if (medInfo.getDrive().equals("NO")||medInfo.getDrive().equals("")) {
                 tbDriving.setChecked(false);
                 drive = "NO";
             }
@@ -336,7 +337,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getKeep().equals("YES")) {
                 tbKeeping.setChecked(true);
                 keep = "YES";
-            } else if (medInfo.getKeep().equals("NO")) {
+            } else if (medInfo.getKeep().equals("NO")||medInfo.getKeep().equals("")) {
                 tbKeeping.setChecked(false);
                 keep = "NO";
             }
@@ -344,7 +345,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getMedication().equals("YES")) {
                 tbMedication.setChecked(true);
                 medication = "YES";
-            } else if (medInfo.getMedication().equals("NO")) {
+            } else if (medInfo.getMedication().equals("NO")||medInfo.getMedication().equals("")) {
                 tbMedication.setChecked(false);
                 medication = "NO";
             }
@@ -353,7 +354,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
 
     private void initComponent() {
         preferences = new Preferences(context);
-        dbHelper = new DBHelper(context, preferences.getString(PrefConstants.CONNECTED_USERDB));
+        dbHelper = new DBHelper(context , preferences.getString(PrefConstants.CONNECTED_USERDB));
         LivingQuery p = new LivingQuery(context, dbHelper);
     }
 
@@ -471,17 +472,28 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.imgBack:
                 getValues();
 
-                if (medInfo.getFunctionNote().equals(functionnote)&&medInfo.getFunctionOther().equals(fouctionOther)&&
-                        medInfo.getInstNote().equals(instaNote)&&medInfo.getInstOther().equals(instaOther)&&
-                        medInfo.getFinance().equals(finance)&&medInfo.getPrepare().equals(prepare)&&
-                        medInfo.getShop().equals(shop)&&medInfo.getUse().equals(use)&&
-                        medInfo.getBath().equals(bath)&&medInfo.getContinence().equals(continence)&&
-                        medInfo.getDress().equals(dress)&&medInfo.getFeed().equals(feed)&&
-                        medInfo.getToileting().equals(toileting)&&medInfo.getTransfer().equals(transfer)&&
-                        medInfo.getTransport().equals(transport)&&medInfo.getPets().equals(pets)&&
-                        medInfo.getDrive().equals(drive)&&medInfo.getKeep().equals(keep)&&
-                        medInfo.getMedication().equals(medication)&& medInfo.getRemote().equals(remote)&&
-                        medInfo.getAlert().equals(alert)&& medInfo.getComputer().equals(computer))
+                if (medInfo.getFunctionNote().equals(functionnote)&&
+                        medInfo.getFunctionOther().equals(fouctionOther)&&
+                        medInfo.getInstNote().equals(instaNote)&&
+                        medInfo.getInstOther().equals(instaOther)&&
+                        (medInfo.getFinance().equals(finance)||medInfo.getFinance().equals(""))&&
+                        (medInfo.getPrepare().equals(prepare)||medInfo.getPrepare().equals(""))&&
+                        (medInfo.getShop().equals(shop)||medInfo.getShop().equals(""))&&
+                        (medInfo.getUse().equals(use)||medInfo.getUse().equals(""))&&
+                        (medInfo.getBath().equals(bath)||medInfo.getBath().equals(""))&&
+                        (medInfo.getContinence().equals(continence)||medInfo.getContinence().equals(""))&&
+                        (medInfo.getDress().equals(dress)||medInfo.getDress().equals(""))&&
+                        (medInfo.getFeed().equals(feed)||medInfo.getFeed().equals(""))&&
+                        (medInfo.getToileting().equals(toileting)||medInfo.getToileting().equals(""))&&
+                        (medInfo.getTransfer().equals(transfer)||medInfo.getTransfer().equals(""))&&
+                        (medInfo.getTransport().equals(transport)||medInfo.getTransport().equals(""))&&
+                        (medInfo.getPets().equals(pets)||medInfo.getPets().equals(""))&&
+                        (medInfo.getDrive().equals(drive)||medInfo.getDrive().equals(""))&&
+                        (medInfo.getKeep().equals(keep)||medInfo.getKeep().equals(""))&&
+                        (medInfo.getMedication().equals(medication)||medInfo.getMedication().equals(""))&&
+                        (medInfo.getRemote().equals(remote)||medInfo.getRemote().equals(""))&&
+                        (medInfo.getAlert().equals(alert)||medInfo.getAlert().equals(""))&&
+                        (medInfo.getComputer().equals(computer)||medInfo.getComputer().equals("")))
                 {
                     hideSoftKeyboard();
                     finish();

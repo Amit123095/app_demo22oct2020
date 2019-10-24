@@ -119,9 +119,9 @@ public class FragmentForm extends Fragment {
         l11.setImage(R.drawable.pdf);
 
         Links l12 = new Links();
-        l12.setName("Mind Your Loved Ones App Wallet Cards");
+       /* l12.setName("Mind Your Loved Ones App Wallet Cards");
         l12.setUrl("mylo_wallet_card.pdf");
-        l12.setImage(R.drawable.pdf);
+        l12.setImage(R.drawable.pdf);*/
 
        /* Links l9=new Links();
         l9.setName("Center for Practical Bioethics, Caring Conversations");

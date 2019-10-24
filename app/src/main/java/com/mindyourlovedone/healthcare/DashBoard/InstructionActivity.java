@@ -177,8 +177,8 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt65.setText(Html.fromHtml("<b>Summary Data Screen.</b> After a document is stored the User will be brought back to the Summary screen. The User can view, print or email a Summary Report by clicking the green icon on the bottom of the screen. (The specific document can only be viewed or shared if working inside the cell – see View Document below)."));
                 txt66.setText(Html.fromHtml("<b>Delete Entry.</b> From the Summary screen swipe right to left on applicable cell of the document."));
                 txt67.setText(Html.fromHtml("<b>Edit Entry.</b> From the Summary screen, click on the cell of the document and make changes by clicking the blue Pencil icon. To save your edits click SAVE on the top right corner of the screen."));
-                txt68.setText(Html.fromHtml("<b>View Document.</b> Click the green circle (with 3 white dots) located on the bottom of the screen and then click View Document."));
-                txtPolicy69.setText(Html.fromHtml("<b>Email or Fax Document.</b> Click the green circle (with 3 white dots) located on the bottom of the screen and then click Email or Fax Document."));
+                txt68.setText(Html.fromHtml("<b>View Document.</b> Click the green circle located on the bottom of the screen and then click View Document."));
+                txtPolicy69.setText(Html.fromHtml("<b>Email or Fax Document.</b> Click the green circle located on the bottom of the screen and then click Email or Fax Document."));
                 txtPolicy71.setText(Html.fromHtml("<b>Faxing a Document.</b> Users should only send documents via fax to meet an organizations’ HIPAA requirements (e.g. health, insurance).  Users can receive notification that the fax was received by including a Reply Email Address. The fax will be sent immediately, but the machine you are sending to may be turned off or very busy.  If a reply is not received within 20 minutes, check the fax number and resend. "));
 
                 UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
@@ -238,7 +238,7 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt65.setText(Html.fromHtml("<b>Photo of Prescription/Pills:</b> To add a Photo click the blue Plus icon and follow directions (take picture or pull a photo from your gallery).  Users can store more than one photo in this section. To edit the photo, click the blue Pencil icon and follow the directions on the screen."));
                 txt66.setText(Html.fromHtml("<b>Summary Screen.</b> MYLO provides Users with a summary screen.  To edit information, click the cell of the prescription. Make changes and then click SAVE on the top right corner of the screen. Clicking SAVE, takes Users back to the Summary page. "));
                 txt67.setText(Html.fromHtml("<b>Delete an Entry.</b> From the Summary screen, identify the entry to delete, then swipe left (start from the right side of the cell and swipe left)."));
-                txt68.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input, print or email Summary Reports by clicking the green circle (with 3 white dots) located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
+                txt68.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input, print or email Summary Reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
                 UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
                         "<br>"+txt62.getText().toString()+"<br>" +
                         "<br>"+txt63.getText().toString()+"<br>" +
@@ -289,7 +289,7 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt63.setText(Html.fromHtml("<b>Save Input.</b> SAVE on the top right corner of the screen."));
                 txt64.setText(Html.fromHtml("<b>Edit Vital Signs.</b> Edit the Vital Signs by clicking the green Down Arrow on the right of the entry. This will show the edit icon, click it to edit the Vital Sign. To save your edits click the SAVE icon at the top right corner of the screen."));
                 txt65.setText(Html.fromHtml("<b>Delete Vital Signs.</b> To delete the entry swipe left (right to left) the summary cell. This will bring up the Delete icon."));
-                txt66.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input, print or email reports by clicking the green circle (with 3 white dots) located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
+                txt66.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input, print or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
 
                 UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
                         "<br>"+txt62.getText().toString()+"<br>" +
@@ -340,8 +340,8 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt65.setText(Html.fromHtml("<b>Summary Data Screen.</b> After a document is stored the User will be brought to the Summary Screen. The User can view, print or email a Summary Report of all documents stored in the section by clicking the green icon on the bottom of the screen. (The specific document can only be viewed or shared if working inside the cell – see View Document below)."));
                 txt66.setText(Html.fromHtml("<b>Delete Entry.</b> From Summary screen swipe right to left on applicable cell of the document."));
                 txt67.setText(Html.fromHtml("<b>Edit Entry.</b>  From the Summary screen, click on the cell of the document and make changes by clicking the blue Pencil icon. To save your edits click SAVE on the top right corner of the screen."));
-                txt68.setText(Html.fromHtml("<b>View Document.</b> .  Click the green circle (with 3 white dots) located on the bottom of the screen and then click View Document."));
-                txtPolicy69.setText(Html.fromHtml("<b>Email or Fax Document.</b> Click the green circle (with 3 white dots) located on the bottom of the screen and then click Email or Fax Document."));
+                txt68.setText(Html.fromHtml("<b>View Document.</b> .  Click the green circle located on the bottom of the screen and then click View Document."));
+                txtPolicy69.setText(Html.fromHtml("<b>Email or Fax Document.</b> Click the green circle located on the bottom of the screen and then click Email or Fax Document."));
                 txtPolicy71.setText(Html.fromHtml("<b>Faxing a Document.</b> Users should only send documents via fax to meet an organizations’ HIPAA requirements (e.g. health, insurance).  Users can receive notification that the fax was received by including a Reply Email Address. The fax will be sent immediately, but the machine you are sending to may be turned off or very busy.  If a reply is not received within 20 minutes, check the fax number and resend. "));
 
                 UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
@@ -400,7 +400,7 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt64.setText(Html.fromHtml("<b>Save Input.</b> Click SAVE on the top right corner of the screen."));
                 txt65.setText(Html.fromHtml("<b>Edit Entry.</b> To edit information, click the cell of the added card. To save edits click SAVE again."));
                 txt66.setText(Html.fromHtml("<b>Delete Entry.</b> To delete the entry swipe right to left on the cell of the card."));
-                txt67.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input, print or email Summary Reports by clicking the green circle (with 3 white dots) located on the bottom of the summary screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
+                txt67.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input, print or email Summary Reports by clicking the green circle located on the bottom of the summary screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
 
                 UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
                         "<br>"+txt62.getText().toString()+"<br>" +
@@ -454,7 +454,7 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt67.setText(Html.fromHtml("<b>Summary Screen.</b> MYLO provides Users with a Summary screen.  To edit information, click the cell of the contact, make changes and then click SAVE on the top right corner of the screen. Clicking SAVE returns the User back to the Summary page. "));
                 txt68.setText(Html.fromHtml("<b>Automated Phone Calls.</b> From the Summary screen, click the Phone icon."));
                 txtPolicy69.setText(Html.fromHtml("<b>Delete an Entry.</b> From the Summary screen, identify the entry to delete, then swipe left (start from the right side of the cell and swipe left)."));
-                txtPolicy71.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input or email reports by clicking the green circle (with 3 white dots) located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
+                txtPolicy71.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
                 //txtPolicy72.setText(Html.fromHtml("<b>To view a report or to email the data</b> click the green circle with the three dots located on the left side of the screen. \n<br>"));
                 // txtPolicy73.setText(Html.fromHtml("To exit the User Instructions and go back to the prior screen click the arrow back button on the top left side of the screen. If you want to send or share these instructions click the share button on the top right side of the screen. Clicking the little house will bring you back to the dashboard.\n<br>"));
 
@@ -519,8 +519,8 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt66.setText(Html.fromHtml("<b>Summary Data Screen.</b> After a document is stored the User will be brought to the Summary Screen. The User can View, Print or Email a Summary Report of all documents stored in the section by clicking the green icon on the bottom of the screen. (The specific document can be viewed or shared only if working inside the cell – see View Document below)."));
                 txt67.setText(Html.fromHtml("<b>Delete Entry.</b> From the Summary screen, swipe right to left on the applicable cell in the document."));
                 txt68.setText(Html.fromHtml("<b>Edit Entry.</b> From the Summary screen, click on the cell of the document and make changes. To save your edits click SAVE on the top right corner of the screen."));
-                txtPolicy69.setText(Html.fromHtml("<b>View Document.</b> Click the green circle (with 3 white dots) located on the bottom of the screen and then click View Document."));
-                txtPolicy71.setText(Html.fromHtml("<b>Email or Fax Document.</b> Click the green circle (with 3 white dots) located on the bottom of the screen and then click Email or Fax Document."));
+                txtPolicy69.setText(Html.fromHtml("<b>View Document.</b> Click the green circle located on the bottom of the screen and then click View Document."));
+                txtPolicy71.setText(Html.fromHtml("<b>Email or Fax Document.</b> Click the green circle located on the bottom of the screen and then click Email or Fax Document."));
                 txtPolicy72.setText(Html.fromHtml("<b>Faxing a Document.</b> Users should only send documents via fax to meet an organizations, (e.g. health, insurance) HIPAA requirements.  Users can receive notification that the fax was received by including a Reply Email Address. The fax will be sent immediately, but the machine you are sending to may be turned off or very busy.  If a reply is not received within 20 minutes, check the fax number and resend."));
 
                 UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
@@ -585,8 +585,8 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt66.setText(Html.fromHtml("<b>Summary Data Screen.</b> After a document is stored the User will be brought to the Summary Screen. The User can View, Print or Email a Summary Report of all documents stored in the section by clicking the green icon on the bottom of the screen. (The specific document can be viewed or shared only if working inside the cell – see View Document below)."));
                 txt67.setText(Html.fromHtml("<b>Delete Entry.</b> From the Summary screen, swipe right to left on the applicable cell in the document."));
                 txt68.setText(Html.fromHtml("<b>Edit Entry.</b> From the Summary screen, click on the cell of the document and make changes. To save your edits click SAVE on the top right corner of the screen."));
-                txtPolicy69.setText(Html.fromHtml("<b>View Document.</b> Click the green circle (with 3 white dots) located on the bottom of the screen and then click View Document."));
-                txtPolicy71.setText(Html.fromHtml("<b>Email or Fax Document.</b> Click the green circle (with 3 white dots) located on the bottom of the screen and then click Email or Fax Document."));
+                txtPolicy69.setText(Html.fromHtml("<b>View Document.</b> Click the green circle located on the bottom of the screen and then click View Document."));
+                txtPolicy71.setText(Html.fromHtml("<b>Email or Fax Document.</b> Click the green circle located on the bottom of the screen and then click Email or Fax Document."));
                 txtPolicy72.setText(Html.fromHtml("<b>Faxing a Document.</b> Users should only send documents via fax to meet an organizations, (e.g. health, insurance) HIPAA requirements.  Users can receive notification that the fax was received by including a Reply Email Address. The fax will be sent immediately, but the machine you are sending to may be turned off or very busy.  If a reply is not received within 20 minutes, check the fax number and resend."));
 
 
@@ -650,8 +650,8 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt66.setText(Html.fromHtml("<b>Summary Data Screen.</b> After a document is stored the User will be brought to the Summary Screen. The User can View, Print or Email a Summary Report of all documents stored in the section by clicking the green icon on the bottom of the screen. (The specific document can be viewed or shared only if working inside the cell – see View Document below)."));
                 txt67.setText(Html.fromHtml("<b>Delete Entry.</b> From the Summary screen, swipe right to left on the applicable cell in the document."));
                 txt68.setText(Html.fromHtml("<b>Edit Entry.</b> From the Summary screen, click on the cell of the document and make changes. To save your edits click SAVE on the top right corner of the screen."));
-                txtPolicy69.setText(Html.fromHtml("<b>View Document.</b> Click the green circle (with 3 white dots) located on the bottom of the screen and then click View Document."));
-                txtPolicy71.setText(Html.fromHtml("<b>Email or Fax Document.</b> Click the green circle (with 3 white dots) located on the bottom of the screen and then click Email or Fax Document."));
+                txtPolicy69.setText(Html.fromHtml("<b>View Document.</b> Click the green circle located on the bottom of the screen and then click View Document."));
+                txtPolicy71.setText(Html.fromHtml("<b>Email or Fax Document.</b> Click the green circle located on the bottom of the screen and then click Email or Fax Document."));
                 txtPolicy72.setText(Html.fromHtml("<b>Faxing a Document.</b> Users should only send documents via fax to meet an organizations, (e.g. health, insurance) HIPAA requirements.  Users can receive notification that the fax was received by including a Reply Email Address. The fax will be sent immediately, but the machine you are sending to may be turned off or very busy.  If a reply is not received within 20 minutes, check the fax number and resend."));
 
                 UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
@@ -749,7 +749,7 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 //shradha
                 txt61.setText(Html.fromHtml("<b>Function.</b> Allows users to keep a record of any patterns or progress and can help in early detection of upcoming critical situations."));
                 txt62.setText(Html.fromHtml("<b>Add or Edit Information.</b> Toggle yes or no and use the note functionality.  Click SAVE to store the information."));
-                txt63.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input, print or email reports by clicking the green circle (with 3 white dots) located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
+                txt63.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input, print or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
 
                 UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
                         "<br>"+txt62.getText().toString()+"<br>" +
@@ -797,7 +797,7 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt63.setText(Html.fromHtml("<b>Add a Completion Date.</b> Add the Completed Date(s) by clicking the green Down Arrow on the right of the appointment then click ADD NEW and enter the date.  The information will automatically be saved. Click the Up Arrow to close the cell."));
                 txt64.setText(Html.fromHtml("<b>Edit an Appointment</b> Edit the Appointment by clicking the green Down Arrow on the right of the appointment. You will see the Edit icon - click and edit the appointment. Once completed click the SAVE icon at the top right corner of the screen."));
                 txt65.setText(Html.fromHtml("<b>Delete an Appointment.</b> To delete the entry swipe left (right to left). You will see the Delete icon (Trash can) - click it. You will be asked if you are sure you want to delete the record. "));
-                txt66.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input, print or email reports by clicking the green circle (with 3 white dots) located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
+                txt66.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input, print or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
 
                 UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
                         "<br>"+txt62.getText().toString()+"<br>" +
@@ -844,7 +844,7 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt62.setText(Html.fromHtml("<b>Add Information.</b> Click the Plus icon on the bottom right corner of the screen. Start typing your note. Users may use their phone’s microphone to add information verbally.  The date and time will automatically be created. Once completed click SAVE. "));
                 txt63.setText(Html.fromHtml("<b>Edit a Note.</b> To edit the note, click the green Down Arrow on the right of the note. You will see the ”EDIT NOTE” function. Click, ”EDIT NOTE” and type your changes. To save your edits click SAVE at the top right corner of the screen."));
                 txt64.setText(Html.fromHtml("<b>Delete a Note.</b> To delete the entry swipe left (right to left) the cell of your note. You will see the delete icon (Trash can) – click it. You will be asked if you are sure you want to delete the record."));
-                txt65.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input, print or email reports by clicking the green circle (with 3 white dots) located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
+                txt65.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input, print or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
 
                 UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
                         "<br>"+txt62.getText().toString()+"<br>" +
@@ -894,7 +894,7 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt67.setText(Html.fromHtml("<b>Summary Screen.</b> MYLO provides Users with a Summary screen.  To edit information, click the cell of the contact, make changes and then click SAVE on the top right corner of the screen. Clicking SAVE returns the User back to the Summary page. "));
                 txt68.setText(Html.fromHtml("<b>Automated Phone Calls.</b> From the Summary screen, click the Phone icon."));
                 txtPolicy69.setText(Html.fromHtml("<b>Delete an Entry.</b> From the Summary screen, identify the entry to delete, then swipe left (start from the right side of the cell and swipe left)."));
-                txtPolicy71.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input or email reports by clicking the green circle (with 3 white dots) located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
+                txtPolicy71.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
                 //txtPolicy72.setText(Html.fromHtml("<b>To view a report or to email the data</b> click the green circle with the three dots located on the left side of the screen. \n<br>"));
                 // txtPolicy73.setText(Html.fromHtml("To exit the User Instructions and go back to the prior screen click the arrow back button on the top left side of the screen. If you want to send or share these instructions click the share button on the top right side of the screen. Clicking the little house will bring you back to the dashboard.\n<br>"));
 
@@ -958,7 +958,7 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt67.setText(Html.fromHtml("<b>Summary Screen.</b> MYLO provides Users with a Summary screen.  To edit information, click the cell of the contact, make changes and then click SAVE on the top right corner of the screen. Clicking SAVE returns the User back to the Summary page. "));
                 txt68.setText(Html.fromHtml("<b>Automated Phone Calls.</b> From the Summary screen, click the Phone icon."));
                 txtPolicy69.setText(Html.fromHtml("<b>Delete an Entry.</b> From the Summary screen, identify the entry to delete, then swipe left (start from the right side of the cell and swipe left)."));
-                txtPolicy71.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input or email reports by clicking the green circle (with 3 white dots) located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
+                txtPolicy71.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
                 //txtPolicy72.setText(Html.fromHtml("<b>To view a report or to email the data</b> click the green circle with the three dots located on the left side of the screen. \n<br>"));
                 // txtPolicy73.setText(Html.fromHtml("To exit the User Instructions and go back to the prior screen click the arrow back button on the top left side of the screen. If you want to send or share these instructions click the share button on the top right side of the screen. Clicking the little house will bring you back to the dashboard.\n<br>"));
 
@@ -1021,7 +1021,7 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt67.setText(Html.fromHtml("<b>Summary Screen.</b> MYLO provides Users with a Summary screen.  To edit information, click the cell of the contact, make changes and then click SAVE on the top right corner of the screen. Clicking SAVE returns the User back to the Summary page. "));
                 txt68.setText(Html.fromHtml("<b>Automated Phone Calls.</b> From the Summary screen, click the Phone icon."));
                 txtPolicy69.setText(Html.fromHtml("<b>Delete an Entry.</b> From the Summary screen, identify the entry to delete, then swipe left (start from the right side of the cell and swipe left)."));
-                txtPolicy71.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input or email reports by clicking the green circle (with 3 white dots) located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
+                txtPolicy71.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
                 //txtPolicy72.setText(Html.fromHtml("<b>To view a report or to email the data</b> click the green circle with the three dots located on the left side of the screen. \n<br>"));
                 // txtPolicy73.setText(Html.fromHtml("To exit the User Instructions and go back to the prior screen click the arrow back button on the top left side of the screen. If you want to send or share these instructions click the share button on the top right side of the screen. Clicking the little house will bring you back to the dashboard.\n<br>"));
 
@@ -1087,7 +1087,7 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt67.setText(Html.fromHtml("<b>Summary Screen.</b> MYLO provides Users with a Summary screen.  To edit information, click the cell of the contact, make changes and then click SAVE on the top right corner of the screen. Clicking SAVE returns the User back to the Summary page. "));
                 txt68.setText(Html.fromHtml("<b>Automated Phone Calls.</b> From the Summary screen, click the Phone icon."));
                 txtPolicy69.setText(Html.fromHtml("<b>Delete an Entry.</b> From the Summary screen, identify the entry to delete, then swipe left (start from the right side of the cell and swipe left)."));
-                txtPolicy71.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input or email reports by clicking the green circle (with 3 white dots) located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
+                txtPolicy71.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
                 //txtPolicy72.setText(Html.fromHtml("<b>To view a report or to email the data</b> click the green circle with the three dots located on the left side of the screen. \n<br>"));
                 // txtPolicy73.setText(Html.fromHtml("To exit the User Instructions and go back to the prior screen click the arrow back button on the top left side of the screen. If you want to send or share these instructions click the share button on the top right side of the screen. Clicking the little house will bring you back to the dashboard.\n<br>"));
 
@@ -1151,7 +1151,7 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt67.setText(Html.fromHtml("<b>Summary Screen.</b> MYLO provides Users with a Summary screen.  To edit information, click the cell of the contact, make changes and then click SAVE on the top right corner of the screen. Clicking SAVE returns the User back to the Summary page. "));
                 txt68.setText(Html.fromHtml("<b>Automated Phone Calls.</b> From the Summary screen, click the Phone icon."));
                 txtPolicy69.setText(Html.fromHtml("<b>Delete an Entry.</b> From the Summary screen, identify the entry to delete, then swipe left (start from the right side of the cell and swipe left)."));
-                txtPolicy71.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input or email reports by clicking the green circle (with 3 white dots) located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
+                txtPolicy71.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
                 //txtPolicy72.setText(Html.fromHtml("<b>To view a report or to email the data</b> click the green circle with the three dots located on the left side of the screen. \n<br>"));
                 // txtPolicy73.setText(Html.fromHtml("To exit the User Instructions and go back to the prior screen click the arrow back button on the top left side of the screen. If you want to send or share these instructions click the share button on the top right side of the screen. Clicking the little house will bring you back to the dashboard.\n<br>"));
 
@@ -1216,7 +1216,7 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt67.setText(Html.fromHtml("<b>Summary Screen.</b> MYLO provides Users with a Summary screen.  To edit information, click the cell of the contact, make changes and then click SAVE on the top right corner of the screen. Clicking SAVE returns the User back to the Summary page. "));
                 txt68.setText(Html.fromHtml("<b>Automated Phone Calls.</b> From the Summary screen, click the Phone icon."));
                 txtPolicy69.setText(Html.fromHtml("<b>Delete an Entry.</b> From the Summary screen, identify the entry to delete, then swipe left (start from the right side of the cell and swipe left)."));
-                 txtPolicy71.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input or email reports by clicking the green circle (with 3 white dots) located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
+                 txtPolicy71.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
                  //txtPolicy72.setText(Html.fromHtml("<b>To view a report or to email the data</b> click the green circle with the three dots located on the left side of the screen. \n<br>"));
                // txtPolicy73.setText(Html.fromHtml("To exit the User Instructions and go back to the prior screen click the arrow back button on the top left side of the screen. If you want to send or share these instructions click the share button on the top right side of the screen. Clicking the little house will bring you back to the dashboard.\n<br>"));
 
@@ -1329,7 +1329,7 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt62.setText(Html.fromHtml("<b>Data Entry.</b> Data is entered via free text and dropdown menus. User’s may use their phone’s microphone to add data verbally.  Dropdown menus are identified by the little grey Arrow to the right of the line. Click anywhere on the line and the dropdown menu will open. "));
                 txt63.setText(Html.fromHtml("<b>Save Input.</b> Click SAVE on the top right corner of the screen. Users should click SAVE after every few entries. "));
                 txt64.setText(Html.fromHtml("<b>Profile Photo.</b> To add a Photo click anywhere in the circle and choose, ”Take Picture” or “Gallery” then click SAVE. To edit or delete the photo, click the Pencil icon."));
-                txt65.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view or email reports by clicking the green circle (with 3 white dots) located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements. "));
+                txt65.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements. "));
                 txt66.setText(Html.fromHtml("<b>Exiting the Sub-Section.</b> To return to the prior screen, click the back Arrow icon on the top left corner of the screen. To return to the Dashboard, click the Home icon on the top left corner of the screen."));
 
                 UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
@@ -1419,9 +1419,9 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt64.setText(Html.fromHtml("<b>Save Input.</b> Click SAVE on the top right corner of the screen.  It’s recommended that you click SAVE after you complete each section. "));
                 txt65.setText(Html.fromHtml("<b>To Close a Section.</b> Click the green Up Arrow on the right corner of the section. "));
                 txt66.setText(Html.fromHtml("<b>To Edit or Delete Information.</b> Click the Pencil icon or Trashcan."));
-                txt67.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input or email reports by clicking the green circle (with 3 white dots) located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements. "));
+                txt67.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements. "));
                 //txt68.setText(Html.fromHtml("<b>To Close a Section.</b> Click the green UP ARROW on the right side of the section."));
-                //txtPolicy69.setText(Html.fromHtml("<b>Reports.</b> Users can view and email reports by clicking the green circle (with 3 white dots) located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
+                //txtPolicy69.setText(Html.fromHtml("<b>Reports.</b> Users can view and email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
 
                 UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
                         "<br>"+txt62.getText().toString()+"<br>" +

@@ -4435,6 +4435,8 @@ public class IndividualNew {
             table1.setKeepTogether(false);
             table1.setSplitLate(false);
             table1.setWidthPercentage(100);
+            String glass = "NO", lense = "NO", falses = "NO", implants = "NO", aid = "NO", donor = "NO", mouth = "NO", blind = "NO", speech = "NO", feed = "NO", toilet = "NO", medicate = "NO";
+
 
             if (medInfo != null) {
 
@@ -4475,21 +4477,91 @@ public class IndividualNew {
                 tableIN.setKeepTogether(false);
                 tableIN.setSplitLate(false);
 
+                if (medInfo.getSpeech().equals("YES")) {
+
+                    speech = "YES";
+                } else if (medInfo.getSpeech().equals("NO")||medInfo.getSpeech().equals("")) {
+
+                    speech = "NO";
+                }
+                if (medInfo.getBlind().equals("YES")) {
+
+                    blind = "YES";
+                } else if (medInfo.getBlind().equals("NO")||medInfo.getBlind().equals("")) {
+
+                    blind = "NO";
+                }
+                if (medInfo.getGlass().equals("YES")) {
+
+                    glass = "YES";
+                } else if (medInfo.getGlass().equals("NO")||medInfo.getGlass().equals("")) {
+
+                    glass = "NO";
+                }
+
+                if (medInfo.getMouth().equals("YES")) {
+
+                    mouth = "YES";
+                } else if (medInfo.getMouth().equals("NO")||medInfo.getMouth().equals("")) {
+
+                    mouth = "NO";
+                }
+
+                if (medInfo.getLense().equals("YES")) {
+
+                    lense = "YES";
+                } else if (medInfo.getLense().equals("NO")||medInfo.getLense().equals("")) {
+
+                    lense = "NO";
+                }
+
+                if (medInfo.getFalses().equals("YES")) {
+
+                    falses = "YES";
+                } else if (medInfo.getFalses().equals("NO")||medInfo.getFalses().equals("")) {
+
+                    falses = "NO";
+                }
+
+                if (medInfo.getImplants().equals("YES")) {
+
+                    implants = "YES";
+                } else if (medInfo.getImplants().equals("NO")||medInfo.getImplants().equals("")) {
+
+                    implants = "NO";
+                }
+
+                if (medInfo.getAid().equals("YES")) {
+
+                    aid = "YES";
+                } else if (medInfo.getAid().equals("NO")||medInfo.getAid().equals("")) {
+
+                    aid = "NO";
+                }
+
+                if (medInfo.getDonor().equals("YES")) {
+
+                    donor = "YES";
+                } else if (medInfo.getDonor().equals("NO")||medInfo.getDonor().equals("")) {
+
+                    donor = "NO";
+                }
+
 
                 cellIN = new PdfPCell();
-                HeaderNew.cellDesign(cellIN, tableIN, "Dentures - Removable Upper", medInfo.getFalses());
+                HeaderNew.cellDesign(cellIN, tableIN, "Dentures - Removable Upper", falses);
                 cellIN.setBackgroundColor(WebColors.getRGBColor("#FBFBFB"));
                 cellIN.setPaddingTop(14);
                 tableIN.addCell(cellIN);
 
                 cellIN = new PdfPCell();
-                HeaderNew.cellDesign(cellIN, tableIN, "Dry Mouth", medInfo.getMouth());
+                HeaderNew.cellDesign(cellIN, tableIN, "Dry Mouth", mouth);
                 cellIN.setBackgroundColor(WebColors.getRGBColor("#FBFBFB"));
                 cellIN.setPaddingTop(14);
                 tableIN.addCell(cellIN);
 
                 cellIN = new PdfPCell();
-                HeaderNew.cellDesignNoline(cellIN, tableIN, "Dentures - Removable Lower", medInfo.getImplants());
+                HeaderNew.cellDesignNoline(cellIN, tableIN, "Dentures - Removable Lower",implants);
                 cellIN.setBackgroundColor(WebColors.getRGBColor("#FBFBFB"));
                 cellIN.setPaddingTop(14);
                 tableIN.addCell(cellIN);
@@ -4653,13 +4725,13 @@ public class IndividualNew {
 
 
                 cellIN = new PdfPCell();
-                HeaderNew.cellDesignNoline(cellIN, tableIN, "Hearing Aid(s)", medInfo.getAid());
+                HeaderNew.cellDesignNoline(cellIN, tableIN, "Hearing Aid(s)",aid);
                 cellIN.setBackgroundColor(WebColors.getRGBColor("#FBFBFB"));
                 cellIN.setPaddingTop(14);
                 tableIN.addCell(cellIN);
 
                 cellIN = new PdfPCell();
-                HeaderNew.cellDesignNoline(cellIN, tableIN, "Speech Impairment", medInfo.getSpeech());
+                HeaderNew.cellDesignNoline(cellIN, tableIN, "Speech Impairment", speech);
                 cellIN.setBackgroundColor(WebColors.getRGBColor("#FBFBFB"));
                 cellIN.setPaddingTop(14);
                 tableIN.addCell(cellIN);
@@ -4851,7 +4923,7 @@ public class IndividualNew {
 
 
                 cellIN = new PdfPCell();
-                HeaderNew.cellDesignNoline(cellIN, tableIN, "Are you an Organ Donor?", medInfo.getDonor());
+                HeaderNew.cellDesignNoline(cellIN, tableIN, "Are you an Organ Donor?", donor);
                 cellIN.setBackgroundColor(WebColors.getRGBColor("#FBFBFB"));
                 cellIN.setPaddingTop(14);
                 tableIN.addCell(cellIN);
@@ -4930,21 +5002,21 @@ public class IndividualNew {
 
 
                 cellIN = new PdfPCell();
-                HeaderNew.cellDesign(cellIN, tableIN, "Glasses", medInfo.getGlass());
+                HeaderNew.cellDesign(cellIN, tableIN, "Glasses", glass);
                 cellIN.setBackgroundColor(WebColors.getRGBColor("#FBFBFB"));
                 cellIN.setPaddingTop(14);
                 tableIN.addCell(cellIN);
 
 
                 cellIN = new PdfPCell();
-                HeaderNew.cellDesign(cellIN, tableIN, "Contact Lenses", medInfo.getLense());
+                HeaderNew.cellDesign(cellIN, tableIN, "Contact Lenses", lense);
                 cellIN.setBackgroundColor(WebColors.getRGBColor("#FBFBFB"));
                 cellIN.setPaddingTop(14);
                 tableIN.addCell(cellIN);
 
 
                 cellIN = new PdfPCell();
-                HeaderNew.cellDesignNoline(cellIN, tableIN, "Color Blind", medInfo.getBlind());
+                HeaderNew.cellDesignNoline(cellIN, tableIN, "Color Blind", blind);
                 cellIN.setBackgroundColor(WebColors.getRGBColor("#FBFBFB"));
                 cellIN.setPaddingTop(14);
                 tableIN.addCell(cellIN);

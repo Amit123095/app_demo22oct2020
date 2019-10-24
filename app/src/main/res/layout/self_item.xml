@@ -99,16 +99,24 @@
                     android:textStyle="normal" />
 
             </LinearLayout>
-
+            <ImageView
+                android:id="@+id/imgSelfFolders"
+                android:layout_width="@dimen/dimension20dp"
+                android:layout_height="@dimen/dimension20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/dimension10dp"
+                android:layout_marginRight="@dimen/dimension10dp"
+                android:src="@drawable/rite_arrow_trans" />
             <ImageView
                 android:id="@+id/imgSelfFolder"
                 android:layout_width="@dimen/dimension35dp"
                 android:layout_height="@dimen/dimension35dp"
-                android:layout_alignParentRight="true"
+                android:layout_toLeftOf="@+id/imgSelfFolders"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="@dimen/dimension10dp"
                 android:layout_marginTop="@dimen/dimension10dp"
-                android:layout_marginRight="@dimen/dimension15dp"
+                android:layout_marginRight="@dimen/dimension10dp"
                 android:src="@drawable/prof_folder"
                 android:tint="@color/colorWhite" />
 

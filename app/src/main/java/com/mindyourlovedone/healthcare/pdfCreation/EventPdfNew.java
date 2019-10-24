@@ -437,7 +437,13 @@ public class EventPdfNew {
 
                     String bathing = "";
                     if (s.getBath() != null) {
-                        bathing = s.getBath();
+                        if (s.getBath().equals("")) {
+                            bathing ="NO";
+                        }
+                        else
+                        {
+                            bathing = s.getBath();
+                        }
                     }
 
                     //cell1 = new PdfPCell(new Phrase("Bathing : " + bathing));
@@ -451,7 +457,14 @@ public class EventPdfNew {
 
                     String continence = "";
                     if (s.getContinence() != null) {
-                        continence = s.getContinence();
+
+                        if (s.getContinence().equals("")) {
+                            continence ="NO";
+                        }
+                        else
+                        {
+                            continence = s.getContinence();
+                        }
                     }
                     // cell1 = new PdfPCell(new Phrase("Continence : " + continence));
                     cellIN = new PdfPCell();
@@ -464,7 +477,13 @@ public class EventPdfNew {
 
                     String dressing = "";
                     if (s.getDress() != null) {
-                        dressing = s.getDress();
+                        if (s.getDress().equals("")) {
+                            dressing ="NO";
+                        }
+                        else
+                        {
+                            dressing = s.getDress();
+                        }
                     }
                     //cell1 = new PdfPCell(new Phrase("Dressing : " + dressing));
                     cellIN = new PdfPCell();
@@ -476,7 +495,14 @@ public class EventPdfNew {
 
                     String eating = "";
                     if (s.getFeed() != null) {
-                        eating = s.getFeed();
+
+                        if (s.getFeed().equals("")) {
+                            eating = "NO";
+                        }
+                        else
+                        {
+                            eating = s.getFeed();
+                        }
                     }
                     // cell1 = new PdfPCell(new Phrase("Eating : " + eating));
                     cellIN = new PdfPCell();
@@ -489,7 +515,14 @@ public class EventPdfNew {
 
                     String toileting = "";
                     if (s.getToileting() != null) {
-                        toileting = s.getToileting();
+
+                        if (s.getToileting().equals("")) {
+                            toileting = "NO";
+                        }
+                        else
+                        {
+                            toileting = s.getToileting();
+                        }
                     }
 
                     //  cell1 = new PdfPCell(new Phrase("Toileting : " + toileting));
@@ -502,7 +535,14 @@ public class EventPdfNew {
 
                     String transfering = "";
                     if (s.getTransfer() != null) {
-                        transfering = s.getTransfer();
+
+                        if (s.getTransfer().equals("")) {
+                            transfering = "NO";
+                        }
+                        else
+                        {
+                            transfering = s.getTransfer();
+                        }
                     }
 
                     // cell1 = new PdfPCell(new Phrase("Transfering : " + transfering));
@@ -596,6 +636,9 @@ public class EventPdfNew {
                 String access = "";
                 if (s.getTransport() != null) {
                     access = s.getTransport();
+                    if (s.getTransport().equals("")) {
+                        access = "NO";
+                    }
                 }
                // cell2 = new PdfPCell(new Phrase("Accessing Transportation : " + access));
                 //cell1 = new PdfPCell(new Phrase("Bathing : " + bathing));
@@ -610,6 +653,9 @@ public class EventPdfNew {
                 String carePet = "";
                 if (s.getPets() != null) {
                     carePet = s.getPets();
+                    if (s.getPets().equals("")) {
+                        carePet = "NO";
+                    }
                 }
                // cell2 = new PdfPCell(new Phrase("Caring for Pets : " + carePet));
                 // cell1 = new PdfPCell(new Phrase("Continence : " + continence));
@@ -625,6 +671,9 @@ public class EventPdfNew {
                 String driving = "";
                 if (s.getDrive() != null) {
                     driving = s.getDrive();
+                    if (s.getDrive().equals("")) {
+                        driving = "NO";
+                    }
                 }
                 //cell2 = new PdfPCell(new Phrase("Driving : " + driving));
                 cellIN = new PdfPCell();
@@ -637,6 +686,9 @@ public class EventPdfNew {
                 String housekeeping = "";
                 if (s.getKeep() != null) {
                     housekeeping = s.getKeep();
+                    if (s.getKeep().equals("")) {
+                        housekeeping = "NO";
+                    }
                 }
                 //cell2 = new PdfPCell(new Phrase("Housekeeping : " + housekeeping));
                 cellIN = new PdfPCell();
@@ -650,6 +702,9 @@ public class EventPdfNew {
                 String manage = "";
                 if (s.getMedication() != null) {
                     manage = s.getMedication();
+                    if (s.getMedication().equals("")) {
+                        manage = "NO";
+                    }
                 }
                 //cell2 = new PdfPCell(new Phrase("Managing Medications : " + manage));
                 cellIN = new PdfPCell();
@@ -662,6 +717,9 @@ public class EventPdfNew {
                 String finance = "";
                 if (s.getFinance() != null) {
                     finance = s.getFinance();
+                    if (s.getFinance().equals("")) {
+                        finance = "NO";
+                    }
                 }
                 //cell2 = new PdfPCell(new Phrase("Managing Personal Finances : " + finance));
                 cellIN = new PdfPCell();
@@ -675,6 +733,9 @@ public class EventPdfNew {
                 String meal = "";
                 if (s.getPrepare() != null) {
                     meal = s.getPrepare();
+                    if (s.getPrepare().equals("")) {
+                        meal = "NO";
+                    }
                 }
                // cell2 = new PdfPCell(new Phrase("Preparing Meals : " + meal));
                 cellIN = new PdfPCell();
@@ -687,6 +748,9 @@ public class EventPdfNew {
                 String shopping = "";
                 if (s.getShop() != null) {
                     shopping = s.getShop();
+                    if (s.getShop().equals("")) {
+                        shopping = "NO";
+                    }
                 }
                 //cell2 = new PdfPCell(new Phrase("Shopping for Groceries or Clothes : " + shopping));
                 cellIN = new PdfPCell();
@@ -700,6 +764,9 @@ public class EventPdfNew {
                 String telephone = "";
                 if (s.getUse() != null) {
                     telephone = s.getUse();
+                    if (s.getUse().equals("")) {
+                        telephone = "NO";
+                    }
                 }
                // cell2 = new PdfPCell(new Phrase("Using Telephone : " + telephone));
                 cellIN = new PdfPCell();
@@ -713,6 +780,9 @@ public class EventPdfNew {
                 String computer = "";
                 if (s.getComputer() != null) {
                     computer = s.getComputer();
+                    if (s.getComputer().equals("")) {
+                        computer = "NO";
+                    }
                 }
                // cell2 = new PdfPCell(new Phrase("Using a Computer or Tablet : " + computer));
                 cellIN = new PdfPCell();
@@ -726,6 +796,9 @@ public class EventPdfNew {
                 String remote = "";
                 if (s.getRemote() != null) {
                     remote = s.getRemote();
+                    if (s.getRemote().equals("")) {
+                        remote = "NO";
+                    }
                 }
                 //cell2 = new PdfPCell(new Phrase("Using a Remote Control for the TV : " + remote));
                 cellIN = new PdfPCell();
@@ -739,6 +812,9 @@ public class EventPdfNew {
                 String alert = "";
                 if (s.getAlert() != null) {
                     alert = s.getAlert();
+                    if (s.getAlert().equals("")) {
+                        alert = "NO";
+                    }
                 }
                // cell2 = new PdfPCell(new Phrase("Using a Medical Alert : " + alert));
                 cellIN = new PdfPCell();

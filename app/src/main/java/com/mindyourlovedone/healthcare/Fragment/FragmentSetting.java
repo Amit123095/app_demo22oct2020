@@ -109,23 +109,23 @@ public class FragmentSetting extends Fragment {
                         break;
                     case 2://Privacy Policy-Section
 
-                        Intent intentp = new Intent();
+                        /*Intent intentp = new Intent();
                         intentp.setAction(Intent.ACTION_VIEW);
                         intentp.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         intentp.setData(Uri.parse("market://details?id=cn.wps.moffice_eng"));//varsa ("market://details?id=com.adobe.reader"));
                         intentp.setType(String.valueOf(Uri.parse("application/pdf")));
                         ((BaseActivity) getActivity()).CopyReadAssetss("Privacy Policy.pdf");
-
+*/
 
                         break;
                     case 3://End User License Agreement-Section
-                        Intent intentx = new Intent();
+                        /*Intent intentx = new Intent();
                         intentx.setAction(Intent.ACTION_VIEW);
                         intentx.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         intentx.setData(Uri.parse("market://details?id=cn.wps.moffice_eng"));//varsa ("market://details?id=com.adobe.reader"));
                         intentx.setType(String.valueOf(Uri.parse("application/pdf")));
                         ((BaseActivity) getActivity()).CopyReadAssetss("eula_new.pdf");
-
+*/
                         break;
                 }
             }

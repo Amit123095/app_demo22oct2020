@@ -1035,6 +1035,11 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
             @Override
             public void onUploadComplete(final FileMetadata result) {
                 dialog.dismiss();
+                File destfolder = new File(Environment.getExternalStorageDirectory(), "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + ".zip");
+                if (destfolder.exists()) {
+                        destfolder.delete();
+                }
+
                 if (preferences.getString(PrefConstants.STORE).equals("Share")) {
                     preferences.putString(PrefConstants.SHARE, result.getId());
                     preferences.putString(PrefConstants.FILE, result.getName());

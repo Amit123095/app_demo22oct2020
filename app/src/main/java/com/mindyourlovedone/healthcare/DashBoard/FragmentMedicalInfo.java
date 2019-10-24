@@ -88,13 +88,13 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
     EditText etFt, etInch, etWeight, etAdditional, etPet;
     ToggleButton tbGlass, tbLense, tbFalse, tbImplants, tbHearingAid, tbMouth, tbColor, tbSpeech, tbFeed, tbToilet, tbMedicate;
     RadioButton rbYes, rbNo, rbDrugCurrent, rbDrugPast, rbDrugNever, rbDrinkCurrent, rbDrinkPast, rbDrinkNever, rbTobacoCurrent, rbTobacoPast, rbTobacoNever;
-    String glass = "", lense = "", falses = "", implants = "", aid = "", donor = "", mouth = "", blind = "", speech = "", feed = "", toilet = "", medicate = "";
-    //String glass = "NO", lense = "NO", falses = "NO", implants = "NO", aid = "NO", donor = "NO", mouth = "NO", blind = "NO", speech = "NO", feed = "NO", toilet = "NO", medicate = "NO";
+    //String glass = "", lense = "", falses = "", implants = "", aid = "", donor = "", mouth = "", blind = "", speech = "", feed = "", toilet = "", medicate = "";
+    String glass = "NO", lense = "NO", falses = "NO", implants = "NO", aid = "NO", donor = "NO", mouth = "NO", blind = "NO", speech = "NO", feed = "NO", toilet = "NO", medicate = "NO";
 
     TextView txtTobacoType, txtTobacoAmt, txtTobacoYear, txtDrugType, txtDrugAmt, txtDrugYear, txtDrinkAmt, txtDrinkYear;
-    String tobaco = "", t_type = "", t_amt = "", t_year = "";
-    String drug = "", drug_type = "", drug_amt = "", drug_year = "";
-    String drink = "", drink_amt = "", drink_year = "";
+    String tobaco = "Never", t_type = "", t_amt = "", t_year = "";
+    String drug = "Never", drug_type = "", drug_amt = "", drug_year = "";
+    String drink = "Never", drink_amt = "", drink_year = "";
     String ft, inch, weight, color, lang1, lang2, blood, pet;
     RadioGroup rgDonor, rgDrug, rgDrink, rgTobaco;
     TextView txtName;
@@ -635,21 +635,21 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
             if (medInfo.getSpeech().equals("YES")) {
                 tbSpeech.setChecked(true);
                 speech = "YES";
-            } else if (medInfo.getSpeech().equals("NO")) {
+            } else if (medInfo.getSpeech().equals("NO")||medInfo.getSpeech().equals("")) {
                 tbSpeech.setChecked(false);
                 speech = "NO";
             }
             if (medInfo.getBlind().equals("YES")) {
                 tbColor.setChecked(true);
                 blind = "YES";
-            } else if (medInfo.getBlind().equals("NO")) {
+            } else if (medInfo.getBlind().equals("NO")||medInfo.getBlind().equals("")) {
                 tbColor.setChecked(false);
                 blind = "NO";
             }
             if (medInfo.getGlass().equals("YES")) {
                 tbGlass.setChecked(true);
                 glass = "YES";
-            } else if (medInfo.getGlass().equals("NO")) {
+            } else if (medInfo.getGlass().equals("NO")||medInfo.getGlass().equals("")) {
                 tbGlass.setChecked(false);
                 glass = "NO";
             }
@@ -657,7 +657,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
             if (medInfo.getMouth().equals("YES")) {
                 tbMouth.setChecked(true);
                 mouth = "YES";
-            } else if (medInfo.getMouth().equals("NO")) {
+            } else if (medInfo.getMouth().equals("NO")||medInfo.getMouth().equals("")) {
                 tbMouth.setChecked(false);
                 mouth = "NO";
             }
@@ -665,7 +665,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
             if (medInfo.getLense().equals("YES")) {
                 tbLense.setChecked(true);
                 lense = "YES";
-            } else if (medInfo.getLense().equals("NO")) {
+            } else if (medInfo.getLense().equals("NO")||medInfo.getLense().equals("")) {
                 tbLense.setChecked(false);
                 lense = "NO";
             }
@@ -673,7 +673,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
             if (medInfo.getFalses().equals("YES")) {
                 tbFalse.setChecked(true);
                 falses = "YES";
-            } else if (medInfo.getFalses().equals("NO")) {
+            } else if (medInfo.getFalses().equals("NO")||medInfo.getFalses().equals("")) {
                 tbFalse.setChecked(false);
                 falses = "NO";
             }
@@ -681,7 +681,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
             if (medInfo.getImplants().equals("YES")) {
                 tbImplants.setChecked(true);
                 implants = "YES";
-            } else if (medInfo.getImplants().equals("NO")) {
+            } else if (medInfo.getImplants().equals("NO")||medInfo.getImplants().equals("")) {
                 tbImplants.setChecked(false);
                 implants = "NO";
             }
@@ -689,7 +689,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
             if (medInfo.getAid().equals("YES")) {
                 tbHearingAid.setChecked(true);
                 aid = "YES";
-            } else if (medInfo.getAid().equals("NO")) {
+            } else if (medInfo.getAid().equals("NO")||medInfo.getAid().equals("")) {
                 tbHearingAid.setChecked(false);
                 aid = "NO";
             }
@@ -697,7 +697,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
             if (medInfo.getDonor().equals("YES")) {
                 tbOrgan.setChecked(true);
                 donor = "YES";
-            } else if (medInfo.getDonor().equals("NO")) {
+            } else if (medInfo.getDonor().equals("NO")||medInfo.getDonor().equals("")) {
                 tbOrgan.setChecked(false);
                 donor = "NO";
             }
@@ -712,7 +712,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
                 rbTobacoPast.setChecked(true);
                 tobaco = "Past";
                 rlTobacoDesc.setVisibility(View.VISIBLE);
-            } else if (medInfo.getTobaco().equals("Never")) {
+            } else if (medInfo.getTobaco().equals("Never")||medInfo.getTobaco().equals("")) {
                 rbTobacoNever.setChecked(true);
                 tobaco = "Never";
                 rlTobacoDesc.setVisibility(View.GONE);
@@ -726,7 +726,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
                 rbDrinkPast.setChecked(true);
                 drink = "Past";
                 rlDrinkDesc.setVisibility(View.VISIBLE);
-            } else if (medInfo.getDrink().equals("Never")) {
+            } else if (medInfo.getDrink().equals("Never")||medInfo.getDrink().equals("")) {
                 rbDrinkNever.setChecked(true);
                 drink = "Never";
                 rlDrinkDesc.setVisibility(View.GONE);
@@ -740,7 +740,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
                 rbDrugPast.setChecked(true);
                 drug = "Past";
                 rlDrugDesc.setVisibility(View.VISIBLE);
-            } else if (medInfo.getDrug().equals("Never")) {
+            } else if (medInfo.getDrug().equals("Never")||medInfo.getDrug().equals("")) {
                 rbDrugNever.setChecked(true);
                 drug = "Never";
                 rlDrugDesc.setVisibility(View.GONE);
@@ -1617,22 +1617,38 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
             case R.id.imgBack:
                 getValues();
 
-                if (medInfo.getGlass().equals(glass)&&medInfo.getLense().equals(lense)&&
-                        medInfo.getFalses().equals(falses)&&medInfo.getImplants().equals(implants)&&
-                        medInfo.getAid().equals(aid)&&medInfo.getDonor().equals(donor)&&
-                        medInfo.getMouth().equals(mouth)&&medInfo.getBlind().equals(blind)&&
-                        medInfo.getSpeech().equals(speech)&&medInfo.getTobaco().equals(tobaco)&&
-                        medInfo.getDrink().equals(drink)&&medInfo.getDrug().equals(drug)&&
-                        medInfo.getT_amt().equals(t_amt)&&medInfo.getT_type().equals(t_type)&&
-                        medInfo.getT_year().equals(t_year)&&medInfo.getDrink_amt().equals(drink_amt)&&
-                        medInfo.getDrink_year().equals(drink_year)&&medInfo.getDrug_type().equals(drug_type)&&
-                        medInfo.getDrink_amt().equals(drug_amt)&&medInfo.getDrug_year().equals(drink_year)&&
-                        medInfo.getBloodType().equals(blood)&&medInfo.getNote().equals(note)&&
-                        medInfo.getAllergyNote().equals(allergynote)&&medInfo.getMouthnote().equals(mouthnote)&&
-                        medInfo.getVisionNote().equals(visionnote)&&medInfo.getVaccinenote().equals(vaccinenote)
-                        &&medInfo.getAideNote().equals(Aidenote)&&medInfo.getFunctionnote().equals(functionnote)&&
-                        medInfo.getDietNote().equals(dietnote)&&medInfo.getImplantnote().equals(implantsnote)&&
-                        medInfo.getHistorynote().equals(historynote)&&medInfo.getAideNote().equals(Aidenote))
+                if ((medInfo.getGlass().equalsIgnoreCase(glass)||medInfo.getGlass().equals(""))&&
+                        (medInfo.getLense().equalsIgnoreCase(lense)||medInfo.getLense().equals(""))&&
+                        (medInfo.getFalses().equalsIgnoreCase(falses)||medInfo.getFalses().equals(""))&&
+                        (medInfo.getImplants().equalsIgnoreCase(implants)||medInfo.getImplants().equals(""))&&
+                        (medInfo.getAid().equalsIgnoreCase(aid)||medInfo.getAid().equals(""))&&
+                        (medInfo.getDonor().equalsIgnoreCase(donor)||medInfo.getDonor().equals(""))&&
+                        (medInfo.getMouth().equalsIgnoreCase(mouth)||medInfo.getMouth().equals(""))&&
+                        (medInfo.getBlind().equalsIgnoreCase(blind)||medInfo.getBlind().equals(""))&&
+                        (medInfo.getSpeech().equalsIgnoreCase(speech)||medInfo.getSpeech().equals(""))&&
+                        (medInfo.getTobaco().equalsIgnoreCase(tobaco)||medInfo.getTobaco().equals(""))&&
+                        (medInfo.getDrink().equalsIgnoreCase(drink)||medInfo.getDrink().equals(""))&&
+                        (medInfo.getDrug().equalsIgnoreCase(drug)||medInfo.getDrug().equals(""))&&
+                        medInfo.getT_amt().equals(t_amt)&&
+                        medInfo.getT_type().equals(t_type)&&
+                        medInfo.getT_year().equals(t_year)&&
+                        medInfo.getDrink_amt().equals(drink_amt)&&
+                        medInfo.getDrink_year().equals(drink_year)&&
+                        medInfo.getDrug_type().equals(drug_type)&&
+                        medInfo.getDrug_amt().equals(drug_amt) &&
+                        medInfo.getDrug_year().equals(drug_year)&&
+                        medInfo.getBloodType().equals(blood)&&
+                        medInfo.getNote().equals(note)&&
+                        medInfo.getAllergyNote().equals(allergynote)&&
+                        medInfo.getMouthnote().equals(mouthnote)&&
+                        medInfo.getVisionNote().equals(visionnote)&&
+                        medInfo.getVaccinenote().equals(vaccinenote)&&
+                        medInfo.getAideNote().equals(Aidenote)&&
+                        medInfo.getFunctionnote().equals(functionnote)&&
+                        medInfo.getDietNote().equals(dietnote)&&
+                        medInfo.getImplantnote().equals(implantsnote)&&
+                        medInfo.getHistorynote().equals(historynote)&&
+                        medInfo.getAideNote().equals(Aidenote))
                 {
                     hideSoftKeyboard();
                     getActivity().finish();
@@ -1771,6 +1787,81 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
         drug_type = txtDrugType.getText().toString().trim();
         drug_amt = txtDrugAmt.getText().toString().trim();
         drug_year = txtDrugYear.getText().toString().trim();
+
+        /*if (tbSpeech.isChecked())
+        {
+            speech="Yes";
+        }else{
+            speech="No";
+        }
+
+        if (tbFalse.isChecked())
+        {
+            falses="Yes";
+        }else{
+            falses="No";
+        }
+
+        if (tbGlass.isChecked())
+        {
+            glass="Yes";
+        }else{
+            glass="No";
+        }
+
+        if (tbImplants.isChecked())
+        {
+            implants="Yes";
+        }else{
+            implants="No";
+        }
+
+        if (tbHearingAid.isChecked())
+        {
+            aid="Yes";
+        }else{
+            aid="No";
+        }
+
+        if (tbLense.isChecked())
+        {
+            lense="Yes";
+        }else{
+            lense="No";
+        }
+
+        if (tbOrgan.isChecked())
+        {
+            donor="Yes";
+        }else{
+            donor="No";
+        }
+
+        if (tbMouth.isChecked())
+        {
+            mouth="Yes";
+        }else{
+            mouth="No";
+        }
+
+        if (tbColor.isChecked())
+        {
+            blind="Yes";
+        }else{
+            blind="No";
+        }
+        if (rbTobacoNever.isChecked())
+        {
+            tobaco="Never";
+        }
+        if (rbDrinkNever.isChecked())
+        {
+            drink="Never";
+        }
+        if (rbDrugNever.isChecked())
+        {
+            drug="Never";
+        }*/
     }
 
     private void getDate(Context context, final TextView txtview) {
