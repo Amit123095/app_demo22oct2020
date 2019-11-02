@@ -28,6 +28,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.vending.billing.IInAppBillingService;
 
@@ -269,6 +270,7 @@ public class IabHelper {
 
         Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
         serviceIntent.setPackage("com.android.vending");
+        if (mContext.getPackageManager().queryIntentServices(serviceIntent, 0)!=null) {
         if (!mContext.getPackageManager().queryIntentServices(serviceIntent, 0).isEmpty()) {
             // service available to handle that Intent
             mContext.bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
@@ -279,6 +281,9 @@ public class IabHelper {
                         new IabResult(BILLING_RESPONSE_RESULT_BILLING_UNAVAILABLE,
                                 "Billing service unavailable on device."));
             }
+        }
+        }else{
+            Toast.makeText(mContext,"Not supported",Toast.LENGTH_SHORT).show();
         }
     }
 
