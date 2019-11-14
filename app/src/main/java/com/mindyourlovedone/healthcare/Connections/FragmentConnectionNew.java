@@ -1013,7 +1013,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 hideSoftKeyboard();
-                String username = etNote.getText().toString();
+                String username = etNote.getText().toString().trim();
                 if (username.equals("")) {
                     etNote.setError("Please Enter email");
                     DialogManager.showAlert("Please Enter email", getActivity());

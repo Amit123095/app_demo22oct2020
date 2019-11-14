@@ -1160,7 +1160,7 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
             @Override
             public void onClick(View v) {
                 hideSoftKeyboard();
-                String username = etNote.getText().toString();
+                String username = etNote.getText().toString().trim();
                 if (username.equals("")) {
                     etNote.setError("Please Enter email");
                     DialogManager.showAlert("Please Enter email", context);
@@ -1267,7 +1267,7 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
             @Override
             public void onClick(View v) {
                 hideSoftKeyboard();
-                String username = etNote.getText().toString();
+                String username = etNote.getText().toString().trim();
                 if (username.equals("")) {
                     etNote.setError("Please Enter email");
                     DialogManager.showAlert("Please Enter email", context);
