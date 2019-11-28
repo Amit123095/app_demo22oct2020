@@ -720,7 +720,7 @@
                     android:fontFamily="@font/lato"
                     android:visibility="gone"
                     android:gravity="center_horizontal"
-                    android:text="Logout from Dropbox"
+                    android:text="Login as a different Dropbox user"
                     android:textColor="@color/colorBlue"
                     android:textSize="@dimen/dimension18dp" />
             </LinearLayout>

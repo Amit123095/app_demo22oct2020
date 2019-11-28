@@ -369,7 +369,7 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                     //  Toast.makeText(context, "Credentials Saved..", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    Toast.makeText(context, "Invalid Credentials..", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(context, "Invalid Credentials..", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -469,7 +469,11 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
             txttype.setError("Please Enter Type");
             DialogManager.showAlert("Please Enter Type", context);
         } else {
-            return true;
+
+                    return true;
+
+
+
         }
         return false;
     }

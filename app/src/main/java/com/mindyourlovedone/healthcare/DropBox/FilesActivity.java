@@ -515,7 +515,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                 final ProgressDialog dialog = new ProgressDialog(this);
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.setCancelable(false);
-                dialog.setMessage("Loading");
+                dialog.setMessage("Loading \nPlease be patient");
                 dialog.show();
                 new ListReceivedFolderTask(DropboxClientFactory.getClient(), new ListReceivedFolderTask.Callback() {//Nikita - new changes for merged data
                     @Override
@@ -1026,7 +1026,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setCancelable(false);
-        dialog.setMessage("Backing Data can take several minutes");
+        dialog.setMessage("Backing up data can take several minutes...\nPlease be patient");
         dialog.show();
 
         new UploadFileTask(this, DropboxClientFactory.getClient(), new UploadFileTask.Callback() {

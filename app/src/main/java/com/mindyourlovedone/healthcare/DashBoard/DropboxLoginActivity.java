@@ -234,7 +234,7 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
         txtLogoutDropbox = findViewById(R.id.txtLogoutDropbox);
         txtLoginDropbox = findViewById(R.id.txtLoginDropbox);
         //nikita - 7-10-19
-        txtLoginDropbox.setVisibility(View.GONE);
+      //  txtLoginDropbox.setVisibility(View.GONE);
         txtLogoutDropbox.setVisibility(View.GONE);
 
         txtLogoutDropbox.setOnClickListener(new View.OnClickListener() {
@@ -621,9 +621,9 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
                     DropboxClientFactory.revokeClient(new DropboxClientFactory.CallBack() {
                         @Override
                         public void onRevoke() {
-//                            txtLogoutDropbox.setVisibility(View.GONE);
+                           txtLogoutDropbox.setVisibility(View.GONE);
                             txtLoginPerson.setVisibility(View.VISIBLE);
-//                            txtLoginDropbox.setVisibility(View.VISIBLE);
+                            txtLoginDropbox.setVisibility(View.VISIBLE);
                         }
                     });
                     txtLoginPerson.setText("You are not yet logged in");
@@ -769,9 +769,9 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
             public void onComplete(FullAccount result) {
                 String value = "You are logged in Dropbox as " + result.getEmail() ;
                 txtName.setText(value);
-//                txtLogoutDropbox.setVisibility(View.VISIBLE);
+                txtLogoutDropbox.setVisibility(View.VISIBLE);
 //                TextView txtLoginDropbox = findViewById(R.id.txtLoginDropbox);
-//                txtLoginDropbox.setVisibility(View.GONE);
+                txtLoginDropbox.setVisibility(View.GONE);
 
                 preferences.putString(PrefConstants.MYACCESS,"");
 
