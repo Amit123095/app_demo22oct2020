@@ -30,18 +30,12 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.dropbox.core.android.Auth;
-import com.dropbox.core.v1.DbxEntry;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.FolderMetadata;
-import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
 import com.dropbox.core.v2.sharing.FileAction;
-import com.dropbox.core.v2.sharing.ListFilesResult;
 import com.dropbox.core.v2.sharing.SharedFileMetadata;
-import com.dropbox.core.v2.sharing.SharedFolderMetadata;
-import com.dropbox.core.v2.users.FullAccount;
 import com.mindyourlovedone.healthcare.DashBoard.AddDocumentActivity;
-import com.mindyourlovedone.healthcare.DashBoard.DropboxLoginActivity;
 import com.mindyourlovedone.healthcare.DashBoard.UserInsActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
@@ -62,11 +56,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -517,7 +509,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                 dialog.setCancelable(false);
                 dialog.setMessage("Loading \nPlease be patient");
                 dialog.show();
-                new ListReceivedFolderTask(DropboxClientFactory.getClient(), new ListReceivedFolderTask.Callback() {//Nikita - new changes for merged data
+                new ListReceivedFolderTask(FilesActivity.this,DropboxClientFactory.getClient(), new ListReceivedFolderTask.Callback() {//Nikita - new changes for merged data
                     @Override
                     public void onDataLoaded(ArrayList<DropBoxFileItem> result) {
                         dialog.dismiss();
@@ -527,11 +519,12 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                             if (result.get(i).getShared() == 1) {
                                 SharedFileMetadata ss = result.get(i).getSharefmd();
                                 if (preferences.getString(PrefConstants.STORE).equals("Document")) {
-                                    String name = ss.getName();
+                                    resultList.add(result.get(i));
+                                   /* String name = ss.getName();
                                     if (name.endsWith(".pdf") || name.endsWith(".txt") || name.endsWith(".docx") || name.endsWith(".doc") || name.endsWith(".xlsx") || name.endsWith(".xls") || name.endsWith(".png") || name.endsWith(".PNG") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".ppt") || name.endsWith(".pptx")) {
                                         // if (result.getEntries().get(i).getName().endsWith(".pdf")||result.getEntries().get(i).getName().endsWith(".db")) {
                                         resultList.add(result.get(i));
-                                    }
+                                    }*/
                                 } else if (preferences.getString(PrefConstants.STORE).equals("Restore")) {
                                     if (ss.getName().endsWith(".zip")) {
                                         if (preferences.getString(PrefConstants.TODOWHAT).equals("Import")) {
@@ -552,11 +545,12 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                             } else {
                                 Metadata ss = result.get(i).getFilemd();
                                 if (preferences.getString(PrefConstants.STORE).equals("Document")) {
-                                    String name = ss.getName();
+                                    resultList.add(result.get(i));
+                                    /*String name = ss.getName();
                                     if (name.endsWith(".pdf") || name.endsWith(".txt") || name.endsWith(".docx") || name.endsWith(".doc") || name.endsWith(".xlsx") || name.endsWith(".xls") || name.endsWith(".png") || name.endsWith(".PNG") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".ppt") || name.endsWith(".pptx")) {
                                         // if (result.getEntries().get(i).getName().endsWith(".pdf")||result.getEntries().get(i).getName().endsWith(".db")) {
                                         resultList.add(result.get(i));
-                                    }
+                                    }*/
                                 } else if (preferences.getString(PrefConstants.STORE).equals("Restore")) {
                                     if (ss.getName().endsWith(".zip")) {
                                         if (preferences.getString(PrefConstants.TODOWHAT).equals("Import")) {
@@ -918,7 +912,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
         dialog.setMessage("Please wait...");
         dialog.show();
 
-        new ListReceivedFolderTask(DropboxClientFactory.getClient(), new ListReceivedFolderTask.Callback() {
+        new ListReceivedFolderTask(FilesActivity.this, DropboxClientFactory.getClient(), new ListReceivedFolderTask.Callback() {
             @Override
             public void onDataLoaded(ArrayList<DropBoxFileItem> result) {
 

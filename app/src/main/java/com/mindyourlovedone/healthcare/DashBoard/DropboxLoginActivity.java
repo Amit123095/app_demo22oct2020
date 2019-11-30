@@ -39,33 +39,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dropbox.core.android.Auth;
-import com.dropbox.core.v2.files.FileMetadata;
-import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
 import com.dropbox.core.v2.sharing.FileMemberActionResult;
-import com.dropbox.core.v2.sharing.ListFilesResult;
 import com.dropbox.core.v2.sharing.MemberSelector;
 import com.dropbox.core.v2.sharing.SharedFileMetadata;
 import com.dropbox.core.v2.users.FullAccount;
-import com.mindyourlovedone.healthcare.Connections.FragmentConnectionNew;
 import com.mindyourlovedone.healthcare.DropBox.DropBoxFileItem;
 import com.mindyourlovedone.healthcare.DropBox.DropboxActivity;
 import com.mindyourlovedone.healthcare.DropBox.DropboxClientFactory;
 import com.mindyourlovedone.healthcare.DropBox.FilesActivity;
 import com.mindyourlovedone.healthcare.DropBox.GetCurrentAccountTask;
-import com.mindyourlovedone.healthcare.DropBox.ListFolderTask;
 import com.mindyourlovedone.healthcare.DropBox.ListReceivedFolderTask;
 import com.mindyourlovedone.healthcare.DropBox.ShareFileTask;
-import com.mindyourlovedone.healthcare.DropBox.UnZipTask;
 import com.mindyourlovedone.healthcare.DropBox.ZipListner;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.database.ContactDataQuery;
 import com.mindyourlovedone.healthcare.database.ContactTableQuery;
 import com.mindyourlovedone.healthcare.database.DBHelper;
-import com.mindyourlovedone.healthcare.database.EventNoteQuery;
 import com.mindyourlovedone.healthcare.database.MyConnectionsQuery;
-import com.mindyourlovedone.healthcare.model.ContactData;
 import com.mindyourlovedone.healthcare.model.RelativeConnection;
 import com.mindyourlovedone.healthcare.utility.DialogManager;
 import com.mindyourlovedone.healthcare.utility.PrefConstants;
@@ -83,7 +75,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 
@@ -858,7 +849,7 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
         dialog.setMessage("Please wait...");
         dialog.show();
 
-        new ListReceivedFolderTask(DropboxClientFactory.getClient(), new ListReceivedFolderTask.Callback() {
+        new ListReceivedFolderTask(context, DropboxClientFactory.getClient(), new ListReceivedFolderTask.Callback() {
             @Override
             public void onDataLoaded(ArrayList<DropBoxFileItem> result) {
 
