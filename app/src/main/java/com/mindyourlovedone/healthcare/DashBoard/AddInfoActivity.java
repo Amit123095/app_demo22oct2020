@@ -52,8 +52,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 
 public class AddInfoActivity extends AppCompatActivity implements View.OnClickListener {
@@ -767,6 +770,27 @@ Allergy AL;
                     }
 
                     txttypeReaction.setText(allergy.getReaction());
+                    ArrayList<String> selectedList;
+                    if (allergy.getReaction().contains(",")) {
+                        String[] elements = allergy.getReaction().split(",");
+                        List<String> fixedLenghtList = Arrays.asList(elements);
+                        selectedList = new ArrayList<String>(fixedLenghtList);
+                    } else {
+                        selectedList = new ArrayList<>();
+                        if (!allergy.getReaction().equals(""))
+                            selectedList.add(allergy.getReaction());
+                    }
+                    for (int j=0;j<selectedList.size();j++) {
+                        if (selectedList.get(j).equals("Other")) {
+                            tilOtherReaction.setVisibility(View.VISIBLE);
+                            txtOtherReaction.setVisibility(View.VISIBLE);
+                            txtOtherReaction.setText(allergy.getOtherReaction());
+                            break;
+                        } else {
+                            tilOtherReaction.setVisibility(View.GONE);
+                            txtOtherReaction.setVisibility(View.GONE);
+                        }
+                    }
 //                    spinnerReaction.setSelection(indexd + 1);
                     break;
 
@@ -1006,13 +1030,26 @@ Allergy AL;
         if (requestCode == REQUEST_REACTION && data != null) {
             String relation = data.getExtras().getString("Category");;
             txttypeReaction.setText(relation);
-            /*if (relation.equals("Other")) {
-                tilOtherRelation.setVisibility(View.VISIBLE);
-                txtOtherRelation.setVisibility(View.VISIBLE);
+            ArrayList<String> selectedList;
+            if (relation.contains(",")) {
+                String[] elements = relation.split(",");
+                List<String> fixedLenghtList = Arrays.asList(elements);
+                selectedList = new ArrayList<String>(fixedLenghtList);
             } else {
-                tilOtherRelation.setVisibility(View.GONE);
-                txtOtherRelation.setVisibility(View.GONE);
-            }*/
+                selectedList = new ArrayList<>();
+                if (!relation.equals(""))
+                    selectedList.add(relation);
+            }
+            for (int i=0;i<selectedList.size();i++) {
+                if (selectedList.get(i).equals("Other")) {
+                    tilOtherReaction.setVisibility(View.VISIBLE);
+                    txtOtherReaction.setVisibility(View.VISIBLE);
+                    break;
+                } else {
+                    tilOtherReaction.setVisibility(View.GONE);
+                    txtOtherReaction.setVisibility(View.GONE);
+                }
+            }
         }
     }
 
