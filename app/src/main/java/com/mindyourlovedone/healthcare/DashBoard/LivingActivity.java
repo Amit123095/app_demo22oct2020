@@ -459,7 +459,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
                 getValues();
                 Boolean flag = LivingQuery.insertLivingData(preferences.getInt(PrefConstants.CONNECTED_USERID), finance, prepare, shop, use, bath, continence, dress, feed, toileting, transfer, transport, pets, drive, keep, medication, functionnote, fouctionOther, instaNote, instaOther, remote, alert, computer);
                 if (flag == true) {
-                    Toast.makeText(context, "Activity Living Info Saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Activity Living has been updated succesfully", Toast.LENGTH_SHORT).show();
                     medInfo = LivingQuery.fetchOneRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
 
                     hideSoftKeyboard();

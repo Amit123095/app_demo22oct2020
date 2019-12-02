@@ -336,7 +336,7 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                         Dosage a = dosageList.get(position);
                         boolean flag = DosageQuery.deleteRecords(a.getId());
                         if (flag == true) {
-                            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Prescription has been deleted succesfully", Toast.LENGTH_SHORT).show();
                             dosageList.remove(a);
                             setDosageData();
                             ListDosage.requestFocus();
@@ -486,7 +486,7 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                         unique = generateRandom();
                         Boolean flag = PrescriptionQuery.insertPrescriptionData(preferences.getInt(PrefConstants.CONNECTED_USERID), doctor, purpose, note, date, dosageList, imageList, unique, pre, rx, dose, frequency, medicine);
                         if (flag == true) {
-                            Toast.makeText(context, "Prescription Added Succesfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Prescription has been saved succesfully", Toast.LENGTH_SHORT).show();
                             DialogManager.closeKeyboard(AddPrescriptionActivity.this);
                         } else {
                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
@@ -494,7 +494,7 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                     } else {
                         Boolean flag = PrescriptionQuery.updatePrescriptionData(colid, uniqID, doctor, purpose, note, date, dosageList, imageList, preferences.getInt(PrefConstants.CONNECTED_USERID), pre, rx, dose, frequency, medicine, imageListOld);
                         if (flag == true) {
-                            Toast.makeText(context, "Prescription Updated Succesfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Prescription has been updated succesfully", Toast.LENGTH_SHORT).show();
                             DialogManager.closeKeyboard(AddPrescriptionActivity.this);
                         } else {
                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();

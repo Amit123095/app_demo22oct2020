@@ -334,7 +334,7 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
             public void onClick(DialogInterface dialog, int which) {
                 boolean flag = AppointmentQuery.deleteRecord(item.getUnique());
                 if (flag == true) {
-                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Routine Appointment has been deleted succesfully", Toast.LENGTH_SHORT).show();
                     getData();
                     setNoteData();
                 }

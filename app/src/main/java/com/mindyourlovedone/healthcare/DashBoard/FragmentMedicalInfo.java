@@ -587,7 +587,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
         } else {
             boolean flag = MedicalConditionQuery.deleteRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), ConditionList.get(position));
             if (flag == true) {
-                Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Medical condition has been deleted succesfully", Toast.LENGTH_SHORT).show();
                 setConditionData();
                 ListCondition.requestFocus();
             }
@@ -800,7 +800,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
             Implant a = ImplantsLists.get(position);
             boolean flag = MedicalImplantsQuery.deleteRecord(a.getId());
             if (flag == true) {
-                Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Implants has been deleted succesfully", Toast.LENGTH_SHORT).show();
                 setImplantData();
                 ListImplants.requestFocus();
             }
@@ -855,7 +855,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
         } else {
             boolean flag = HistoryQuery.deleteRecord(HistoryLists.get(position).getId());
             if (flag == true) {
-                Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "History has been deleted succesfully", Toast.LENGTH_SHORT).show();
                 setHistoryData();
                 ListHistory.requestFocus();
             }
@@ -895,7 +895,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
         } else {
             boolean flag = HospitalQuery.deleteRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), HospitalList.get(position));
             if (flag == true) {
-                Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Hospital has been deleted succesfully", Toast.LENGTH_SHORT).show();
                 setHospitalData();
                 ListHospital.requestFocus();
             }
@@ -951,7 +951,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
             Vaccine a = VaccineLists.get(position);
             boolean flag = VaccineQuery.deleteRecord(a.getId());
             if (flag == true) {
-                Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Vaccine has been deleted succesfully", Toast.LENGTH_SHORT).show();
                 setVaccineData();
                 ListVaccine.requestFocus();
             }
@@ -1003,7 +1003,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
             Allergy a = AllargyLists.get(position);
             boolean flag = AllergyQuery.deleteRecord(a.getId());
             if (flag == true) {
-                Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Allergy has been deleted succesfully", Toast.LENGTH_SHORT).show();
                 setAllergyData();
                 ListAllergy.requestFocus();
             }
@@ -1593,7 +1593,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
 
                 Boolean flag = MedInfoQuery.insertMedInfoData(preferences.getInt(PrefConstants.CONNECTED_USERID), blood, glass, lense, falses, implants, aid, donor, note, mouth, mouthnote, visionnote, Aidenote, dietnote, blind, speech, allergynote, tobaco, t_type, t_amt, t_year, drink, drink_amt, drug, drug_type, drug_amt, drug_year, drink_year, functionnote, historynote, vaccinenote, implantsnote);
                 if (flag == true) {
-                    Toast.makeText(getActivity(), "Medical Profile Saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Medical Profile has been updated succesfully", Toast.LENGTH_SHORT).show();
                     medInfo = MedInfoQuery.fetchOneRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
                     hideSoftKeyboard();
                     // getActivity().finish();

@@ -272,7 +272,7 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
             public void onClick(DialogInterface dialog, int which) {
                 boolean flag = EventNoteQuery.deleteRecord(item.getId());
                 if (flag == true) {
-                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Event Note has been deleted succesfully", Toast.LENGTH_SHORT).show();
                     getData();
                     setNoteData();
                 }
@@ -598,7 +598,7 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
                 if (note.length() != 0) {
                     Boolean flag = EventNoteQuery.insertNoteData(preferences.getInt(PrefConstants.CONNECTED_USERID), note, currentDateandTime);
                     if (flag == true) {
-                        Toast.makeText(context, "Event Note Added Succesfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Event Note has been saved succesfully", Toast.LENGTH_SHORT).show();
                         getData();
                         setNoteData();
                         hideSoftKeyboard();

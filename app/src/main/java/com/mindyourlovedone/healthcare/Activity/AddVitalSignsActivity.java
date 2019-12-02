@@ -262,7 +262,7 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
                     if (isUpdate == false) {
                         Boolean flag = VitalQuery.insertVitalData(preferences.getInt(PrefConstants.CONNECTED_USERID), location, Date, time, bp, heart, temperature, pulse, respiratory, note,oter,col);
                         if (flag == true) {
-                            Toast.makeText(context, "Vital Signs Added Succesfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Vital Signs has been saved successfully", Toast.LENGTH_SHORT).show();
                             DialogManager.closeKeyboard(AddVitalSignsActivity.this);
                             clearData();
                             // fragmentVitalSigns.getData();
@@ -274,7 +274,7 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
                     } else if (isUpdate == true) {
                         Boolean flag = VitalQuery.updateVitalData(colid, location, Date, time, bp, heart, temperature, pulse, respiratory, note,oter,col);
                         if (flag == true) {
-                            Toast.makeText(context, "Vital Signs Updated Succesfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Vital Signs has been updated successfully", Toast.LENGTH_SHORT).show();
                             DialogManager.closeKeyboard(AddVitalSignsActivity.this);
                             clearData();
                             finish();

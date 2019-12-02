@@ -241,7 +241,7 @@ public class FragmentPhysician extends Fragment implements View.OnClickListener 
                             imgFile.delete();
                         }
                     }
-                    Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Primary Physician has been deleted succesfully", Toast.LENGTH_SHORT).show();
                     getData();
                     setListData();
                 }

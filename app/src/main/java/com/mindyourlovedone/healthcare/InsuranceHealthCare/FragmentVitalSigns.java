@@ -199,7 +199,7 @@ public class FragmentVitalSigns extends Fragment implements View.OnClickListener
             public void onClick(DialogInterface dialog, int which) {
                 boolean flag = VitalQuery.deleteRecord(item.getId());
                 if (flag == true) {
-                    Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Vital Sign has been deleted succesfully", Toast.LENGTH_SHORT).show();
                     getData();
                     setListData();
                 }
@@ -483,7 +483,7 @@ public class FragmentVitalSigns extends Fragment implements View.OnClickListener
             public void onClick(DialogInterface dialog, int which) {
                 boolean flag = VitalQuery.deleteRecord(item.getId());
                 if (flag == true) {
-                    Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Vital Sign has been deleted succesfully", Toast.LENGTH_SHORT).show();
                     getData();
                     setListData();
                 }

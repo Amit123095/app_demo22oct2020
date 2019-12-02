@@ -352,7 +352,7 @@ public class PrescriptionActivity extends AppCompatActivity implements View.OnCl
 //                            imgFile.delete();
 //                        }
 //                    }
-                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Prescription has been deleted succesfully", Toast.LENGTH_SHORT).show();
                     getData();
                     setPrescriptionData();
                 }

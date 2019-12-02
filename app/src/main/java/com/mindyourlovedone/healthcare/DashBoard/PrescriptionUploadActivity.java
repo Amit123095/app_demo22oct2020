@@ -532,7 +532,7 @@ public class PrescriptionUploadActivity extends AppCompatActivity implements Vie
                                         if (Goto.equals("Edit")) {
                                                 Boolean flag = PrescriptionUpload.updateDocumentData(id, name, photo, documentPath, date);
                                                 if (flag == true) {
-                                                        Toast.makeText(context, "You have updated document successfully", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(context, "Prescription upload has been updated succesfully", Toast.LENGTH_SHORT).show();
                                                         finish();
                                                 } else {
                                                         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
@@ -540,7 +540,7 @@ public class PrescriptionUploadActivity extends AppCompatActivity implements Vie
                                         } else {
                                                 Boolean flag = PrescriptionUpload.insertDocumentData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, photo, documentPath, date);
                                                 if (flag == true) {
-                                                        Toast.makeText(context, "You have added form successfully", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(context, "Prescription upload has been saved succesfully", Toast.LENGTH_SHORT).show();
                                                         try {
                                                                 InputMethodManager inm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
                                                                 inm.hideSoftInputFromWindow(PrescriptionUploadActivity.this.getCurrentFocus().getWindowToken(), 0);
@@ -741,7 +741,7 @@ public class PrescriptionUploadActivity extends AppCompatActivity implements Vie
                         public void onClick(DialogInterface dialog, int which) {
                                 boolean flag = PrescriptionUpload.deleteRecord(item.getId());
                                 if (flag == true) {
-                                        Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, "Prescription upload has been deleted succesfully", Toast.LENGTH_SHORT).show();
                                 }
                                 dialog.dismiss();
                                 finish();

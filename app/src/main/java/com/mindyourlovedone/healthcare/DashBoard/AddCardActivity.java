@@ -350,21 +350,21 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                     if (isEdit == false) {
                         boolean flag = CardQuery.insertInsuranceCardData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, type, imagePathFront, imagePathBack,oter);
                         if (flag) {
-                            Toast.makeText(context, "You have added insurance information successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Insurance Card Information has been saved successfully", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                         }
-                        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Insurance Card Information has been saved successfully", Toast.LENGTH_SHORT).show();
                     } else if (isEdit == true) {
                         boolean flag = CardQuery.updateInsuranceCardData(id, name, type, imagePathFront, imagePathBack,oter);
                         if (flag) {
-                            Toast.makeText(context, "You have updated insurance information successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Insurance Card Information has been updated successfully", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                         }
-                        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Insurance Card Information has been updated successfully", Toast.LENGTH_SHORT).show();
                     }
                     //  Toast.makeText(context, "Credentials Saved..", Toast.LENGTH_SHORT).show();
 

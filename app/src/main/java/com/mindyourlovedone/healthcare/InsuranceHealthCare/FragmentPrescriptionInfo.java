@@ -115,7 +115,7 @@ public class FragmentPrescriptionInfo extends Fragment implements View.OnClickLi
 //                            imgFile.delete();
 //                        }
 //                    }
-                    Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Prescription has been deleted succesfully", Toast.LENGTH_SHORT).show();
                     getData();
                     setListData();
                 }

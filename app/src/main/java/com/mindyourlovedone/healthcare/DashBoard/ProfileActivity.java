@@ -1966,7 +1966,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
                     Boolean flags = MyConnectionsQuery.updateMyConnectionsData(connection.getId(), name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
                     if (flags == true) {
-                        Toast.makeText(context, "You have edited profile information successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Personal Profile has been updated succesfully", Toast.LENGTH_SHORT).show();
                         connection = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
                         validateConnection();
                         ContactDataQuery c = new ContactDataQuery(context, dbHelper);
@@ -2016,7 +2016,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 Boolean flags = MyConnectionsQuery.updateMyConnectionsData(1, name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
                 if (flags == true) {
                     preferences.putString(PrefConstants.CONNECTED_PHOTO, imagepath);
-                    Toast.makeText(context, "You have edited profile data successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Personal Profile has been updated succesfully", Toast.LENGTH_SHORT).show();
                     connection = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
                     validateConnection();
                     preferences.putString(PrefConstants.CONNECTED_NAME, name);
@@ -2497,7 +2497,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
                             Boolean flags = MyConnectionsQuery.updateMyConnectionsData(1, name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
                             if (flags == true) {
-                                Toast.makeText(context, "You have edited profile information successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Personal Profile has been updated succesfully", Toast.LENGTH_SHORT).show();
                                 connection.setName(name);
                                 connection.setEmail(email);
                                 String mail = email;

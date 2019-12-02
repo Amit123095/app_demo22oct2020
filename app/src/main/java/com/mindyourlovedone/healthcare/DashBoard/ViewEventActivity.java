@@ -169,7 +169,7 @@ public class ViewEventActivity extends AppCompatActivity implements View.OnClick
                     String date = txtDate.getText().toString();
                     Boolean flag = EventNoteQuery.updateEvent(id, note, date);
                     if (flag == true) {
-                        Toast.makeText(context, "You have updated event successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Event Note has been updated succesfully", Toast.LENGTH_SHORT).show();
                         try {
                             InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
@@ -187,7 +187,7 @@ public class ViewEventActivity extends AppCompatActivity implements View.OnClick
                     if (note.length() != 0) {
                         Boolean flag = EventNoteQuery.insertNoteData(new Preferences(ViewEventActivity.this).getInt(PrefConstants.CONNECTED_USERID), note, currentDateandTime);
                         if (flag == true) {
-                            Toast.makeText(context, "Event Note Added Succesfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Event Note has been saved succesfully", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
@@ -213,7 +213,7 @@ public class ViewEventActivity extends AppCompatActivity implements View.OnClick
             public void onClick(DialogInterface dialog, int which) {
                 boolean flags = EventNoteQuery.deleteRecord(id);
                 if (flags == true) {
-                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Event Note has been deleted succesfully", Toast.LENGTH_SHORT).show();
                 }
                 finish();
             }

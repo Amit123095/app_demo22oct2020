@@ -123,7 +123,7 @@ public class FragmentAids extends Fragment implements View.OnClickListener {
             public void onClick(DialogInterface dialog, int which) {
                 boolean flag = AideQuery.deleteRecord(item.getId());
                 if (flag == true) {
-                    Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Aids has been deleted succesfully", Toast.LENGTH_SHORT).show();
                     getData();
                     setListData();
                 }

@@ -961,7 +961,7 @@ public class AddDocumentActivity extends AppCompatActivity implements View.OnCli
                     if (Goto.equals("Edit")) {
                         Boolean flag = DocumentQuery.updateDocumentData(id, name, category, date, location, holder, photo, documentPath, docType, From, person, principle, otherCategory, Hosp, otherDocType, locator,note);
                         if (flag == true) {
-                            Toast.makeText(context, "You have updated document successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Document has been updated successfully", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
@@ -969,7 +969,7 @@ public class AddDocumentActivity extends AppCompatActivity implements View.OnCli
                     } else {
                         Boolean flag = DocumentQuery.insertDocumentData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, category, date, location, holder, photo, documentPath, docType, From, person, principle, otherCategory, Hosp, otherDocType, locator,note);
                         if (flag == true) {
-                            Toast.makeText(context, "You have added document successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Document has been saved successfully", Toast.LENGTH_SHORT).show();
                             if (external_flag == true) {
                                 Intent i = new Intent(AddDocumentActivity.this, CarePlanListActivity.class);
                                 startActivity(i);
@@ -1387,7 +1387,7 @@ public class AddDocumentActivity extends AppCompatActivity implements View.OnCli
             public void onClick(DialogInterface dialog, int which) {
                 boolean flag = DocumentQuery.deleteRecord(item.getId());
                 if (flag == true) {
-                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Document has been deleted successfully", Toast.LENGTH_SHORT).show();
 
                     //Shradha
                     if (context instanceof CarePlanListActivity) {

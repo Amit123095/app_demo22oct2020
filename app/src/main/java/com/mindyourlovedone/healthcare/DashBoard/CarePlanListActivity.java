@@ -326,7 +326,7 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
             public void onClick(DialogInterface dialog, int which) {
                 boolean flag = DocumentQuery.deleteRecord(item.getId());
                 if (flag == true) {
-                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Document has been deleted succesfully", Toast.LENGTH_SHORT).show();
                     getData();
                     setDocuments();
                 }

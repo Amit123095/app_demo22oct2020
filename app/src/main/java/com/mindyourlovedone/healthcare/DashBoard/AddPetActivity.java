@@ -163,7 +163,7 @@ txtDelete.setOnClickListener(new View.OnClickListener() {
     public void onClick(View v) {
         boolean flag = PetQuery.deleteRecord(p.getId());
         if (flag == true) {
-            Toast.makeText(context, "Deleted Pet Record", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Pet has been deleted succesfully", Toast.LENGTH_SHORT).show();
            // setPetData();
           //  ListPet.requestFocus();
             finish();
@@ -283,14 +283,14 @@ txtDelete.setOnClickListener(new View.OnClickListener() {
                     if (isUpdate == false) {
                         Boolean flag = PetQuery.insertPetData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, breed, color, chip, veterain, care, bdate, notes, veterain_add, veterain_ph, care_add, care_ph);
                         if (flag == true) {
-                            Toast.makeText(context, "Pet Added Succesfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Pet has been saved succesfully", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                         }
                     } else if (isUpdate == true) {
                         Boolean flag = PetQuery.updatePetData(pet.getId(), name, breed, color, chip, veterain, care, bdate, notes, veterain_add, veterain_ph, care_add, care_ph);
                         if (flag == true) {
-                            Toast.makeText(context, "Pet updated Succesfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Pet has been updated succesfully", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                         }

@@ -1486,7 +1486,7 @@ Allergy AL;
                             reactions = txttypeReaction.getText().toString();
                             Boolean flag = AllergyQuery.insertAllergyData(preferences.getInt(PrefConstants.CONNECTED_USERID), value, reactions, treatment, otherReaction);
                             if (flag == true) {
-                                Toast.makeText(context, "Allergy Added Succesfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Allergy has been saved successfully", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                             }
@@ -1511,7 +1511,7 @@ Allergy AL;
                             reactions = txttypeReaction.getText().toString();
                             Boolean flags = AllergyQuery.updateAllergyData(id, value, reactions, treatments, otherReactions);
                             if (flags == true) {
-                                Toast.makeText(context, "Allergy updated Succesfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Allergy has been updated succesfully", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                             }
@@ -1538,7 +1538,7 @@ Allergy AL;
                             }
                             Boolean flage = MedicalImplantsQuery.insertImplantData(preferences.getInt(PrefConstants.CONNECTED_USERID), value, dater, otheri, location, details, notes);
                             if (flage == true) {
-                                Toast.makeText(context, "Implant Added Succesfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Implant has been saved succesfully", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                             }
@@ -1555,7 +1555,7 @@ Allergy AL;
                             String other = txtOtherVaccine.getText().toString();
                             Boolean flagr = VaccineQuery.insertVaccineData(preferences.getInt(PrefConstants.CONNECTED_USERID), value, datev, other);
                             if (flagr == true) {
-                                Toast.makeText(context, "Vaccine Added Succesfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Vaccine has been saved succesfully", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                             }
@@ -1571,7 +1571,7 @@ Allergy AL;
                             String others = txtOtherVaccine.getText().toString();
                             Boolean flagf = VaccineQuery.updateVaccineData(id, value, dates, others);
                             if (flagf == true) {
-                                Toast.makeText(context, "Vaccine Updated Succesfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Vaccine has been updated succesfully", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                             }
@@ -1595,7 +1595,7 @@ Allergy AL;
 
                             Boolean flagw = MedicalImplantsQuery.updateImplantData(id, value, datee, otherd, location, details, notes);
                             if (flagw == true) {
-                                Toast.makeText(context, "Implant Updated Succesfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Implant has been updated succesfully", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                             }
@@ -1608,7 +1608,7 @@ Allergy AL;
                         case "Condition":
                             Boolean flagj = MedicalConditionQuery.insertImplantsData(preferences.getInt(PrefConstants.CONNECTED_USERID), value);
                             if (flagj == true) {
-                                Toast.makeText(context, "Medical Condition Added Succesfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Medical Condition has been saved succesfully", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                             }
@@ -1622,7 +1622,7 @@ Allergy AL;
                         case "ConditionUpdate":
                             Boolean flag1ss = MedicalConditionQuery.updateImplantsData(preferences.getInt(PrefConstants.CONNECTED_USERID), value, data);
                             if (flag1ss == true) {
-                                Toast.makeText(context, "Medical Condition updated Succesfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Medical Condition has been updated succesfully", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                             }
@@ -1635,7 +1635,7 @@ Allergy AL;
                         case "Hospital":
                             Boolean flag2 = HospitalQuery.insertHospitalData(preferences.getInt(PrefConstants.CONNECTED_USERID), value);
                             if (flag2 == true) {
-                                Toast.makeText(context, "Hospital Added Succesfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Hospital has been saved succesfully", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                             }
@@ -1649,7 +1649,7 @@ Allergy AL;
                         case "HospitalUpdate":
                             Boolean flag2s = HospitalQuery.updateHospitalData(preferences.getInt(PrefConstants.CONNECTED_USERID), value, data);
                             if (flag2s == true) {
-                                Toast.makeText(context, "Hospital updated Succesfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Hospital has been updated succesfully", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                             }
@@ -1666,7 +1666,7 @@ Allergy AL;
                             String otherH = txtOtherVaccine.getText().toString();
                             Boolean flag3 = HistoryQuery.insertHistoryData(preferences.getInt(PrefConstants.CONNECTED_USERID), value, date, doctor, done, otherH);
                             if (flag3 == true) {
-                                Toast.makeText(context, "History Added Succesfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "History has been saved succesfully", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                             }
@@ -1684,7 +1684,7 @@ Allergy AL;
                             String otherHU = txtOtherVaccine.getText().toString();
                             Boolean flag3s = HistoryQuery.updateHistoryData(id, value, dateu, doctors, dones, otherHU);
                             if (flag3s == true) {
-                                Toast.makeText(context, "History updated Succesfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "History has been updated succesfully", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                             }

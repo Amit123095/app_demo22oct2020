@@ -510,7 +510,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
                     Boolean flag = AppointmentQuery.insertAppointmentData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, date, note, type, frequency, otherType, otherFrequency, dateList, unique);
                     if (flag == true) {
                         hideSoftKeyboard();
-                        Toast.makeText(context, "Appointment added succesfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Routine Appointment has been saved successfully", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
                         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
@@ -519,7 +519,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
                     Boolean flag = AppointmentQuery.updateAppointmentData(p.getId(), name, date, note, type, frequency, otherType, otherFrequency, dateList, p.getUnique());
                     if (flag == true) {
                         hideSoftKeyboard();
-                        Toast.makeText(context, "Appointment updated succesfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Routine Appointment has been updated successfully", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
                         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
@@ -540,7 +540,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
             public void onClick(DialogInterface dialog, int which) {
                 boolean flag = AppointmentQuery.deleteRecord(p.getUnique());
                 if (flag == true) {
-                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Routine Appointment has been deleted successfully", Toast.LENGTH_SHORT).show();
 
                     if (context instanceof MedicalAppointActivity) {
                         ((MedicalAppointActivity) context).getData();
