@@ -38,7 +38,7 @@ import com.dropbox.core.v2.sharing.SharedFileMetadata;
 import com.mindyourlovedone.healthcare.DashBoard.AddDocumentActivity;
 import com.mindyourlovedone.healthcare.DashBoard.UserInsActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
-import com.mindyourlovedone.healthcare.HomeActivity.R;
+
 import com.mindyourlovedone.healthcare.database.ContactDataQuery;
 import com.mindyourlovedone.healthcare.database.ContactTableQuery;
 import com.mindyourlovedone.healthcare.database.DBHelper;

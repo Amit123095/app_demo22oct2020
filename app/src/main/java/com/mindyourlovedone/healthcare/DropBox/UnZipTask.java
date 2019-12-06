@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.mindyourlovedone.healthcare.DashBoard.DropboxLoginActivity;
 
@@ -27,6 +28,7 @@ public class UnZipTask extends AsyncTask<String, Void, String> {
     ZipListner context;
     ProgressDialog dialog;
     Context cont;
+    String dirName;
 
     public UnZipTask(FilesActivity filesActivity, String absolutePath, String path,Context cont) {
         inputFolderPath = absolutePath;
@@ -58,14 +60,17 @@ public class UnZipTask extends AsyncTask<String, Void, String> {
                 ZipEntry ze;
                 int count;
                 byte[] buffer = new byte[8192];
+                Log.v("ZENT",outZipPath);
                 while ((ze = zis.getNextEntry()) != null) {
                     File file = new File(outZipPath, ze.getName());
+                    Log.v("ZENT",ze.getName());
                     File dir = ze.isDirectory() ? file : file.getParentFile();
                     if (!dir.isDirectory() && !dir.mkdirs())
                         throw new FileNotFoundException("Failed to ensure directory: " +
                                 dir.getAbsolutePath());
                     if (ze.isDirectory())
                         continue;
+                    Log.v("ZENT",dir.getName());
                     FileOutputStream fout = new FileOutputStream(file);
                     try {
                         while ((count = zis.read(buffer)) != -1)

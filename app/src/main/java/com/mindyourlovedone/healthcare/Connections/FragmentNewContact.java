@@ -3928,9 +3928,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                         if (imgFile1.exists()) {
                            /* Bitmap myBitmap = BitmapFactory.decodeFile(imgFile1.getAbsolutePath());
                             imgCard.setImageBitmap(myBitmap);*/
-                            imgCard.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile1))));
+                           // imgCard.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile1))));
 
-                            // imageLoaderCard.displayImage(String.valueOf(Uri.fromFile(imgFile1)), imgCard, displayImageOptionsCard);
+                            imageLoaderCard.displayImage(String.valueOf(Uri.fromFile(imgFile1)), imgCard, displayImageOptionsCard);
                         }
                        /* Bitmap bmpCard = BitmapFactory.decodeByteArray(photoCard, 0, photoCard.length);
                         imgCard.setImageBitmap(bmpCard);*/
@@ -6641,9 +6641,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 Bitmap selectedImage = imageOreintationValidator(thumbnail, imageurl);
                 //new
                 // profileCard.setImageBitmap(selectedImage);
-                imgCard.setImageBitmap(selectedImage);
+                //imgCard.setImageBitmap(selectedImage);
                 imgEditCard.setVisibility(View.VISIBLE);
-                //  imageLoaderCard.displayImage(String.valueOf(imageUriCard), imgCard, displayImageOptionsCard);
+                imageLoaderCard.displayImage(String.valueOf(imageUriCard), imgCard, displayImageOptionsCard);
 
                 rlCard.setVisibility(View.VISIBLE);
                 imgCard.setVisibility(View.VISIBLE);

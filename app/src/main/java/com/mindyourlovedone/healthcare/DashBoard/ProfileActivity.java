@@ -1211,10 +1211,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             if (!connection.getPhotoCard().equals("")) {
                 File imgFile1 = new File(preferences.getString(PrefConstants.CONNECTED_PATH), connection.getPhotoCard());
                 if (imgFile1.exists()) {
-                      /*  Bitmap myBitmap = BitmapFactory.decodeFile(imgFile1.getAbsolutePath());
-                    imgCard.setImageBitmap(myBitmap);*/
+                        //Bitmap myBitmap = BitmapFactory.decodeFile(imgFile1.getAbsolutePath());
+                  //  imgCard.setImageBitmap(myBitmap);
 
-                    imgCard.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile1))));
+                   // imgCard.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile1))));
+                    imageLoaderCard.displayImage(String.valueOf(Uri.fromFile(imgFile1)), imgCard, displayImageOptionsCard);
 
                     // imageLoaderCard.displayImage(String.valueOf(Uri.fromFile(imgFile1)), imgCard, displayImageOptionsCard);
                 }
@@ -2159,8 +2160,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
                 String imageurl = getRealPathFromURI(imageUriCard);
                 Bitmap selectedImage = imageOreintationValidator(thumbnail, imageurl);
-                //  imageLoaderCard.displayImage(String.valueOf(imageUriCard), imgCard, displayImageOptionsCard);
-                profileCard.setImageBitmap(selectedImage);
+                 imageLoaderCard.displayImage(String.valueOf(imageUriCard), imgCard, displayImageOptionsCard);
+               // profileCard.setImageBitmap(selectedImage);
                 //
                 rlCard.setVisibility(View.VISIBLE);
                 imgCard.setVisibility(View.VISIBLE);
@@ -2497,7 +2498,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
                             Boolean flags = MyConnectionsQuery.updateMyConnectionsData(1, name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
                             if (flags == true) {
-                                Toast.makeText(context, "Personal Profile has been updated succesfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "You have edited profile information successfully", Toast.LENGTH_SHORT).show();
                                 connection.setName(name);
                                 connection.setEmail(email);
                                 String mail = email;

@@ -159,9 +159,9 @@ public class PetQuery {
         cv.put(COL_Bdate, bdate);
         cv.put(COL_NOTES, notes);
         cv.put(COL_VETERIAN_AD, veterain_add);
-        cv.put(COL_GUARD, care_add);
+        cv.put(COL_GUARD_AD, care_add);
         cv.put(COL_VETERIAN_PH, veterain_ph);
-        cv.put(COL_GUARD, care_ph);
+        cv.put(COL_GUARD_PH, care_ph);
         int rowid = db.update(TABLE_NAME, cv, COL_ID + "=" + id, null);
 
         flag = rowid != 0;
