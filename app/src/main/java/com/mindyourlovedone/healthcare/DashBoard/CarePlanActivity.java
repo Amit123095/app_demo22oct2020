@@ -119,8 +119,16 @@ public class CarePlanActivity extends AppCompatActivity implements View.OnClickL
         txtClick = findViewById(R.id.txtClick);
         txtUserName = findViewById(R.id.txtUserName);
         txtUserName.setBackgroundColor(getResources().getColor(R.color.colorDirectiveSubRed));
-       String rel ="<b>"+preferences.getString(PrefConstants.CONNECTED_NAME)+"</b>-"+preferences.getString(PrefConstants.CONNECTED_RELATION);
-        txtUserName.setText(Html.fromHtml(rel));
+        String rel="";
+        if (preferences.getString(PrefConstants.CONNECTED_RELATION).equals("Other"))
+        {
+            rel= "<b>"+preferences.getString(PrefConstants.CONNECTED_NAME)+"</b> - "+preferences.getString(PrefConstants.CONNECTED_OtherRELATION);
+        }else
+        {
+            rel= "<b>"+preferences.getString(PrefConstants.CONNECTED_NAME)+"</b> - "+preferences.getString(PrefConstants.CONNECTED_RELATION);
+        }
+
+       txtUserName.setText(Html.fromHtml(rel));
         imgBack = findViewById(R.id.imgBack);
         imgRight = findViewById(R.id.imgRight);
         imgHomes = findViewById(R.id.imgHomes);

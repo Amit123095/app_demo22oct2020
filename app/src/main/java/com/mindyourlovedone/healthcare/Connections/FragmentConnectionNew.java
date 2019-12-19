@@ -15,7 +15,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,8 +26,6 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,30 +33,21 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dropbox.core.v2.sharing.FileMemberActionResult;
 import com.dropbox.core.v2.sharing.MemberSelector;
-import com.dropbox.core.v2.users.FullAccount;
 import com.mindyourlovedone.healthcare.DashBoard.DropboxLoginActivity;
 import com.mindyourlovedone.healthcare.DashBoard.FragmentDashboard;
-import com.mindyourlovedone.healthcare.DashBoard.InstructionActivity;
 import com.mindyourlovedone.healthcare.DashBoard.ProfileActivity;
 import com.mindyourlovedone.healthcare.DashBoard.UserInsActivity;
-import com.mindyourlovedone.healthcare.DropBox.DropboxActivity;
 import com.mindyourlovedone.healthcare.DropBox.DropboxClientFactory;
-import com.mindyourlovedone.healthcare.DropBox.FilesActivity;
-import com.mindyourlovedone.healthcare.DropBox.GetCurrentAccountTask;
 import com.mindyourlovedone.healthcare.DropBox.ShareFileTask;
-import com.mindyourlovedone.healthcare.DropBox.UnZipTask;
 import com.mindyourlovedone.healthcare.DropBox.ZipListner;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
@@ -146,7 +134,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         initImageLoader();
         return rootview;
     }
-
+   
     private void initImageLoader() {
         displayImageOptions = new DisplayImageOptions.Builder() // resource
                 .resetViewBeforeLoading(true) // default
@@ -963,7 +951,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         });
         alert.show();
     }
-    private void hideSoftKeyboard() {
+    public void hideSoftKeyboard() {
         if (getActivity().getCurrentFocus() != null) {
             InputMethodManager inm = (InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
             inm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
@@ -983,6 +971,11 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         } else {
             Toast.makeText(getActivity(), "Restoring Failed, Please try again", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void setNameFile(String dirName) {
+
     }
 
     public void callBackup() {
@@ -1088,13 +1081,13 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
             RelativeConnection connections = MyConnectionsQuery.fetchConnectionRecordforImport(connection.getEmail());
             if (connections != null) {
                 if (connection.getRelationType().equals("Self")) {
-                    Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+                    Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard(), connection.getHas_card());
                     if (flags == true) {
                         //Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
                         storeImage(connection.getPhoto(), "Profile", backupDBPath);
                     }
                 } else {
-                    Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+                    Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard(), connection.getHas_card());
                     if (flags == true) {
                       //  Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
                         storeImage(connection.getPhoto(), "Profile", backupDBPath);
@@ -1162,13 +1155,13 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
                 RelativeConnection connections = MyConnectionsQuery.fetchConnectionRecordforImport(connection.getEmail());
                 if (connections != null) {
                     if (connection.getRelationType().equals("Self")) {
-                        Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+                        Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard(), connection.getHas_card());
                         if (flags == true) {
                             //Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
                             storeImage(connection.getPhoto(), "Profile", backupDBPath);
                         }
                     } else {
-                        Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+                        Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard(), connection.getHas_card());
                         if (flags == true) {
                            // Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
                             storeImage(connection.getPhoto(), "Profile", backupDBPath);
@@ -1258,4 +1251,12 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         }*/
     }
 
+    public void hideSofFtKeyboard() {
+
+            if (getActivity().getCurrentFocus() != null) {
+                InputMethodManager inm = (InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
+                inm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+            }
+
+    }
 }

@@ -75,6 +75,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -244,12 +245,13 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
                 //   startActivity(i);
                 SharedPreferences prefs = getSharedPreferences("dropbox-sample", MODE_PRIVATE);
                 if (prefs.contains("access-token")) {
-                    Fun_Type = 4;
+                    showEmailDialog("Share");
+                  /*  Fun_Type = 4;
                     preferences.putString(PrefConstants.STORE, "Share");
                     preferences.putString(PrefConstants.TODO, todo);
                     preferences.putString(PrefConstants.TODOWHAT, todoWhat);
                     startActivity(FilesActivity.getIntent(DropboxLoginActivity.this, ""));
-
+             */
                 } else {
                     Fun_Type = 1;
                     preferences.putString(PrefConstants.WOLE, "Share");
@@ -448,12 +450,13 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
                 // showBackupDialog();
                 SharedPreferences prefs = getSharedPreferences("dropbox-sample", MODE_PRIVATE);
                 if (prefs.contains("access-token")) {
-                    Fun_Type = 4;
+                    showEmailDialog("Backup");
+                    /*Fun_Type = 4;
                     preferences.putString(PrefConstants.STORE, "Backup");
                     preferences.putString(PrefConstants.TODO, todo);
                     preferences.putString(PrefConstants.TODOWHAT, todoWhat);
                     startActivity(FilesActivity.getIntent(DropboxLoginActivity.this, ""));
-
+*/
                 } else {
                     Fun_Type = 1;
                     preferences.putString(PrefConstants.WOLE,"Backup");
@@ -1332,13 +1335,13 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
             RelativeConnection connections = MyConnectionsQuery.fetchConnectionRecordforImport(connection.getEmail());
             if (connections != null) {
                 if (connection.getRelationType().equals("Self")) {
-                    Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+                    Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard(), connection.getHas_card());
                     if (flags == true) {
                         Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
                         storeImage(connection.getPhoto(), "Profile", backupDBPath);
                     }
                 } else {
-                    Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+                    Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard(), connection.getHas_card());
                     if (flags == true) {
                         Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
                         storeImage(connection.getPhoto(), "Profile", backupDBPath);
@@ -1406,13 +1409,13 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
                 RelativeConnection connections = MyConnectionsQuery.fetchConnectionRecordforImport(connection.getEmail());
                 if (connections != null) {
                     if (connection.getRelationType().equals("Self")) {
-                        Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+                        Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard(), connection.getHas_card());
                         if (flags == true) {
                             Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
                             storeImage(connection.getPhoto(), "Profile", backupDBPath);
                         }
                     } else {
-                        Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+                        Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard(), connection.getHas_card());
                         if (flags == true) {
                             Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
                             storeImage(connection.getPhoto(), "Profile", backupDBPath);
@@ -1552,4 +1555,80 @@ public class DropboxLoginActivity extends DropboxActivity implements ZipListner 
 
     }
 
+    @Override
+    public void setNameFile(String dirName) {
+
+    }
+
+    private void showEmailDialog(final String from) {
+        final Dialog customDialog;
+        customDialog = new Dialog(context);
+        customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        customDialog.setContentView(R.layout.dialog_input_zip);
+        customDialog.setCancelable(false);
+        final EditText etNote = customDialog.findViewById(R.id.etNote);
+        TextView btnAdd = customDialog.findViewById(R.id.btnYes);
+        TextView btnCancel = customDialog.findViewById(R.id.btnNo);
+        TextView txtnote = customDialog.findViewById(R.id.txtnote);
+        txtnote.setVisibility(View.VISIBLE);
+        Date date= Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("MMddyyyy");
+        String formattedDate = df.format(date);
+        etNote.setText("MYLO"+"_"+formattedDate);
+        etNote.setSelection(etNote.getText().length());
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // fragmentConnectionNew.hideSoftKeyboard();
+                customDialog.dismiss();
+
+            }
+        });
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               /* fragmentConnectionNew.hideSoftKeyboard();
+                String mail = connectionList.get(position).getEmail();;
+                mail = mail.replace(".", "_");
+                mail = mail.replace("@", "_");*/
+
+                String username = etNote.getText().toString().trim();
+                username = username.replace(".", "_");
+                username = username.replace("@", "_");
+                username = username.replace(" ", "_");
+                if (username.equals("")) {
+                    etNote.setError("Please enter file name");
+                    DialogManager.showAlert("Please enter file name", context);
+                } else {
+                    customDialog.dismiss();
+                    Intent i = new Intent(context, DropboxLoginActivity.class);
+                    if (from.equalsIgnoreCase("Share")) {
+                        preferences.putString(PrefConstants.STORE, "Share");
+                    }else if (from.equalsIgnoreCase("Backup")) {
+                        preferences.putString(PrefConstants.STORE, "Backup");
+                    }
+                    Fun_Type = 4;
+
+                    preferences.putString(PrefConstants.TODO, todo);
+                    preferences.putString(PrefConstants.TODOWHAT, todoWhat);
+                    preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/");
+                    preferences.putString(PrefConstants.ZIPFILE, username+"_MYLO");
+                    startActivity(FilesActivity.getIntent(DropboxLoginActivity.this, ""));
+
+
+                   /* i.putExtra("ToDo", "Individual");
+                    i.putExtra("ToDoWhat", "Share");
+
+                    preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
+                    preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
+                    preferences.putString(PrefConstants.ZIPFILE, username+"_Profile");
+
+                    context.startActivity(i);*/
+                }
+            }
+        });
+
+        customDialog.show();
+    }
 }

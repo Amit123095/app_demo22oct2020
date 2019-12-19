@@ -66,7 +66,7 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
             if (category.equalsIgnoreCase("Relation")) {
                 titleheaders.setBackgroundColor(getResources().getColor(R.color.colorEmerMainGreen));
                 txtTitles.setText("Relationship");
-                String Relationship[] = {"Aunt", "Brother", "Brother-in-law", "Client", "Cousin", "Dad", "Daughter", "Father-in-law", "Friend","Granddaughter", "Grandmother", "Grandfather", "Grandson", "Husband", "Mom", "Mother-in-law", "Neighbor", "Nephew", "Niece", "Patient", "Roommate", "Significant Other", "Sister", "Sister-in-law", "Son", "Uncle", "Wife", "Other"};
+                String[] Relationship = {"Aunt", "Brother", "Brother-in-law", "Client", "Cousin", "Dad", "Daughter","Daughter-in-law", "Father-in-law", "Friend", "Granddaughter", "Grandmother", "Grandfather", "Grandson", "Husband", "Mom", "Mother-in-law", "Neighbor", "Nephew", "Niece", "Patient", "Roommate", "Significant Other", "Sister", "Sister-in-law", "Son","Son-in-law", "Uncle", "Wife", "Other"};
                 RelationsAdapter rd = new RelationsAdapter(context, Relationship,selected);
                 listRelation.setAdapter(rd);
             } else if (category.equalsIgnoreCase("Priority")) {
@@ -90,13 +90,13 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
             }else if (category.equalsIgnoreCase("PhysicianNetwork")) {
                 titleheaders.setBackgroundColor(getResources().getColor(R.color.colorEmerMainGreen));
                 txtTitles.setText("Network Status");
-                String[] healthSpeciality = {"In-Network", "Out of Network"};
+                String[] healthSpeciality = {"In-Network", "Out-of-Network"};
                 RelationsAdapter rd = new RelationsAdapter(context, healthSpeciality, selected);
                 listRelation.setAdapter(rd);
             } else if (category.equalsIgnoreCase("SpecialtyNetwork")) {
             titleheaders.setBackgroundColor(getResources().getColor(R.color.colorSpecialityYellow));
             txtTitles.setText("Network Status");
-            String[] healthSpeciality = {"In-Network", "Out of Network"};
+            String[] healthSpeciality = {"In-Network", "Out-of-Network"};
             RelationsAdapter rd = new RelationsAdapter(context, healthSpeciality, selected);
             listRelation.setAdapter(rd);
         } else if (category.equalsIgnoreCase("Category")) {
@@ -108,7 +108,7 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
             }else if (category.equalsIgnoreCase("HospitalNetwork")) {
                 titleheaders.setBackgroundColor(getResources().getColor(R.color.colorSpecialityYellow));
                 txtTitles.setText("Network Status");
-                String[] healthSpeciality = {"In-Network", "Out of Network"};
+                String[] healthSpeciality = {"In-Network", "Out-of-Network"};
                 RelationsAdapter rd = new RelationsAdapter(context, healthSpeciality, selected);
                 listRelation.setAdapter(rd);
             }
@@ -145,7 +145,7 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
             } else if (category.equalsIgnoreCase("Relationp")) {
                 titleheaders.setBackgroundColor(getResources().getColor(R.color.colorEmerMainGreen));
                 txtTitles.setText("Blood Relationship");
-                String[] Relationships = {"Aunt", "Brother", "Brother-in-law", "Client", "Cousin", "Dad", "Daughter", "Father-in-law", "Friend", "Granddaughter", "Grandmother", "Grandfather", "Grandson", "Husband", "Mom", "Mother-in-law", "Neighbor", "Nephew", "Niece", "Patient", "Roommate", "Significant Other", "Sister", "Sister-in-law", "Son", "Uncle", "Wife", "Other"};
+                String[] Relationships = {"Aunt", "Brother", "Brother-in-law", "Client", "Cousin", "Dad", "Daughter","Daughter-in-law", "Father-in-law", "Friend", "Granddaughter", "Grandmother", "Grandfather", "Grandson", "Husband", "Mom", "Mother-in-law", "Neighbor", "Nephew", "Niece", "Patient", "Roommate", "Significant Other", "Sister", "Sister-in-law", "Son","Son-in-law", "Uncle", "Wife", "Other"};
                 RelationsAdapter rd = new RelationsAdapter(context, Relationships, selected);
                 listRelation.setAdapter(rd);
             } else if (category.equalsIgnoreCase("Marital")) {

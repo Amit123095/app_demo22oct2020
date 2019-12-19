@@ -20,6 +20,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -40,6 +41,7 @@ import com.mindyourlovedone.healthcare.customview.MySpinner;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.MyConnectionsQuery;
 import com.mindyourlovedone.healthcare.model.RelativeConnection;
+import com.mindyourlovedone.healthcare.utility.DialogManager;
 import com.mindyourlovedone.healthcare.utility.PrefConstants;
 import com.mindyourlovedone.healthcare.utility.Preferences;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -50,7 +52,10 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by varsha on 8/23/2017.
@@ -66,7 +71,7 @@ public class ConnectionAdapter extends RecyclerSwipeAdapter<ConnectionAdapter.Vi
     Preferences preferences;
     ImageLoader imageLoader;
     DisplayImageOptions displayImageOptions;
-    String[] Relationship = {"Aunt", "Brother", "Cousin", "Dad", "Daughter", "Brother-in-law", "Client", "Friend", "Father-in-law", "GrandDaughter", "GrandFather", "GrandMother", "GrandSon", "Husband", "Mom", "Mother-in-law", "Neighbor", "Nephew", "Niece", "Sister", "Son", "Uncle", "Wife", "Other"};
+    String[] Relationship = {"Aunt", "Brother", "Brother-in-law", "Client", "Cousin", "Dad", "Daughter","Daughter-in-law", "Father-in-law", "Friend", "Granddaughter", "Grandmother", "Grandfather", "Grandson", "Husband", "Mom", "Mother-in-law", "Neighbor", "Nephew", "Niece", "Patient", "Roommate", "Significant Other", "Sister", "Sister-in-law", "Son","Son-in-law", "Uncle", "Wife", "Other"};
     FragmentConnectionNew fragmentConnectionNew;
 
     public ConnectionAdapter(Context context, ArrayList<RelativeConnection> connectionList, FragmentConnectionNew fragmentConnectionNew) {
@@ -301,6 +306,70 @@ public class ConnectionAdapter extends RecyclerSwipeAdapter<ConnectionAdapter.Vi
 
 
     }
+    private void showEmailDialog(final int position, final String from) {
+        final Dialog customDialog;
+        customDialog = new Dialog(context);
+        customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        customDialog.setContentView(R.layout.dialog_input_zip);
+        customDialog.setCancelable(false);
+        final EditText etNote = customDialog.findViewById(R.id.etNote);
+        TextView btnAdd = customDialog.findViewById(R.id.btnYes);
+        TextView btnCancel = customDialog.findViewById(R.id.btnNo);
+        String mail = connectionList.get(position).getName();
+        mail = mail.replace(" ", "_");
+        Date date= Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("MMddyyyy");
+        String formattedDate = df.format(date);
+        etNote.setText(mail+"_"+formattedDate);
+        etNote.setSelection(etNote.getText().length());
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentConnectionNew.hideSoftKeyboard();
+                customDialog.dismiss();
+
+            }
+        });
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentConnectionNew.hideSofFtKeyboard();
+                String mail = connectionList.get(position).getEmail();
+                mail = mail.replace(".", "_");
+                mail = mail.replace("@", "_");
+
+                String username = etNote.getText().toString().trim();
+                username = username.replace(".", "_");
+                username = username.replace("@", "_");
+                username = username.replace(" ", "_");
+                if (username.equals("")) {
+                    etNote.setError("Please enter file name");
+                    DialogManager.showAlert("Please enter file name", context);
+                } else {
+                    customDialog.dismiss();
+                    Intent i = new Intent(context, DropboxLoginActivity.class);
+                    if (from.equalsIgnoreCase("Share")) {
+                        i.putExtra("FROM", "Share");
+                    }else if (from.equalsIgnoreCase("Backup")) {
+                        i.putExtra("FROM", "Backup");
+                    }
+
+                    i.putExtra("ToDo", "Individual");
+                    i.putExtra("ToDoWhat", "Share");
+
+                    preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
+                    preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
+                    preferences.putString(PrefConstants.ZIPFILE, username);
+
+                    context.startActivity(i);
+                }
+            }
+        });
+
+        customDialog.show();
+    }
+
 
     private void showInputDialog(final Context context, final int id, final String mail) {
         final Dialog customDialog;
@@ -508,13 +577,14 @@ public class ConnectionAdapter extends RecyclerSwipeAdapter<ConnectionAdapter.Vi
             @Override
             public void onClick(View view) {
                 //Toast.makeText(context,"Backuping",Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+               AlertDialog.Builder alert = new AlertDialog.Builder(context);
                 alert.setTitle("Backup");
                 alert.setMessage("Do you want to Backup " + connectionList.get(position).getName() + "'s profile?");
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent i = new Intent(context, DropboxLoginActivity.class);
+                        showEmailDialog(position,"Backup");
+                        /*Intent i = new Intent(context, DropboxLoginActivity.class);
                         i.putExtra("FROM", "Backup");
                         i.putExtra("ToDo", "Individual");
                         i.putExtra("ToDoWhat", "Share");
@@ -523,7 +593,7 @@ public class ConnectionAdapter extends RecyclerSwipeAdapter<ConnectionAdapter.Vi
                         mail = mail.replace("@", "_");
                         preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
                         preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
-                        context.startActivity(i);
+                        context.startActivity(i);*/
                     }
                 });
                 alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -547,7 +617,8 @@ public class ConnectionAdapter extends RecyclerSwipeAdapter<ConnectionAdapter.Vi
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent i = new Intent(context, DropboxLoginActivity.class);
+                        showEmailDialog(position,"Share");
+                        /*Intent i = new Intent(context, DropboxLoginActivity.class);
                         i.putExtra("FROM", "Share");
                         i.putExtra("ToDo", "Individual");
                         i.putExtra("ToDoWhat", "Share");
@@ -557,7 +628,7 @@ public class ConnectionAdapter extends RecyclerSwipeAdapter<ConnectionAdapter.Vi
 
                         preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
                         preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
-                        context.startActivity(i);
+                        context.startActivity(i);*/
                     }
                 });
                 alert.setNegativeButton("No", new DialogInterface.OnClickListener() {

@@ -20,16 +20,13 @@ public class DBHelper extends SQLiteOpenHelper {
     public DBHelper(Context context, String DATABASE_NAME) {
         super(context, Environment.getExternalStorageDirectory() + "/MYLO/" + DATABASE_NAME + "/" + "MASTER.db", null, DATABASE_VERSION);
     }
-
-
+    public DBHelper(Context context, String DATABASE_NAME, int i) {
+        super(context,Environment.getExternalStorageDirectory() + "/MYLO/" + DATABASE_NAME + "/" + "MASTER.db", null, DATABASE_VERSION);
+    }
     public DBHelper(Context context) {
         super(context, "MASTER.db", null, DATABASE_VERSION);
     }
 
-   /* public DBHelper(Context context, String DATABASE_NAME, int i) {
-        super(context, Environment.getExternalStorageDirectory() + "/MYLO/MYDATA/" + DATABASE_NAME + "/" + "MASTER.db", null, DATABASE_VERSION);
-
-    }*/
 
     @Override
     public void onCreate(SQLiteDatabase db) {

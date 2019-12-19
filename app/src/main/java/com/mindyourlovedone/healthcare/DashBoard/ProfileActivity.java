@@ -163,7 +163,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     ToggleButton tbLive, tbEnglish, tbVeteran, tbPet, tbCard;
 
     TextInputLayout tilBdate, tilName, tilWorkPhone;
-    String[] Relationship = {"Aunt", "Brother", "Brother-in-law", "Client", "Cousin", "Dad", "Daughter", "Father-in-law", "Friend", "GrandDaughter", "GrandMother", "GrandFather", "GrandSon", "Husband", "Mom", "Mother-in-law", "Neighbor", "Nephew", "Niece", "Patient", "Roommate", "Significant Other", "Sister", "Sister-in-law", "Son", "Uncle", "Wife", "Other"};
+    String[] Relationship = {"Aunt", "Brother", "Brother-in-law", "Client", "Cousin", "Dad", "Daughter","Daughter-in-law", "Father-in-law", "Friend", "Granddaughter", "Grandmother", "Grandfather", "Grandson", "Husband", "Mom", "Mother-in-law", "Neighbor", "Nephew", "Niece", "Patient", "Roommate", "Significant Other", "Sister", "Sister-in-law", "Son","Son-in-law", "Uncle", "Wife", "Other"};
     String[] EyesList = {"Blue", "Green", "Hazel", "Brown"};
     String[] MaritalList = {"Divorced", "Domestic Partner", "Married", "Other", "Separated", "Single", "Widowed"};
     String[] LangList = {"Arabic", "Chinese", "English", "French", "German", "Greek", "Hebrew", "Hindi", "Italian", "Japanese", "Korean", "Russian", "Spanish", "Other"};
@@ -1968,7 +1968,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     Boolean flags = MyConnectionsQuery.updateMyConnectionsData(connection.getId(), name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
                     if (flags == true) {
                         Toast.makeText(context, "Personal Profile has been updated succesfully", Toast.LENGTH_SHORT).show();
-                        connection = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
+                        connection = MyConnectionsQuery.fetchEmailRecord(connection.getId());
                         validateConnection();
                         ContactDataQuery c = new ContactDataQuery(context, dbHelper);
                         boolean flagf = ContactDataQuery.deleteRecord("Personal Profile", -1);
@@ -1994,6 +1994,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     //Toast.makeText(context, "You have edited connection successfully", Toast.LENGTH_SHORT).show();
                     preferences.putString(PrefConstants.CONNECTED_NAME, name);
                     preferences.putString(PrefConstants.CONNECTED_RELATION, relation);
+                    preferences.putString(PrefConstants.CONNECTED_OtherRELATION, otherRelation);
                     //   finish(); //Varsa
                 } else {
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
@@ -2018,10 +2019,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 if (flags == true) {
                     preferences.putString(PrefConstants.CONNECTED_PHOTO, imagepath);
                     Toast.makeText(context, "Personal Profile has been updated succesfully", Toast.LENGTH_SHORT).show();
-                    connection = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
+                    connection = MyConnectionsQuery.fetchEmailRecord(1);
                     validateConnection();
                     preferences.putString(PrefConstants.CONNECTED_NAME, name);
                     preferences.putString(PrefConstants.CONNECTED_RELATION, relation);
+                    preferences.putString(PrefConstants.CONNECTED_OtherRELATION, otherRelation);
                     String mail = email;
                     mail = mail.replace(".", "_");
                     mail = mail.replace("@", "_");
@@ -2515,6 +2517,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             //  Toast.makeText(context, "You have edited connection successfully", Toast.LENGTH_SHORT).show();
                             preferences.putString(PrefConstants.CONNECTED_NAME, name);
                             preferences.putString(PrefConstants.CONNECTED_RELATION, relation);
+                            preferences.putString(PrefConstants.CONNECTED_OtherRELATION, otherRelation);
+
                             //   finish(); //Varsa
                         } else {
                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();

@@ -239,6 +239,7 @@ ImageView imgBacks;
             String address = connection.getAddress();
             String relation = connection.getRelationType();
             String otherrelation = connection.getOtherRelation();
+            preferences.putString(PrefConstants.CONNECTED_OtherRELATION,connection.getOtherRelation());
             /*int index = 0;
             for (int i = 0; i < Relationship.length; i++) {
                 if (connection.getRelationType().equalsIgnoreCase(Relationship[i])) {

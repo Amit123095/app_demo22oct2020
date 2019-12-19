@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.mindyourlovedone.healthcare.DashBoard.DropboxLoginActivity;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -63,6 +65,7 @@ public class UnZipTask extends AsyncTask<String, Void, String> {
                 Log.v("ZENT",outZipPath);
                 while ((ze = zis.getNextEntry()) != null) {
                     File file = new File(outZipPath, ze.getName());
+
                     Log.v("ZENT",ze.getName());
                     File dir = ze.isDirectory() ? file : file.getParentFile();
                     if (!dir.isDirectory() && !dir.mkdirs())
@@ -70,7 +73,9 @@ public class UnZipTask extends AsyncTask<String, Void, String> {
                                 dir.getAbsolutePath());
                     if (ze.isDirectory())
                         continue;
-                    Log.v("ZENT",dir.getName());
+                    Log.v("ZENTD",dir.getName());
+                    dirName=dir.getName();
+
                     FileOutputStream fout = new FileOutputStream(file);
                     try {
                         while ((count = zis.read(buffer)) != -1)
@@ -151,7 +156,7 @@ public class UnZipTask extends AsyncTask<String, Void, String> {
        if (dialog.isShowing()) {
             dialog.dismiss();
         }
-
+       context.setNameFile(dirName);
         context.getFile(s);
     }
 }

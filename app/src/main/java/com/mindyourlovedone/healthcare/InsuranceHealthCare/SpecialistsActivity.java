@@ -142,7 +142,15 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
         txtUser = findViewById(R.id.txtUser);
         header = findViewById(R.id.header);
         txtName = findViewById(R.id.txtName);
-        String name=preferences.getString(PrefConstants.CONNECTED_NAME)+"-"+preferences.getString(PrefConstants.CONNECTED_RELATION);
+        String name="";
+        if (preferences.getString(PrefConstants.CONNECTED_RELATION).equals("Other"))
+        {
+            name=preferences.getString(PrefConstants.CONNECTED_NAME)+"-"+preferences.getString(PrefConstants.CONNECTED_OtherRELATION);
+        }else
+        {
+            name=preferences.getString(PrefConstants.CONNECTED_NAME)+"-"+preferences.getString(PrefConstants.CONNECTED_RELATION);
+
+        }
         txtName.setText(name);
         //   imgRight= (ImageView) findViewById(R.id.imgRight);
         if (i.getExtras() != null) {
@@ -824,8 +832,15 @@ preferences.putInt(PrefConstants.ID,personalInfoList.getId());
     @Override
     protected void onResume() {
         super.onResume();
-        String s="<b>"+preferences.getString(PrefConstants.CONNECTED_NAME)+"</b> - "+preferences.getString(PrefConstants.CONNECTED_RELATION);
-        txtName.setText(Html.fromHtml(s));
+        String name="";
+        if (preferences.getString(PrefConstants.CONNECTED_RELATION).equals("Other"))
+        {
+            name= "<b>"+preferences.getString(PrefConstants.CONNECTED_NAME)+"</b> - "+preferences.getString(PrefConstants.CONNECTED_OtherRELATION);  }else
+        {
+           name= "<b>"+preferences.getString(PrefConstants.CONNECTED_NAME)+"</b> - "+preferences.getString(PrefConstants.CONNECTED_RELATION);
+
+        }
+        txtName.setText(Html.fromHtml(name));
     }
 
     @Override
@@ -1049,11 +1064,11 @@ preferences.putInt(PrefConstants.ID,personalInfoList.getId());
             pp3=preferences.addFile("emergency_three.png", context);
             Image pp4=preferences.addFile("emergency_four.png", context);
             final ArrayList<Pet> PetList = PetQuery.fetchAllRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-            final RelativeConnection personalInfoList = MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
+            final RelativeConnection personalInfoList = MyConnectionsQuery.fetchEmailRecord(1);
 
             final ArrayList<ContactData> phonelist= ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID),-1,"Personal Profile");
 
-            new IndividualNew((MyConnectionsQuery.fetchEmailRecord(preferences.getInt(PrefConstants.CONNECTED_USERID))), PetList, phonelist,pp1);
+            new IndividualNew(personalInfoList, PetList, phonelist,pp1);
             // }
             // new MessageString().getProfileProfile(connection);
             final ArrayList<Allergy> AllargyLists = AllergyQuery.fetchAllRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));

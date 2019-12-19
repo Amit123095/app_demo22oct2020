@@ -33,12 +33,12 @@ import com.dropbox.core.android.Auth;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.FolderMetadata;
 import com.dropbox.core.v2.files.Metadata;
-import com.dropbox.core.v2.sharing.FileAction;
 import com.dropbox.core.v2.sharing.SharedFileMetadata;
 import com.mindyourlovedone.healthcare.DashBoard.AddDocumentActivity;
 import com.mindyourlovedone.healthcare.DashBoard.UserInsActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 
+import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.database.ContactDataQuery;
 import com.mindyourlovedone.healthcare.database.ContactTableQuery;
 import com.mindyourlovedone.healthcare.database.DBHelper;
@@ -47,6 +47,9 @@ import com.mindyourlovedone.healthcare.model.RelativeConnection;
 import com.mindyourlovedone.healthcare.utility.PrefConstants;
 import com.mindyourlovedone.healthcare.utility.Preferences;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -61,6 +64,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import static android.graphics.Color.TRANSPARENT;
@@ -79,6 +83,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
     ImageView imgBack, imgBack2, imgRight;
     RecyclerView recyclerView, srecyclerView;
     ArrayList<DropBoxFileItem> resultListBackup = new ArrayList<>();
+    String dirName="";
 
     public static Intent getIntent(Context context, String path) {
         Intent filesIntent = new Intent(context, FilesActivity.class);
@@ -109,6 +114,10 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
         } catch (IOException ioe) {
             Log.e("", ioe.getMessage());
         }
+    }
+
+    public void setNameFile(String dirName) {
+        this.dirName=dirName;
     }
 
     @SuppressLint("ResourceType")
@@ -306,7 +315,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                 }
             }
 
-            File destfolder = new File(Environment.getExternalStorageDirectory(), "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + ".zip");
+            File destfolder = new File(Environment.getExternalStorageDirectory(), "/MYLO/" + preferences.getString(PrefConstants.ZIPFILE) + ".zip");
             if (!destfolder.exists()) {
                 try {
                     destfolder.createNewFile();
@@ -322,7 +331,63 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                 }
             }
             new ZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder.getAbsolutePath()).execute();
-        } else {
+            /*File folder = new File(preferences.getString(PrefConstants.CONNECTED_PATH));
+            if (!folder.exists()) {
+                try {
+                    folder.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {//nikita
+                folder.delete();
+                try {
+                    folder.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            File folder2 = new File(Environment.getExternalStorageDirectory(), "/MYLO/"+preferences.getString(PrefConstants.ZIPFILE)+"/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
+            if (!folder2.exists()) {
+                try {
+                    folder2.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {//nikita
+                folder2.delete();
+                try {
+                    folder2.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            try {
+                FileUtils.copyDirectory(folder,folder2);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            File folder3 = new File(Environment.getExternalStorageDirectory(), "/MYLO/"+preferences.getString(PrefConstants.ZIPFILE)+"/" );
+
+
+            File destfolder = new File(Environment.getExternalStorageDirectory(), "/MYLO/"+preferences.getString(PrefConstants.ZIPFILE)+ ".zip");
+            if (!destfolder.exists()) {
+                try {
+                    destfolder.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {//nikita
+                destfolder.delete();
+                try {
+                    destfolder.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            new ZipTask(FilesActivity.this, folder3.getAbsolutePath(), destfolder.getAbsolutePath()).execute();
+       */ } else {
+
             File folder = new File(Environment.getExternalStorageDirectory() + "/MYLO/");
             if (!folder.exists()) {
                 try {
@@ -339,7 +404,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
 //                }
             }
 
-            File destfolder = new File(Environment.getExternalStorageDirectory(), "/MYLO.zip");
+            File destfolder = new File(Environment.getExternalStorageDirectory(),"/"+ preferences.getString(PrefConstants.ZIPFILE) + ".zip");
             if (!destfolder.exists()) {
                 try {
                     destfolder.createNewFile();
@@ -355,7 +420,62 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
 //                }
             }
             new ZipTask(FilesActivity.this, folder.getPath(), destfolder.getPath()).execute();
+           /* File folder = new File(Environment.getExternalStorageDirectory() + "/MYLO/");
+            if (!folder.exists()) {
+                try {
+                    folder.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+//                folder.delete();
+//                try {
+//                    folder.createNewFile();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+            }
 
+            File folder2 = new File(Environment.getExternalStorageDirectory(), preferences.getString(PrefConstants.ZIPFILE)+"/"+"MYLO/");
+            if (!folder2.exists()) {
+                try {
+                    folder2.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {//nikita
+                folder2.delete();
+                try {
+                    folder2.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            try {
+                FileUtils.copyDirectory(folder,folder2);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            File folder3 = new File(Environment.getExternalStorageDirectory(), preferences.getString(PrefConstants.ZIPFILE)+"/" );
+
+            File destfolder = new File(Environment.getExternalStorageDirectory(),preferences.getString(PrefConstants.ZIPFILE)+ ".zip");
+            if (!destfolder.exists()) {
+                try {
+                    destfolder.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                destfolder.delete();
+                try {
+                    destfolder.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+//
+            }
+            new ZipTask(FilesActivity.this, folder3.getPath(), destfolder.getPath()).execute();
+*/
         }
     }
 
@@ -531,11 +651,29 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                             if (ss.getName().equals("MYLO.zip")) {
 
                                             } else {
-                                                resultList.add(result.get(i));
+                                                String name=ss.getName();//whole_MYLO.zip
+                                                int l=name.length();
+                                                if (l>=10){
+                                                    name = name.substring((l - 9),l);
+                                                    if (name.equalsIgnoreCase("_MYLO.zip")) {
+
+                                                    }else{
+                                                        resultList.add(result.get(i));
+                                                    }
+                                                }
                                             }
                                         } else {
                                             if (ss.getName().equals("MYLO.zip")) {
                                                 resultList.add(result.get(i));
+                                            } else {
+                                                String name=ss.getName();//whole_MYLO.zip
+                                                int l=name.length();
+                                                if (l>=10){
+                                                    name = name.substring((l - 9),l);
+                                                    if (name.equalsIgnoreCase("_MYLO.zip")) {
+                                                        resultList.add(result.get(i));
+                                                    }
+                                                }
                                             }
                                         }
                                         // if (result.getEntries().get(i).getName().endsWith(".pdf")||result.getEntries().get(i).getName().endsWith(".db")) {
@@ -555,13 +693,31 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                     if (ss.getName().endsWith(".zip")) {
                                         if (preferences.getString(PrefConstants.TODOWHAT).equals("Import")) {
                                             if (ss.getName().equals("MYLO.zip")) {
-
+                                                //resultList.add(result.get(i));
                                             } else {
-                                                resultList.add(result.get(i));
+                                                String name=ss.getName();//whole_MYLO.zip
+                                                int l=name.length();
+                                                if (l>=10){
+                                                    name = name.substring((l - 9),l);
+                                                    if (name.equalsIgnoreCase("_MYLO.zip")) {
+
+                                                    }else{
+                                                        resultList.add(result.get(i));
+                                                    }
+                                                }
                                             }
                                         } else {
                                             if (ss.getName().equals("MYLO.zip")) {
                                                 resultList.add(result.get(i));
+                                            } else {
+                                                String name=ss.getName();//whole_MYLO.zip
+                                                int l=name.length();
+                                                if (l>=10){
+                                                    name = name.substring((l - 9),l);
+                                                    if (name.equalsIgnoreCase("_MYLO.zip")) {
+                                                        resultList.add(result.get(i));
+                                                    }
+                                                }
                                             }
                                         }
                                         // if (result.getEntries().get(i).getName().endsWith(".pdf")||result.getEntries().get(i).getName().endsWith(".db")) {
@@ -659,29 +815,99 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                             "/MYLO/");//nikita
                                     if (!destfolder.exists()) {
                                         destfolder.mkdir();
-                                        // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
-                                        new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
-                                    } else {
+                                        FileInputStream fis = null;
+                                        ZipInputStream zipIs = null;
+                                        ZipEntry zEntry = null;
+                                        try {
+                                            fis = new FileInputStream(folder);
+                                            zipIs = new ZipInputStream(new BufferedInputStream(fis));
+                                            // Log.v("FILESF",zipIs.getNextEntry().getName());
+                                            String fnamelist[]=zipIs.getNextEntry().getName().split("/");
+                                            String fname=fnamelist[0];
+                                            if (fname.equals(""))
+                                            {
+                                                fname=fnamelist[1];
+                                            }
 
-                                        AlertDialog.Builder alert = new AlertDialog.Builder(FilesActivity.this);
-                                        alert.setTitle("Replace?");
-                                        alert.setMessage("Profile is already exists, Do you want to replace?");
-                                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            File[] files= destfolder1.listFiles();
+                                            boolean flag=false;
+                                            for (int i=0;i<files.length;i++)
+                                            {
+                                                if (files[i].getName().equals(fname))
+                                                {
+                                                    flag=true;
+                                                    Log.v("FILESF",files[i].getName()+"-"+fname+"-"+"Profile exists");
+                                                    Toast.makeText(FilesActivity.this,"Profile exists",Toast.LENGTH_SHORT);
+                                                    break;
+                                                }
+
+                                            }
+                                            /*while((zEntry = zipIs.getNextEntry()) != null){
+                                                Log.v("FILESF",zEntry.getName());
+                                            }*/
+                                            zipIs.close();
+                                            if (flag==true)
+                                            {
+                                                AlertDialog.Builder alerts = new AlertDialog.Builder(FilesActivity.this);
+                                                alerts.setTitle("Replace?");
+                                                alerts.setMessage("Profile is already exists, Do you want to replace?");
+                                                alerts.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        /*destfolder.delete();//nikita
+                                                        try {
+                                                            destfolder.createNewFile();//nikita
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
+                                                        }*/
+                                                        new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
+                                                        // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
+                                                        dialog.dismiss();
+                                                    }
+                                                });
+
+                                                alerts.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+
+                                                        dialog.dismiss();
+                                                    }
+                                                });
+
+                                                alerts.show();
+                                            } else{
+                                                new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
+                                            }
+                                        } catch (FileNotFoundException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        }
+
+                                        // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
+                                    } else {
+                                        Log.v("FILESF",newname+"-"+"Profile exists");
+                                        AlertDialog.Builder alerts = new AlertDialog.Builder(FilesActivity.this);
+                                        alerts.setTitle("Replace?");
+                                        alerts.setMessage("Profile is already exists, Do you want to replace?");
+                                        alerts.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                destfolder.delete();//nikita
-                                                try {
-                                                    destfolder.createNewFile();//nikita
-                                                } catch (IOException e) {
-                                                    e.printStackTrace();
-                                                }
+                                                        /*destfolder.delete();//nikita
+                                                        try {
+                                                            destfolder.createNewFile();//nikita
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
+                                                        }*/
                                                 new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
                                                 // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
                                                 dialog.dismiss();
                                             }
                                         });
 
-                                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        alerts.setNegativeButton("No", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
 
@@ -689,7 +915,8 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                             }
                                         });
 
-                                        alert.show();
+                                        alerts.show();
+
                                     }
 
                                 } else {
@@ -701,6 +928,15 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                     final File folder = new File(sd, backupDBPath);
                                     final File destfolder = new File(Environment.getExternalStorageDirectory(),
                                             newname);
+                                    final File destfolders = new File(Environment.getExternalStorageDirectory(),
+                                            "MYLO");
+                                    if (destfolders.exists()) {
+                                        try {
+                                            FileUtils.deleteDirectory(destfolders);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
                                     // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath());
 
                                     new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath(),FilesActivity.this).execute();//nikita
@@ -799,31 +1035,98 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                             "/MYLO/" + newname);
                                     final File destfolder1 = new File(Environment.getExternalStorageDirectory(),
                                             "/MYLO/");//nikita
+
                                     if (!destfolder.exists()) {
                                         destfolder.mkdir();
-                                        // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
-                                        new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
-                                    } else {
+                                        FileInputStream fis = null;
+                                        ZipInputStream zipIs = null;
+                                        ZipEntry zEntry = null;
+                                        try {
+                                            fis = new FileInputStream(folder);
+                                            zipIs = new ZipInputStream(new BufferedInputStream(fis));
+                                           // Log.v("FILESF",zipIs.getNextEntry().getName());
+                                            String fnamelist[]=zipIs.getNextEntry().getName().split("/");
+                                            String fname=fnamelist[0];
 
-                                        AlertDialog.Builder alert = new AlertDialog.Builder(FilesActivity.this);
-                                        alert.setTitle("Replace?");
-                                        alert.setMessage("Profile is already exists, Do you want to replace?");
-                                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            File[] files= destfolder1.listFiles();
+                                            boolean flag=false;
+                                            for (int i=0;i<files.length;i++)
+                                            {
+                                                if (files[i].getName().equals(fname))
+                                                {
+                                                    flag=true;
+                                                    Log.v("FILESF",files[i].getName()+"-"+fname+"-"+"Profile exists");
+                                                   Toast.makeText(FilesActivity.this,"Profile exists",Toast.LENGTH_SHORT);
+                                                    break;
+                                                }
+
+                                            }
+                                            /*while((zEntry = zipIs.getNextEntry()) != null){
+                                                Log.v("FILESF",zEntry.getName());
+                                            }*/
+                                            zipIs.close();
+                                            if (flag==true)
+                                            {
+                                                AlertDialog.Builder alerts = new AlertDialog.Builder(FilesActivity.this);
+                                                alerts.setTitle("Replace?");
+                                                alerts.setMessage("Profile is already exists, Do you want to replace?");
+                                                alerts.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        /*destfolder.delete();//nikita
+                                                        try {
+                                                            destfolder.createNewFile();//nikita
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
+                                                        }*/
+                                                        new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
+                                                        // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
+                                                        dialog.dismiss();
+                                                    }
+                                                });
+
+                                                alerts.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+
+                                                        dialog.dismiss();
+                                                    }
+                                                });
+
+                                                alerts.show();
+                                            } else{
+                                                new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
+                                            }
+                                        } catch (FileNotFoundException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        }
+
+                                        // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
+                                         } else {
+
+                                        AlertDialog.Builder alerts = new AlertDialog.Builder(FilesActivity.this);
+                                        alerts.setTitle("Replace?");
+                                        alerts.setMessage("Profile is already exists, Do you want to replace?");
+                                        alerts.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                destfolder.delete();//nikita
-                                                try {
-                                                    destfolder.createNewFile();//nikita
-                                                } catch (IOException e) {
-                                                    e.printStackTrace();
-                                                }
+                                                        /*destfolder.delete();//nikita
+                                                        try {
+                                                            destfolder.createNewFile();//nikita
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
+                                                        }*/
                                                 new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
                                                 // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
                                                 dialog.dismiss();
                                             }
                                         });
 
-                                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        alerts.setNegativeButton("No", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
 
@@ -831,7 +1134,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                             }
                                         });
 
-                                        alert.show();
+                                        alerts.show();
                                     }
                                 } else {
 
@@ -843,7 +1146,15 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                     final File destfolder = new File(Environment.getExternalStorageDirectory(),
                                             newname);
                                     // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath());
-
+                                    final File destfolders = new File(Environment.getExternalStorageDirectory(),
+                                            "MYLO");
+                                    if (destfolders.exists()) {
+                                        try {
+                                            FileUtils.deleteDirectory(destfolders);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
                                     new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath(),FilesActivity.this).execute();//nikita
 
 
@@ -1027,10 +1338,21 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
             @Override
             public void onUploadComplete(final FileMetadata result) {
                 dialog.dismiss();
-                File destfolder = new File(Environment.getExternalStorageDirectory(), "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + ".zip");
+               /* File destfolder = new File(Environment.getExternalStorageDirectory(), "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + ".zip");
                 if (destfolder.exists()) {
                     destfolder.delete();
+                }*/
+                File folder3 = new File(Environment.getExternalStorageDirectory(), "/MYLO/"+preferences.getString(PrefConstants.ZIPFILE)+"/" );
+
+                if (folder3.exists()) {
+                    try {
+                        FileUtils.deleteDirectory(folder3);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
+                File folderzip = new File(Environment.getExternalStorageDirectory(), "/MYLO/"+preferences.getString(PrefConstants.ZIPFILE)+".zip" );
+                folderzip.delete();
 
                 if (preferences.getString(PrefConstants.STORE).equals("Share")) {
                     preferences.putString(PrefConstants.SHARE, result.getId());
@@ -1038,7 +1360,8 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                     dialog.dismiss();
                     FilesActivity.this.finish();
                 }else if (preferences.getString(PrefConstants.STORE).equals("Backup")) {
-                    String message = "Backup is stored in: " + result.getName() + "\n\nsize: " + result.getSize() + "\n\nmodified: " +
+                    double mbs=((result.getSize()/1024.0)/1024.0);
+                    String message = "Backup is stored in: " + result.getName() + "\n\nsize: " + String.format("%.2f", mbs)+" MB" + "\n\nmodified: " +
                             DateFormat.getDateTimeInstance().format(result.getClientModified());
 
                     preferences.putString(PrefConstants.SHARE, result.getId());
@@ -1048,7 +1371,8 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                     dialog.dismiss();
                     FilesActivity.this.finish();
                 } else {
-                    String message = "Backup is stored in: " + result.getName() + "\n\nsize: " + result.getSize() + "\n\nmodified: " +
+                    double mbs=((result.getSize()/1024.0)/1024.0);
+                    String message = "Backup is stored in: " + result.getName() + "\n\nsize: " + String.format("%.2f", mbs)+" MB" + "\n\nmodified: " +
                             DateFormat.getDateTimeInstance().format(result.getClientModified());
                     if (result.getName().equals("MYLO.zip")) {
                         Calendar c = Calendar.getInstance();
@@ -1199,7 +1523,8 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
     public void getFile(String s) {
         if (preferences.getString(PrefConstants.STORE).equals("Backup") || preferences.getString(PrefConstants.STORE).equals("Share")) {
             if (preferences.getString(PrefConstants.TODO).equals("Individual")) {
-                File destfolder = new File(Environment.getExternalStorageDirectory(), "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + ".zip");
+                // File destfolder = new File(Environment.getExternalStorageDirectory(), "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + ".zip");
+                File destfolder = new File(Environment.getExternalStorageDirectory(), "/MYLO/"+preferences.getString(PrefConstants.ZIPFILE)+".zip");
                 if (!destfolder.exists()) {
                     try {
                         destfolder.createNewFile();
@@ -1208,11 +1533,12 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                     }
                 }
 
+
                 Uri contentUri = null;
                 contentUri = Uri.fromFile(destfolder);
                 uploadFile(contentUri.toString());
             } else {
-                File destfolder = new File(Environment.getExternalStorageDirectory(), "/MYLO.zip");
+                File destfolder = new File(Environment.getExternalStorageDirectory(), preferences.getString(PrefConstants.ZIPFILE)+".zip");
                 if (!destfolder.exists()) {
                     try {
                         destfolder.createNewFile();
@@ -1310,8 +1636,40 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
         if (preferences.getString(PrefConstants.TODO).equals("Individual")) {
             String backupDBPath = preferences.getString(PrefConstants.RESULT);
             backupDBPath = backupDBPath.replace(".zip", "");
+            File destfolder1 = new File(Environment.getExternalStorageDirectory(), "/MYLO/"+backupDBPath);
+
+            File destfolder = new File(Environment.getExternalStorageDirectory(), "/MYLO/"+dirName);
+            File[] files= destfolder.listFiles();
+            boolean flag=false;
+            for (int i=0;i<files.length;i++)
+            {
+                if (files[i].getName().equalsIgnoreCase("MASTER.db"))
+                {
+                    flag=true;
+                    break;
+                }
+            }
+            DBHelper dbHelper;
+            if (flag==true)
+            {
+                String backup = preferences.getString(PrefConstants.RESULT);
+                backup = backupDBPath.replace(".zip", "");
+                dbHelper = new DBHelper(context, dirName);
+            }else{
+                String backupDBPaths=files[0].getName();
+                File folder2 = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
+                File srcfolders = new File(Environment.getExternalStorageDirectory(), "/MYLO/"+dirName+"/");
+
+                try {
+                    FileUtils.copyDirectory(srcfolders,folder2);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                dbHelper = new DBHelper(context, backupDBPaths,1);
+            }
+
             //open new imported db
-            DBHelper dbHelper = new DBHelper(context, backupDBPath);
+            // dbHelper = new DBHelper(context, backupDBPath,1);
             MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
             //fetch data
             RelativeConnection connection = MyConnectionsQuery.fetchConnectionRecordforImport(1);
@@ -1322,16 +1680,16 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
             RelativeConnection connections = MyConnectionsQuery.fetchConnectionRecordforImport(connection.getEmail());
             if (connections != null) {
                 if (connection.getRelationType().equals("Self")) {
-                    Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+                    Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard(),connection.getHas_card());
                     if (flags == true) {
                         Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
-                        storeImage(connection.getPhoto(), "Profile", backupDBPath);
+                        storeImage(connection.getPhoto(), "Profile", dirName);
                     }
                 } else {
-                    Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+                    Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard(),connection.getHas_card());
                     if (flags == true) {
                         Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
-                        storeImage(connection.getPhoto(), "Profile", backupDBPath);
+                        storeImage(connection.getPhoto(), "Profile", dirName);
                         ContactDataQuery c = new ContactDataQuery(context, dbHelpers);
                         Boolean flagf = ContactDataQuery.updateUserId(connections.getId());
                         if (flagf == true) {
@@ -1340,21 +1698,22 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                     }
                 }
             } else {
-//                Boolean flags = MyConnectionqsQuery.insertMyConnectionsData(connection.getUserid(), connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), "", connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+                if (!connection.getEmail().equals("")) {
+                    Boolean flags = MyConnectionsQuery.insertMyConnectionsDataBACKUP(connection, true);
 
-                Boolean flags = MyConnectionsQuery.insertMyConnectionsDataBACKUP(connection, true);
-
-                if (flags == true) {
-                    Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
-                    storeImage(connection.getPhoto(), "Profile", backupDBPath);
-                   /* RelativeConnection con = MyConnectionsQuery.fetchEmailRecords(connection.getEmail());
-                    ContactDataQuery c=new ContactDataQuery(context,dbHelpers);
-                    Boolean flagf = ContactDataQuery.updateUserId(con.getId());
-                    if (flagf == true) {
-                        Toast.makeText(context, "Insret updated", Toast.LENGTH_SHORT).show();
-                    }*/
+                    if (flags == true) {
+                        Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
+                        storeImage(connection.getPhoto(), "Profile", dirName);
+                    }
                 }
             }
+            try {
+                FileUtils.deleteDirectory(destfolder1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            File folderzip = new File(Environment.getExternalStorageDirectory(), "/MYLO/"+backupDBPath+".zip" );
+            folderzip.delete();
         } else {
             //Toast.makeText(context, "Need Data save to master db", Toast.LENGTH_SHORT).show();
         }
@@ -1367,6 +1726,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
             */
        /* File data = DropboxLoginActivity.this.getDatabasePath("temp.db");
         Log.e("", data.getAbsolutePath());
+
         File currentDB = new File(data.getAbsolutePath());
         File backupDB = new File(sd, backupDBPath);
         try {
@@ -1395,16 +1755,16 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                 RelativeConnection connections = MyConnectionsQuery.fetchConnectionRecordforImport(connection.getEmail());
                 if (connections != null) {
                     if (connection.getRelationType().equals("Self")) {
-                        Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+                        Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard(), connection.getHas_card());
                         if (flags == true) {
                             Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
-                            storeImage(connection.getPhoto(), "Profile", backupDBPath);
+                            storeImage(connection.getPhoto(), "Profile", dirName);
                         }
                     } else {
-                        Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
+                        Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard(), connection.getHas_card());
                         if (flags == true) {
                             Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
-                            storeImage(connection.getPhoto(), "Profile", backupDBPath);
+                            storeImage(connection.getPhoto(), "Profile", dirName);
                         }
                     }
                 } else {
@@ -1413,14 +1773,49 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                     Boolean flags = MyConnectionsQuery.insertMyConnectionsDataBACKUP(connection, false);
                     if (flags == true) {
                         Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
-                        storeImage(connection.getPhoto(), "Profile", backupDBPath);
+                        storeImage(connection.getPhoto(), "Profile", dirName);
                     }
                 }
             }
         } else {
-            DBHelper dbHelpers = new DBHelper(context, "MASTER");
-            ContactTableQuery ms = new ContactTableQuery(context, dbHelpers);
-            ContactTableQuery.deleteContactData();
+            String backupDBPath = preferences.getString(PrefConstants.RESULT);
+            backupDBPath = backupDBPath.replace(".zip", "");
+            File destfolder = new File(Environment.getExternalStorageDirectory(),"MYLO");
+
+            File[] files= destfolder.listFiles();
+            boolean flag=false;
+            for (int i=0;i<files.length;i++)
+            {
+                if (files[i].getName().equalsIgnoreCase("MYLO"))
+                {
+                    flag=true;
+                    break;
+                }
+            }
+            if (flag==true)
+            {
+                String backup = preferences.getString(PrefConstants.RESULT);
+                backup = backupDBPath.replace(".zip", "");
+
+
+                File folder2 = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
+                File srcfolders = new File(Environment.getExternalStorageDirectory(),"/"+dirName+"/");
+                try {
+                    FileUtils.copyDirectory(srcfolders,folder2);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                DBHelper dbHelpers = new DBHelper(context, "MASTER");
+                ContactTableQuery ms = new ContactTableQuery(context, dbHelpers);
+                ContactTableQuery.deleteContactData();
+            }else{
+                DBHelper dbHelpers = new DBHelper(context, "MASTER");
+                ContactTableQuery ms = new ContactTableQuery(context, dbHelpers);
+                ContactTableQuery.deleteContactData();
+            }
+
+
+
             //Toast.makeText(context, "Need Data save to master db", Toast.LENGTH_SHORT).show();
         }
 
@@ -1433,6 +1828,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
             */
        /* File data = DropboxLoginActivity.this.getDatabasePath("temp.db");
         Log.e("", data.getAbsolutePath());
+
         File currentDB = new File(data.getAbsolutePath());
         File backupDB = new File(sd, backupDBPath);
         try {

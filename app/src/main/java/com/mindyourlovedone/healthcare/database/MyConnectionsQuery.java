@@ -161,6 +161,7 @@ public class MyConnectionsQuery {
         cv.put(COL_NOTE, connection.getNote() + "");
         cv.put(COL_FLAG, connection.getConnectionFlag());
         cv.put(COL_ISPRIMARY, connection.getIsPrimary());
+        cv.put(COL_HASCARD, connection.getHas_card());
         if (indidual) {
             cv.put(COL_RELATION, "");
         } else {
@@ -1087,7 +1088,7 @@ public class MyConnectionsQuery {
         return flag;
     }
 
-    public static Boolean updateImportedMyConnectionsData(String name, String email, String address, String mobile, String homephone, String workPhone, String photo, String note, int connectionflag, int isPrimary, String otherRelation, String photoCard) {
+    public static Boolean updateImportedMyConnectionsData(String name, String email, String address, String mobile, String homephone, String workPhone, String photo, String note, int connectionflag, int isPrimary, String otherRelation, String photoCard, String has_card) {
         boolean flag;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -1105,6 +1106,7 @@ public class MyConnectionsQuery {
         cv.put(COL_PHOTO, photo);
         cv.put(COL_OTHER_RELATION, otherRelation);
         cv.put(COL_PHOTOCARD, photoCard);
+        cv.put(COL_HASCARD, has_card);
 
         int rowid = db.update(TABLE_NAME, cv, COL_EMAIL + "='" + email + "';", null);
 

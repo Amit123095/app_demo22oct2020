@@ -45,4 +45,6 @@ public class PrefConstants {
     public static final String MYACCESS = "LO";
     public static final String NOTIFIED ="NOTIFIED" ;
     public static final String MSG ="BackupMessage" ;
+    public static final String ZIPFILE ="Zipname" ;
+    public static final String CONNECTED_OtherRELATION="OtherRelation";
 }
