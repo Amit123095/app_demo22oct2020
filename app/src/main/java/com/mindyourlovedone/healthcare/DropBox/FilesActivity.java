@@ -33,6 +33,7 @@ import com.dropbox.core.android.Auth;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.FolderMetadata;
 import com.dropbox.core.v2.files.Metadata;
+import com.dropbox.core.v2.sharing.FileAction;
 import com.dropbox.core.v2.sharing.SharedFileMetadata;
 import com.mindyourlovedone.healthcare.DashBoard.AddDocumentActivity;
 import com.mindyourlovedone.healthcare.DashBoard.UserInsActivity;
@@ -831,52 +832,79 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
 
                                             File[] files= destfolder1.listFiles();
                                             boolean flag=false;
+                                            boolean nofull=false;
                                             for (int i=0;i<files.length;i++)
                                             {
-                                                if (files[i].getName().equals(fname))
-                                                {
-                                                    flag=true;
-                                                    Log.v("FILESF",files[i].getName()+"-"+fname+"-"+"Profile exists");
-                                                    Toast.makeText(FilesActivity.this,"Profile exists",Toast.LENGTH_SHORT);
+                                                if (files[i].getName().equals(fname)) {
+                                                    flag = true;
+                                                    Log.v("FILESF", files[i].getName() + "-" + fname + "-" + "Profile exists");
+                                                    Toast.makeText(FilesActivity.this, "Profile exists", Toast.LENGTH_SHORT);
                                                     break;
                                                 }
 
+                                            }
+
+                                            for (int i=0;i<fnamelist.length;i++)
+                                            {
+                                                if (fnamelist[i].equalsIgnoreCase("MYLO"))
+                                                {
+                                                    nofull=true;
+                                                    break;
+                                                }
                                             }
                                             /*while((zEntry = zipIs.getNextEntry()) != null){
                                                 Log.v("FILESF",zEntry.getName());
                                             }*/
                                             zipIs.close();
-                                            if (flag==true)
-                                            {
-                                                AlertDialog.Builder alerts = new AlertDialog.Builder(FilesActivity.this);
-                                                alerts.setTitle("Replace?");
-                                                alerts.setMessage("Profile is already exists, Do you want to replace?");
-                                                alerts.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
+                                            if (nofull!=true) {
+                                                if (flag == true) {
+                                                    AlertDialog.Builder alerts = new AlertDialog.Builder(FilesActivity.this);
+                                                    alerts.setTitle("Replace?");
+                                                    alerts.setMessage("Profile is already exists, Do you want to replace?");
+                                                    alerts.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
                                                         /*destfolder.delete();//nikita
                                                         try {
                                                             destfolder.createNewFile();//nikita
                                                         } catch (IOException e) {
                                                             e.printStackTrace();
                                                         }*/
-                                                        new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
-                                                        // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
-                                                        dialog.dismiss();
-                                                    }
-                                                });
+                                                            new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(), FilesActivity.this).execute();//nikita
+                                                            // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
+                                                            dialog.dismiss();
+                                                        }
+                                                    });
 
-                                                alerts.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                    alerts.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+
+                                                            dialog.dismiss();
+                                                        }
+                                                    });
+
+                                                    alerts.show();
+                                                } else {
+                                                    new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(), FilesActivity.this).execute();//nikita
+                                                }
+                                            }else{
+                                                AlertDialog.Builder alertf = new AlertDialog.Builder(FilesActivity.this);
+                                                alertf.setTitle("Invalid");
+                                                alertf.setMessage("Invalid Profile Backup");
+                                                alertf.setPositiveButton("Close", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
-
+                                                        try {
+                                                            FileUtils.deleteDirectory(destfolder);
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
+                                                        }
                                                         dialog.dismiss();
                                                     }
                                                 });
 
-                                                alerts.show();
-                                            } else{
-                                                new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
+                                                alertf.show();
                                             }
                                         } catch (FileNotFoundException e) {
                                             // TODO Auto-generated catch block
@@ -930,16 +958,55 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                             newname);
                                     final File destfolders = new File(Environment.getExternalStorageDirectory(),
                                             "MYLO");
-                                    if (destfolders.exists()) {
-                                        try {
-                                            FileUtils.deleteDirectory(destfolders);
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
+
+                                    FileInputStream fis = null;
+                                    ZipInputStream zipIs = null;
+                                    try {
+                                        fis = new FileInputStream(folder);
+                                        zipIs = new ZipInputStream(new BufferedInputStream(fis));
+                                        // Log.v("FILESF",zipIs.getNextEntry().getName());
+                                        String fnamelist[] = zipIs.getNextEntry().getName().split("/");
+
+                                        boolean nofull = false;
+
+                                        for (int i = 0; i < fnamelist.length; i++) {
+                                            if (fnamelist[i].equalsIgnoreCase("MYLO")) {
+                                                nofull = true;
+                                                break;
+                                            }
                                         }
+                                        zipIs.close();
+                                        if (nofull==true){
+                                            if (destfolders.exists()) {
+                                                try {
+                                                    FileUtils.deleteDirectory(destfolders);
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                            new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath(),FilesActivity.this).execute();//nikita
+
+                                        }else{
+                                            AlertDialog.Builder alertf = new AlertDialog.Builder(FilesActivity.this);
+                                            alertf.setTitle("Invalid");
+                                            alertf.setMessage("Invalid MYLO Whole Backup");
+                                            alertf.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+
+                                            alertf.show();
+                                        }
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
                                     }
+
                                     // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath());
 
-                                    new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath(),FilesActivity.this).execute();//nikita
 
 
                                 }
@@ -1044,7 +1111,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                         try {
                                             fis = new FileInputStream(folder);
                                             zipIs = new ZipInputStream(new BufferedInputStream(fis));
-                                           // Log.v("FILESF",zipIs.getNextEntry().getName());
+                                            // Log.v("FILESF",zipIs.getNextEntry().getName());
                                             String fnamelist[]=zipIs.getNextEntry().getName().split("/");
                                             String fname=fnamelist[0];
 
@@ -1056,7 +1123,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                                 {
                                                     flag=true;
                                                     Log.v("FILESF",files[i].getName()+"-"+fname+"-"+"Profile exists");
-                                                   Toast.makeText(FilesActivity.this,"Profile exists",Toast.LENGTH_SHORT);
+                                                    Toast.makeText(FilesActivity.this,"Profile exists",Toast.LENGTH_SHORT);
                                                     break;
                                                 }
 
@@ -1064,38 +1131,66 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                             /*while((zEntry = zipIs.getNextEntry()) != null){
                                                 Log.v("FILESF",zEntry.getName());
                                             }*/
-                                            zipIs.close();
-                                            if (flag==true)
+                                            boolean nofull=false;
+                                            for (int i=0;i<fnamelist.length;i++)
                                             {
-                                                AlertDialog.Builder alerts = new AlertDialog.Builder(FilesActivity.this);
-                                                alerts.setTitle("Replace?");
-                                                alerts.setMessage("Profile is already exists, Do you want to replace?");
-                                                alerts.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
+                                                if (fnamelist[i].equalsIgnoreCase("MYLO"))
+                                                {
+                                                    nofull=true;
+                                                    break;
+                                                }
+                                            }
+                                            zipIs.close();
+                                            if (nofull!=true) {
+                                                if (flag==true)
+                                                {
+                                                    AlertDialog.Builder alerts = new AlertDialog.Builder(FilesActivity.this);
+                                                    alerts.setTitle("Replace?");
+                                                    alerts.setMessage("Profile is already exists, Do you want to replace?");
+                                                    alerts.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
                                                         /*destfolder.delete();//nikita
                                                         try {
                                                             destfolder.createNewFile();//nikita
                                                         } catch (IOException e) {
                                                             e.printStackTrace();
                                                         }*/
-                                                        new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
-                                                        // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
-                                                        dialog.dismiss();
-                                                    }
-                                                });
+                                                            new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
+                                                            // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
+                                                            dialog.dismiss();
+                                                        }
+                                                    });
 
-                                                alerts.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                    alerts.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+
+                                                            dialog.dismiss();
+                                                        }
+                                                    });
+
+                                                    alerts.show();
+                                                } else{
+                                                    new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
+                                                }
+                                            }else{
+                                                AlertDialog.Builder alertf = new AlertDialog.Builder(FilesActivity.this);
+                                                alertf.setTitle("Invalid");
+                                                alertf.setMessage("Invalid Profile Backup");
+                                                alertf.setPositiveButton("Close", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
-
+                                                        try {
+                                                            FileUtils.deleteDirectory(destfolder);
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
+                                                        }
                                                         dialog.dismiss();
                                                     }
                                                 });
 
-                                                alerts.show();
-                                            } else{
-                                                new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
+                                                alertf.show();
                                             }
                                         } catch (FileNotFoundException e) {
                                             // TODO Auto-generated catch block
@@ -1106,7 +1201,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                         }
 
                                         // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
-                                         } else {
+                                    } else {
 
                                         AlertDialog.Builder alerts = new AlertDialog.Builder(FilesActivity.this);
                                         alerts.setTitle("Replace?");
@@ -1148,14 +1243,53 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                     // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath());
                                     final File destfolders = new File(Environment.getExternalStorageDirectory(),
                                             "MYLO");
-                                    if (destfolders.exists()) {
-                                        try {
-                                            FileUtils.deleteDirectory(destfolders);
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
+                                    FileInputStream fis = null;
+                                    ZipInputStream zipIs = null;
+                                    try {
+                                        fis = new FileInputStream(folder);
+                                        zipIs = new ZipInputStream(new BufferedInputStream(fis));
+                                        // Log.v("FILESF",zipIs.getNextEntry().getName());
+                                        String fnamelist[] = zipIs.getNextEntry().getName().split("/");
+
+                                        boolean nofull = false;
+
+                                        for (int i = 0; i < fnamelist.length; i++) {
+                                            if (fnamelist[i].equalsIgnoreCase("MYLO")) {
+                                                nofull = true;
+                                                break;
+                                            }
                                         }
+                                        zipIs.close();
+                                        if (nofull==true){
+                                            if (destfolders.exists()) {
+                                                try {
+                                                    FileUtils.deleteDirectory(destfolders);
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                            new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath(),FilesActivity.this).execute();//nikita
+
+                                        }else{
+                                            AlertDialog.Builder alertf = new AlertDialog.Builder(FilesActivity.this);
+                                            alertf.setTitle("Invalid");
+                                            alertf.setMessage("Invalid MYLO Whole Backup");
+                                            alertf.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+
+                                            alertf.show();
+                                        }
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
                                     }
-                                    new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath(),FilesActivity.this).execute();//nikita
+
+                                    // new DropboxLoginActivity().unZip(folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath());
 
 
                                 }
