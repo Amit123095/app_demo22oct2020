@@ -14,7 +14,11 @@ import static com.mindyourlovedone.healthcare.HomeActivity.R.drawable.physician;
 /**
  * Created by welcome on 9/12/2017.
  */
-
+/**
+ * Class: DoctorQuery
+ * Screen: Add Doctors
+ * A class that manages Doctors Table CRUD Operations
+ */
 public class DoctorQuery {
     public static final String TABLE_NAME = "Doctors";
     public static final String COL_USER_ID = "UserId";

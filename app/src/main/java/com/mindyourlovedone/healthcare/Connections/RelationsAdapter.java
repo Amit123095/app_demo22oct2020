@@ -9,7 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mindyourlovedone.healthcare.HomeActivity.R;
-
+/**
+ * Class: RelationAdapter
+ * Screen: List of cateories like relation,priority,network,insurance type etc
+ * A class that manages listing Categories for list
+ */
 public class RelationsAdapter extends BaseAdapter {
 
     Context context;
@@ -68,8 +72,6 @@ public class RelationsAdapter extends BaseAdapter {
             holder.imgCheck.setVisibility(View.GONE);
             holder.imgCheck.setTag(position);
         }
-      //  holder.txtName.setText(student.getName());
-       // holder.txtCity.setText(student.getCity());
         return convertView;
     }
 

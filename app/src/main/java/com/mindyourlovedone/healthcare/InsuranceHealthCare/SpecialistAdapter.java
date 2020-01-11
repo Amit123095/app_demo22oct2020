@@ -40,7 +40,11 @@ import java.util.ArrayList;
 /**
  * Created by varsha on 8/28/2017. Changes done by nikita on 18/6/18
  */
-
+/**
+ * Class: SpecialistAdapter
+ * Screen: Specialist Contact List Screen
+ * A class that manages Adpater for Specialist Contact List
+ */
 public class SpecialistAdapter extends RecyclerSwipeAdapter<SpecialistAdapter.ViewHolder> {
     Context context;
     ArrayList<Specialist> specialistList;
@@ -59,6 +63,7 @@ public class SpecialistAdapter extends RecyclerSwipeAdapter<SpecialistAdapter.Vi
         this.context = context;
         this.specialistList = specialistList;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
     }
 
@@ -68,6 +73,7 @@ public class SpecialistAdapter extends RecyclerSwipeAdapter<SpecialistAdapter.Vi
         this.context = context;
         this.specialistList = specialistList;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
     }
 
@@ -77,10 +83,15 @@ public class SpecialistAdapter extends RecyclerSwipeAdapter<SpecialistAdapter.Vi
         this.context = context;
         this.specialistList = specialistList;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
     }
 
 
+    /**
+     * Function: Image loading and displaying at ImageView
+     * Presents configuration for ImageLoader & options for image display.
+     */
     private void initImageLoader() {
 
         //Profile
@@ -146,8 +157,13 @@ public class SpecialistAdapter extends RecyclerSwipeAdapter<SpecialistAdapter.Vi
             }
         });
         holder.imgNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 if (specialist) {
                     if (frs != null) {
                         frs.callUser(specialistList.get(position));
@@ -174,21 +190,9 @@ public class SpecialistAdapter extends RecyclerSwipeAdapter<SpecialistAdapter.Vi
             }
         });
 
-//Shradha-physician and doctor color change for profile
         File imgFile = new File(preferences.getString(PrefConstants.CONNECTED_PATH), specialistList.get(position).getPhoto());
         holder.imgProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
-
-/*
-        if (imgFile.exists() ) {
-            if (viewHolder.imgProfile.getDrawable() == null)
-                viewHolder.imgProfile.setImageResource(R.drawable.green);
-            else
-                viewHolder.imgProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
-            // imageLoaderProfile.displayImage(String.valueOf(Uri.fromFile(imgFile)), viewHolder.imgProfile, displayImageOptionsProfile);
-        }
-*/
-
-        if (imgFile.exists()) {
+                if (imgFile.exists()) {
             // imageLoaderProfile.displayImage(String.valueOf(Uri.fromFile(imgFile)), holder.imgProfile, displayImageOptionsProfile);
             holder.imgProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
 
@@ -211,32 +215,7 @@ public class SpecialistAdapter extends RecyclerSwipeAdapter<SpecialistAdapter.Vi
                 }
             }
 
-
-
-/*
-            if (specialist||physician) {  // Rahul
-                if (frs != null) {
-                    holder.imgProfile.setImageResource(R.drawable.yellow);
-                }
-                else
-                    holder.imgProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
-
-                if (physician) {
-                    if (fr != null) {
-                        holder.imgProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
-
-                        //  holder.imgProfile.setImageResource(R.drawable.green);
-                    }
-                    else
-                        holder.imgProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
-
-                    // holder.imgProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
-
-                }
-            }
-*/
         }
-        //shradha- new change for distinguishing images for doctor and physician if image does not exists
         else {
             if (physician) {
                 if (fr != null) {
@@ -244,9 +223,7 @@ public class SpecialistAdapter extends RecyclerSwipeAdapter<SpecialistAdapter.Vi
                         holder.imgProfile.setImageResource(R.drawable.all_profile);
                     } else {
                         Toast.makeText(context, "Not Physician", Toast.LENGTH_SHORT).show();
-
-                        // holder.imgProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
-                    }
+       }
                 }
             }
             if (specialist) {
@@ -255,28 +232,21 @@ public class SpecialistAdapter extends RecyclerSwipeAdapter<SpecialistAdapter.Vi
                         holder.imgProfile.setImageResource(R.drawable.all_profile);
                     } else {
                         Toast.makeText(context, "Not Doctor", Toast.LENGTH_SHORT).show();
-                        //  holder.imgProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
-                    }
+                                  }
                 }
             }
-          //  holder.imgProfile.setImageResource(R.drawable.ic_profile_defaults);
+
         }
 
 
         if (specialistList.get(position).getOfficePhone().equals("")) {
             holder.txtPhone.setVisibility(View.GONE);
         }
-        //Commented as to match screen as invision-shradha
-        /*else {
-            holder.txtPhone.setVisibility(View.VISIBLE);
-        }*/
+
         if (specialistList.get(position).getAddress().equals("")) {
             holder.txtAddress.setVisibility(View.GONE);
         }
-        //Commented as to match screen as invision-shradha
-        /* else {
-            holder.txtAddress.setVisibility(View.VISIBLE);
-        }*/
+
         if (specialistList.get(position).getType().equals("")) {
             holder.txtType.setVisibility(View.GONE);
         } else {
@@ -285,33 +255,13 @@ public class SpecialistAdapter extends RecyclerSwipeAdapter<SpecialistAdapter.Vi
 
         holder.txtName.setText(specialistList.get(position).getName());
         holder.txtOfficePhone.setText(specialistList.get(position).getOtherPhone());
-        //Commented as to match screen as invision-shradha
-      //  holder.txtPhone.setText(specialistList.get(position).getOfficePhone());
         if (specialistList.get(position).getType().equals("Other")) {
             holder.txtType.setText(specialistList.get(position).getType() + " - " + specialistList.get(position).getOtherType());
         } else {
             holder.txtType.setText(specialistList.get(position).getType());
         }
-        // holder.txtType.setText(specialistList.get(position).getType());
         holder.txtTelePhone.setText(specialistList.get(position).getOtherPhone());
-        //Commented as to match screen as invision-shradha
-       // holder.txtAddress.setText(specialistList.get(position).getAddress());
-        //  holder.imgProfile.setImageResource(specialistList.get(position).getImage());
 
-//  Card code for Speciality Adapter
-        /*if (!specialistList.get(position).getPhotoCard().equals("")) {
-            File imgFile1 = new File(preferences.getString(PrefConstants.CONNECTED_PATH), specialistList.get(position).getPhotoCard());
-            if (imgFile1.exists()) {
-                // holder.imgForword.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
-
-                imageLoaderCard.displayImage(String.valueOf(Uri.fromFile(imgFile1)), holder.imgForword, displayImageOptionsCard);
-            }
-            //Commented as to match screen as invision-shradha
-           // holder.imgForword.setVisibility(View.VISIBLE);
-        } else {
-            holder.imgForword.setVisibility(View.GONE);
-        }
-*/
 // Varsha 15 march
         if (!specialistList.get(position).getPhotoCard().equals("")) {
             File imgFile1 = new File(preferences.getString(PrefConstants.CONNECTED_PATH), specialistList.get(position).getPhotoCard());
@@ -328,16 +278,26 @@ public class SpecialistAdapter extends RecyclerSwipeAdapter<SpecialistAdapter.Vi
         }
 
         holder.imgForword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 Intent i = new Intent(context, AddFormActivity.class);
                 i.putExtra("Image", specialistList.get(position).getPhotoCard());
                 context.startActivity(i);
             }
         });
         holder.rlDoctor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 Intent i = new Intent(context, GrabConnectionActivity.class);
                 Specialist insurance = specialistList.get(position);
                 if (insurance.getIsPhysician() == 1) {
@@ -345,52 +305,12 @@ public class SpecialistAdapter extends RecyclerSwipeAdapter<SpecialistAdapter.Vi
                 } else if (insurance.getIsPhysician() == 2) {
                     preferences.putString(PrefConstants.SOURCE, "SpecialistData");
                 }
-               /* i.putExtra("Name", insurance.getName());
-                i.putExtra("Type", insurance.getType());
-                i.putExtra("Address", insurance.getAddress());
-                i.putExtra("Phone", insurance.getOfficePhone());
-                i.putExtra("Photo", insurance.getImage());*/
+
                 i.putExtra("SpecialistObject", insurance);
                 i.putExtra("IsPhysician", insurance.getIsPhysician());
                 context.startActivity(i);
             }
         });
-      /*  holder.txtName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, GrabConnectionActivity.class);
-                Specialist insurance = specialistList.get(position);
-                if (insurance.getIsPhysician() == 1) {
-                    preferences.putString(PrefConstants.SOURCE, "PhysicianData");
-                } else if (insurance.getIsPhysician() == 2) {
-                    preferences.putString(PrefConstants.SOURCE, "SpecialistData");
-                }
-               *//* i.putExtra("Name", insurance.getName());
-                i.putExtra("Type", insurance.getType());
-                i.putExtra("Address", insurance.getAddress());
-                i.putExtra("Phone", insurance.getOfficePhone());
-                i.putExtra("Photo", insurance.getImage());*//*
-                i.putExtra("SpecialistObject", insurance);
-                i.putExtra("IsPhysician", insurance.getIsPhysician());
-                context.startActivity(i);
-            }
-        });*/
-
-       /* holder.imgNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, GrabConnectionActivity.class);
-                Specialist insurance = specialistList.get(position);
-                if (insurance.getIsPhysician() == 1) {
-                    preferences.putString(PrefConstants.SOURCE, "PhysicianViewData");
-                } else if (insurance.getIsPhysician() == 2) {
-                    preferences.putString(PrefConstants.SOURCE, "SpecialistViewData");
-                }
-                i.putExtra("SpecialistObject", insurance);
-                i.putExtra("IsPhysician", insurance.getIsPhysician());
-                context.startActivity(i);
-            }
-        });*/
     }
 
     @Override
@@ -418,8 +338,7 @@ public class SpecialistAdapter extends RecyclerSwipeAdapter<SpecialistAdapter.Vi
             txtTelePhone = convertView.findViewById(R.id.txtTelePhone);
             txtType = convertView.findViewById(R.id.txtType);
             imgProfile = convertView.findViewById(R.id.imgProfile);
-            //  holder.swipeLayout = (SwipeRevealLayout) convertView.findViewById(R.id.swipe_layout);
-            imgForword = convertView.findViewById(R.id.imgForword);
+           imgForword = convertView.findViewById(R.id.imgForword);
             imgEdit = convertView.findViewById(R.id.imgEdit);
             imgNext = convertView.findViewById(R.id.imgNext);
         }

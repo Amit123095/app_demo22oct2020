@@ -24,7 +24,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * Class: ReactionListActivity
+ * Screen: Reaction list
+ * A class that manages to multichoice of reaction
+ * implements OnclickListener for onClick event on views
+ */
 public class ReactionListActivity extends AppCompatActivity {
     public static final int REQUEST_REACTION = 800;
     ListView listRelation;
@@ -41,13 +46,14 @@ public class ReactionListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reaction_list);
+
+        //Initialize UI and View
         initUi();
-        initListener();
     }
 
-    private void initListener() {
-
-    }
+    /**
+     * Function: Initialize UI and View
+     */
 
     private void initUi() {
         titleheaders = findViewById(R.id.headers);
@@ -83,37 +89,14 @@ public class ReactionListActivity extends AppCompatActivity {
             }
         }
 
-/*listRelation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-            TextView txtRel = view.findViewById(R.id.txtRel);
-            CheckBox imgCheck=  view.findViewById(R.id.imgCheck);
-            imgCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked)
-                    {
-                        selectedList.add(reactionList[position]);
-                    }else{
-                        selectedList.remove(reactionList[position]);
-                    }
-                    //imgCheck.setTag(position);
-                }
-            });
-            *//*Intent i = new Intent();
-            if (category.equalsIgnoreCase("Category")) {
-                i.putExtra("Category", txtRel.getText().toString());
-                setResult(REQUEST_REACTION, i);
-            }
-            finish();*//*
-        }
-    });*/
-
         txtSave.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
-            public void onClick(View v) {
-
-
+            public void onClick(View v) {//Save selected reactions
                 if (selectedList.size() > 0) {
                     StringBuilder sb = new StringBuilder();
                     for (String s : selectedList) {
@@ -124,15 +107,6 @@ public class ReactionListActivity extends AppCompatActivity {
                     selected = "";
                 }
 
- /* for (int i=0;i<selectedList.size();i++){
-                selected = selectedList.get(i).toString();
-                if (selectedList.size()>1) {
-                    selected=selected+","+selectedList.get(i).toString();
-                }else
-                {
-
-                }
-            }*/
                 Intent i = new Intent();
                 if (category.equalsIgnoreCase("Reaction")) {
                     i.putExtra("Category", selected);
@@ -141,7 +115,14 @@ public class ReactionListActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
         imgBack.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 if (selectedList.size() > 0) {
@@ -162,7 +143,14 @@ public class ReactionListActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
         imgHome.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent intentHome = new Intent(context, BaseActivity.class);
@@ -176,11 +164,11 @@ public class ReactionListActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
-
+    /**
+     * Function :add selected reaction to the list
+     * @param s
+     * @param b
+     */
     public void addList(String s, boolean b) {
         if (b == true) {
             selectedList.add(s);

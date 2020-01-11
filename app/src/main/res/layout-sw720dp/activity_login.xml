@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorLightBlue"
 
     android:orientation="vertical"
@@ -13,10 +13,9 @@
         android:id="@+id/rlLogin"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimension0dp"
-        android:layout_centerInParent="true"
         android:layout_above="@+id/rlSponsor"
-        android:layout_weight="8"
-        >
+        android:layout_centerInParent="true"
+        android:layout_weight="8">
 
         <FrameLayout
             android:id="@+id/flTop"
@@ -31,15 +30,15 @@
                 android:src="@drawable/sin" />
 
             <ImageView
-                android:background="@drawable/border_whitecorner"
-                android:layout_gravity="center_horizontal|bottom"
-                android:src="@mipmap/ic_launcher_logo"
                 android:layout_width="@dimen/dimension100dp"
                 android:layout_height="@dimen/dimension100dp"
-                android:visibility="gone"
-                />
+                android:layout_gravity="center_horizontal|bottom"
+                android:background="@drawable/border_whitecorner"
+                android:src="@mipmap/ic_launcher_logo"
+                android:visibility="gone" />
 
         </FrameLayout>
+
         <LinearLayout
             android:id="@+id/llLoginText"
             android:layout_width="match_parent"
@@ -50,13 +49,13 @@
             android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout
-                android:fontFamily="@font/lato"
                 android:id="@+id/tilName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/flTop"
                 android:descendantFocusability="beforeDescendants"
                 android:focusableInTouchMode="true"
+                android:fontFamily="@font/lato"
                 android:paddingLeft="@dimen/dimension18dp"
                 android:paddingTop="@dimen/dimension8dp"
                 android:paddingRight="@dimen/dimension18dp"
@@ -66,11 +65,11 @@
                 app:hintTextAppearance="@style/TextLabel">
                 <!--app:hintTextAppearance="@style/CustomTextAppearance"-->
                 <AutoCompleteTextView
-                    android:backgroundTint="@color/colordivideGray"
-                    android:fontFamily="@font/lato"
                     android:id="@+id/txtName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colordivideGray"
+                    android:fontFamily="@font/lato"
                     android:hint="Name"
 
                     android:maxLines="1"
@@ -85,25 +84,25 @@
 
 
             <android.support.design.widget.TextInputLayout
-                android:fontFamily="@font/lato"
                 android:id="@+id/tilUserName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tilName"
+                android:fontFamily="@font/lato"
                 android:paddingLeft="@dimen/dimension18dp"
-                android:textSize="@dimen/dimension20dp"
                 android:paddingRight="@dimen/dimension18dp"
+                android:textSize="@dimen/dimension20dp"
                 app:hintTextAppearance="@style/TextLabel">
                 <!--app:hintTextAppearance="@style/CustomTextAppearance"-->
                 <AutoCompleteTextView
-                    android:backgroundTint="@color/colordivideGray"
                     android:id="@+id/txtUserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
-
-                    android:maxLines="1"
+                    android:backgroundTint="@color/colordivideGray"
                     android:fontFamily="@font/lato"
+
+                    android:hint="Email"
+                    android:maxLines="1"
                     android:paddingTop="@dimen/dimension5dp"
                     android:singleLine="true"
                     android:textColor="@color/colorPrimaryDark"
@@ -114,22 +113,22 @@
 
 
             <android.support.design.widget.TextInputLayout
-                android:fontFamily="@font/lato"
                 android:id="@+id/tilPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tilUserName"
-                android:paddingBottom="@dimen/dimension8dp"
+                android:fontFamily="@font/lato"
                 android:paddingLeft="@dimen/dimension30dp"
                 android:paddingRight="@dimen/dimension30dp"
+                android:paddingBottom="@dimen/dimension8dp"
                 android:visibility="gone">
                 <!--app:hintTextAppearance="@style/CustomTextAppearance"-->
                 <AutoCompleteTextView
-                    android:backgroundTint="@color/colordivideGray"
-                    android:fontFamily="@font/lato"
                     android:id="@+id/txtPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colordivideGray"
+                    android:fontFamily="@font/lato"
                     android:hint="Password"
                     android:inputType="textPassword"
                     android:maxLength="10"
@@ -146,12 +145,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/llLoginText"
-            android:fontFamily="@font/lato"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/dimension30dp"
             android:layout_marginBottom="@dimen/dimension15dp"
             android:background="@drawable/border_registered"
+            android:fontFamily="@font/lato"
             android:paddingLeft="@dimen/dimension60dp"
             android:paddingTop="@dimen/dimension11dp"
             android:paddingRight="@dimen/dimension60dp"
@@ -159,33 +158,18 @@
             android:text="Sign In"
             android:textAllCaps="true"
             android:textColor="@color/colorWhite"
-            android:textStyle="bold"
-            android:textSize="@dimen/dimension17dp"/>
+            android:textSize="@dimen/dimension17dp"
+            android:textStyle="bold" />
 
-        <!--android:drawableRight="@drawable/logins"
-        android:paddingRight="@dimen/dimension10dp"-->
-        <!-- <TextView
-             android:id="@+id/txtSign"
-             android:layout_width="match_parent"
-             android:layout_height="@dimen/dimension60dp"
-             android:layout_marginTop="15dp"
-             android:background="@drawable/darkblue_blue_border"
-             android:gravity="center"
-             android:text="Sign In"
-             android:layout_marginLeft="@dimen/dimension30dp"
-             android:layout_marginRight="@dimen/dimension30dp"
-             android:textColor="@color/colorWhite"
-             android:textSize="@dimen/dimension24dp"
-             android:layout_below="@+id/txtSignIn"
-             android:layout_centerHorizontal="true" />-->
+
         <TextView
-            android:fontFamily="@font/lato"
             android:id="@+id/txtLoginVia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/llLoginVia"
             android:layout_below="@+id/txtSignIn"
             android:layout_centerHorizontal="true"
+            android:fontFamily="@font/lato"
             android:gravity="bottom"
             android:padding="@dimen/dimension10dp"
             android:text="Log in via"
@@ -230,16 +214,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/dimension10dp"
             android:layout_marginTop="@dimen/dimension10dp"
+            android:layout_marginBottom="@dimen/dimension10dp"
             android:orientation="horizontal">
 
             <TextView
-                android:fontFamily="@font/lato"
                 android:id="@+id/txtNew"
                 android:layout_width="@dimen/dimension0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/lato"
                 android:gravity="center"
                 android:padding="@dimen/dimension10dp"
                 android:text="New Here? Sign Up"
@@ -247,11 +231,11 @@
                 android:textSize="@dimen/dimension16dp" />
 
             <TextView
-                android:fontFamily="@font/lato"
                 android:id="@+id/txtForgotPassword"
                 android:layout_width="@dimen/dimension0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/lato"
                 android:gravity="center"
                 android:padding="@dimen/dimension10dp"
                 android:text="Forgot your password?"
@@ -260,25 +244,25 @@
                 android:visibility="gone" />
         </LinearLayout>
     </RelativeLayout>
+
     <RelativeLayout
-        android:layout_marginTop="@dimen/dimension2dp"
-        android:gravity="bottom"
-        android:layout_gravity="bottom"
         android:id="@+id/rlSponsor"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimension0dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorWhite"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="@dimen/dimension2dp"
         android:layout_weight="1.5"
-        >
+        android:background="@color/colorWhite"
+        android:gravity="bottom">
 
         <TextView
-            android:fontFamily="@font/lato"
             android:id="@+id/txtSponsor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dimension10dp"
             android:layout_marginTop="@dimen/dimension10dp"
+            android:fontFamily="@font/lato"
             android:text="Sponsored by:"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/dimension12dp"
@@ -293,16 +277,16 @@
             android:src="@drawable/aba_new"
 
             />
+
         <ImageView
             android:id="@+id/imgcopy"
             android:layout_width="@dimen/dimension25dp"
             android:layout_height="@dimen/dimension25dp"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@id/imgAbaa"
             android:layout_marginTop="@dimen/dimension10dp"
+            android:layout_toRightOf="@id/imgAbaa"
             android:src="@drawable/copy_rit"
             android:tint="@color/colorWhite"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
     </RelativeLayout>
 </LinearLayout>

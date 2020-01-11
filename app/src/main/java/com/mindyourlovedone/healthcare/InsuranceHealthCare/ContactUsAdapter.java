@@ -15,7 +15,11 @@ import com.mindyourlovedone.healthcare.model.ResourcesNew;
 import com.mindyourlovedone.healthcare.model.Setting;
 
 import java.util.ArrayList;
-
+/**
+ * Class: ContactUsAdapter
+ * Screen: Contact us Screen
+ * A class that manages Contact us Information list
+ */
 public class ContactUsAdapter extends BaseAdapter {
     ArrayList<Setting> contactList;
     Holders holder;

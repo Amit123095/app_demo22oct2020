@@ -35,7 +35,12 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 9/20/2017. Changes done by nikita on 18/6/18
  */
-
+/**
+ * Class: CardAdapter
+ * Screen: Insurance Card list
+ * A class that manages to insurance card list
+ * implements OnclickListener for onClick event on views
+ */
 class CardAdapter extends RecyclerSwipeAdapter<CardAdapter.Holder> {
     Context context;
     ArrayList<Card> cardList;
@@ -50,6 +55,7 @@ class CardAdapter extends RecyclerSwipeAdapter<CardAdapter.Holder> {
         this.context = context;
         this.cardList = cardList;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
     }
 
@@ -59,9 +65,14 @@ class CardAdapter extends RecyclerSwipeAdapter<CardAdapter.Holder> {
         this.context = context;
         this.cardList = cardList;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
     }
 
+    /**
+     * Function: Image loading and displaying at ImageView
+     * Presents configuration for ImageLoader & options for image display.
+     */
     private void initImageLoader() {
         displayImageOptions = new DisplayImageOptions.Builder() // resource
                 .resetViewBeforeLoading(true) // default
@@ -118,21 +129,18 @@ class CardAdapter extends RecyclerSwipeAdapter<CardAdapter.Holder> {
                 }
             }
         });
-        
-       /* File imgFile = new File(preferences.getString(PrefConstants.CONNECTED_PATH), cardList.get(position).getImgFront());
-        if (imgFile.exists()) {
 
-            imageLoader.displayImage(String.valueOf(Uri.fromFile(imgFile)), holder.imgCard, displayImageOptions);
-
-        } else {
-            holder.imgCard.setImageResource(R.drawable.ins_card);
-        }*/
         holder.txtProvider.setText(cardList.get(position).getName());
         holder.txtType.setText(cardList.get(position).getType());
 
         holder.rlCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 Intent i = new Intent(context, AddCardActivity.class);
                 i.putExtra("CardObject", cardList.get(position));
                 i.putExtra("IsEdit", true);
@@ -140,70 +148,6 @@ class CardAdapter extends RecyclerSwipeAdapter<CardAdapter.Holder> {
 
             }
         });
-        /*holder.imgEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, AddCardActivity.class);
-                i.putExtra("CardObject", cardList.get(position));
-                i.putExtra("IsEdit", true);
-                context.startActivity(i);
-            }
-        });*/
-/*
-        holder.imgFront.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                           */
-/* byte[] photo = CardList.get(position).getImgFront();
-                            Bitmap bmp = BitmapFactory.decodeByteArray(photo, 0, photo.length);
-                            imgCard.setImageBitmap(bmp);*//*
-
-                File imgFile = new File(preferences.getString(PrefConstants.CONNECTED_PATH), cardList.get(position).getImgFront());
-                if (imgFile.exists()) {
-                    imageLoader.displayImage(String.valueOf(Uri.fromFile(imgFile)), holder.imgCard, displayImageOptions);
-                            */
-/* Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            holder.imgProfile.setImageBitmap(myBitmap);*//*
-
-                } else {
-                    holder.imgCard.setImageResource(R.drawable.ins_card);
-                }
-                //  imageLoader.displayImage(String.valueOf(CardList.get(position).getImgFront()),imgCard,displayImageOptions);
-                holder.imgBack.setImageResource(R.drawable.white_dot);
-                //holder.imgFront.setImageResource(R.drawable.blue_dot);
-            }
-        });
-*/
-/*
-        holder.imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               */
-/* File imgFile = new File(preferences.getString(PrefConstants.CONNECTED_PATH), cardList.get(position).getImgBack());
-                if (imgFile.exists()) {
-                    imageLoader.displayImage(String.valueOf(Uri.fromFile(imgFile)), holder.imgCard, displayImageOptions);
-                } else {
-                    holder.imgCard.setImageResource(R.drawable.ins_card);
-                }*//*
-
-                // imageLoader.displayImage(String.valueOf(CardList.get(position).getImgBack()),imgCard,displayImageOptions);
-
-                //holder.imgBack.setImageResource(R.drawable.blue_dot);
-              //  holder.imgFront.setImageResource(R.drawable.white_dot);
-            }
-        });
-*/
-
-       /* holder.imgForward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, ViewCardActivity.class);
-                i.putExtra("Card", cardList.get(position));
-                context.startActivity(i);
-            }
-        });*/
-
-//        return convertView;
     }
 
     public class Holder extends RecyclerView.ViewHolder {
@@ -217,13 +161,10 @@ class CardAdapter extends RecyclerSwipeAdapter<CardAdapter.Holder> {
             super(convertView);
             imgForward = itemView.findViewById(R.id.imgForword);
             imgBack = itemView.findViewById(R.id.imgBack);
-          //  imgFront = itemView.findViewById(R.id.imgFront);
             swipeLayout = itemView.findViewById(R.id.swipe);
             lintrash = itemView.findViewById(R.id.lintrash);
-           // imgCard = convertView.findViewById(R.id.imgCard);
             txtProvider = convertView.findViewById(R.id.txtProviderValue);
             txtType = convertView.findViewById(R.id.txtTypeValue);
-           // imgEdit = convertView.findViewById(R.id.imgEdit);
             rlCard = convertView.findViewById(R.id.rlCard);
         }
     }

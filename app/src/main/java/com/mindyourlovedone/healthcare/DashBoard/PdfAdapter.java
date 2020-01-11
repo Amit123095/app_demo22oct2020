@@ -24,7 +24,12 @@ import java.util.List;
 /**
  * Created by welcome on 10/17/2017.
  */
-
+/**
+ * Class: PdfAdapter
+ * Screen: Pdf list from stoarge
+ * A class that manages to Device storage pdf list
+ * implements OnclickListener for onClick event on views
+ */
 class PdfAdapter extends BaseAdapter {
     Context context;
     String[] pdfList;
@@ -61,133 +66,21 @@ class PdfAdapter extends BaseAdapter {
             convertView = lf.inflate(R.layout.row_pdf, parent, false);
             holder = new ViewHolder();
             holder.txtName = convertView.findViewById(R.id.txtName);
-         /*   holder.txtTime= (TextView) convertView.findViewById(R.id.txtTime);
-            holder.txtMessage= (TextView) convertView.findViewById(R.id.txtMessage);
-            holder.imgProfile= (ImageView) convertView.findViewById(R.id.imgProfile);
-            holder.imgForword= (ImageView) convertView.findViewById(R.id.imgForword);*/
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         holder.txtName.setText(pdfList[position]);
-      /*  holder.txtMessage.setText(pdfList.get(position).getMessage());
-        holder.txtTime.setText(pdfList.get(position).getTime());
-        holder.imgProfile.setImageResource(pdfList.get(position).getImage());
-        if (position==0)
-        {
-            holder.txtMessage.setTextColor(context.getResources().getColor(R.color.colorMaroon));
-        }
-*/
-
-
-
-      /*
-      //Shradha-Previous code commented as on click of of convertview bcz ui does not need  add or view options so directly on clicking list file added
 
         convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Dialog dialog = new Dialog(context);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                LayoutInflater lf = (LayoutInflater) context
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View dialogview = lf.inflate(R.layout.dialog_gender, null);
-                final TextView textOption1 = dialogview.findViewById(R.id.txtOption1);
-                final TextView textOption2 = dialogview.findViewById(R.id.txtOption2);
-                TextView textCancel = dialogview.findViewById(R.id.txtCancel);
-                textOption1.setText("Add");
-                textOption2.setText("View");
-                dialog.setContentView(dialogview);
-                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-                lp.copyFrom(dialog.getWindow().getAttributes());
-                int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.80);
-                lp.width = width;
-                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-                lp.gravity = Gravity.CENTER;
-                dialog.getWindow().setAttributes(lp);
-                dialog.show();
-                textOption1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        PackageManager packageManager = context.getPackageManager();
-                        Intent testIntent = new Intent(Intent.ACTION_VIEW);
-                        testIntent.setType("application/pdf");
-                        List list = packageManager.queryIntentActivities(testIntent, PackageManager.MATCH_DEFAULT_ONLY);
-//                        if (list.size() > 0 && imagelist[position].isFile()) {// commented
-                        ((DocumentSdCardList) context).getData(pdfList[position], String.valueOf(imagelist[position].getPath()));
-                         */
-/* File targetFile = new File(String.valueOf(imagelist[(int) position].getPath()));
-                          Uri uri=null;
-                          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                             // intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                              uri = FileProvider.getUriForFile(context, "com.mindyourlovedone.healthcare.HomeActivity.fileProvider", targetFile);
-                          } else {
-                              uri = Uri.fromFile(targetFile);
-                          }
-                          ((DocumentSdCardList)context).getData(pdfList[position], String.valueOf(uri));*//*
-
-                        dialog.dismiss();
-
-//                        }// commented
-                    */
-/*  File targetFile = new File(String.valueOf(imagelist[(int) position].getAbsoluteFile()));
-                      Uri uri=null;
-                      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        //  intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                          uri = FileProvider.getUriForFile(context, "com.mindyourelders.healthcare.HomeActivity.fileProvider", targetFile);
-                      } else {
-                          uri = Uri.fromFile(targetFile);
-                      }*//*
-
-                        //uri=Uri.fromFile(imagelist[(int) position].getAbsoluteFile()).toString();
-                        ((DocumentSdCardList) context).finish();
-                    }
-                });
-                textOption2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        PackageManager packageManager = context.getPackageManager();
-                        Intent testIntent = new Intent(Intent.ACTION_VIEW);
-                        testIntent.setType("application/pdf");
-                        List list = packageManager.queryIntentActivities(testIntent, PackageManager.MATCH_DEFAULT_ONLY);
-//                        if (list.size() > 0 && imagelist[position].isFile()) {// commented
-                        Intent intent = new Intent();
-                        intent.setAction(Intent.ACTION_VIEW);
-                        // Uri uri = Uri.fromFile(imagelist[(int) position].getAbsoluteFile());
-                        File targetFile = new File(String.valueOf(imagelist[position].getPath()));
-                        Uri uri = null;
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                            uri = FileProvider.getUriForFile(context, "com.mindyourlovedone.healthcare.HomeActivity.fileProvider", targetFile);
-                        } else {
-                            uri = Uri.fromFile(targetFile);
-                        }
-                        intent.setDataAndType(uri, "application/pdf");
-                        context.startActivity(intent);
-//                        }// commented
-                        dialog.dismiss();
-                    }
-                });
-                textCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-
-                */
-        /**//*
-
-            }
-        });
-*/
-
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 PackageManager packageManager = context.getPackageManager();
                 Intent testIntent = new Intent(Intent.ACTION_VIEW);
                 testIntent.setType("application/pdf");
@@ -202,7 +95,7 @@ class PdfAdapter extends BaseAdapter {
     }
 
     public class ViewHolder {
-        TextView txtName, txtTime, txtMessage;
-        // ImageView imgProfile,imgForword;
+        TextView txtName;
+
     }
 }

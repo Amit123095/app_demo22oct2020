@@ -30,7 +30,12 @@ import java.util.ArrayList;
  * Created by varsha on 8/23/2017. Changes done by nikita on 20/6/18.
  * Changes done by shradha on 1/2/19
  */
-
+/**
+ * Class: DocumentAdapter
+ * Screen: Document list
+ * A class that manages to document list
+ * implements OnclickListener for onClick event on views
+ */
 public class DocumentAdapter extends RecyclerSwipeAdapter<DocumentAdapter.ViewHolder> {
     Context context;
     ArrayList<Document> documentList;
@@ -43,7 +48,6 @@ public class DocumentAdapter extends RecyclerSwipeAdapter<DocumentAdapter.ViewHo
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         preferences=new Preferences(context);
     }
-
 
     @Override
     public long getItemId(int position) {
@@ -100,9 +104,8 @@ public class DocumentAdapter extends RecyclerSwipeAdapter<DocumentAdapter.ViewHo
         if (documentList.get(position).getPerson().equals("")) {
             holder.txtDocTime.setVisibility(View.GONE);
         } else {
-            holder.txtDocTime.setText("Dated:"/*+documentList.get(position).getDate()*/);
+            holder.txtDocTime.setText("Dated:");
             holder.txtDocTime.setVisibility(View.GONE);
-           // holder.txtDocTime.setText(documentList.get(position).getPerson());
         }
 
         if (documentList.get(position).getDate().equals("")) {
@@ -113,13 +116,17 @@ public class DocumentAdapter extends RecyclerSwipeAdapter<DocumentAdapter.ViewHo
             holder.txtDocDate.setText("Dated: "+documentList.get(position).getDate());
         }
 
-      //  holder.holder.imgDocType.setImageResource(R.drawable.pdf_dir);//documentList.get(position).getImage()
         String extension = FilenameUtils.getExtension(documentList.get(position).getName());
         showDocIcon(extension, preferences.getString(PrefConstants.CONNECTED_PATH)+ documentList.get(position).getDocument(),holder);
         
         holder.rlFix.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 Intent i = new Intent(context, AddDocumentActivity.class);
                 i.putExtra("GoTo", "Edit");
                 i.putExtra("Path", "Yes");
@@ -128,28 +135,6 @@ public class DocumentAdapter extends RecyclerSwipeAdapter<DocumentAdapter.ViewHo
 
             }
         });
-
-      /*  holder.imgForword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, AddDocumentActivity.class);
-                i.putExtra("GoTo", "View");
-                i.putExtra("Path", "Yes");
-                i.putExtra("DocumentObject", documentList.get(position));
-                context.startActivity(i);
-            }
-        });*/
-       /* holder.imgEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, AddDocumentActivity.class);
-                i.putExtra("GoTo", "Edit");
-                i.putExtra("Path", "Yes");
-
-                i.putExtra("DocumentObject", documentList.get(position));
-                context.startActivity(i);
-            }
-        });*/
     }
 
 
@@ -175,7 +160,6 @@ public class DocumentAdapter extends RecyclerSwipeAdapter<DocumentAdapter.ViewHo
         }
     }
     private void showDocIcon(String extension, String originPath, ViewHolder holder) {
-        //  Toast.makeText(context,extension,Toast.LENGTH_SHORT).show();
         switch (extension)
         {
             case "pdf":

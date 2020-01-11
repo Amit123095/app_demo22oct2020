@@ -14,7 +14,11 @@ import com.mindyourlovedone.healthcare.model.VitalSigns;
 import java.io.File;
 import java.util.ArrayList;
 
-/*Created by shradha 18 Feb 2019*/
+/**
+ * Class: VitalQuery
+ * Screen: Add VitalSigns
+ * A class that manages VitalSigns Table CRUD Operations
+ */
 public class VitalQuery {
     public static final String TABLE_NAME = "VitalSigns";
     public static final String COL_ID = "Id";

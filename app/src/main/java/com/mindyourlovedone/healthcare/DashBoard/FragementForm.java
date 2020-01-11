@@ -48,6 +48,12 @@ import java.util.ArrayList;
  * Created by shradha on 8/02/2019.
  */
 
+/**
+ * Class: FragementForm
+ * A class that manages an insurance form list
+ * extends Fragment
+ * implements OnclickListener for onclick event on views
+ */
 public class FragementForm extends Fragment implements View.OnClickListener {
     private static final int VERTICAL_ITEM_SPACE = 0;
     final String dialog_items[] = {"View", "Email", "User Instructions"};
@@ -65,42 +71,65 @@ public class FragementForm extends Fragment implements View.OnClickListener {
     RelativeLayout rlGuide;
     FloatingActionButton floatProfile;
     ImageView floatAdd, floatOptions;
-    TextView txthelp; ImageView imghelp;
+    TextView txthelp;
+    ImageView imghelp;
 
+    /**
+     * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
+     * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
+     * @param savedInstanceState Bundle: If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_insurance_form, null);
+
+        //Initialize database, get primary data and set data
         initComponent();
         getData();
+
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
 
         return rootview;
     }
 
+    /**
+     * Function:Initialize preferences, database
+     */
     private void initComponent() {
         preferences = new Preferences(getActivity());
         dbHelper = new DBHelper(getActivity(), preferences.getString(PrefConstants.CONNECTED_USERDB));
         FormQuery i = new FormQuery(getActivity(), dbHelper);
     }
 
+    /**
+     * Function: Set Form list data
+     */
     public void setListData() {
         if (documentList.size() != 0) {
             DocumentsAdapter insuranceAdapter = new DocumentsAdapter(getActivity(), documentList, FragementForm.this);
             lvDoc.setAdapter(insuranceAdapter);
             lvDoc.setVisibility(View.VISIBLE);
             rlGuide.setVisibility(View.GONE);
-            imghelp .setVisibility(View.GONE);
+            imghelp.setVisibility(View.GONE);
             txthelp.setVisibility(View.GONE);
         } else {
             lvDoc.setVisibility(View.GONE);
             rlGuide.setVisibility(View.VISIBLE);
-            imghelp .setVisibility(View.VISIBLE);
+            imghelp.setVisibility(View.VISIBLE);
             txthelp.setVisibility(View.VISIBLE);
         }
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         //  imgADMTick.setOnClickListener(this);
         llAddDoc.setOnClickListener(this);
@@ -108,32 +137,19 @@ public class FragementForm extends Fragment implements View.OnClickListener {
         floatProfile.setOnClickListener(this);
         floatAdd.setOnClickListener(this);
         floatOptions.setOnClickListener(this);
-
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         floatProfile = rootview.findViewById(R.id.floatProfile);
         floatAdd = rootview.findViewById(R.id.floatAdd);
         floatOptions = rootview.findViewById(R.id.floatOptions);
         imghelp = rootview.findViewById(R.id.imghelp);
         txthelp = rootview.findViewById(R.id.txthelp);
-
         txtMsg = rootview.findViewById(R.id.txtMsg);
-//        String msg = "To <b>add</b> information click the green bar at the bottom of the screen. Click the plus sign to Select the File." +
-//                "<br><br>" +
-//                "The file is either sitting on your phone or in your Dropbox . Choose the location and click Add." +
-//                "<br><br>" +
-//                "To <b>save</b> information click the <b>check mark</b> on the top top right side of the screen" +
-//                "<br><br>" +
-//                "To <b>edit</b> information click the picture of the <b>pencil</b>. To <b>save</b> your edits click the <b>check mark</b> again." +
-//                "<br><br>" +
-//                "To <b>delete</b> delete the entry <b>swipe right to left</b> the arrow symbol on the right side of the screen." +
-//                "<br><br>" +
-//                "To <b>view a report</b> or to <b>email</b> or <b>fax</b> the data in each section click the three dots on the top right side of the screen.";
-//
-//        txtMsg.setText(Html.fromHtml(msg));
 
-        //nikita
         final RelativeLayout relMsg = rootview.findViewById(R.id.relMsg);
         TextView txt61 = rootview.findViewById(R.id.txtPolicy61);
         TextView txt62 = rootview.findViewById(R.id.txtPolicy62);
@@ -158,13 +174,16 @@ public class FragementForm extends Fragment implements View.OnClickListener {
 
         txtFTU = rootview.findViewById(R.id.txtFTU);
         txtFTU.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent intentEmerInstruc = new Intent(getActivity(), InstructionActivity.class);
                 intentEmerInstruc.putExtra("From", "FormInstruction");
                 startActivity(intentEmerInstruc);
-//                txtMsg.setVisibility(View.VISIBLE);
-                //relMsg.setVisibility(View.VISIBLE);//nikita
             }
         });
         // imgADMTick= (ImageView) rootview.findViewById(imgADMTick);
@@ -187,6 +206,9 @@ public class FragementForm extends Fragment implements View.OnClickListener {
         setListData();
     }
 
+    /**
+     * Function: Delete selected Document Form
+     */
     public void deleteDocument(final Form item) {
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setTitle("Delete");
@@ -224,71 +246,19 @@ public class FragementForm extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * Function: Fetch all Form record
+     */
     public void getData() {
         documentList = new ArrayList<>();
         documentList = FormQuery.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
- /*
-        Form f=new Form();
-        f.setName("sdfds");
-        f.setImage(R.id.imgPdf);*/
-/*
-        Insurance P1=new Insurance();
-        P1.setName("Symphonix Health");
-        P1.setId("4489");
-        P1.setGroup("Group angels");
-        P1.setType("Medicare");
-        P1.setImage(R.drawable.insu);
-        P1.setPhone("963-789-5236");
-        P1.setMember("Consultive");
-
-
-        Insurance P2=new Insurance();
-        P2.setName("Sierra Health");
-        P2.setId("8965");
-        P2.setGroup("Group angels");
-        P2.setType("Supplemental");
-        P2.setImage(R.drawable.insur);
-        P2.setPhone("396-545-5236");
-        P2.setMember("Consultive");
-
-        Insurance P3=new Insurance();
-        P3.setName("Humana Insurance");
-        P3.setId("9685");
-        P3.setGroup("Group angels");
-        P3.setType("Long Term Care ");
-        P3.setImage(R.drawable.insurs);
-        P3.setPhone("985-985-5236");
-        P3.setMember("Consultive");
-
-        Insurance P4=new Insurance();
-        P4.setName("Aetna");
-        P4.setId("3698");
-        P4.setGroup("Group angels");
-        P4.setType("Medical");
-        P4.setImage(R.drawable.insir);
-        P4.setPhone("968-985-5236");
-        P4.setMember("Consultive");
-
-        Insurance P5=new Insurance();
-        P5.setName("Aetna");
-        P5.setId("9635");
-        P5.setGroup("Group angels");
-        P5.setType("Dental");
-        P5.setImage(R.drawable.insis);
-        P5.setPhone("365-985-5236");
-        P5.setMember("Consultive");
-
-
-
-        documentList.add(P1);
-        documentList.add(P2);
-        documentList.add(P3);
-        documentList.add(P4);
-        documentList.add(P5);
-
-*/
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -299,102 +269,28 @@ public class FragementForm extends Fragment implements View.OnClickListener {
                 //   intentDashboard.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentDashboard);
                 break;
-            case R.id.floatAdd:
+            case R.id.floatAdd://Add New Contact
                 //preferences.putString(PrefConstants.SOURCE, "InsuranceForm");
                 Intent i = new Intent(getActivity(), AddInsuranceFormActivity.class);
                 i.putExtra("GoTo", "Add");
                 startActivity(i);
                 break;
 
-            case R.id.floatOptions:
+            case R.id.floatOptions://Reports
                 showFloatPdfDialog();
                 break;
 
-            case R.id.imgRight:
+            case R.id.imgRight://Instructions
                 Intent ib = new Intent(getActivity(), InstructionActivity.class);
                 ib.putExtra("From", "FormInstruction");
                 startActivity(ib);
-               /* final String RESULT = Environment.getExternalStorageDirectory()
-                        + "/mylopdf/";
-                File dirfile = new File(RESULT);
-                dirfile.mkdirs();
-                File file = new File(dirfile, "InsuranceForm.pdf");
-                if (file.exists()) {
-                    file.delete();
-                }
-
-                new Header().createPdfHeader(file.getAbsolutePath(),
-                        "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-                preferences.copyFile("ic_launcher.png", getActivity());
-                Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-                Header.addEmptyLine(1);
-                Header.addusereNameChank("Insurance Form");//preferences.getString(PrefConstants.CONNECTED_NAME));
-                Header.addEmptyLine(1);
-
-                Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-                Paragraph p = new Paragraph(" ");
-                LineSeparator line = new LineSeparator();
-                line.setOffset(-4);
-                line.setLineColor(BaseColor.LIGHT_GRAY);
-                p.add(line);
-                try {
-                    Header.document.add(p);
-                } catch (DocumentException e) {
-                    e.printStackTrace();
-                }
-                Header.addEmptyLine(1);
-               *//* new Header().createPdfHeader(file.getAbsolutePath(),
-                        "Insurance Information");
-
-                Header.addusereNameChank(preferences.getString(PrefConstants.CONNECTED_NAME));
-                // Header.addEmptyLine(2);*//*
-
-                ArrayList<Form> formList = FormQuery.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-                new InsurancePdf(formList, "form");
-                Header.document.close();
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                builder.setTitle("");
-
-                builder.setItems(dialog_items, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int itemPos) {
-                        String path = Environment.getExternalStorageDirectory()
-                                + "/mylopdf/"
-                                + "/InsuranceForm.pdf";
-                        switch (itemPos) {
-                            case 0: // view
-                                StringBuffer result = new StringBuffer();
-                                result.append(new MessageString().getFormInfo());
-
-
-                                new PDFDocumentProcess(path,
-                                        getActivity(), result);
-
-                                System.out.println("\n" + result + "\n");
-                                break;
-                            case 1://Email
-                                File f = new File(path);
-                                preferences.emailAttachement(f, getActivity(), "Insurance Form");
-                                break;
-                            case 2://FTU
-                                Intent i = new Intent(getActivity(), InstructionActivity.class);
-                                i.putExtra("From", "FormInstruction");
-                                startActivity(i);
-                                break;
-                          *//*  case 2://fax
-                                new FaxCustomDialog(getActivity(), path).show();
-                                break;*//*
-                        }
-                    }
-
-                });
-                builder.create().show();*/
                 break;
         }
     }
+
+    /**
+     * Function - Display dialog for Reports options i.e view, email, fax
+     */
     private void showFloatPdfDialog() {
         final String RESULT = Environment.getExternalStorageDirectory()
                 + "/mylopdf/";
@@ -404,51 +300,22 @@ public class FragementForm extends Fragment implements View.OnClickListener {
         if (file.exists()) {
             file.delete();
         }
-
-       /* new Header().createPdfHeader(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-        preferences.copyFile("ic_launcher.png", getActivity());
-        Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-        Header.addEmptyLine(1);
-        Header.addusereNameChank("Insurance Form");//preferences.getString(PrefConstants.CONNECTED_NAME));
-        Header.addEmptyLine(1);
-
-        Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-        Paragraph p = new Paragraph(" ");
-        LineSeparator line = new LineSeparator();
-        line.setOffset(-4);
-        line.setLineColor(BaseColor.LIGHT_GRAY);
-        p.add(line);
-        try {
-            Header.document.add(p);
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
-        Header.addEmptyLine(1);
-               *//* new Header().createPdfHeader(file.getAbsolutePath(),
-                        "Insurance Information");
-
-                Header.addusereNameChank(preferences.getString(PrefConstants.CONNECTED_NAME));
-                // Header.addEmptyLine(2);*//*
-
-        ArrayList<Form> formList = FormQuery.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        new InsurancePdf(formList, "form");
-        Header.document.close();*/
-        Image pdflogo = null,calendar= null,profile= null,calendarWite= null,profileWite= null;
-        pdflogo=preferences.addFile("pdflogo.png", getActivity());
-        calendar=preferences.addFile("calpdf.png", getActivity());calendarWite=preferences.addFile("calpdf_wite.png", getActivity());
-        profile=preferences.addFile("profpdf.png", getActivity()); profileWite=preferences.addFile("profpdf_wite.png", getActivity());
+        Image pdflogo = null, calendar = null, profile = null, calendarWite = null, profileWite = null;
+        pdflogo = preferences.addFile("pdflogo.png", getActivity());
+        calendar = preferences.addFile("calpdf.png", getActivity());
+        calendarWite = preferences.addFile("calpdf_wite.png", getActivity());
+        profile = preferences.addFile("profpdf.png", getActivity());
+        profileWite = preferences.addFile("profpdf_wite.png", getActivity());
 
         new HeaderNew().createPdfHeaders(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME),preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO),pdflogo,calendar,profile,"INSURANCE FORM", calendarWite, profileWite);
+                "" + preferences.getString(PrefConstants.CONNECTED_NAME), preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO), pdflogo, calendar, profile, "INSURANCE FORM", calendarWite, profileWite);
 
         HeaderNew.addusereNameChank("INSURANCE FORM");//preferences.getString(PrefConstants.CONNECTED_NAME));
         HeaderNew.addEmptyLine(1);
         Image pp = null;
-        pp=preferences.addFile("insu_one.png", getActivity());
+        pp = preferences.addFile("insu_one.png", getActivity());
         ArrayList<Form> formList = FormQuery.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        new InsurancePdfNew(formList, "form",pp);
+        new InsurancePdfNew(formList, "form", pp);
         HeaderNew.document.close();
         //----------------------------------
         final Dialog dialog = new Dialog(getActivity());
@@ -483,6 +350,11 @@ public class FragementForm extends Fragment implements View.OnClickListener {
 
         rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         floatCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -490,6 +362,11 @@ public class FragementForm extends Fragment implements View.OnClickListener {
         });
 
         floatEmail.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
@@ -504,6 +381,11 @@ public class FragementForm extends Fragment implements View.OnClickListener {
         });
 
         floatViewPdf.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
@@ -521,6 +403,7 @@ public class FragementForm extends Fragment implements View.OnClickListener {
         });
 
     }
+
     @Override
     public void onResume() {
         super.onResume();

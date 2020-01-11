@@ -38,7 +38,12 @@ import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 
 import java.io.File;
 import java.util.ArrayList;
-
+/**
+ * Class: PrescriptionInfoAdapter
+ * Screen: Prescription List
+ * A class that manages to prescription list
+ * implements OnclickListener for onClick event on views
+ */
 public class PrescriptionInfoAdapter extends RecyclerSwipeAdapter<PrescriptionInfoAdapter.ViewHolder> {
     Context context;
     ArrayList<Prescription> prescriptionList;
@@ -55,9 +60,14 @@ public class PrescriptionInfoAdapter extends RecyclerSwipeAdapter<PrescriptionIn
         this.prescriptionList = PrescriptionList;
         this.fr  =fragmentPrescriptionInfo;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
     }
 
+    /**
+     * Function: Image loading and displaying at ImageView
+     * Presents configuration for ImageLoader & options for image display.
+     */
     private void initImageLoader() {
         //Profile
         displayImageOptionsProfile = new DisplayImageOptions.Builder() // resource
@@ -158,8 +168,13 @@ public class PrescriptionInfoAdapter extends RecyclerSwipeAdapter<PrescriptionIn
         }
 
         holder.rlFix.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 Intent intent = new Intent(context, AddPrescriptionActivity.class);
                 intent.putExtra("PrescriptionObject", prescriptionList.get(position));
                 intent.putExtra("IsEdit", true);
@@ -167,8 +182,13 @@ public class PrescriptionInfoAdapter extends RecyclerSwipeAdapter<PrescriptionIn
             }
         });
         holder.imgForword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 Intent intent = new Intent(context, AddPrescriptionActivity.class);
                 intent.putExtra("PrescriptionObject", prescriptionList.get(position));
                 intent.putExtra("IsEdit", true);
@@ -176,113 +196,6 @@ public class PrescriptionInfoAdapter extends RecyclerSwipeAdapter<PrescriptionIn
             }
         });
 
-//        holder.swipeLayout.addSwipeListener(new SimpleSwipeListener() {
-//            @Override
-//            public void onOpen(SwipeLayout layout) {
-//                YoYo.with(Techniques.Tada).duration(500).delay(100).playOn(layout.findViewById(R.id.trash));
-//            }
-//        });
-//
-//        holder.lintrash.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                if (context instanceof PrescriptionActivity) {
-//                   fr.deletePrescription(prescriptionList.get(position));
-////                }
-//            }
-//        });
-//
-//
-//        ArrayList<PrescribeImage> PrescriptionImageList;
-//          /* if (prescriptionList.get(position).getPrescriptionImageList()!=null) {
-//                PrescriptionImageList = prescriptionList.get(position).getPrescriptionImageList();
-//                for (int i=0;i<PrescriptionImageList.size();i++)
-//                {
-//                    LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                    View v = vi.inflate(R.layout.row_img, null);
-//                    ImageView imgView = (ImageView) v.findViewById(R.id.img);
-//                    byte[] bytea=PrescriptionImageList.get(i).getImage();
-//                    Bitmap bmp = BitmapFactory.decodeByteArray(bytea, 0, bytea.length);
-//                    imgView.setImageBitmap(bmp);
-//                    holder.llImg.addView(v);
-//                }
-//            }*/
-//      /*      if (prescriptionList.get(position).getDosageList()!=null)
-//            {
-//                ArrayList<Dosage> DosageList = prescriptionList.get(position).getDosageList();
-//                for (int i = 0; i<DosageList.size(); i++)
-//                {
-//                    LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                    View v = vi.inflate(R.layout.row_txt, null);
-//
-//                    TextView textView = (TextView) v.findViewById(txt);
-//                    TextView textViewName = (TextView) v.findViewById(R.id.txtName);
-//                    textViewName.setText(DosageList.get(i).getMedicine());
-//                    textView.setText(DosageList.get(i).getDose()+", "+DosageList.get(i).getFrequency());
-//                    *//*if (i%2==0)
-//                    {*//*
-//                      *//*  v.setBackgroundResource(R.color.colorLightGray);
-//                        textViewName.setBackgroundResource(R.color.colorLightGray);
-//                        textView.setBackgroundResource(R.color.colorLightGray);*//*
-//                  *//*  }else{
-//                        v.setBackgroundResource(R.color.colorWhite);
-//                        textViewName.setBackgroundResource(R.color.colorWhite);
-//                        textView.setBackgroundResource(R.color.colorWhite);
-//                    }*//*
-//                    holder.llPrescription.addView(v);
-//                }
-//            }*/
-
-//        holder.txtDoctor.setText(prescriptionList.get(position).getDoctor());
-//        holder.txtDate.setText(prescriptionList.get(position).getDates());
-//        if (prescriptionList.get(position).getDose().equals("") && prescriptionList.get(position).getFrequency().equals("")) {
-//            holder.txt.setVisibility(View.GONE);
-//        } else {
-//            holder.txt.setVisibility(View.VISIBLE);
-//            String dose = "", freq = "";
-//            if (prescriptionList.get(position).getFrequency().equals("") && !prescriptionList.get(position).getDose().equals("")) {
-//                freq = prescriptionList.get(position).getDose();
-//                holder.txt.setText(freq);
-//            }
-//            if (!prescriptionList.get(position).getFrequency().equals("") && prescriptionList.get(position).getDose().equals("")) {
-//                freq = prescriptionList.get(position).getFrequency();
-//                holder.txt.setText(freq);
-//            }
-//            if (!prescriptionList.get(position).getFrequency().equals("") && !prescriptionList.get(position).getDose().equals("")) {
-//                freq = prescriptionList.get(position).getDose() + "," + prescriptionList.get(position).getFrequency();
-//                holder.txt.setText(freq);
-//            }
-//
-//
-//        }
-//
-//        holder.txtName.setText(prescriptionList.get(position).getMedicine());
-//        /*Shradha  edit added for prescription*/
-////        holder.relhead.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View v) {
-////                Intent intent = new Intent(context, AddPrescriptionActivity.class);
-////                intent.putExtra("PrescriptionObject", prescriptionList.get(position));
-////                intent.putExtra("IsEdit", true);
-////                context.startActivity(intent);
-////            }
-////        });
-//
-////        holder.imgForward.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////                Intent i = new Intent(context, AddPrescriptionActivity.class);
-////                //   preferences.putString(PrefConstants.SOURCE, "PrescriptionViewData");
-////                Prescription prescription = prescriptionList.get(position);
-////                i.putExtra("PrescriptionObject", prescription);
-////                i.putExtra("IsView", true);
-////                context.startActivity(i);
-////            }
-////        });
-//        /*holder.txtNote.setText(prescriptionList.get(position).getTxtNote());
-//        holder.txtDateTime.setText(prescriptionList.get(position).getTxtDate());
-//        //holder.imgProfile.setImageResource(student.getImgid());
-//       */
     }
 
     @Override

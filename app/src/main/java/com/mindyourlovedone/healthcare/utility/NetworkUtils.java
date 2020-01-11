@@ -8,6 +8,10 @@ import android.net.NetworkInfo;
  * Created by varsha on 8/21/2017.
  */
 
+/**
+ * Class: NetworkUtils
+ * Check if network connection is available and connected or not.
+ */
 public class NetworkUtils {
     public static int TYPE_WIFI = 1;
     public static int TYPE_MOBILE = 2;

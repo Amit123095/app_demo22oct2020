@@ -15,8 +15,6 @@ import android.widget.TextView;
 
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 
-//nikita - 5-10-19
-
 public class WebPDFActivity extends AppCompatActivity {
     TextView txtTitle;
     ImageView imgBack;
@@ -30,40 +28,17 @@ public class WebPDFActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_pdf);
 
+        //Initialize user interface view and components
+        initUI();
 
-        imgBack = findViewById(R.id.imgBack);
-        txtTitle = findViewById(R.id.txtTitle);
-        progressBar = findViewById(R.id.progressBar);
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        imgBack = findViewById(R.id.imgBack);
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        Intent i = getIntent();
-        name = i.getExtras().getString("Name");
-        txtTitle.setText(name);
-
-        webview_pdf = (WebView) findViewById(R.id.webview_pdf);
 
         webview_pdf.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
                 progressBar.setProgress(progress);
                 if (progress == 100) {
                     progressBar.setVisibility(View.GONE);
-
                 } else {
                     progressBar.setVisibility(View.VISIBLE);
-
                 }
             }
         });
@@ -86,11 +61,35 @@ public class WebPDFActivity extends AppCompatActivity {
         }
     }
 
-    private void pdfOpen(String fileUrl) {
+    /**
+     * Function: Initialize user interface view and components
+     */
+    private void initUI() {
+        txtTitle = findViewById(R.id.txtTitle);
+        progressBar = findViewById(R.id.progressBar);
+        imgBack = findViewById(R.id.imgBack);
+        webview_pdf = (WebView) findViewById(R.id.webview_pdf);
 
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        Intent i = getIntent();
+        name = i.getExtras().getString("Name");
+        txtTitle.setText(name);
+    }
+
+    private void pdfOpen(String fileUrl) {
         webview_pdf.getSettings().setJavaScriptEnabled(true);
         webview_pdf.getSettings().setPluginState(WebSettings.PluginState.ON);
-
         //---you need this to prevent the webview from
         // launching another browser when a url
         // redirection occurs---
@@ -107,7 +106,7 @@ public class WebPDFActivity extends AppCompatActivity {
     }
 
     private class Callback extends WebViewClient {
-        String urls = "javascript:(function() {"+"document.querySelector('[role=\"toolbar\"]').remove();})()";
+        String urls = "javascript:(function() {" + "document.querySelector('[role=\"toolbar\"]').remove();})()";
 
         @Override
         public boolean shouldOverrideUrlLoading(

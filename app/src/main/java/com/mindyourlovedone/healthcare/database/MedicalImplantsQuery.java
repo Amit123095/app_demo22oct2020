@@ -12,7 +12,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 9/25/2017.
  */
-
+/**
+ * Class: MedicalImplantsQuery
+ * Screen: Add Medical Implants Activity
+ * A class that manages ImplantsInfo Table CRUD Operations
+ */
 public class MedicalImplantsQuery {
     public static final String TABLE_NAME = "ImplantsInfo";
     public static final String COL_ID = "Id";

@@ -12,7 +12,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 10/7/2017.
  */
-
+/**
+ * Class: DocumentQuery
+ * Screen: Add Documents
+ * A class that manages Documents Table CRUD Operations
+ */
 public class DocumentQuery {
     public static final String TABLE_NAME = "Documents";
     public static final String COL_USER_ID = "UserId";
@@ -163,34 +167,4 @@ public class DocumentQuery {
         return flag;
     }
 
- /*   public static Boolean updateInsuranceData(int id, String name, String website, String type, String phone, byte[] photo, String fax, String note, String member, String group, String subscriber, String email) {
-        boolean flag;
-        SQLiteDatabase db=dbHelper.getWritableDatabase();
-
-        ContentValues cv=new ContentValues();
-
-        cv.put(COL_NAME,name);
-        cv.put(COL_WEBSITE,website);
-        cv.put(COL_GROUP,group);
-        cv.put(COL_MEMBERID,member);
-        cv.put(COL_EMAIL,email);
-        cv.put(COL_TYPE,type);
-        cv.put(COL_OFFICE_PHONE,phone);
-        cv.put(COL_NOTE,note);
-        cv.put(COL_PHOTO,photo);
-        cv.put(COL_FAX,fax);
-        cv.put(COL_SUBSCRIBER,subscriber);
-        int rowid=db.update(TABLE_NAME,cv,COL_ID+"="+id,null);
-
-        if (rowid==0)
-        {
-            flag=false;
-        }
-        else
-        {
-            flag=true;
-        }
-
-        return flag;
-    }*/
 }

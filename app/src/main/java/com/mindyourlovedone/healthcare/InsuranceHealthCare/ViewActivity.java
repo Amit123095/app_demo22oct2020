@@ -37,10 +37,6 @@ public class ViewActivity extends AppCompatActivity implements View.OnClickListe
     DialogManager dialogManager;
     String imagepath = "";
 
-    @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +44,11 @@ public class ViewActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_view);
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
 

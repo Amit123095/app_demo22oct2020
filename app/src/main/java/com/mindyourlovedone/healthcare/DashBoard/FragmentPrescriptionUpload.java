@@ -42,65 +42,81 @@ import com.mindyourlovedone.healthcare.utility.Preferences;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * Class: FragmentPrescriptionUpload
+ * A class that manages an prescription upload list
+ * extends Fragment
+ * implements OnclickListener for onclick event on views
+ */
 public class FragmentPrescriptionUpload extends Fragment implements View.OnClickListener {
     final String dialog_items[] = {"View", "Email", "User Instructions"};
     ImageView imgRight;
     View rootview;
     RecyclerView lvPrescriptionUpload;
-    ArrayList<Hospital> prescriptonUploadList;
     RelativeLayout llAddPrescriptionUpload;
     Preferences preferences;
     DBHelper dbHelper;
     RelativeLayout rlGuide;
     TextView txtMsg, txtFTU;
     FloatingActionButton floatProfile;
-    ImageView floatAdd,floatOptions;
+    ImageView floatAdd, floatOptions;
     ArrayList<Form> documentList = new ArrayList<>();
-    TextView txthelp; ImageView imghelp;
+    TextView txthelp;
+    ImageView imghelp;
+
+    /**
+     * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
+     * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
+     * @param savedInstanceState Bundle: If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_pres_upload, null);
+        //Initialize database, get primary data and set data
         initComponent();
         getData();
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
 
         return rootview;
     }
 
+    /**
+     * Function: Initialize preference,database
+     */
     private void initComponent() {
         preferences = new Preferences(getActivity());
         dbHelper = new DBHelper(getActivity(), preferences.getString(PrefConstants.CONNECTED_USERDB));
         PrescriptionUpload i = new PrescriptionUpload(getActivity(), dbHelper);
     }
 
+    /**
+     * Function: Set Prescription upload data on list
+     */
     private void setListData() {
-//        if (prescriptonUploadList.size() != 0) {
-//            PrescriptionUploadAdapter presUploadAdapter = new PrescriptionUploadAdapter(getActivity(), prescriptonUploadList, FragmentPrescriptionUpload.this);
-//            lvPrescriptionUpload.setAdapter(presUploadAdapter);
-//            lvPrescriptionUpload.setVisibility(View.VISIBLE);
-//            rlGuide.setVisibility(View.GONE);
-//        } else {
-//            lvPrescriptionUpload.setVisibility(View.GONE);
-//            rlGuide.setVisibility(View.VISIBLE);
-//        }
-
         if (documentList.size() != 0) {
             PresDocumentsAdapter insuranceAdapter = new PresDocumentsAdapter(getActivity(), documentList, FragmentPrescriptionUpload.this);
             lvPrescriptionUpload.setAdapter(insuranceAdapter);
             lvPrescriptionUpload.setVisibility(View.VISIBLE);
             rlGuide.setVisibility(View.GONE);
-            imghelp .setVisibility(View.GONE);
+            imghelp.setVisibility(View.GONE);
             txthelp.setVisibility(View.GONE);
         } else {
             lvPrescriptionUpload.setVisibility(View.GONE);
             rlGuide.setVisibility(View.VISIBLE);
-            imghelp .setVisibility(View.VISIBLE);
+            imghelp.setVisibility(View.VISIBLE);
             txthelp.setVisibility(View.VISIBLE);
         }
     }
 
+    /**
+     * Function: Delete selected prescription document
+     */
     public void deleteDocument(final Form item) {
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setTitle("Delete");
@@ -129,6 +145,10 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
 
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         llAddPrescriptionUpload.setOnClickListener(this);
         imgRight.setOnClickListener(this);
@@ -137,6 +157,9 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
         floatOptions.setOnClickListener(this);
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         //shradha
         floatProfile = rootview.findViewById(R.id.floatProfile);
@@ -154,9 +177,6 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
         TextView txt65 = rootview.findViewById(R.id.txtPolicy65);
         TextView txt66 = rootview.findViewById(R.id.txtPolicy66);
         TextView txt67 = rootview.findViewById(R.id.txtPolicy67);
-        TextView txt68 = rootview.findViewById(R.id.txtPolicy68);
-        ImageView img67 = rootview.findViewById(R.id.img67);
-        ImageView img68 = rootview.findViewById(R.id.img68);
 
         //shradha
         txt61.setText(Html.fromHtml("To <b>add</b> information click the orange bar at the bottom of the screen. If the entity is in your <b>Contacts</b> click the gray bar on the top right side of your screen to load the data.\n\n"));
@@ -166,10 +186,7 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
         txt65.setText(Html.fromHtml("To <b>view a report</b> or to <b>email</b> the data in each section click the three dots on the top right side of the screen.\n\n"));
         txt66.setText(Html.fromHtml("To <b>add a picture</b> click the <b>picture</b> of the <b>pencil</b> and either <b>take a photo</b> or grab one from your <b>gallery</b>. To edit or delete the picture click the pencil again. Use the same process to add a business card. It is recommended that you hold your phone horizontal when taking a picture of the business card.\n\n"));
         txt67.setText(Html.fromHtml("\n\n"));
-       /* txt68.setText(Html.fromHtml("\n\n"));
-        img67.setVisibility(View.GONE);
-        img68.setVisibility(View.GONE);
-*/
+
 
         // txtMsg = rootview.findViewById(R.id.txtMsg);
         String msg = "To <b>add</b> information click the green bar at the bottom of the screen. If the entity is in your <b>Contacts</b> click the gray bar on the top right side of your screen to load data." +
@@ -187,34 +204,31 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
         // txtMsg.setText(Html.fromHtml(msg));
         txtFTU = rootview.findViewById(R.id.txtFTU);
         txtFTU.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent intentEmerInstruc = new Intent(getActivity(), InstructionActivity.class);
                 intentEmerInstruc.putExtra("From", "PrescriptionUploadInstruction");
                 startActivity(intentEmerInstruc);
-                // relMsg.setVisibility(View.VISIBLE);
             }
         });
         imgRight = getActivity().findViewById(R.id.imgRight);
-        // imgADMTick= (ImageView) rootview.findViewById(imgADMTick);
         rlGuide = rootview.findViewById(R.id.rlGuide);
         llAddPrescriptionUpload = rootview.findViewById(R.id.llAddPrescriptionUpload);
         lvPrescriptionUpload = rootview.findViewById(R.id.lvPrescriptionUpload);
-        // setListData();
-
         // Layout Managers:
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         lvPrescriptionUpload.setLayoutManager(linearLayoutManager);
 
-//        //add ItemDecoration
-//        lvPrescriptionUpload.addItemDecoration(new VerticalSpaceItemDecoration(48));
-//
-//        //or
-//        lvPrescriptionUpload.addItemDecoration(
-//                new DividerItemDecoration(getActivity(), R.drawable.divider));
-        //...
     }
 
+    /**
+     * Function: Make Call to clicked contact person
+     */
     public void callUser(Hospital item) {
         String mobile = item.getOfficePhone();
         String hphone = item.getMobile();
@@ -228,6 +242,9 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
         }
     }
 
+    /**
+     * Function: Delete selected contact
+     */
     public void deleteHospital(final Hospital item) {
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setTitle("Delete");
@@ -256,45 +273,17 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
 
     }
 
+    /**
+     * Function: Fetch all Prescription upload record
+     */
     private void getData() {
         documentList = new ArrayList<>();
         documentList = PrescriptionUpload.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        // prescriptonUploadList = HospitalHealthQuery.fetchAllHospitalhealthRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-       /* FinanceList=new ArrayList<>();
-
-        Finance P1=new Finance();
-        P1.setFirm("Grand Capital");
-        P1.setName("James Holms");
-        P1.setCategory("Accountant");
-        P1.setAddress("799 E DRAGRAM SUITE 5A,TUCSON AZ 85705, USA");
-        P1.setImage(R.drawable.insis);
-        P1.setPhone("589-789-5236");
-
-
-        Finance P2=new Finance();
-        P2.setFirm("Latham & Watkins");
-        P2.setCategory("Attorney");
-        P2.setName("Jack Watson");
-        P2.setAddress("300 BOYLSTON AVE E, SEATTLE WA 98102, USA");
-        P2.setImage(R.drawable.insir);
-        P2.setPhone("366-789-5236");
-
-        Finance P3=new Finance();
-        P3.setFirm("American Advisory Group");
-        P3.setName("John Sheridon");
-        P3.setCategory("Financial Planner");
-        P3.setAddress("200 E MAIN ST, PHOENIX AZ 85123, USA");
-        P3.setImage(R.drawable.insurs);
-        P3.setPhone("986-789-5236");
-
-
-        FinanceList.add(P1);
-        FinanceList.add(P2);
-        FinanceList.add(P3);*/
-
-
     }
 
+    /**
+     * Function - Display dialog for Reports options i.e view, email, fax
+     */
     private void showFloatOption() {
         final String RESULT = Environment.getExternalStorageDirectory()
                 + "/mylopdf/";
@@ -304,53 +293,23 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
         if (file.exists()) {
             file.delete();
         }
-       /* new Header().createPdfHeader(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-        preferences.copyFile("ic_launcher.png", getActivity());
-        Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-        Header.addEmptyLine(1);
-        Header.addusereNameChank("Prescription List Upload");//preferences.getString(PrefConstants.CONNECTED_NAME));
-        Header.addEmptyLine(1);
 
-        Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-        Paragraph p = new Paragraph(" ");
-        LineSeparator line = new LineSeparator();
-        line.setOffset(-4);
-        line.setLineColor(BaseColor.LIGHT_GRAY);
-        p.add(line);
-        try {
-            Header.document.add(p);
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
-        Header.addEmptyLine(1);
-               *//* new Header().createPdfHeader(file.getAbsolutePath(),
-                        "Prescription");
-
-                Header.addusereNameChank(preferences.getString(PrefConstants.CONNECTED_NAME));
-                Header.addEmptyLine(2);*//*
-
-        ArrayList<Form> prescriptionList =PrescriptionUpload.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-
-        //     ArrayList<Dosage> DosageList= DosageQuery.fetchAllDosageRecord(preferences.getInt(PrefConstants.CONNECTED_USERID),);
-
-        new PrescriptionPdf(prescriptionList,1);
-
-        Header.document.close();*/
-        Image pdflogo = null,calendar= null,profile= null,calendarWite= null,profileWite= null;
-        pdflogo=preferences.addFile("pdflogo.png", getActivity());
-        calendar=preferences.addFile("calpdf.png", getActivity());calendarWite=preferences.addFile("calpdf_wite.png", getActivity());
-        profile=preferences.addFile("profpdf.png", getActivity()); profileWite=preferences.addFile("profpdf_wite.png", getActivity());
+        Image pdflogo = null, calendar = null, profile = null, calendarWite = null, profileWite = null;
+        pdflogo = preferences.addFile("pdflogo.png", getActivity());
+        calendar = preferences.addFile("calpdf.png", getActivity());
+        calendarWite = preferences.addFile("calpdf_wite.png", getActivity());
+        profile = preferences.addFile("profpdf.png", getActivity());
+        profileWite = preferences.addFile("profpdf_wite.png", getActivity());
 
         new HeaderNew().createPdfHeaders(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME),preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO),pdflogo,calendar,profile,"PRESCRIPTION LIST UPLOAD", calendarWite, profileWite);
+                "" + preferences.getString(PrefConstants.CONNECTED_NAME), preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO), pdflogo, calendar, profile, "PRESCRIPTION LIST UPLOAD", calendarWite, profileWite);
 
         HeaderNew.addusereNameChank("PRESCRIPTION LIST UPLOAD");//preferences.getString(PrefConstants.CONNECTED_NAME));
         HeaderNew.addEmptyLine(1);
         Image pp = null;
-        pp=preferences.addFile("pres_two.png", getActivity());
-        ArrayList<Form> prescriptionList =PrescriptionUpload.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        new PrescriptionPdfNew(prescriptionList,1,pp);
+        pp = preferences.addFile("pres_two.png", getActivity());
+        ArrayList<Form> prescriptionList = PrescriptionUpload.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
+        new PrescriptionPdfNew(prescriptionList, 1, pp);
         HeaderNew.document.close();
 
 //--------------------------------------------------------------------------------------
@@ -388,24 +347,30 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
 
         rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         floatfax.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
                         + "/mylopdf/"
                         + "/PrescriptionUpload.pdf";
-                /*StringBuffer result = new StringBuffer();
-                result.append(new MessageString().getInsuranceInfo());
-                new PDFDocumentProcess(path,
-                        getActivity(), result);*/
                 Intent i = new Intent(getActivity(), FaxActivity.class);
                 i.putExtra("PATH", path);
                 startActivity(i);
                 dialog.dismiss();
             }
-            
+
         });
 
         floatNew.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
@@ -422,6 +387,11 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
         });
 
         floatContact.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
@@ -440,6 +410,11 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
 
         });
         floatCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -448,116 +423,39 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
     }
 
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.floatProfile:
                 Intent intentDashboard = new Intent(getActivity(), BaseActivity.class);
                 intentDashboard.putExtra("c", 1);//Profile Data
-                //  intentDashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                //   intentDashboard.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentDashboard);
                 break;
-            case R.id.floatAdd:
-                Intent is = new Intent(getActivity(),PrescriptionUploadActivity.class);
+            case R.id.floatAdd://Add New Contact
+                Intent is = new Intent(getActivity(), PrescriptionUploadActivity.class);
                 is.putExtra("GoTo", "Add");
                 startActivityForResult(is, 100);
                 break;
-            case R.id.floatOptions:
+            case R.id.floatOptions://reports
                 showFloatOption();
                 break;
-           /* case R.id.llAddHospital:
-                preferences.putString(PrefConstants.SOURCE, "Hospital");
-                Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
-                startActivity(i);
-                break;*/
-            case R.id.imgRight:
+            case R.id.imgRight://Instructions
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "PrescriptionUploadInstruction");
                 startActivity(i);
-//                final String RESULT = Environment.getExternalStorageDirectory()
-//                        + "/mylopdf/";
-//                File dirfile = new File(RESULT);
-//                dirfile.mkdirs();
-//                File file = new File(dirfile, "Hospital.pdf");
-//                if (file.exists()) {
-//                    file.delete();
-//                }
-//                new Header().createPdfHeader(file.getAbsolutePath(),
-//                        "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-//                preferences.copyFile("ic_launcher.png", getActivity());
-//                Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-//                Header.addEmptyLine(1);
-//                Header.addusereNameChank("Hospitals, Rehab, Home Care");//preferences.getString(PrefConstants.CONNECTED_NAME));
-//                Header.addEmptyLine(1);
-//
-//                Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-//
-//                Paragraph p = new Paragraph(" ");
-//                LineSeparator line = new LineSeparator();
-//                line.setOffset(-4);
-//                line.setLineColor(BaseColor.LIGHT_GRAY);
-//                p.add(line);
-//                try {
-//                    Header.document.add(p);
-//                } catch (DocumentException e) {
-//                    e.printStackTrace();
-//                }
-//                Header.addEmptyLine(1);
-//
-//              /*  new Header().createPdfHeader(file.getAbsolutePath(),
-//                        "Hospitals, Rehab, Home Care");
-//
-//                Header.addusereNameChank(preferences.getString(PrefConstants.CONNECTED_NAME));
-//                Header.addEmptyLine(2);*/
-//
-//                ArrayList<Hospital> HospitalList = HospitalHealthQuery.fetchAllHospitalhealthRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-//                new Specialty("Hospital", HospitalList);
-//                Header.document.close();
-//
-//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//
-//                builder.setTitle("");
-//
-//                builder.setItems(dialog_items, new DialogInterface.OnClickListener() {
-//
-//                    public void onClick(DialogInterface dialog, int itemPos) {
-//                        String path = Environment.getExternalStorageDirectory()
-//                                + "/mylopdf/"
-//                                + "/Hospital.pdf";
-//                        switch (itemPos) {
-//
-//                            case 0: // view
-//                                StringBuffer result = new StringBuffer();
-//                                result.append(new MessageString().getHospitalInfo());
-//
-//                                new PDFDocumentProcess(path,
-//                                        getActivity(), result);
-//
-//                                System.out.println("\n" + result + "\n");
-//
-//                                break;
-//                            case 1://Email
-//                                File f = new File(path);
-//                                preferences.emailAttachement(f, getActivity(), "Hospitals And Other Health Preofessional");
-//                                break;
-//                            case 2://FTU
-//                                Intent i = new Intent(getActivity(), InstructionActivity.class);
-//                                i.putExtra("From", "PrescriptionInstruction");
-//                                startActivity(i);
-//                                break;
-//                           /* case 2://fax
-//                                new FaxCustomDialog(getActivity(), path).show();
-//                                break;*/
-//                        }
-//                    }
-//
-//                });
-//                builder.create().show();
+
                 break;
         }
     }
 
+    /**
+     * Function: To display floating menu for add new profile
+     */
     private void showFloatDialog() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -590,6 +488,11 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
 
         rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         floatCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -597,23 +500,29 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
         });
 
         floatNew.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Please wait still in progress..!!", Toast.LENGTH_SHORT).show();
-                /*preferences.putString(PrefConstants.SOURCE, "PrescriptionInfo");
-                Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
-                startActivity(i);*/
+
                 dialog.dismiss();
             }
         });
 
         floatContact.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Please wait still in progress..!!", Toast.LENGTH_SHORT).show();
-               /* preferences.putString(PrefConstants.SOURCE, "PrescriptionInfo");
-                Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
-                startActivity(i);*/
+
                 dialog.dismiss();
             }
         });

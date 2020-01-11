@@ -20,7 +20,11 @@ import java.util.ArrayList;
 /**
  * Edited by nikita on 04/11/2017.
  */
-
+/**
+ * Class: PrescriptionPdfNew
+ * Screen: Prescription Sections
+ * A class that manages pdf creation of Prescription Section
+ */
 
 public class PrescriptionPdfNew {
     public static ArrayList<String> messagePrescription = new ArrayList<String>();
@@ -28,6 +32,7 @@ public class PrescriptionPdfNew {
 
     Font BlackFont;
 
+    //Set Font
     private void PrescriptionNewFont() {
         try {
             BaseFont base = BaseFont.createFont("assets/Lato-Regular.ttf", "UTF-8", BaseFont.EMBEDDED);
@@ -37,6 +42,11 @@ public class PrescriptionPdfNew {
         }
     }
 
+    /**
+     * Function: Create Prescription Information PDF
+     * @param prescriptionList
+     * @param pp
+     */
     public PrescriptionPdfNew(ArrayList<Prescription> prescriptionList, Image pp) {
         PrescriptionNewFont();
         try {
@@ -256,6 +266,12 @@ public class PrescriptionPdfNew {
         }*/
     }
 
+    /**
+     * Function: Create Prescription List Upload PDF
+     * @param prescriptionList
+     * @param j
+     * @param pp
+     */
     public PrescriptionPdfNew(ArrayList<Form> prescriptionList, int j, Image pp) {
         PrescriptionNewFont();
         try {

@@ -19,45 +19,45 @@ import com.mindyourlovedone.healthcare.utility.WebPDFActivity;
 
 import java.util.ArrayList;
 
+/**
+ * Class: ADInfoActivity
+ * Screen: Advance Directive Information Screen
+ * A class that manages Advance Directive Information list
+ */
 public class ADInfoActivity extends AppCompatActivity {
-    Context context=this;
+    Context context = this;
     ArrayList<Links> UrlList;
     ListView list;
-    TextView txtTitle, txtName;
-    ImageView imgDrawer, imgBack;
+    ImageView imgBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adinfo);
+        //Initialize user interface view and components
         initUI();
-        initListener();
+
+        //Define list data
         getData();
+
+        //Set list data
         setData();
-       
     }
 
+    /**
+     * Function: Set List Data
+     */
     private void setData() {
         LinkAdapter adapter = new LinkAdapter(context, UrlList);
         list.setAdapter(adapter);
     }
 
+    /**
+     * Function: Define all Advance directive list data
+     */
     private void getData() {
         UrlList = new ArrayList<>();
-        /*Links l1=new Links();
-        l1.setName("ABA - Elder Law");
-        l1.setUrl("https://www.americanbar.org/groups/senior_lawyers/elder_law.html");
-        l1.setImage(R.drawable.aba_market);
 
-        Links l2=new Links();
-        l2.setName("Caring Info - all 50 states ");
-        l2.setUrl("http://www.caringinfo.org/i4a/pages/index.cfm?pageid=1");
-        l2.setImage(R.drawable.aba_market);
-
-        Links l3=new Links();
-        l3.setName("Aging with Dignity - all 50 states");
-        l3.setUrl("https://www.agingwithdignity.org/");
-        l3.setImage(R.drawable.aba_market);
-*/
         Links l4 = new Links();
         l4.setName("AARP links to Advance Directive Forms by State (PDF)");
         l4.setUrl("https://www.aarp.org/caregiving/financial-legal/free-printable-advance-directives/");
@@ -68,14 +68,9 @@ public class ADInfoActivity extends AppCompatActivity {
         l5.setUrl("https://www.agingwithdignity.org/");
         l5.setImage(R.drawable.aging);
 
-       /* Links l6=new Links();
-        l6.setName("American Health Lawyers Association, Loving Conversations");
-        l6.setUrl("https://www.healthlawyers.org/Pages/PageNotFoundError.aspx?requestUrl=https://www.healthlawyers.org/hlresources/PI/InfoSeries/Pages/LovingConversations.aspx");
-        l6.setImage(R.drawable.aba_market);*/
         Links l11 = new Links();
         l11.setName("ABA-American Bar Association, Commission on Law and Aging");
         l11.setUrl("https://www.americanbar.org/groups/law_aging/resources/health_care_decision_making/consumer_s_toolkit_for_health_care_advance_planning/");
-
         l11.setImage(R.drawable.aba_market_new);
 
         Links l7 = new Links();
@@ -103,80 +98,44 @@ public class ADInfoActivity extends AppCompatActivity {
         l12.setUrl("https://www.prepareforyourcare.org");
         l12.setImage(R.drawable.prepare);
 
-
-      /*  Links l12=new Links();
-        l12.setName("The Commission on Law and Aging, ABA, Consumer’s Tool Kit for Advance Planning");
-        l12.setUrl("https://www.americanbar.org/content/dam/aba/uncategorized/2011/2011_aging_bk_consumer_tool_kit_bk.authcheckdam.pdf");
-        l12.setImage(R.drawable.aba_market);*/
-
-        // UrlList.add(l1);
-        // UrlList.add(l2);
-        // UrlList.add(l3);
         UrlList.add(l11);
         UrlList.add(l4);
         UrlList.add(l5);
-        //UrlList.add(l6);
         UrlList.add(l7);
         UrlList.add(l8);
         UrlList.add(l9);
         UrlList.add(l10);
         UrlList.add(l12);
-        //Fol show
-        // Datalist=new ArrayList<>();
-        //Datalist.add("ABA - Elder Law");
-    }
-
-    private void initListener() {
 
     }
 
+
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
-       /* imgHelp = findViewById(R.id.imgRight);
-        imgHelp.setVisibility(View.GONE);
-
-        imgDrawer = findViewById(R.id.imgDrawer);
-        imgDrawer.setImageResource(R.drawable.back_new);
-
-        imgDrawer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        txtName = findViewById(R.id.txtTitle);
-        txtName.setVisibility(View.VISIBLE);
-        txtName.setText("Advance Directives Informaton");
-        txtName.setGravity(View.TEXT_ALIGNMENT_CENTER);*/
         imgBack = findViewById(R.id.imgBack);
         imgBack.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
-        list =findViewById(R.id.list);
-
+        list = findViewById(R.id.list);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                     /*  if (Datalist.get(position).equals(UrlList.get(position).getName()))
-                       {*/
-//                Intent intent = new Intent();
-//                intent.setAction(Intent.ACTION_VIEW);
-//                intent.addCategory(Intent.CATEGORY_BROWSABLE);
-//                intent.setData(Uri.parse(UrlList.get(position).getUrl()));
-//                startActivity(intent);
-
                 Intent browserIntentD = new Intent(ADInfoActivity.this, WebPDFActivity.class);
                 browserIntentD.putExtra("URL", UrlList.get(position).getUrl());
                 browserIntentD.putExtra("Name", UrlList.get(position).getName());
                 startActivity(browserIntentD);
-                //    }
+
             }
         });
-
     }
-
 }

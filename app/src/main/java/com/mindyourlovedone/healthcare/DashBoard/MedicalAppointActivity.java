@@ -50,28 +50,27 @@ import java.util.Comparator;
 import java.util.Date;
 
 
+/**
+ * Class: MedicalAppointActivity
+ * A class that manages Routine appointment list
+ * implements OnclickListener for onclick event on views
+ */
 public class MedicalAppointActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int VERTICAL_ITEM_SPACE = 0;
     final CharSequence[] dialog_items = {"View", "Email", "User Instructions"};
     Context context = this;
     RecyclerView lvNote;
     ArrayList<Appoint> noteList = new ArrayList<>();
-    ImageView imgHome, imgBack, imgAdd, imgEdit, imgRight,imghelp;
+    ImageView imgHome, imgBack, imgAdd, imgEdit, imgRight, imghelp;
     RelativeLayout rlGuide;
     Preferences preferences;
     ArrayList<DateClass> dateList;
     DBHelper dbHelper;
     RelativeLayout header;
     boolean flag = false;
-    TextView txtMsg, txtFTU, txtAdd,txthelp;
+    TextView txtMsg, txtFTU, txtAdd, txthelp;
     ScrollView scrollvw;
-   // FloatingActionButton floatProfile, floatAdd;
-    ImageView floatProfile, floatAdd,floatOptions;
-
-    @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
+    ImageView floatProfile, floatAdd, floatOptions;
 
     public static String getFormattedDate(Date date) {
         Calendar cal = Calendar.getInstance();
@@ -95,12 +94,21 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medical_appoint);
+
+        //Initialize database, get primary data and set data
         initComponent();
-        //getData();
+
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         floatOptions.setOnClickListener(this);
         txtAdd.setOnClickListener(this);
@@ -112,6 +120,9 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
         floatAdd.setOnClickListener(this);
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         floatOptions = findViewById(R.id.floatOptions);
         floatProfile = findViewById(R.id.floatProfile);
@@ -120,16 +131,6 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
         imghelp = findViewById(R.id.imghelp);
         scrollvw = findViewById(R.id.scrollvw);
         txtMsg = findViewById(R.id.txtMsg);
-//        String msg = "To <b>add</b> an Appointment  click  the <b>plus</b> box " +
-//                "at the top right of the screen. Choose a Specialist or Type of Test, add the name of your doctor and frequency of appointment. Once completed click <b>Add Appointment</b> on the green bar." +
-//                "<br><br>" +
-//                "To edit the Appointment  click the picture of the pencil to the right of the screen. To save your edits click the green bar marked Update Appointment. To <b>delete</b> the appointment swipe right to left and  click the garbage can." +
-//                "<br><br>" +
-//                "To <b>add</b> the completed date(s) click <b>Set Completion Date</b> and click Add." +
-//                "<br><br>" +
-//                "To <b>view a report</b> or to <b>email</b> or <b>fax</b> the data in each section click the three dots on the upper right side of the screen.";
-//        txtMsg.setText(Html.fromHtml(msg));
-
         //nikita
         final RelativeLayout relMsg = findViewById(R.id.relMsg);
         TextView txt61 = findViewById(R.id.txtPolicy61);
@@ -148,16 +149,18 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
 
         txtFTU = findViewById(R.id.txtFTU);
         txtFTU.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent intentEmerInstruc = new Intent(context, InstructionActivity.class);
                 intentEmerInstruc.putExtra("From", "CheckListInstruction");
                 startActivity(intentEmerInstruc);
-//                txtMsg.setVisibility(View.VISIBLE);
-                //  relMsg.setVisibility(View.VISIBLE);//nikita
-                // scrollvw.setVisibility(View.VISIBLE);//nikita
                 rlGuide.setVisibility(View.GONE);//nikita
-                imghelp .setVisibility(View.GONE);
+                imghelp.setVisibility(View.GONE);
                 txthelp.setVisibility(View.GONE);
             }
         });
@@ -170,143 +173,7 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
 
         imgAdd = findViewById(R.id.imgAdd);
         imgRight = findViewById(R.id.imgRight);
-        //imgEdit= (ImageView) findViewById(R.id.imgEdit);
         lvNote = findViewById(R.id.lvNote);
-//        lvNote.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, final View view, final int position, long l) {
-//
-//                final LinearLayout llDate = (LinearLayout) view.findViewById(R.id.llDate);
-//                ImageView imgEdit = (ImageView) view.findViewById(R.id.imgEdit);
-//                TextView txtDate = (TextView) view.findViewById(R.id.txtDate);
-//                //    final View finalConvertView = convertView;
-//                Appoint a = noteList.get(position);
-//                final ArrayList<DateClass> dates = a.getDateList();
-//                llDate.requestFocus();
-//
-//              /*  view.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {*/
-//                        if (flag == false) {
-//                            flag=true;
-//                            LayoutInflater lf;
-//                            for (int i = 0; i < dates.size() + 1; i++) {
-//                                lf = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-//                                View helperview = lf.inflate(R.layout.date_row, null);
-//
-//                                llDate.addView(helperview);
-//                                TextView datetime = (TextView) helperview.findViewById(R.id.txtDateTime);
-//
-//                                if (i == dates.size()) {
-//                                    datetime.setText("Add +");
-//                                    datetime.setTextColor(context.getResources().getColor(R.color.colorBlue));
-//                                    datetime.setOnClickListener(new View.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(View v) {
-//                                            SetDate(noteList.get(position), position);
-//
-//                                        }
-//                                    });
-//                                } else {
-//                                    datetime.setText("Completion Date:  " + dates.get(i).getDate());
-//                                    if (i % 2 == 0) {
-//                                        datetime.setBackgroundColor(context.getResources().getColor(R.color.colorSkyBlue));
-//                                    } else {
-//                                        datetime.setBackgroundColor(context.getResources().getColor(R.color.colorWhite));
-//                                    }
-//                                }
-//                            }
-//
-//                        } else if (flag == true) {
-//                            llDate.removeAllViews();
-//                            flag=false;
-//                        }
-//                  /*  }
-//                });
-//*/
-//               /*txtDate.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//
-//            if ( llDate.getVisibility() == View.GONE)
-//                {
-//                    //expandedChildList.set(arg2, true);
-//                    llDate.setVisibility(View.VISIBLE);
-//                }
-//                else
-//                {
-//                    //expandedChildList.set(arg2, false);
-//                    llDate.setVisibility(View.GONE);
-//                }
-//                    }
-//                });*/
-//                imgEdit.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Appoint a=noteList.get(position);
-//                        Intent intent=new Intent(context,AddAppointmentActivity.class);
-//                        intent.putExtra("FROM","View");
-//                        intent.putExtra("AppointObject",a);
-//                        context.startActivity(intent);
-//                    }
-//                });
-//            }
-//        });
-
-       /* lvNote.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                final Appoint a=noteList.get(position);
-                final ArrayList<DateClass> list=new ArrayList<DateClass>();
-                 TextView txtDate= (TextView) view.findViewById(R.id.txtDate);
-                final TextView txtDateTime= (TextView) view.findViewById(R.id.txtDateTime);
-                txtDate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Calendar calendar = Calendar.getInstance();
-                        int year = calendar.get(Calendar.YEAR);
-                        int month = calendar.get(Calendar.MONTH);
-                        int day = calendar.get(Calendar.DAY_OF_MONTH);
-                        DatePickerDialog dpd = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                int id=a.getId();
-
-                                Calendar newDate = Calendar.getInstance();
-                                newDate.set(year, month, dayOfMonth);
-                                long selectedMilli = newDate.getTimeInMillis();
-
-                                Date datePickerDate = new Date(selectedMilli);
-                                String reportDate=new SimpleDateFormat("d-MMM-yyyy").format(datePickerDate);
-
-                                DateClass d=new DateClass();
-                                d.setDate(reportDate);
-                                list.add(d);
-
-                                ArrayList<DateClass> ds= DateQuery.fetchAllDosageRecord(a.getUserid(),a.getUnique());
-                                Boolean flag= DateQuery.insertDosageData(a.getUserid(),list,a.getUnique());
-
-                                if (flag==true)
-                                {
-                                    Toast.makeText(context,"You have inserted date successfully",Toast.LENGTH_SHORT).show();
-                                    getData();
-                                    setNoteData();
-                                }
-                                else{
-                                    Toast.makeText(context,"Error",Toast.LENGTH_SHORT).show();
-                                }
-                               *//* txtDateTime.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
-                                noteList.get(position).setDate(dayOfMonth + "/" + (month + 1) + "/" + year);*//*
-                            }
-                        }, year, month, day);
-                        dpd.show();
-                    }
-                });
-
-            }
-        });
-*/
-
         rlGuide = findViewById(R.id.rlGuide);
 
         // Layout Managers:
@@ -325,6 +192,9 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
         }
     }
 
+    /**
+     * Function: Delete selected Appoitment
+     */
     public void deleteNote(final Appoint item) {
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle("Delete");
@@ -353,6 +223,9 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
 
     }
 
+    /**
+     * Function: Set Appointment list data
+     */
     public void setNoteData() {
         if (noteList.size() != 0) {
             lvNote.setVisibility(View.VISIBLE);
@@ -367,11 +240,10 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
             lvNote.setVisibility(View.GONE);
             scrollvw.setVisibility(View.GONE);
         }
-        ArrayList<DateClass> dates=new ArrayList<>();
-        for (int i=0;i<noteList.size();i++)
-        {
-            dates=noteList.get(i).getDateList();
-            if (dates.size()!=0) {
+        ArrayList<DateClass> dates = new ArrayList<>();
+        for (int i = 0; i < noteList.size(); i++) {
+            dates = noteList.get(i).getDateList();
+            if (dates.size() != 0) {
                 for (int j = 0; j < dates.size(); j++) {
 
                     Collections.sort(dates, new Comparator<DateClass>() {
@@ -413,33 +285,40 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
         lvNote.setAdapter(adapter);
     }
 
+    /**
+     * Function: Fecth all appoinments data from database
+     * @param index
+     */
     public void getData(final int index) {
         noteList = AppointmentQuery.fetchAllAppointmentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        //   noteList=new ArrayList<>();
-        for(int i=0;i<noteList.size();i++){
-            if(noteList.get(i).getUnique()==index){
+        for (int i = 0; i < noteList.size(); i++) {
+            if (noteList.get(i).getUnique() == index) {
                 noteList.get(i).setOpen(true);
-            }else{
+            } else {
                 noteList.get(i).setOpen(false);
             }
         }
     }
 
+    /**
+     * Function: Fetch all appointment list records
+     */
     public void getData() {
         noteList = AppointmentQuery.fetchAllAppointmentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        //   noteList=new ArrayList<>();
     }
 
+    //Initialize Database, Preferences
     private void initComponent() {
         preferences = new Preferences(context);
         dbHelper = new DBHelper(context, preferences.getString(PrefConstants.CONNECTED_USERDB));
         AppointmentQuery a = new AppointmentQuery(context, dbHelper);
         DateQuery d = new DateQuery(context, dbHelper);
-        //      EventNoteQuery e=new EventNoteQuery(context,dbHelper);
     }
 
+    /**
+     * Function: To display floating menu for reports
+     */
     private void showFloatDialog() {
-
         final String RESULT = Environment.getExternalStorageDirectory()
                 + "/mylopdf/";
         File dirfile = new File(RESULT);
@@ -448,50 +327,23 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
         if (file.exists()) {
             file.delete();
         }
-
-       /* new Header().createPdfHeader(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-        preferences.copyFile("ic_launcher.png", context);
-        Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-        Header.addEmptyLine(1);
-        Header.addusereNameChank("Appointment Checklist");//preferences.getString(PrefConstants.CONNECTED_NAME));
-        Header.addEmptyLine(1);
-        Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-        Paragraph p = new Paragraph(" ");
-        LineSeparator line = new LineSeparator();
-        line.setOffset(-4);
-        line.setLineColor(BaseColor.LIGHT_GRAY);
-        p.add(line);
-        try {
-            Header.document.add(p);
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
-        Header.addEmptyLine(1);
-
-
-        ArrayList<Appoint> AppointList = AppointmentQuery.fetchAllAppointmentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        //  ArrayList<Note> NoteList= EventNoteQuery.fetchAllNoteRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        // new EventPdf(NoteList,1);
-        new EventPdf(AppointList);
-
-        Header.document.close();*/
         //New PDF Varsa
-        Image pdflogo = null,calendar= null,profile= null,calendarWite= null,profileWite= null;
-        pdflogo=preferences.addFile("pdflogo.png",context);
-        calendar=preferences.addFile("calpdf.png", context);calendarWite=preferences.addFile("calpdf_wite.png", context);
-        profile=preferences.addFile("profpdf.png", context); profileWite=preferences.addFile("profpdf_wite.png", context);
+        Image pdflogo = null, calendar = null, profile = null, calendarWite = null, profileWite = null;
+        pdflogo = preferences.addFile("pdflogo.png", context);
+        calendar = preferences.addFile("calpdf.png", context);
+        calendarWite = preferences.addFile("calpdf_wite.png", context);
+        profile = preferences.addFile("profpdf.png", context);
+        profileWite = preferences.addFile("profpdf_wite.png", context);
 
         new HeaderNew().createPdfHeaders(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME),preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO),pdflogo,calendar,profile,"ROUTINE APPOINTMENTS", calendarWite, profileWite);
+                "" + preferences.getString(PrefConstants.CONNECTED_NAME), preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO), pdflogo, calendar, profile, "ROUTINE APPOINTMENTS", calendarWite, profileWite);
 
         HeaderNew.addusereNameChank("ROUTINE APPOINTMENTS");//preferences.getString(PrefConstants.CONNECTED_NAME));
         HeaderNew.addEmptyLine(1);
         Image pp = null;
-        pp=preferences.addFile("eve_one.png", context);
+        pp = preferences.addFile("eve_one.png", context);
         ArrayList<Appoint> AppointList = AppointmentQuery.fetchAllAppointmentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        new EventPdfNew(AppointList,pp);
+        new EventPdfNew(AppointList, pp);
         HeaderNew.document.close();
 //--------------------------------------------------------------------------------------
         final Dialog dialog = new Dialog(this);
@@ -516,15 +368,18 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
         dialog.setContentView(dialogview);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
-        // int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.95);
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        //lp.gravity = Gravity.CENTER;
         dialog.getWindow().setAttributes(lp);
         dialog.show();
 
         rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         floatCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -532,6 +387,11 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
         });
 
         floatNew.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
@@ -547,6 +407,11 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
         });
 
         floatContact.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
@@ -568,22 +433,25 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
 
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.floatOptions:
+            case R.id.floatOptions://REports
                 showFloatDialog();
                 break;
 
             case R.id.floatProfile:
                 Intent intentDashboard = new Intent(context, BaseActivity.class);
                 intentDashboard.putExtra("c", 1);//Profile Data
-                //  intentDashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                //   intentDashboard.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentDashboard);
                 break;
 
-            case R.id.imgHome:
+            case R.id.imgHome://Navigate to Profile list screen
                 Intent intentHome = new Intent(context, BaseActivity.class);
                 intentHome.putExtra("c", 1);
                 intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -591,175 +459,26 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
                 startActivity(intentHome);
                 break;
 
-            case R.id.imgBack:
+            case R.id.imgBack://Navigate to previous screen
                 finish();
                 break;
-            case R.id.floatAdd:
+            case R.id.floatAdd://Add New Contact
                 Intent i = new Intent(context, AddAppointmentActivity.class);
                 i.putExtra("FROM", "Add");
                 startActivity(i);
                 break;
-          /*  case R.id.txtAdd:
-                Intent i = new Intent(context, AddAppointmentActivity.class);
-                i.putExtra("FROM", "Add");
-                startActivity(i);
-                break;*/
-
-            case R.id.imgRight:
-
+            case R.id.imgRight://Instructions
                 Intent ih = new Intent(context, InstructionActivity.class);
                 ih.putExtra("From", "CheckListInstruction");
                 startActivity(ih);
 
-//                final String RESULT = Environment.getExternalStorageDirectory()
-//                        + "/mylopdf/";
-//                File dirfile = new File(RESULT);
-//                dirfile.mkdirs();
-//                File file = new File(dirfile, "Appointment.pdf");
-//                if (file.exists()) {
-//                    file.delete();
-//                }
-//
-//                new Header().createPdfHeader(file.getAbsolutePath(),
-//                        "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-//                preferences.copyFile("ic_launcher.png", context);
-//                Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-//                Header.addEmptyLine(1);
-//                Header.addusereNameChank("Appointment Checklist");//preferences.getString(PrefConstants.CONNECTED_NAME));
-//                Header.addEmptyLine(1);
-//                Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-//
-//                Paragraph p = new Paragraph(" ");
-//                LineSeparator line = new LineSeparator();
-//                line.setOffset(-4);
-//                line.setLineColor(BaseColor.LIGHT_GRAY);
-//                p.add(line);
-//                try {
-//                    Header.document.add(p);
-//                } catch (DocumentException e) {
-//                    e.printStackTrace();
-//                }
-//                Header.addEmptyLine(1);
-//               /* new Header().createPdfHeader(file.getAbsolutePath(),
-//                        "Medical Appointment");
-//                Header.addusereNameChank(preferences.getString(PrefConstants.CONNECTED_NAME));
-//                Header.addEmptyLine(2);*/
-//                ArrayList<Appoint> AppointList = AppointmentQuery.fetchAllAppointmentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-//                //  ArrayList<Note> NoteList= EventNoteQuery.fetchAllNoteRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-//                // new EventPdf(NoteList,1);
-//                new EventPdf(AppointList);
-//
-//                Header.document.close();
-//
-//
-//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//
-//                builder.setTitle("");
-//
-//                builder.setItems(dialog_items, new DialogInterface.OnClickListener() {
-//
-//                    public void onClick(DialogInterface dialog, int itemPos) {
-//                        String path = Environment.getExternalStorageDirectory()
-//                                + "/mylopdf/"
-//                                + "/Appointment.pdf";
-//                        switch (itemPos) {
-//                            case 0: //View
-//                                StringBuffer result = new StringBuffer();
-//                                result.append(new MessageString().getAppointInfo());
-//                                new PDFDocumentProcess(path,
-//                                        context, result);
-//
-//                                System.out.println("\n" + result + "\n");
-//                                break;
-//                            case 1://Email
-//                                File f = new File(path);
-//                                preferences.emailAttachement(f, context, "Appointment Checklist");
-//                                break;
-//                            case 2://FTU
-//                                Intent i = new Intent(context, InstructionActivity.class);
-//                                i.putExtra("From", "CheckListInstruction");
-//                                startActivity(i);
-//                                break;
-//                           /* case 2://fax
-//                                new FaxCustomDialog(context, path).show();
-//                                break;*/
-//
-//                        }
-//                    }
-//
-//                });
-//                builder.create().show();
                 break;
         }
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode==100&& data !=null)
-//        {
-//          //  Appoint appoint= (Appoint) data.getExtras().getSerializable("AppointObject");
-//           // noteList.add(appoint);
-//            getData();
-//            setNoteData();
-//        }
-//    }
-
-    /*private void showInputDialog(final Context context) {
-            final Dialog customDialog;
-
-            // LayoutInflater inflater = (LayoutInflater) getLayoutInflater();
-            //  View customView = inflater.inflate(R.layout.dialog_input, null);
-            // Build the dialog
-            customDialog = new Dialog(context);
-            customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            customDialog.setContentView(R.layout.dialog_input);
-            customDialog.setCancelable(false);
-            final EditText etNote= (EditText) customDialog.findViewById(R.id.etNote);
-            TextView btnAdd = (TextView) customDialog.findViewById(R.id.btnYes);
-            TextView btnCancel = (TextView) customDialog.findViewById(R.id.btnNo);
-
-            btnCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    customDialog.dismiss();
-                }
-            });
-
-            btnAdd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    String note=etNote.getText().toString();
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-                    String currentDateandTime = sdf.format(new Date());
-                    if (note.length()!=0) {
-                        Boolean flag = EventNoteQuery.insertNoteData(preferences.getInt(PrefConstants.CONNECTED_USERID),note,currentDateandTime);
-                        if (flag == true) {
-                            Toast.makeText(context, "Event Note Added Succesfully", Toast.LENGTH_SHORT).show();
-                            getData();
-                            setNoteData();
-                            customDialog.dismiss();
-                        } else {
-                            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-                        }
-                        *//*Note notes=new Note();
-                    notes.setTxtDate(currentDateandTime);
-                    notes.setTxtNote(note);
-                    noteList.add(notes);
-                    customDialog.dismiss();
-                    setNoteData();*//*
-                }
-                else {
-                    Toast.makeText(context,"Enter Note",Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-
-        customDialog.show();
-    }
-*/
+    /**
+     * Function: Activity Callback method called when screen gets visible and interactive
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -767,6 +486,11 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
         setNoteData();
     }
 
+    /**
+     * Function: Set date of appointment
+     * @param a
+     * @param position
+     */
     public void SetDate(final Appoint a, final int position) {
         final ArrayList<DateClass> list = new ArrayList<DateClass>();
         Calendar calendar = Calendar.getInstance();
@@ -798,23 +522,22 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
                 } else {
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                 }
-
-//                noteList.get(position).setDate(dayOfMonth + "/" + (month + 1) + "/" + year);
             }
         }, year, month, day);
         dpd.getDatePicker().setMaxDate(calendar.getTimeInMillis());
         dpd.show();
     }
 
-    /*Shradha delete date recor*/
-    public void deleteDateNote(final int items,final int index) {
+    /**
+     * Function: Delete Date
+     */
+    public void deleteDateNote(final int items, final int index) {
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle("Delete");
         alert.setMessage("Do you want to Delete this record?");
         alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                boolean flag = DateQuery.deleteDateRecord(items.getPreid(), items.getDate());
                 boolean flag = DateQuery.deleteRecords(items);
                 if (flag == true) {
                     Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();

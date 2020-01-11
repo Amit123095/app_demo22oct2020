@@ -10,7 +10,11 @@ import com.mindyourlovedone.healthcare.model.Living;
 /**
  * Created by welcome on 9/24/2017.
  */
-
+/**
+ * Class: LivingQuery
+ * Screen: Add Living Activity
+ * A class that manages Living Table CRUD Operations
+ */
 public class LivingQuery {
 
     public static final String TABLE_NAME = "Living";

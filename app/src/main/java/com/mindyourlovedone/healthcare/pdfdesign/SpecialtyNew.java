@@ -23,7 +23,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 11/6/2017.
  */
-
+/**
+ * Class: SpecialtyNew
+ * Screen: Specialty Sections
+ * A class that manages pdf creation of Specialty Section
+ */
 public class SpecialtyNew {
 
     public static ArrayList<String> messageDoctor = new ArrayList<String>();
@@ -33,7 +37,7 @@ public class SpecialtyNew {
     public static ArrayList<String> messageFinance = new ArrayList<String>();
     Font BlackFont;
 
-
+//Set Font
     public void SpecialtyNewFont()
     {
         try {
@@ -45,7 +49,11 @@ public class SpecialtyNew {
         }
     }
 
-
+    /**
+     * Function: Create Doctor Contact PDF
+     * @param specialistsList
+     * @param doctors
+     */
     public SpecialtyNew(ArrayList<Specialist> specialistsList, String doctors) {
         try {
 
@@ -305,6 +313,11 @@ public class SpecialtyNew {
         }
     }
 
+    /**
+     * Function: Create hospital Contact PDF
+     * @param hospital
+     * @param hospitalList
+     */
     public SpecialtyNew(String hospital, ArrayList<Hospital> hospitalList) {
         try {
             PdfPTable table1;
@@ -549,6 +562,10 @@ public class SpecialtyNew {
         }
     }
 
+    /**
+     * Function: Create Pharmacy Contact PDF
+     * @param pharmacyList
+     */
     public SpecialtyNew(ArrayList<Pharmacy> pharmacyList) {
         try {
             PdfPTable table1;
@@ -859,6 +876,11 @@ public class SpecialtyNew {
 
     }
 
+    /**
+     * Function: Create Finance Contact PDF
+     * @param i
+     * @param financeList
+     */
     public SpecialtyNew(int i, ArrayList<Finance> financeList) {
         try {
             PdfPTable table1;
@@ -1099,6 +1121,14 @@ public class SpecialtyNew {
         }
     }
 
+    /**
+     * Function: Create Doctor Contact PDF
+     * @param s
+     * @param doctors
+     * @param phonelists
+     * @param i
+     * @param pp
+     */
     public SpecialtyNew(Specialist s, String doctors, ArrayList<ContactData> phonelists, int i, Image pp) {
 
           SpecialtyNewFont();
@@ -1355,6 +1385,14 @@ public class SpecialtyNew {
 
 }
 
+    /**
+     * Function: Create Hospital Contact PDF
+     * @param h
+     * @param hospital1
+     * @param phonelists
+     * @param f
+     * @param pp
+     */
     public SpecialtyNew(Hospital h, String hospital1, ArrayList<ContactData> phonelists, int f,Image pp) {
        SpecialtyNewFont();
             try {
@@ -1687,6 +1725,14 @@ public class SpecialtyNew {
             }
     }
 
+    /**
+     * Function: Create Pharmacy Contact PDF
+     * @param p
+     * @param pharmacy1
+     * @param phonelists
+     * @param i
+     * @param pp
+     */
     public SpecialtyNew(Pharmacy p, String pharmacy1, ArrayList<ContactData> phonelists, int i, Image pp) {
        SpecialtyNewFont();
             try {
@@ -1942,6 +1988,14 @@ public class SpecialtyNew {
             }
     }
 
+    /**
+     * Function: Create finance Contact PDF
+     * @param f
+     * @param finance1
+     * @param phonelists
+     * @param i
+     * @param pp
+     */
     public SpecialtyNew(Finance f, String finance1, ArrayList<ContactData> phonelists, int i,Image pp) {
        SpecialtyNewFont();
             try {

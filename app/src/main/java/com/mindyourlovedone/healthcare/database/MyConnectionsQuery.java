@@ -17,7 +17,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 9/12/2017.
  */
-
+/**
+ * Class: MyConnectionsQuery
+ * Screen: Add Connections
+ * A class that manages MyConnections Table CRUD Operations
+ */
 public class MyConnectionsQuery {
     public static final String TABLE_NAME = "MyConnections";
     public static final String COL_USER_ID = "UserId";

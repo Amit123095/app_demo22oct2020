@@ -50,65 +50,93 @@ import java.util.ArrayList;
  * Created by welcome on 9/14/2017.
  */
 
+/**
+ * Class: FragmentEmergency
+ * Screen: Emergency Contacts List
+ * A class that manages List of Emergency Contacts
+ * Add New Emergency Contact
+ * Call Emergency Contact
+ * Generate, View, Email, Fax PDF Reports
+ * extends Fragment
+ * implements OnclickListener for onclick event on views
+ */
 public class FragmentEmergency extends Fragment implements View.OnClickListener {
     private static final int VERTICAL_ITEM_SPACE = 0;
     final CharSequence[] dialog_items = {"View", "Email", "User Instructions"};
     ImageView imgRight;
     View rootview;
-    RecyclerView lvEmergency;//Changes done by nikita on 18/6/18
+    RecyclerView lvEmergency;
     ArrayList<Emergency> emergencyList;
     TextView txtAdd, txtMsg, txtFTU;
     RelativeLayout llAddConn;
     TextView txtTitle;
-    ImageView imgNoti;
     DBHelper dbHelper;
-    ConnectionAdapter connectionAdapter;
     Preferences preferences;
     EmergencyAdapter emergencyAdapter;
     RelativeLayout rlGuide;
-    String finalText = "";
     FloatingActionButton floatProfile;
-    ImageView floatAdd,floatOptions;
-    TextView txthelp; ImageView imghelp;
+    ImageView floatAdd, floatOptions;
+    TextView txthelp;
+    ImageView imghelp;
 
+    /**
+     * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
+     * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
+     * @param savedInstanceState Bundle: If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_emergency, null);
+        //Initialize database, get primary data and set data
         initComponent();
+
+        //Fetch Emergency Contact Data
         getData();
+
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
         return rootview;
     }
 
+    /**
+     * Function: Initialize database, Preferences
+     */
     private void initComponent() {
         preferences = new Preferences(getActivity());
         dbHelper = new DBHelper(getActivity(), preferences.getString(PrefConstants.CONNECTED_USERDB));
         MyConnectionsQuery m = new MyConnectionsQuery(getActivity(), dbHelper);
-        ContactDataQuery c=new ContactDataQuery(getActivity(),dbHelper);
+        ContactDataQuery c = new ContactDataQuery(getActivity(), dbHelper);
     }
 
+   /**
+     * Function: Set Contact data on list
+     */
     private void setListData() {
-     /*   emergencyAdapter = new EmergencyAdapter(getActivity(), emergencyList);
-        lvEmergency.setAdapter(emergencyAdapter);*/
         if (emergencyList.size() != 0) {
             emergencyAdapter = new EmergencyAdapter(getActivity(), emergencyList, FragmentEmergency.this);//Changes done by nikita on 18/6/18
             lvEmergency.setAdapter(emergencyAdapter);
-            imghelp .setVisibility(View.GONE);
+            imghelp.setVisibility(View.GONE);
             txthelp.setVisibility(View.GONE);
             rlGuide.setVisibility(View.GONE);
             lvEmergency.setVisibility(View.VISIBLE);
         } else {
-            imghelp .setVisibility(View.VISIBLE);
+            imghelp.setVisibility(View.VISIBLE);
             txthelp.setVisibility(View.VISIBLE);
             rlGuide.setVisibility(View.VISIBLE);
             lvEmergency.setVisibility(View.GONE);
         }
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
-        //  imgADMTick.setOnClickListener(this);
         llAddConn.setOnClickListener(this);
         imgRight.setOnClickListener(this);
         floatProfile.setOnClickListener(this);
@@ -116,24 +144,16 @@ public class FragmentEmergency extends Fragment implements View.OnClickListener 
         floatAdd.setOnClickListener(this);
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         floatProfile = rootview.findViewById(R.id.floatProfile);
         floatAdd = rootview.findViewById(R.id.floatAdd);
         floatOptions = rootview.findViewById(R.id.floatOptions);
         imghelp = rootview.findViewById(R.id.imghelp);
         txthelp = rootview.findViewById(R.id.txthelp);
-//        String msg = "To <b>add</b> information click the green bar at the bottom of the screen. If the person is in your <b>Contacts</b> click the gray  bar on the top right side of your screen." +
-//                "<br><br>" +
-//                "To <b>save</b> information click the green bar at the bottom of the screen." +
-//                "<br><br>" +
-//                "To <b>edit</b> information click the picture of the <b>pencil.</b> To save your edits click the <b>green bar</b> at the bottom of the screen." +
-//                "<br><br>" +
-//                "To <b>make an automated telephone call</b> or <b>delete</b> the entry <b>swipe right to left</b> the arrow symbol on the right side." +
-//                "<br><br>" +
-//                "To <b>view a report</b> or to <b>email</b> or <b>fax</b> the data in each section click the three dots on the top right side of the screen.";
-//        txtMsg.setText(Html.fromHtml(msg));
 
-        //shradha
         final RelativeLayout relMsg = rootview.findViewById(R.id.relMsg);
         TextView txt61 = rootview.findViewById(R.id.txtPolicy61);
         TextView txt62 = rootview.findViewById(R.id.txtPolicy62);
@@ -141,13 +161,6 @@ public class FragmentEmergency extends Fragment implements View.OnClickListener 
         TextView txt64 = rootview.findViewById(R.id.txtPolicy64);
         TextView txt65 = rootview.findViewById(R.id.txtPolicy65);
 
-        //shradha
-      /*  txt61.setText(Html.fromHtml("To add information click the green bar at the bottom of the screen. If the person is in your Contacts click the gray bar on the top right side of your screen."));
-        txt62.setText(Html.fromHtml("To <b>save</b> information click the green bar at the bottom of the screen."));
-        txt63.setText(Html.fromHtml("To <b>edit</b> information click the picture of the <b>pencil.</b> To save your edits click the <b>green bar</b> at the bottom of the screen."));
-        txt64.setText(Html.fromHtml("To <b>make an automated telephone call</b> or <b>delete</b> the entry <b>swipe right to left</b> the arrow symbol on the right side."));
-        txt65.setText(Html.fromHtml("To <b>view a report</b> or to <b>email</b> or <b>fax</b> the data in each section click the three dots on the top right side of the screen."));
-*/
         txt61.setText(Html.fromHtml("To <b>add</b> information click the green bar at the bottom of the screen. If the person is in your <b>Contacts</b> click the gray bar on the top right side of your screen.\n\n"));
         txt62.setText(Html.fromHtml("To <b>save</b> information click the <b>SAVE</b> on the top right side of the screen.\n\n"));
         txt63.setText(Html.fromHtml("To <b>edit</b> information click the picture of the <b>pencil</b>. To save your edits click the <b>SAVE</b> on the top right side of the screen.\n\n"));
@@ -156,12 +169,16 @@ public class FragmentEmergency extends Fragment implements View.OnClickListener 
 
         txtFTU = rootview.findViewById(R.id.txtFTU);
         txtFTU.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent intentEmerInstruc = new Intent(getActivity(), InstructionActivity.class);
                 intentEmerInstruc.putExtra("From", "EmergencyInstruction");
                 startActivity(intentEmerInstruc);
-//                txtMsg.setVisibility(View.VISIBLE);
                 relMsg.setVisibility(View.GONE);//nikita
             }
         });
@@ -170,20 +187,13 @@ public class FragmentEmergency extends Fragment implements View.OnClickListener 
         txtTitle.setText("Emergency Contacts &\nHealth Care Proxy Agents");
         rlGuide = rootview.findViewById(R.id.rlGuide);
         imgRight = getActivity().findViewById(R.id.imgRight);
-        /*imgNoti = (ImageView) getActivity().findViewById(R.id.imgNoti);
-        imgNoti.setVisibility(View.GONE);*/
-        // imgADMTick= (ImageView) rootview.findViewById(imgADMTick);
         llAddConn = rootview.findViewById(R.id.llAddConn);
-
-        //Changes done by nikita on 18/6/18
         lvEmergency = rootview.findViewById(R.id.lvEmergency);
         // Layout Managers:
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         lvEmergency.setLayoutManager(linearLayoutManager);
-
         //add ItemDecoration
         lvEmergency.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
-
         //or
         lvEmergency.addItemDecoration(
                 new DividerItemDecoration(getActivity(), R.drawable.divider));
@@ -192,144 +202,26 @@ public class FragmentEmergency extends Fragment implements View.OnClickListener 
         if (emergencyList.size() != 0 || emergencyList != null) {
             setListData();
         }
-//        lvEmergency.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
-//        SwipeMenuCreation s=new SwipeMenuCreation();
-//        SwipeMenuCreator creator=s.createMenu(getActivity());
-//        lvEmergency.setMenuCreator(creator);
-//        lvEmergency.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-//                Emergency item = emergencyList.get(position);
-//                switch (index) {
-//                    case 0:
-//                        // open
-//                        //  open(item);
-//                        callUser(item);
-//                        break;
-//                    case 1:
-//                        // delete
-//                            deleteEmergency(item);
-//                        break;
-//                }
-//                return false;
-//            }
-//        });
+
     }
 
+    /**
+     * Function: Make Call to clicked contact person
+     */
     public void callUser(Emergency item) {
-      ArrayList<ContactData>  phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID),item.getId(), "Emergency");
-
-
-if (phonelist.size()>0)
-{
-    CallDialog c = new CallDialog();
-    c.showCallDialogs(getActivity(), phonelist);
-}else {
-    Toast.makeText(getActivity(), "You have not added phone number for call", Toast.LENGTH_SHORT).show();
-}
-       /* if (mobile.length() != 0 || hphone.length() != 0 || wPhone.length() != 0) {
+        ArrayList<ContactData> phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), item.getId(), "Emergency");
+        if (phonelist.size() > 0) {
             CallDialog c = new CallDialog();
-            c.showCallDialog(getActivity(), mobile, hphone, wPhone);
+            c.showCallDialogs(getActivity(), phonelist);
         } else {
             Toast.makeText(getActivity(), "You have not added phone number for call", Toast.LENGTH_SHORT).show();
-        }*/
-    }
-   /* private void showCallDialog(final Context context, String mobile, String hphone, String wphone) {
-        //   String text=mobile;
-            if (mobile.contains("-")) {
-                mobile = mobile.replaceAll("-", "");
-            }
-            if (hphone.contains("-")) {
-                hphone = hphone.replaceAll("-", "");
-           }
-            if (wphone.contains("-")) {
-                wphone = wphone.replaceAll("-", "");
-            }
-           // System.out.println("" + text);
-            try {
-                Double.parseDouble(mobile);
-                Double.parseDouble(hphone);
-                Double.parseDouble(wphone);
-            } catch (NumberFormatException ex) {
-                System.out.println("Some Mistake");
-            }
-         String[] num={mobile,hphone,wphone};
-         final ArrayList<String> a=new ArrayList();
-        *//*final String finalMobile = mobile;
-        final String finalHphone = hphone;
-        final String finalWphone = wphone;*//*
-        for (int i=0;i<num.length;i++)
-        {
-            if (num[i].length()!=0)
-            {
-                a.add(num[i]);
-            }
-
         }
-     if (a.size()==1)
-     {
-         String value=a.get(0);
-         new AlertDialog.Builder(context)
-                 .setTitle("Calling Alert")
-                 .setMessage("Do you want to call this number? ")
-                 .setPositiveButton(a.get(0),
-                         new DialogInterface.OnClickListener() {
 
-                             public void onClick(DialogInterface arg0, int arg1) {
-                                 onCall(a.get(0));
-                             }
-                         })
-                 .setCancelable(true).show();
-     }
-     else if(a.size()==2)
-     {
-         new AlertDialog.Builder(context)
-                 .setTitle("Calling Alert")
-                 .setMessage("Do you want to call this number? ")
-                 .setPositiveButton(a.get(0),
-                         new DialogInterface.OnClickListener() {
+    }
 
-                             public void onClick(DialogInterface arg0, int arg1) {
-                                 onCall(a.get(0));
-                             }
-                         })
-
-                 .setNegativeButton(a.get(1),
-                         new DialogInterface.OnClickListener() {
-
-                             public void onClick(DialogInterface arg0, int arg1) {
-                                 onCall(a.get(1));
-                             }
-                         }).setCancelable(true).show();
-     }
-     else if (a.size()==3) {
-         new AlertDialog.Builder(context)
-                 .setTitle("Calling Alert")
-                 .setMessage("Do you want to call this number? ")
-                 .setPositiveButton(a.get(0),
-                         new DialogInterface.OnClickListener() {
-
-                             public void onClick(DialogInterface arg0, int arg1) {
-                                 onCall(a.get(0));
-                             }
-                         })
-                 .setNeutralButton(a.get(1), new DialogInterface.OnClickListener() {
-                     @Override
-                     public void onClick(DialogInterface dialog, int which) {
-                         onCall(a.get(1));
-                     }
-                 })
-                 .setNegativeButton(a.get(2),
-                         new DialogInterface.OnClickListener() {
-
-                             public void onClick(DialogInterface arg0, int arg1) {
-                                 onCall(a.get(2));
-                             }
-                         }).setCancelable(true).show();
-     }
-
-    }*/
-
+    /**
+     * Function: Delete selected contact
+     */
     public void deleteEmergency(final Emergency item) {
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setTitle("Delete");
@@ -357,144 +249,46 @@ if (phonelist.size()>0)
         alert.show();
     }
 
+    /**
+     * Function: Fetch all emergency contacts
+     */
     private void getData() {
         emergencyList = MyConnectionsQuery.fetchAllEmergencyRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), 2);
-      /* //emergencyList = MyConnectionsQuery.fetchAllRecord();
-emergencyList=new ArrayList<>();
-        Emergency P1 = new Emergency();
-        P1.setName("Clark Smith");
-        P1.setRelationType("Self");
-        P1.setImage(R.drawable.father);
-        P1.setAddress("33 West 60th St., 6th Floor New York, Ny 10023 USA.");
-        P1.setPhone("789566236");
-
-        Emergency P2 = new Emergency();
-        P2.setName("Cherry Smith");
-        P2.setRelationType("Wife");
-        P2.setImage(R.drawable.mother);
-        P2.setAddress("33 West 60th St., 6th Floor New York, Ny 10023 USA.");
-        P2.setPhone("789566236");
-
-
-
-        emergencyList.add(P1);
-        emergencyList.add(P2);
-*/
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.floatOptions:
-              //  Toast.makeText(getActivity(), "Yet to come..!!", Toast.LENGTH_SHORT).show();
-                  showFloatPdfDialog();
+            case R.id.floatOptions://Reports
+                showFloatPdfDialog();
                 break;
 
             case R.id.floatProfile:
                 Intent intentDashboard = new Intent(getActivity(), BaseActivity.class);
                 intentDashboard.putExtra("c", 1);//Profile Data
-                // intentDashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                //  intentDashboard.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentDashboard);
                 break;
-            case R.id.floatAdd:
+            case R.id.floatAdd://Add New Contact//Add New Contact
                 showFloatDialog();
-               /* preferences.putString(PrefConstants.SOURCE, "Emergency");
-                Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
-                startActivity(i);*/
                 break;
 
-            case R.id.imgRight:
-
+            case R.id.imgRight:// Instructions
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "EmergencyInstruction");
                 startActivity(i);
-
-//                final String RESULT = Environment.getExternalStorageDirectory()
-//                        + "/mylopdf/";
-//                File dirfile = new File(RESULT);
-//                dirfile.mkdirs();
-//                File file = new File(dirfile, "Emergency.pdf");
-//                if (file.exists()) {
-//                    file.delete();
-//                }
-//
-//                new Header().createPdfHeader(file.getAbsolutePath(),
-//                        "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-//                preferences.copyFile("ic_launcher.png", getActivity());
-//                Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-//                Header.addEmptyLine(1);
-//                Header.addusereNameChank("Emergency Contacts & \nHealth Care Proxy Agent");//preferences.getString(PrefConstants.CONNECTED_NAME));
-//                Header.addEmptyLine(1);
-//
-//                Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-//
-//                Paragraph p = new Paragraph(" ");
-//                LineSeparator line = new LineSeparator();
-//                line.setOffset(-4);
-//                line.setLineColor(BaseColor.LIGHT_GRAY);
-//                p.add(line);
-//                try {
-//                    Header.document.add(p);
-//                } catch (DocumentException e) {
-//                    e.printStackTrace();
-//                }
-//                Header.addEmptyLine(1);
-///*
-//                new Header().createPdfHeader(file.getAbsolutePath(),
-//                        "Emergency Contacts");
-//                Header.addusereNameChank(preferences.getString(PrefConstants.CONNECTED_NAME));
-//                Header.addEmptyLine(2);*/
-//
-//
-//                ArrayList<Emergency> emergencyList = MyConnectionsQuery.fetchAllEmergencyRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), 2);
-//             final ArrayList<ContactData> phonelist= ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID),preferences.getInt(PrefConstants.ID),"Emergency");
-//
-//                new Individual("Emergency", emergencyList, phonelist);
-//                Header.document.close();
-//
-//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//
-//                builder.setTitle("");
-//
-//                builder.setItems(dialog_items, new DialogInterface.OnClickListener() {
-//
-//                    public void onClick(DialogInterface dialog, int itemPos) {
-//                        String path = Environment.getExternalStorageDirectory()
-//                                + "/mylopdf/"
-//                                + "/Emergency.pdf";
-//                        switch (itemPos) {
-//                            case 0: //View
-//                                StringBuffer result = new StringBuffer();
-//                                result.append(new MessageString().getEmergencyInfo());
-//
-//                                new PDFDocumentProcess(path,
-//                                        getActivity(), result);
-//
-//                                System.out.println("\n" + result + "\n");
-//                                break;
-//                            case 1://Email
-//                                File f = new File(path);
-//                                preferences.emailAttachement(f, getActivity(), "Emergency Contact");
-//                                break;
-//                           /* case 2://Fax
-//
-//                               // new FaxCustomDialog(getActivity(), path).show();
-//                                break;*/
-//                            case 2://FTU
-//                                Intent i = new Intent(getActivity(), InstructionActivity.class);
-//                                i.putExtra("From", "EmergencyInstuction");
-//                                startActivity(i);
-//                                break;
-//                        }
-//                    }
-//
-//                });
-//                builder.create().show();
                 break;
         }
     }
 
+
+    /**
+     * Function - Display dialog for Reports options i.e view, email, fax
+     */
     private void showFloatPdfDialog() {
         final String RESULT = Environment.getExternalStorageDirectory()
                 + "/mylopdf/";
@@ -504,54 +298,25 @@ emergencyList=new ArrayList<>();
         if (file.exists()) {
             file.delete();
         }
-//Old Pdsf code varsa
-       /* new Header().createPdfHeader(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-        preferences.copyFile("ic_launcher.png", getActivity());
-        Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-        Header.addEmptyLine(1);
-        Header.addusereNameChank("Emergency Contacts & \nHealth Care Proxy Agent");//preferences.getString(PrefConstants.CONNECTED_NAME));
-        Header.addEmptyLine(1);
 
-        Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-        Paragraph p = new Paragraph(" ");
-        LineSeparator line = new LineSeparator();
-        line.setOffset(-4);
-        line.setLineColor(BaseColor.LIGHT_GRAY);
-        p.add(line);
-        try {
-            Header.document.add(p);
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
-        Header.addEmptyLine(1);
-
-        ArrayList<Emergency> emergencyList = MyConnectionsQuery.fetchAllEmergencyRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), 2);
-        for(int i=0;i<emergencyList.size();i++) {
-            final ArrayList<ContactData> phonelist= ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), emergencyList.get(i).getId(),"Emergency");
-            new Individual("Emergency", emergencyList.get(i), phonelist,i);
-        }
-        Header.document.close();
-*/
-
-//New Pdf Code varsa
-        Image pdflogo = null,calendar= null,profile= null,calendarWite= null,profileWite= null;
-        pdflogo=preferences.addFile("pdflogo.png", getActivity());
-        calendar=preferences.addFile("calpdf.png", getActivity());calendarWite=preferences.addFile("calpdf_wite.png", getActivity());
-        profile=preferences.addFile("profpdf.png", getActivity()); profileWite=preferences.addFile("profpdf_wite.png", getActivity());
+        Image pdflogo = null, calendar = null, profile = null, calendarWite = null, profileWite = null;
+        pdflogo = preferences.addFile("pdflogo.png", getActivity());
+        calendar = preferences.addFile("calpdf.png", getActivity());
+        calendarWite = preferences.addFile("calpdf_wite.png", getActivity());
+        profile = preferences.addFile("profpdf.png", getActivity());
+        profileWite = preferences.addFile("profpdf_wite.png", getActivity());
 
         new HeaderNew().createPdfHeaders(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME),preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO),pdflogo,calendar,profile,"EMERGENCY CONTACTS & HEALTH CARE PROXY AGENTS", calendarWite, profileWite);
+                "" + preferences.getString(PrefConstants.CONNECTED_NAME), preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO), pdflogo, calendar, profile, "EMERGENCY CONTACTS & HEALTH CARE PROXY AGENTS", calendarWite, profileWite);
 
         HeaderNew.addusereNameChank("EMERGENCY CONTACTS & HEALTH CARE PROXY AGENTS");//preferences.getString(PrefConstants.CONNECTED_NAME));
         HeaderNew.addEmptyLine(1);
         Image pp = null;
-        pp=preferences.addFile("emergency_three.png", getActivity());
+        pp = preferences.addFile("emergency_three.png", getActivity());
         ArrayList<Emergency> emergencyList = MyConnectionsQuery.fetchAllEmergencyRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), 2);
-        for(int i=0;i<emergencyList.size();i++) {
-            final ArrayList<ContactData> phonelist= ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), emergencyList.get(i).getId(),"Emergency");
-            new IndividualNew("Emergency", emergencyList.get(i), phonelist,i,pp);
+        for (int i = 0; i < emergencyList.size(); i++) {
+            final ArrayList<ContactData> phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), emergencyList.get(i).getId(), "Emergency");
+            new IndividualNew("Emergency", emergencyList.get(i), phonelist, i, pp);
         }
         HeaderNew.document.close();
 
@@ -564,7 +329,6 @@ emergencyList=new ArrayList<>();
         View dialogview = lf.inflate(R.layout.activity_transparent_pdf, null);
         final RelativeLayout rlView = dialogview.findViewById(R.id.rlView);
         final FloatingActionButton floatCancel = dialogview.findViewById(R.id.floatCancel);
-//   final ImageView floatCancel = dialogview.findViewById(R.id.floatCancel);  // Rahul
         final FloatingActionButton floatViewPdf = dialogview.findViewById(R.id.floatContact);
         floatViewPdf.setImageResource(R.drawable.eyee);
         final FloatingActionButton floatEmail = dialogview.findViewById(R.id.floatNew);
@@ -588,6 +352,11 @@ emergencyList=new ArrayList<>();
 
         rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         floatCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -595,6 +364,11 @@ emergencyList=new ArrayList<>();
         });
 
         floatEmail.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
@@ -608,6 +382,11 @@ emergencyList=new ArrayList<>();
         });
 
         floatViewPdf.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
@@ -626,6 +405,9 @@ emergencyList=new ArrayList<>();
 
     }
 
+      /**
+     * Function: To display floating menu for add new profile
+     */
     private void showFloatDialog() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -636,10 +418,7 @@ emergencyList=new ArrayList<>();
         final RelativeLayout rlView = dialogview.findViewById(R.id.rlView);
         final FloatingActionButton floatCancel = dialogview.findViewById(R.id.floatCancel);
         final FloatingActionButton floatContact = dialogview.findViewById(R.id.floatContact);
-        //floatContact.setImageResource(R.drawable.closee);
         final FloatingActionButton floatNew = dialogview.findViewById(R.id.floatNew);
-        // floatNew.setImageResource(R.drawable.eyee);
-
         TextView txtNew = dialogview.findViewById(R.id.txtNew);
         txtNew.setText(getResources().getString(R.string.AddNew));
 
@@ -649,15 +428,18 @@ emergencyList=new ArrayList<>();
         dialog.setContentView(dialogview);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
-        // int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.95);
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        //lp.gravity = Gravity.CENTER;
         dialog.getWindow().setAttributes(lp);
         dialog.show();
 
         rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         floatCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -665,47 +447,37 @@ emergencyList=new ArrayList<>();
         });
 
         floatNew.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 preferences.putString(PrefConstants.SOURCE, "Emergency");
                 Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
-                i.putExtra("TAB","New");
+                i.putExtra("TAB", "New");
                 startActivity(i);
                 dialog.dismiss();
             }
         });
 
         floatContact.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
-               // Toast.makeText(getActivity(),"Work in progress",Toast.LENGTH_SHORT).show();
                 preferences.putString(PrefConstants.SOURCE, "Emergency");
                 Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
-                i.putExtra("TAB","Contact");
+                i.putExtra("TAB", "Contact");
                 startActivity(i);
                 dialog.dismiss();
             }
         });
     }
-
-
-   /* private void emailAttachement(File f) {
-        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-
-        emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
-                new String[] { "" });
-        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
-                "MIND YOUR ELDERS"); // subject
-        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, ""); // Body
-
-        emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
-
-        emailIntent.setType("application/email");
-
-        getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-    }*/
 
     @Override
     public void onResume() {
@@ -713,18 +485,4 @@ emergencyList=new ArrayList<>();
         getData();
         setListData();
     }
-
-
-    /*private void onCall(String finalMobile) {
-        int permissionCheck = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE);
-
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                   getActivity(),
-                    new String[]{Manifest.permission.CALL_PHONE},
-                    123);
-        } else {
-            startActivity(new Intent(Intent.ACTION_CALL).setData(Uri.parse("tel:" + finalMobile)));
-        }
-    }*/
 }

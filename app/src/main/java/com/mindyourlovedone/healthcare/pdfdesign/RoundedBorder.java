@@ -10,20 +10,6 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPTableEvent;
 
 public class RoundedBorder implements PdfPTableEvent {
-   /* @Override
-    public void cellLayout(PdfPCell pdfPCell, Rectangle rect, PdfContentByte[] canvases) {
-        PdfContentByte cb = canvases[PdfPTable.BACKGROUNDCANVAS];
-        cb.roundRectangle(
-                rect.getLeft() + 1.5f,
-                rect.getBottom() + 1.5f,
-                rect.getWidth() - 3,
-                rect.getHeight() - 3, 4
-        );
-        cb.stroke();
-
-
-
-    }*/
 
     @Override
     public void tableLayout(PdfPTable table, float[][] width, float[] height,

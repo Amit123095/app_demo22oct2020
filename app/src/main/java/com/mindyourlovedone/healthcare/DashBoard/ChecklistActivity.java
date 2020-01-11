@@ -28,6 +28,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+/**
+ * Class: ChecklistActivity
+ * Screen: Advance Directive Section
+ * A Common class that manages to List of Advance Directive, Other documents, Medical record
+ * implements OnclickListener for onClick event on views
+ */
 public class ChecklistActivity extends AppCompatActivity {
     Context context = this;
     ArrayList<Links> UrlList;
@@ -39,105 +45,48 @@ public class ChecklistActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resource);
+        //Initialize user interface view and components
         initUI();
-        initListener();
+        // get data
         getData();
+        //Set data
         setData();
     }
 
+    /**
+     * Function: Set list data
+     */
     private void setData() {
         LinkAdapter adapter = new LinkAdapter(context, UrlList);
         list.setAdapter(adapter);
     }
 
+    /**
+     * Function: Fetch all records
+     */
     private void getData() {
         UrlList = new ArrayList<>();
-        /*Links l1=new Links();
-        l1.setName("ABA - Elder Law");
-        l1.setUrl("https://www.americanbar.org/groups/senior_lawyers/elder_law.html");
-        l1.setImage(R.drawable.aba_market);
-
-        Links l2=new Links();
-        l2.setName("Caring Info - all 50 states ");
-        l2.setUrl("http://www.caringinfo.org/i4a/pages/index.cfm?pageid=1");
-        l2.setImage(R.drawable.aba_market);
-
-        Links l3=new Links();
-        l3.setName("Aging with Dignity - all 50 states");
-        l3.setUrl("https://www.agingwithdignity.org/");
-        l3.setImage(R.drawable.aba_market);
-*/
         Links l4 = new Links();
         l4.setName("Medical History Form");
         l4.setUrl("medical_history_form_new.pdf");
         l4.setImage(R.drawable.pdf);
-
-       /* Links l5 = new Links();
-        l5.setName("Checklist for Organizing Estate Planning Docs");
-        l5.setUrl("checklist_for_organizing_estate_planning_docs.pdf");
-        l5.setImage(R.drawable.pdf);*/
-       /* Links l6=new Links();
-        l6.setName("American Health Lawyers Association, Loving Conversations");
-        l6.setUrl("https://www.healthlawyers.org/Pages/PageNotFoundError.aspx?requestUrl=https://www.healthlawyers.org/hlresources/PI/InfoSeries/Pages/LovingConversations.aspx");
-        l6.setImage(R.drawable.aba_market);*/
-/*
-        Links l7=new Links();
-        l7.setName("American Hospital Association, Put It In Writing");
-        l7.setUrl("http://www.aha.org/advocacy-issues/initiatives/piiw/index.shtml");
-        l7.setImage(R.drawable.link_three);
-
-        Links l8=new Links();
-        l8.setName("Caring Connections links to Advance Directive Forms by State (PDF)");
-        l8.setUrl("http://www.caringinfo.org/i4a/pages/index.cfm?pageid=3289");
-        l8.setImage(R.drawable.care);
-
-        Links l9=new Links();
-        l9.setName("Center for Practical Bioethics, Caring Conversations");
-        l9.setUrl("http://practicalbioethics.org/programs/caring-conversations.html?jaredirect");
-        l9.setImage(R.drawable.link_five);
-
-        Links l10=new Links();
-        l10.setName("National Healthcare Decisions Day (NHDD),  Advance Care Planning");
-        l10.setUrl("https://www.nhdd.org/public-resources/#where-can-i-get-an-advance-directive");
-        l10.setImage(R.drawable.link_six);
-
-        Links l11=new Links();
-        l11.setName("The Commission on Law and Aging, ABA");
-        l11.setUrl("https://www.americanbar.org/groups/law_aging/resources/health_care_decision_making/consumer_s_toolkit_for_health_care_advance_planning/");
-        l11.setImage(R.drawable.aba_market);*/
-
-      /*  Links l12=new Links();
-        l12.setName("The Commission on Law and Aging, ABA, Consumer’s Tool Kit for Advance Planning");
-        l12.setUrl("https://www.americanbar.org/content/dam/aba/uncategorized/2011/2011_aging_bk_consumer_tool_kit_bk.authcheckdam.pdf");
-        l12.setImage(R.drawable.aba_market);*/
-
-        // UrlList.add(l1);
-        // UrlList.add(l2);
-        // UrlList.add(l3);
         UrlList.add(l4);
-       // UrlList.add(l5);
-        //UrlList.add(l6);
-       /* UrlList.add(l7);
-        UrlList.add(l8);
-        UrlList.add(l9);
-        UrlList.add(l10);
-        UrlList.add(l11);*/
-        //  UrlList.add(l12);
-        //Fol show
-        // Datalist=new ArrayList<>();
-        //Datalist.add("ABA - Elder Law");
     }
 
-    private void initListener() {
-
-    }
-
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         txtTitle = findViewById(R.id.txtTitle);
         txtTitle.setVisibility(View.VISIBLE);
         txtTitle.setText("Helpful forms and\ntemplates");
         imgBack = findViewById(R.id.imgBack);
         imgBack.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 finish();
@@ -167,7 +116,6 @@ public class ChecklistActivity extends AppCompatActivity {
                         emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
                                 new String[]{""});
-                        // String name= getString(PrefConstants.CONNECTED_NAME);
                         emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
                                 link.getName()); // subject
                         String body = "Hi, \n" +
@@ -224,6 +172,10 @@ public class ChecklistActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Function: Display Document
+     * @param documentPath
+     */
     public void CopyReadAssetss(String documentPath) {
         AssetManager assetManager = context.getAssets();
         File outFile = null;
@@ -241,21 +193,12 @@ public class ChecklistActivity extends AppCompatActivity {
             out.flush();
             out.close();
             out = null;
-            /*out = openFileOutput(file.getName(), Context.MODE_WORLD_READABLE);
-
-            copyFiles(in, out);
-            in.close();
-            in = null;
-            out.flush();
-            out.close();
-            out = null;*/
         } catch (Exception e) {
             Log.e("tag", e.getMessage());
         }
         Uri uri = null;
         // Uri uri= Uri.parse("file://" + getFilesDir() +"/"+documentPath);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            //  intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             uri = FileProvider.getUriForFile(context, "com.mindyourlovedone.healthcare.HomeActivity.fileProvider", outFile);
         } else {
             uri = Uri.fromFile(outFile);

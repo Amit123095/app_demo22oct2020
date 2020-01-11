@@ -29,7 +29,12 @@ import java.util.ArrayList;
 /**
  * Created by varsha on 8/23/2017. Changes done by nikita on 20/6/18. Changes done by shradha on 1/2/19
  */
-
+/**
+ * Class: DocumentsAdapter
+ * Screen: Insurance form list
+ * A class that manages to insurance form list
+ * implements OnclickListener for onClick event on views
+ */
 public class DocumentsAdapter extends RecyclerSwipeAdapter<DocumentsAdapter.ViewHolder> {
     Context context;
     ArrayList<Form> documentList;
@@ -99,27 +104,14 @@ public class DocumentsAdapter extends RecyclerSwipeAdapter<DocumentsAdapter.View
         String extension = FilenameUtils.getExtension(documentList.get(position).getName());
         showDocIcon(extension, preferences.getString(PrefConstants.CONNECTED_PATH)+ documentList.get(position).getDocument(),holder);
 
-        //   holder.txtDocTime.setVisibility(View.GONE);
-     /*   holder.imgForword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, AddInsuranceFormActivity.class);
-                i.putExtra("GoTo", "View");
-                *//*if (position>3)
-                {
-                    i.putExtra("Path","Yes");
-                }
-                else
-                {
-                    i.putExtra("Path","No");
-                }*//*
-                i.putExtra("FormObject", documentList.get(position));
-                context.startActivity(i);
-            }
-        });*/
         holder.rlFix.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 Intent i = new Intent(context, AddInsuranceFormActivity.class);
                 i.putExtra("GoTo", "Edit");
                 i.putExtra("Path", "Yes");
@@ -129,8 +121,13 @@ public class DocumentsAdapter extends RecyclerSwipeAdapter<DocumentsAdapter.View
             }
         });
         holder.imgForword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 Intent i = new Intent(context, AddInsuranceFormActivity.class);
                 i.putExtra("GoTo", "Edit");
                 i.putExtra("Path", "Yes");
@@ -138,24 +135,6 @@ public class DocumentsAdapter extends RecyclerSwipeAdapter<DocumentsAdapter.View
                 context.startActivity(i);
             }
         });
-       /* holder.imgEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, AddInsuranceFormActivity.class);
-                i.putExtra("GoTo", "Edit");
-                i.putExtra("Path", "Yes");
-               *//* if (position>3)
-                {
-
-                }
-                else
-                {
-                    i.putExtra("Path","No");
-                }*//*
-                i.putExtra("FormObject", documentList.get(position));
-                context.startActivity(i);
-            }
-        });*/
     }
 
 

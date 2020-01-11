@@ -15,7 +15,13 @@ import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.model.Emergency;
 import com.mindyourlovedone.healthcare.model.Specialist;
-
+/**
+ * Class: RelationActivity
+ * Screen: Select From List value for spinner
+ * A class that manages lists of all catories and select from list and set to spinner view like relation,priority,network,insurance type etc
+ * extends Fragment
+ * implements OnclickListener for onclick event on views
+ */
 public class RelationActivity extends AppCompatActivity implements View.OnClickListener {
     ListView listRelation;
     RelativeLayout titleheaders;
@@ -45,10 +51,6 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_relation);
         initUi();
-        initListener();
-    }
-
-    private void initListener() {
     }
 
     private void initUi() {
@@ -180,10 +182,6 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
                 listRelation.setAdapter(rd);
             }
         }
-
-        // RelationsAdapter rd = new RelationsAdapter(context, Relationship);
-        //listRelation.setAdapter(rd);
-
 
         listRelation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

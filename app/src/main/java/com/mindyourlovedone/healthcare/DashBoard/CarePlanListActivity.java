@@ -51,13 +51,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-
+/**
+ * Class: CarePlanListActivity
+ * Screen: List of Advance Directive, Other documents, Medical record
+ * A Common class that manages to List of Advance Directive, Other documents, Medical record
+ * implements OnclickListener for onClick event on views
+ */
 public class CarePlanListActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int VERTICAL_ITEM_SPACE = 0;
     final CharSequence[] dialog_items = {"View", "Email", "User Instructions"};
     Context context = this;
-    RecyclerView lvDoc;//by nikita on 20/6/18
-    ArrayList<Document> documentList;
+    RecyclerView lvDoc;
     ArrayList<Document> documentListOld = new ArrayList<>();
     ImageView imgBack, imgRight;
     TextView txtTitle, txtAdd;
@@ -65,36 +69,42 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
     RelativeLayout llAddDoc, header;
     Preferences preferences;
     RelativeLayout rlGuide;
-    ImageView imgPicture, imgPicture2, imgHome,imghelp;
-    TextView txtHeader, txtHeader2, txtMsg, txtFTU,txtHelp;
+    ImageView imgPicture, imgPicture2, imgHome, imghelp;
+    TextView txtHeader, txtHeader2, txtMsg, txtFTU, txtHelp;
     DBHelper dbHelper;
-    ScrollView scroll;
     ImageView floatProfile, floatOptions, floatAdd;
 
-    @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_careplan);
+        //Initialize database, get primary data and set data
         initComponent();
+
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
+
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-        //  getDocuments();
         setDocuments();
     }
 
+    /**
+     * Function: Initialize database,preferences
+     */
     private void initComponent() {
         preferences = new Preferences(context);
         dbHelper = new DBHelper(context, preferences.getString(PrefConstants.CONNECTED_USERDB));
         DocumentQuery d = new DocumentQuery(context, dbHelper);
     }
 
+    /**
+     * Function: Set documents data to list
+     */
     public void setDocuments() {
         if (documentListOld.size() != 0) {
             lvDoc.setVisibility(View.VISIBLE);
@@ -102,18 +112,20 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
             lvDoc.setAdapter(documentAdapter);
             lvDoc.setVisibility(View.VISIBLE);
             rlGuide.setVisibility(View.GONE);
-            imghelp .setVisibility(View.GONE);
+            imghelp.setVisibility(View.GONE);
             txtHelp.setVisibility(View.GONE);
-         //   scroll.setVisibility(View.GONE);
         } else {
             lvDoc.setVisibility(View.GONE);
             rlGuide.setVisibility(View.VISIBLE);
-            imghelp .setVisibility(View.VISIBLE);
+            imghelp.setVisibility(View.VISIBLE);
             txtHelp.setVisibility(View.VISIBLE);
-         //   scroll.setVisibility(View.GONE);
         }
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         imgBack.setOnClickListener(this);
         imgRight.setOnClickListener(this);
@@ -124,29 +136,20 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
         imgHome.setOnClickListener(this);
     }
 
-    /*  lvNote.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
-      SwipeMenuCreation s = new SwipeMenuCreation();
-      SwipeMenuCreator creator = s.createSingleMenu(context);
-      lvNote.setMenuCreator(creator);*/
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
 
         header = findViewById(R.id.header);
-        //nikita
         floatProfile = findViewById(R.id.floatProfile);
         floatAdd = findViewById(R.id.floatAdd);
         floatOptions = findViewById(R.id.floatOptions);
         imgHome = findViewById(R.id.imgHome);
-        txtHelp=findViewById(R.id.txtHelp);
+        txtHelp = findViewById(R.id.txtHelp);
         imghelp = findViewById(R.id.imghelp);
 
         final RelativeLayout relMsg = findViewById(R.id.relMsg);
-        TextView txt61 = findViewById(R.id.txtPolicy61);
-        TextView txt62 = findViewById(R.id.txtPolicy62);
-        TextView txt63 = findViewById(R.id.txtPolicy63);
-        TextView txt64 = findViewById(R.id.txtPolicy64);
-        TextView txt65 = findViewById(R.id.txtPolicy65);
-        TextView txt66 = findViewById(R.id.txtPolicy66);
-        TextView txt67 = findViewById(R.id.txtPolicy67);
 
         imgBack = findViewById(R.id.imgBack);
         imgPicture = findViewById(R.id.imgPicture);
@@ -157,37 +160,24 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
         txtMsg = findViewById(R.id.txtMsg);
         txtFTU = findViewById(R.id.txtFTU);
         txtFTU.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
-                /*Shradha*/
-              /*  From = preferences.getString(PrefConstants.FROM);
-                if (txtFTU.equals(From.equals("AD"))*//*From.equals("AD")*//*) {
-                    txtHeader.setText("Add Advance Directives");
-                } else if (txtFTU.equals(From.equals("Record"))) {
-                    txtHeader.setText("Add Medical Records");
-                } else if (txtFTU.equals(From.equals("Other"))*//*From.equals("Other")*//*) {
-                    txtHeader.setText("Add Other Documents");
-                } else {
-                    Toast.makeText(context, "I'm not going in this..!!", Toast.LENGTH_SHORT).show();
-                }*/
-//                txtMsg.setVisibility(View.VISIBLE);
-                rlGuide.setVisibility(View.GONE);//nikita
-            //    scroll.setVisibility(View.VISIBLE);//nikita
-                relMsg.setVisibility(View.VISIBLE);//nikita
+                rlGuide.setVisibility(View.GONE);
+                relMsg.setVisibility(View.VISIBLE);
             }
         });
-      //  scroll = findViewById(R.id.scrollvw);
         imgRight = findViewById(R.id.imgRight);
-
-        //Changes done by nikita on 20/6/18
         lvDoc = findViewById(R.id.lvDoc);
         // Layout Managers:
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         lvDoc.setLayoutManager(linearLayoutManager);
-
         //add ItemDecoration
         lvDoc.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
-
         //or
         lvDoc.addItemDecoration(
                 new DividerItemDecoration(this, R.drawable.divider));
@@ -209,6 +199,11 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
                 txtTitle.setText("Advance Directives");
                 txtAdd.setText("Add Advance Directives");
                 txtFTU.setOnClickListener(new View.OnClickListener() {
+                    /**
+                     * Function: Called when a view has been clicked.
+                     *
+                     * @param v The view that was clicked.
+                     */
                     @Override
                     public void onClick(View v) {
                         imgPicture.setImageResource(R.drawable.dir_one);
@@ -217,23 +212,7 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
                         startActivity(intentEmerInstruc);
                     }
                 });
-             /*   txtTitle.setText("Advance Directives");
-                txtAdd.setText("Add Advance Directives");
-                txtHeader.setText("Add Adv. Directive Docs");
-                txtHeader2.setText("Add Adv. Directive Docs");
 
-                imgPicture.setImageResource(R.drawable.dir_one);
-                imgPicture2.setImageResource(R.drawable.dir_one);
-
-                //shradha
-                txt61.setText(Html.fromHtml("To <b>add</b> a document click the red bar at the bottom of the screen. Click the <b>plus</b> symbol to select the file.\n\n"));
-                txt62.setText(Html.fromHtml("The file is either sitting in your File Manager or Dropbox or in your email as an attachment.\n\n"));
-                txt63.setText(Html.fromHtml("If Dropbox click on file, then complete screen. When completed click <b>save</b> on the upper right of the screen.\n\n"));
-                txt64.setText(Html.fromHtml("To <b>load an email attachment</b>,open attachment from your email, and click the forward button on the upper right side of the screen. Scroll through the Apps until you find MYLO. Click MYLO - then click the Profile you wish to attach the document to, then click the subsection the document pertains to and click OK.Enter additional data,then click <b>Save</b>.\n\n"));
-                txt65.setText(Html.fromHtml("To <b>edit</b> information click the picture of the pencil. When finished making your changes click <b>save</b>\n\n"));
-                txt66.setText(Html.fromHtml("To <b>delete</b> the entry swipe the green arrow from right to left.\n\n"));
-                txt67.setText(Html.fromHtml("To <b>view</b> a report or to <b>email</b> or to fax the data in each section click on the three dots on the upper right side of the screen.\n\n"));
-              */
                 break;
             case "Record":
                 imgPicture.setImageResource(R.drawable.dir_three);
@@ -242,6 +221,11 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
                 txtAdd.setText("Add Medical Records");
                 txtHelp.setText("Add a new File!");
                 txtFTU.setOnClickListener(new View.OnClickListener() {
+                    /**
+                     * Function: Called when a view has been clicked.
+                     *
+                     * @param v The view that was clicked.
+                     */
                     @Override
                     public void onClick(View v) {
                         imgPicture.setImageResource(R.drawable.dir_three);
@@ -251,23 +235,6 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
                     }
                 });
 
-              /*  txtTitle.setText("Medical Records");
-                txtAdd.setText("Add Medical Records");
-                txtHeader.setText("Add Medical Records");
-                txtHeader2.setText("Add Medical Records");
-
-                imgPicture.setImageResource(R.drawable.v_record);
-                imgPicture2.setImageResource(R.drawable.v_record);
-
-                //shradha
-                txt61.setText(Html.fromHtml("To <b>add</b> a document click the red bar at the bottom of the screen. Click the <b>plus</b> symbol to select the file.\n\n"));
-                txt62.setText(Html.fromHtml("The file is either sitting in your File Manager or Dropbox or in your email as an attachment.\n\n"));
-                txt63.setText(Html.fromHtml("If Dropbox click on file, then complete screen. When completed click <b>save</b> on the upper right of the screen.\n\n"));
-                txt64.setText(Html.fromHtml("To <b>load an email attachment</b>,open attachment from your email, and click the forward button on the upper right side of the screen. Scroll through the Apps until you find MYLO. Click MYLO - then click the Profile you wish to attach the document to, then click the subsection the document pertains to and click OK.Enter additional data,then click <b>Save</b>.\n\n"));
-                txt65.setText(Html.fromHtml("To <b>edit</b> information click the picture of the pencil. When finished making your changes click <b>save</b>\n\n"));
-                txt66.setText(Html.fromHtml("To <b>delete</b> the entry swipe the green arrow from right to left.\n\n"));
-                txt67.setText(Html.fromHtml("To <b>view</b> a report or to <b>email</b> or to fax the data in each section click on the three dots on the upper right side of the screen.\n\n"));
-*/
                 break;
             case "Other":
                 imgPicture.setImageResource(R.drawable.dir_two);
@@ -276,6 +243,11 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
                 txtHelp.setText("Add a new File!");
                 txtAdd.setText("Add Other Documents");
                 txtFTU.setOnClickListener(new View.OnClickListener() {
+                    /**
+                     * Function: Called when a view has been clicked.
+                     *
+                     * @param v The view that was clicked.
+                     */
                     @Override
                     public void onClick(View v) {
                         imgPicture.setImageResource(R.drawable.dir_two);
@@ -284,23 +256,6 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
                         startActivity(intentEmerInstruc);
                     }
                 });
-              /*  txtTitle.setText("Other Documents");
-                txtAdd.setText("Add Other Documents");
-                txtHeader.setText("Add Other Documents");
-                txtHeader2.setText("Add Other Documents");
-
-                imgPicture.setImageResource(R.drawable.v_other);
-                imgPicture2.setImageResource(R.drawable.v_other);
-
-                //shradha
-                txt61.setText(Html.fromHtml("To <b>add</b> a document click the red bar at the bottom of the screen. Click the <b>plus</b> symbol to select the file.\n\n"));
-                txt62.setText(Html.fromHtml("The file is either sitting in your File Manager or Dropbox or in your email as an attachment.\n\n"));
-                txt63.setText(Html.fromHtml("If Dropbox click on file, then complete screen. When completed click <b>save</b> on the upper right of the screen.\n\n"));
-                txt64.setText(Html.fromHtml("To <b>load an email attachment</b>,open attachment from your email, and click the forward button on the upper right side of the screen. Scroll through the Apps until you find MYLO. Click MYLO - then click the Profile you wish to attach the document to, then click the subsection the document pertains to and click OK.Enter additional data,then click <b>Save</b>.\n\n"));
-                txt65.setText(Html.fromHtml("To <b>edit</b> information click the picture of the pencil. When finished making your changes click <b>save</b>\n\n"));
-                txt66.setText(Html.fromHtml("To <b>delete</b> the entry swipe the green arrow from right to left.\n\n"));
-                txt67.setText(Html.fromHtml("To <b>view</b> a report or to <b>email</b> or to fax the data in each section click on the three dots on the upper right side of the screen.\n\n"));
-*/
                 break;
             case "Legal":
                 txtTitle.setText("Legal and Financial Documents");
@@ -317,6 +272,9 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    /**
+     * Function: Delete selected document
+     */
     public void deleteDocument(final Document item) {
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle("Delete");
@@ -345,11 +303,19 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
 
     }
 
+    /**
+     * Function: Fetch all Document records
+     */
     public void getData() {
         documentListOld = DocumentQuery.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), From);
     }
 
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -363,7 +329,7 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
             case R.id.floatOptions:
                 showFloatDialog();
                 break;
-            case R.id.floatAdd:
+            case R.id.floatAdd://Add New Contact
                 Intent i = new Intent(context, AddDocumentActivity.class);
                 i.putExtra("GoTo", "Add");
                 startActivity(i);
@@ -371,8 +337,6 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
             case R.id.floatProfile:
                 Intent intentDashboard = new Intent(context, BaseActivity.class);
                 intentDashboard.putExtra("c", 1);//Profile Data
-                //  intentDashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                //  intentDashboard.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentDashboard);
                 break;
 
@@ -380,238 +344,22 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
                 finish();
                 break;
 
-           /* case R.id.llAddDoc:
-                Intent i = new Intent(context, AddDocumentActivity.class);
-                i.putExtra("GoTo", "Add");
-                startActivity(i);
-                break;*/
-
             case R.id.imgRight:
                 switch (From) {
                     case "AD":
                         Intent iN = new Intent(context, InstructionActivity.class);
                         iN.putExtra("From", "AdvanceInstruction");
                         startActivity(iN);
-                       /* final String RESULT1 = Environment.getExternalStorageDirectory()
-                                + "/mylopdf/";
-                        File dirfile1 = new File(RESULT1);
-                        dirfile1.mkdirs();
-                        File file1 = new File(dirfile1, "AdvanceDirectives.pdf");
-                        if (file1.exists()) {
-                            file1.delete();
-                        }
-
-                        new Header().createPdfHeader(file1.getAbsolutePath(),
-                                "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-                        preferences.copyFile("ic_launcher.png", context);
-                        Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-                        Header.addEmptyLine(1);
-                        Header.addusereNameChank("Advance Directives");//preferences.getString(PrefConstants.CONNECTED_NAME));
-                        Header.addEmptyLine(1);
-                        Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-                        Paragraph p = new Paragraph(" ");
-                        LineSeparator line = new LineSeparator();
-                        line.setOffset(-4);
-                        line.setLineColor(BaseColor.LIGHT_GRAY);
-                        p.add(line);
-                        try {
-                            Header.document.add(p);
-                        } catch (DocumentException e) {
-                            e.printStackTrace();
-                        }
-                        Header.addEmptyLine(1);
-
-                        ArrayList<Document> AdList = DocumentQuery.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), "AD");
-                        new DocumentPdf(AdList);
-                        Header.document.close();
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-                        builder.setTitle("");
-
-                        builder.setItems(dialog_items, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int itemPos) {
-                                String path = Environment.getExternalStorageDirectory()
-                                        + "/mylopdf/"
-                                        + "/AdvanceDirectives.pdf";
-                                switch (itemPos) {
-                                    case 0: // view
-                                        StringBuffer result = new StringBuffer();
-                                        result.append(new MessageString().getAdvanceDocuments());
-
-                                        new PDFDocumentProcess(path,
-                                                context, result);
-
-                                        System.out.println("\n" + result + "\n");
-                                        break;
-                                    case 1://Email
-
-                                        File f = new File(path);
-                                        preferences.emailAttachement(f, context, "Advance Directives");
-                                        break;
-                                    case 2://fax
-                                        Intent i = new Intent(context, InstructionActivity.class);
-                                        i.putExtra("From", "AdvanceInstruction");
-                                        startActivity(i);
-                                        break;
-                                   *//* case 2://fax
-                                        new FaxCustomDialog(context, path).show();
-                                        break;*//*
-                                }
-                            }
-
-                        });
-                        builder.create().show();*/
                         break;
                     case "Record":
                         Intent ir = new Intent(context, InstructionActivity.class);
                         ir.putExtra("From", "MedicalInfoInstruction");
                         startActivity(ir);
-                       /* final String RESULT2 = Environment.getExternalStorageDirectory()
-                                + "/mylopdf/";
-                        File dirfile2 = new File(RESULT2);
-                        dirfile2.mkdirs();
-                        File file2 = new File(dirfile2, "MedicalRecords.pdf");
-                        if (file2.exists()) {
-                            file2.delete();
-                        }
-
-                        new Header().createPdfHeader(file2.getAbsolutePath(),
-                                "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-                        preferences.copyFile("ic_launcher.png", context);
-                        Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-                        Header.addEmptyLine(1);
-                        Header.addusereNameChank("Medical Records");//preferences.getString(PrefConstants.CONNECTED_NAME));
-                        Header.addEmptyLine(1);
-                        Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-                        Paragraph p1 = new Paragraph(" ");
-                        LineSeparator line1 = new LineSeparator();
-                        line1.setOffset(-4);
-                        line1.setLineColor(BaseColor.LIGHT_GRAY);
-                        p1.add(line1);
-                        try {
-                            Header.document.add(p1);
-                        } catch (DocumentException e) {
-                            e.printStackTrace();
-                        }
-                        Header.addEmptyLine(1);
-
-                        ArrayList<Document> RecordList = DocumentQuery.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), "Record");
-                        new DocumentPdf(RecordList, "Record");
-                        Header.document.close();
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-
-                        builder1.setTitle("");
-
-                        builder1.setItems(dialog_items, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int itemPos) {
-                                String path = Environment.getExternalStorageDirectory()
-                                        + "/mylopdf/"
-                                        + "/MedicalRecords.pdf";
-                                switch (itemPos) {
-                                    case 0: // view
-                                        StringBuffer result = new StringBuffer();
-                                        result.append(new MessageString().getRecordDocuments());
-
-
-                                        new PDFDocumentProcess(path,
-                                                context, result);
-
-                                        System.out.println("\n" + result + "\n");
-                                        break;
-                                    case 1://Email
-                                        File f = new File(path);
-                                        preferences.emailAttachement(f, context, "Medical Records");
-                                        break;
-                                    case 2://fax
-                                        Intent i = new Intent(context, InstructionActivity.class);
-                                        i.putExtra("From", "MedicalInfoInstruction");
-                                        startActivity(i);
-                                        break;
-
-                                }
-                            }
-
-                        });
-                        builder1.create().show();*/
                         break;
                     case "Other":
                         Intent iS = new Intent(context, InstructionActivity.class);
                         iS.putExtra("From", "OtherInstruction");
                         startActivity(iS);
-                       /* final String RESULT3 = Environment.getExternalStorageDirectory()
-                                + "/mylopdf/";
-                        File dirfile3 = new File(RESULT3);
-                        dirfile3.mkdirs();
-                        File file3 = new File(dirfile3, "OtherDocuments.pdf");
-                        if (file3.exists()) {
-                            file3.delete();
-                        }
-
-                        new Header().createPdfHeader(file3.getAbsolutePath(),
-                                "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-                        preferences.copyFile("ic_launcher.png", context);
-                        Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-                        Header.addEmptyLine(1);
-                        Header.addusereNameChank("Other Documents");//preferences.getString(PrefConstants.CONNECTED_NAME));
-                        Header.addEmptyLine(1);
-                        Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-                        Paragraph p2 = new Paragraph(" ");
-                        LineSeparator line2 = new LineSeparator();
-                        line2.setOffset(-4);
-                        line2.setLineColor(BaseColor.LIGHT_GRAY);
-                        p2.add(line2);
-                        try {
-                            Header.document.add(p2);
-                        } catch (DocumentException e) {
-                            e.printStackTrace();
-                        }
-                        Header.addEmptyLine(1);
-
-                        ArrayList<Document> OtherList = DocumentQuery.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), "Other");
-                        new DocumentPdf(OtherList, 1);
-                        Header.document.close();
-                        AlertDialog.Builder builder2 = new AlertDialog.Builder(context);
-
-                        builder2.setTitle("");
-
-                        builder2.setItems(dialog_items, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int itemPos) {
-                                String path = Environment.getExternalStorageDirectory()
-                                        + "/mylopdf/"
-                                        + "/OtherDocuments.pdf";
-                                switch (itemPos) {
-                                    case 0: // view
-                                        StringBuffer result = new StringBuffer();
-                                        result.append(new MessageString().getOtherDocuments());
-                                        new PDFDocumentProcess(path,
-                                                context, result);
-
-                                        System.out.println("\n" + result + "\n");
-                                        break;
-                                    case 1://Email
-
-                                        File f = new File(path);
-                                        preferences.emailAttachement(f, context, "Other Documents");
-                                        break;
-                                    case 2://fax
-                                        Intent i = new Intent(context, InstructionActivity.class);
-                                        i.putExtra("From", "OtherInstruction");
-                                        startActivity(i);
-                                        startActivity(i);
-                                        break;
-
-                                }
-                            }
-
-                        });
-                        builder2.create().show();*/
                         break;
                 }
                 break;
@@ -620,6 +368,9 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    /**
+     * Function: To display floating menu for add new profile
+     */
     private void showFloatDialog() {
         switch (From) {
             case "AD":
@@ -631,47 +382,22 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
                 if (file1.exists()) {
                     file1.delete();
                 }
-//Old code varsa
-              /*  new Header().createPdfHeader(file1.getAbsolutePath(),
-                        "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-                preferences.copyFile("ic_launcher.png", context);
-                Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-                Header.addEmptyLine(1);
-                Header.addusereNameChank("Advance Directives");//preferences.getString(PrefConstants.CONNECTED_NAME));
-                Header.addEmptyLine(1);
-                Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-                Paragraph p = new Paragraph(" ");
-                LineSeparator line = new LineSeparator();
-                line.setOffset(-4);
-                line.setLineColor(BaseColor.LIGHT_GRAY);
-                p.add(line);
-                try {
-                    Header.document.add(p);
-                } catch (DocumentException e) {
-                    e.printStackTrace();
-                }
-                Header.addEmptyLine(1);
-
-                ArrayList<Document> AdList = DocumentQuery.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), "AD");
-                new DocumentPdf(AdList);
-                Header.document.close();*/
-
-              //New code varsa
-                Image pdflogo = null,calendar= null,profile= null,calendarWite= null,profileWite= null;
-                pdflogo=preferences.addFile("pdflogo.png", context);
-                calendar=preferences.addFile("calpdf.png", context);calendarWite=preferences.addFile("calpdf_wite.png", context);
-                profile=preferences.addFile("profpdf.png", context); profileWite=preferences.addFile("profpdf_wite.png", context);
+                Image pdflogo = null, calendar = null, profile = null, calendarWite = null, profileWite = null;
+                pdflogo = preferences.addFile("pdflogo.png", context);
+                calendar = preferences.addFile("calpdf.png", context);
+                calendarWite = preferences.addFile("calpdf_wite.png", context);
+                profile = preferences.addFile("profpdf.png", context);
+                profileWite = preferences.addFile("profpdf_wite.png", context);
 
                 new HeaderNew().createPdfHeaders(file1.getAbsolutePath(),
-                        "" + preferences.getString(PrefConstants.CONNECTED_NAME),preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO),pdflogo,calendar,profile,"ADVANCE DIRECTIVES", calendarWite, profileWite);
+                        "" + preferences.getString(PrefConstants.CONNECTED_NAME), preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO), pdflogo, calendar, profile, "ADVANCE DIRECTIVES", calendarWite, profileWite);
 
                 HeaderNew.addusereNameChank("ADVANCE DIRECTIVES");//preferences.getString(PrefConstants.CONNECTED_NAME));
                 HeaderNew.addEmptyLine(1);
                 Image pp = null;
-                pp=preferences.addFile("dir_one.png", context);
+                pp = preferences.addFile("dir_one.png", context);
                 ArrayList<Document> AdList = DocumentQuery.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), "AD");
-                new DocumentPdfNew(AdList,pp);
+                new DocumentPdfNew(AdList, pp);
                 HeaderNew.document.close();
                 break;
             case "Other":
@@ -683,48 +409,21 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
                 if (file3.exists()) {
                     file3.delete();
                 }
-                //Old Code varsa
-                /*
-
-                new Header().createPdfHeader(file3.getAbsolutePath(),
-                        "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-                preferences.copyFile("ic_launcher.png", context);
-                Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-                Header.addEmptyLine(1);
-                Header.addusereNameChank("Other Documents");//preferences.getString(PrefConstants.CONNECTED_NAME));
-                Header.addEmptyLine(1);
-                Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-                Paragraph p2 = new Paragraph(" ");
-                LineSeparator line2 = new LineSeparator();
-                line2.setOffset(-4);
-                line2.setLineColor(BaseColor.LIGHT_GRAY);
-                p2.add(line2);
-                try {
-                    Header.document.add(p2);
-                } catch (DocumentException e) {
-                    e.printStackTrace();
-                }
-                Header.addEmptyLine(1);
-
-                ArrayList<Document> OtherList = DocumentQuery.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), "Other");
-                new DocumentPdf(OtherList, 1);
-                Header.document.close();*/
-
-               // Image pdflogo = null,calendar= null,profile= null,calendarWite= null,profileWite= null;
-                pdflogo=preferences.addFile("pdflogo.png", context);
-                calendar=preferences.addFile("calpdf.png", context);calendarWite=preferences.addFile("calpdf_wite.png", context);
-                profile=preferences.addFile("profpdf.png", context); profileWite=preferences.addFile("profpdf_wite.png", context);
+                pdflogo = preferences.addFile("pdflogo.png", context);
+                calendar = preferences.addFile("calpdf.png", context);
+                calendarWite = preferences.addFile("calpdf_wite.png", context);
+                profile = preferences.addFile("profpdf.png", context);
+                profileWite = preferences.addFile("profpdf_wite.png", context);
 
                 new HeaderNew().createPdfHeaders(file3.getAbsolutePath(),
-                        "" + preferences.getString(PrefConstants.CONNECTED_NAME),preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO),pdflogo,calendar,profile,"OTHER DOCUMENTS", calendarWite, profileWite);
+                        "" + preferences.getString(PrefConstants.CONNECTED_NAME), preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO), pdflogo, calendar, profile, "OTHER DOCUMENTS", calendarWite, profileWite);
 
                 HeaderNew.addusereNameChank("OTHER DOCUMENTS");//preferences.getString(PrefConstants.CONNECTED_NAME));
                 HeaderNew.addEmptyLine(1);
-                 pp = null;
-                pp=preferences.addFile("dir_two.png", context);
+                pp = null;
+                pp = preferences.addFile("dir_two.png", context);
                 ArrayList<Document> OtherList = DocumentQuery.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), "Other");
-                new DocumentPdfNew(OtherList, 1,pp);
+                new DocumentPdfNew(OtherList, 1, pp);
                 HeaderNew.document.close();
                 break;
 
@@ -737,49 +436,25 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
                 if (file2.exists()) {
                     file2.delete();
                 }
-
-          /*     new Header().createPdfHeader(file2.getAbsolutePath(),
-                        "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-                preferences.copyFile("ic_launcher.png", context);
-                Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-                Header.addEmptyLine(1);
-                Header.addusereNameChank("Medical Records");//preferences.getString(PrefConstants.CONNECTED_NAME));
-                Header.addEmptyLine(1);
-                Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-                Paragraph p1 = new Paragraph(" ");
-                LineSeparator line1 = new LineSeparator();
-                line1.setOffset(-4);
-                line1.setLineColor(BaseColor.LIGHT_GRAY);
-                p1.add(line1);
-                try {
-                    Header.document.add(p1);
-                } catch (DocumentException e) {
-                    e.printStackTrace();
-                }
-                Header.addEmptyLine(1);
-
-                ArrayList<Document> RecordList = DocumentQuery.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), "Record");
-                new DocumentPdf(RecordList, "Record");
-                Header.document.close();*/
-                // Image pdflogo = null,calendar= null,profile= null,calendarWite= null,profileWite= null;
-                pdflogo=preferences.addFile("pdflogo.png", context);
-                calendar=preferences.addFile("calpdf.png", context);calendarWite=preferences.addFile("calpdf_wite.png", context);
-                profile=preferences.addFile("profpdf.png", context); profileWite=preferences.addFile("profpdf_wite.png", context);
+                pdflogo = preferences.addFile("pdflogo.png", context);
+                calendar = preferences.addFile("calpdf.png", context);
+                calendarWite = preferences.addFile("calpdf_wite.png", context);
+                profile = preferences.addFile("profpdf.png", context);
+                profileWite = preferences.addFile("profpdf_wite.png", context);
 
                 new HeaderNew().createPdfHeaders(file2.getAbsolutePath(),
-                        "" + preferences.getString(PrefConstants.CONNECTED_NAME),preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO),pdflogo,calendar,profile,"MEDICAL RECORDS", calendarWite, profileWite);
+                        "" + preferences.getString(PrefConstants.CONNECTED_NAME), preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO), pdflogo, calendar, profile, "MEDICAL RECORDS", calendarWite, profileWite);
 
                 HeaderNew.addusereNameChank("MEDICAL RECORDS");//preferences.getString(PrefConstants.CONNECTED_NAME));
                 HeaderNew.addEmptyLine(1);
                 pp = null;
-                pp=preferences.addFile("dir_three.png", context);
+                pp = preferences.addFile("dir_three.png", context);
                 ArrayList<Document> RecordList = DocumentQuery.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), "Record");
-                new DocumentPdfNew(RecordList, "Record",pp);
+                new DocumentPdfNew(RecordList, "Record", pp);
                 HeaderNew.document.close();
                 break;
         }
-                //----------------------------------------
+        //----------------------------------------
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -802,15 +477,18 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
         dialog.setContentView(dialogview);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
-        // int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.95);
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        //lp.gravity = Gravity.CENTER;
         dialog.getWindow().setAttributes(lp);
         dialog.show();
 
         rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         floatCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
 
@@ -819,6 +497,11 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
         });
 
         floatNew.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
 
@@ -848,12 +531,17 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
                         break;
 
                 }
-                               dialog.dismiss();
+                dialog.dismiss();
             }
 
         });
 
         floatContact.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 switch (From) {
@@ -863,13 +551,9 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
                                 + "/AdvanceDirectives.pdf";
                         StringBuffer result = new StringBuffer();
                         result.append(new MessageString().getAdvanceDocuments());
-
                         new PDFDocumentProcess(path,
                                 context, result);
-
                         System.out.println("\n" + result + "\n");
-
-
                         break;
                     case "Other":
                         String path1 = Environment.getExternalStorageDirectory()
@@ -880,7 +564,6 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
                         result1.append(new MessageString().getOtherDocuments());
                         new PDFDocumentProcess(path1,
                                 context, result1);
-
                         System.out.println("\n" + result1 + "\n");
                         break;
                     case "Record":
@@ -889,51 +572,18 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
                                 + "/MedicalRecords.pdf";
                         StringBuffer result2 = new StringBuffer();
                         result2.append(new MessageString().getRecordDocuments());
-
-
                         new PDFDocumentProcess(path2,
                                 context, result2);
-
                         System.out.println("\n" + result2 + "\n");
-
                         break;
-
                 }
-
-                    dialog.dismiss();
+                dialog.dismiss();
             }
 
 
         });
-
-
     }
 
-    public void CopyReadAssets(String fileName) {
-        File dir = new File(Environment.getExternalStorageDirectory()
-                + "/mhcw/");
-        dir.mkdirs();
-
-        AssetManager assetManager = getAssets();
-
-        InputStream in = null;
-        OutputStream out = null;
-        File file = new File(Environment.getExternalStorageDirectory()
-                + "/mhcw/" + fileName);
-        try {
-            in = assetManager.open(fileName);
-            out = new BufferedOutputStream(new FileOutputStream(file));
-
-            copyFile(in, out);
-            in.close();
-            in = null;
-            out.flush();
-            out.close();
-            out = null;
-        } catch (Exception e) {
-            Log.e("tag", e.getMessage());
-        }
-    }
 
     private void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
@@ -941,45 +591,6 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
         while ((read = in.read(buffer)) != -1) {
             out.write(buffer, 0, read);
         }
-    }
-
-    public void onPDFClicked(String fileName) {
-        final File item = new File(fileName);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-        builder.setTitle("");
-
-        builder.setItems(dialog_items, new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int itemPos) {
-
-                switch (itemPos) {
-                    case 0: // email
-
-                       /* emailAttachement(item);
-
-                        ShearedValues.activityID = getApplicationContext();*/
-                        break;
-                    case 1: // email
-
-                       /* bluetoothAttachement(new File(item.getAbsolutePath()),
-                                context);
-                        ShearedValues.activityID = getApplicationContext();*/
-
-                        break;
-                    case 2: // view
-
-                        String path_of_file = item.getAbsolutePath();
-                        viewFile(context, path_of_file);
-
-                        // ShearedValues.activityID = getApplicationContext();
-                        break;
-
-                }
-            }
-        });
-
-        builder.create().show();
     }
 
     private void viewFile(Context context, String filename) {
@@ -1027,26 +638,6 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    public void CopyAssets() {
-        File fileBrochure = new File(Environment.getExternalStorageDirectory() + "/mhcw/MHCW_APP_Wallet_Card.pdf");
-        if (!fileBrochure.exists()) {
-            CopyAssetsbrochure();
-        }
-
-        /** PDF reader code */
-        File file = new File(Environment.getExternalStorageDirectory() + "/mhcw/MHCW_APP_Wallet_Card.pdf");
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(file), "application/pdf");
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        try {
-            getApplicationContext().startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            // Toast.makeText(SecondActivity.this, "NO Pdf Viewer", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     //method to write the PDFs file to sd card
     private void CopyAssetsbrochure() {
         AssetManager assetManager = getAssets();
@@ -1078,6 +669,9 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    /**
+     * Function: Activity Callback method called when screen gets visible and interactive
+     */
     @Override
     protected void onResume() {
         super.onResume();

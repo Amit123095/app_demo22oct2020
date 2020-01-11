@@ -1,6 +1,5 @@
 package com.mindyourlovedone.healthcare.database;
 
-
 public class ProxyInformation {
 
     private String KEY_ID = "_id";

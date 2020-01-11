@@ -24,6 +24,12 @@ import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.utility.UIEmails;
 
+/**
+ * Class: UserInsActivity
+ * Screen: Display Instruction
+ * A class that manages to display all screen instructions
+ * implements OnclickListener for onClick event on views
+ */
 public class InstructionActivity extends AppCompatActivity implements View.OnClickListener {
     RelativeLayout titleHeader;
     ImageView imgBack, imgPicture, txtEmail;
@@ -43,15 +49,23 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
 
 
         initUI();
+        //Register a callback to be invoked when this views are clicked.
         initListener();
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         txtEmail.setOnClickListener(this);
         floatProfile.setOnClickListener(this);
 
     }
 
+    /**
+     * Function:Initialize UI and View
+     */
     private void initUI() {
         //shradha
         floatProfile = findViewById(R.id.floatProfile);
@@ -181,16 +195,16 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txtPolicy69.setText(Html.fromHtml("<b>Email or Fax Document.</b> Click the green circle located on the bottom of the screen and then click Email or Fax Document."));
                 txtPolicy71.setText(Html.fromHtml("<b>Faxing a Document.</b> Users should only send documents via fax to meet an organizations’ HIPAA requirements (e.g. health, insurance).  Users can receive notification that the fax was received by including a Reply Email Address. The fax will be sent immediately, but the machine you are sending to may be turned off or very busy.  If a reply is not received within 20 minutes, check the fax number and resend. "));
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>" +
-                        "<br>"+txt65.getText().toString()+"<br>" +
-                        "<br>"+txt66.getText().toString()+"<br>"+
-                        "<br>"+txt67.getText().toString()+"<br>"+
-                        "<br>"+txt68.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy69.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy71.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>" +
+                        "<br>" + txt67.getText().toString() + "<br>" +
+                        "<br>" + txt68.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy69.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy71.getText().toString() + "<br>"
                 ).toString();
 
 
@@ -239,14 +253,14 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt66.setText(Html.fromHtml("<b>Summary Screen.</b> MYLO provides Users with a summary screen.  To edit information, click the cell of the prescription. Make changes and then click SAVE on the top right corner of the screen. Clicking SAVE, takes Users back to the Summary page. "));
                 txt67.setText(Html.fromHtml("<b>Delete an Entry.</b> From the Summary screen, identify the entry to delete, then swipe left (start from the right side of the cell and swipe left)."));
                 txt68.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input, print or email Summary Reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>" +
-                        "<br>"+txt65.getText().toString()+"<br>" +
-                        "<br>"+txt66.getText().toString()+"<br>"+
-                        "<br>"+txt67.getText().toString()+"<br>"+
-                        "<br>"+txt68.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>" +
+                        "<br>" + txt67.getText().toString() + "<br>" +
+                        "<br>" + txt68.getText().toString() + "<br>"
                 ).toString();
 
                 //shradha
@@ -291,12 +305,12 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt65.setText(Html.fromHtml("<b>Delete Vital Signs.</b> To delete the entry swipe left (right to left) the summary cell. This will bring up the Delete icon."));
                 txt66.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input, print or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>" +
-                        "<br>"+txt65.getText().toString()+"<br>"+
-                        "<br>"+txt66.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>"
                 ).toString();
 
                 //shradha
@@ -336,7 +350,8 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt61.setText(Html.fromHtml("<b>Function.</b> Allows Users to keep a copies of insurance forms. The following formats can be uploaded: PDF, Excel, Word, Text, JPG."));
                 txt62.setText(Html.fromHtml("<b>Add a Form.</b> Click the Plus icon on the bottom right corner of the screen. \n" +
                         "Click the ATTACH FILE icon at the top of the screen and select the location of the file.  Choose the file.  To edit the document, click the blue Pencil icon and upload a new document or delete the entire entry (see Delete Entry below).\n"));
-                txt63.setText(Html.fromHtml("<b>Add a Document from your Email.</b> If the document is in your email, go to your email account and choose the email with the file you want to upload. Click on the attachment and open it. After it opens, click the forward icon and scroll to find MYLO.  Choose the specific profile and section for the upload.  For more information consult the “How-to Video” found in the Menu Bar.")); txt64.setText(Html.fromHtml("<b>Save Input.</b> Click SAVE on the top right corner of the screen."));
+                txt63.setText(Html.fromHtml("<b>Add a Document from your Email.</b> If the document is in your email, go to your email account and choose the email with the file you want to upload. Click on the attachment and open it. After it opens, click the forward icon and scroll to find MYLO.  Choose the specific profile and section for the upload.  For more information consult the “How-to Video” found in the Menu Bar."));
+                txt64.setText(Html.fromHtml("<b>Save Input.</b> Click SAVE on the top right corner of the screen."));
                 txt65.setText(Html.fromHtml("<b>Summary Data Screen.</b> After a document is stored the User will be brought to the Summary Screen. The User can view, print or email a Summary Report of all documents stored in the section by clicking the green icon on the bottom of the screen. (The specific document can only be viewed or shared if working inside the cell – see View Document below)."));
                 txt66.setText(Html.fromHtml("<b>Delete Entry.</b> From Summary screen swipe right to left on applicable cell of the document."));
                 txt67.setText(Html.fromHtml("<b>Edit Entry.</b>  From the Summary screen, click on the cell of the document and make changes by clicking the blue Pencil icon. To save your edits click SAVE on the top right corner of the screen."));
@@ -344,16 +359,16 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txtPolicy69.setText(Html.fromHtml("<b>Email or Fax Document.</b> Click the green circle located on the bottom of the screen and then click Email or Fax Document."));
                 txtPolicy71.setText(Html.fromHtml("<b>Faxing a Document.</b> Users should only send documents via fax to meet an organizations’ HIPAA requirements (e.g. health, insurance).  Users can receive notification that the fax was received by including a Reply Email Address. The fax will be sent immediately, but the machine you are sending to may be turned off or very busy.  If a reply is not received within 20 minutes, check the fax number and resend. "));
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>" +
-                        "<br>"+txt65.getText().toString()+"<br>" +
-                        "<br>"+txt66.getText().toString()+"<br>"+
-                        "<br>"+txt67.getText().toString()+"<br>"+
-                        "<br>"+txt68.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy69.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy71.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>" +
+                        "<br>" + txt67.getText().toString() + "<br>" +
+                        "<br>" + txt68.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy69.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy71.getText().toString() + "<br>"
                 ).toString();
 
 
@@ -402,13 +417,13 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt66.setText(Html.fromHtml("<b>Delete Entry.</b> To delete the entry swipe right to left on the cell of the card."));
                 txt67.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input, print or email Summary Reports by clicking the green circle located on the bottom of the summary screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                                "<br>"+txt63.getText().toString()+"<br>" +
-                                "<br>"+txt64.getText().toString()+"<br>" +
-                                "<br>"+txt65.getText().toString()+"<br>" +
-                                "<br>"+txt66.getText().toString()+"<br>"+
-                                "<br>"+txt67.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>" +
+                        "<br>" + txt67.getText().toString() + "<br>"
                 ).toString();
 
 
@@ -459,16 +474,16 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 // txtPolicy73.setText(Html.fromHtml("To exit the User Instructions and go back to the prior screen click the arrow back button on the top left side of the screen. If you want to send or share these instructions click the share button on the top right side of the screen. Clicking the little house will bring you back to the dashboard.\n<br>"));
 
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>" +
-                        "<br>"+txt65.getText().toString()+"<br>" +
-                        "<br>"+txt66.getText().toString()+"<br>"+
-                        "<br>"+txt67.getText().toString()+"<br>"+
-                        "<br>"+txt68.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy69.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy71.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>" +
+                        "<br>" + txt67.getText().toString() + "<br>" +
+                        "<br>" + txt68.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy69.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy71.getText().toString() + "<br>"
                 ).toString();
 
 
@@ -523,17 +538,17 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txtPolicy71.setText(Html.fromHtml("<b>Email or Fax Document.</b> Click the green circle located on the bottom of the screen and then click Email or Fax Document."));
                 txtPolicy72.setText(Html.fromHtml("<b>Faxing a Document.</b> Users should only send documents via fax to meet an organizations, (e.g. health, insurance) HIPAA requirements.  Users can receive notification that the fax was received by including a Reply Email Address. The fax will be sent immediately, but the machine you are sending to may be turned off or very busy.  If a reply is not received within 20 minutes, check the fax number and resend."));
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>" +
-                        "<br>"+txt65.getText().toString()+"<br>" +
-                        "<br>"+txt66.getText().toString()+"<br>"+
-                        "<br>"+txt67.getText().toString()+"<br>"+
-                        "<br>"+txt68.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy69.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy71.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy72.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>" +
+                        "<br>" + txt67.getText().toString() + "<br>" +
+                        "<br>" + txt68.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy69.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy71.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy72.getText().toString() + "<br>"
                 ).toString();
 
 
@@ -590,17 +605,17 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txtPolicy72.setText(Html.fromHtml("<b>Faxing a Document.</b> Users should only send documents via fax to meet an organizations, (e.g. health, insurance) HIPAA requirements.  Users can receive notification that the fax was received by including a Reply Email Address. The fax will be sent immediately, but the machine you are sending to may be turned off or very busy.  If a reply is not received within 20 minutes, check the fax number and resend."));
 
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>" +
-                        "<br>"+txt65.getText().toString()+"<br>" +
-                        "<br>"+txt66.getText().toString()+"<br>"+
-                        "<br>"+txt67.getText().toString()+"<br>"+
-                        "<br>"+txt68.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy69.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy71.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy72.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>" +
+                        "<br>" + txt67.getText().toString() + "<br>" +
+                        "<br>" + txt68.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy69.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy71.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy72.getText().toString() + "<br>"
                 ).toString();
 
 
@@ -645,7 +660,8 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt61.setText(Html.fromHtml("<b>Function.</b> Allows Users to keep copies of important documents, and to categorize them. The following formats can be uploaded: PDF, Excel, Word, Text, JPG."));
                 txt62.setText(Html.fromHtml("<b>Add a Document.</b> Click the Plus icon on the bottom right corner of the screen. \n" +
                         "Click ATTACH FILE at the top of the screen and select the location of the file.  Choose the file.  A message should appear identifying the name of the file, “Name of File Selected” -  Click SAVE on the upper right corner of the screen.   The minimum amount of information needed is Document Description and Document Date.  To edit the document, click the blue Pencil icon and upload a new document or delete the entire entry (see Delete Entry below)."));
-                txt63.setText(Html.fromHtml("<b>Add a Document from your Email.</b> If the document is in your email, go to your email account and choose the email with the file you want to upload. Click on the attachment and open it. After it opens, click the forward icon and scroll to find MYLO.  Choose the specific profile and section for the upload.  For more information consult the “How-to Video” found in the Menu Bar.")); txt64.setText(Html.fromHtml("<b>Data Entry.</b> Data is entered via free text and dropdown menus. You may use your phone’s microphone to add certain data verbally.  Dropdown menus are identified by the little grey Arrow to the right of the line. Click anywhere on the line and the dropdown menu will open. For each dropdown menu we have included an “Other” as the last option on the menu – if you click “Other” a text box will open and you can add your information."));
+                txt63.setText(Html.fromHtml("<b>Add a Document from your Email.</b> If the document is in your email, go to your email account and choose the email with the file you want to upload. Click on the attachment and open it. After it opens, click the forward icon and scroll to find MYLO.  Choose the specific profile and section for the upload.  For more information consult the “How-to Video” found in the Menu Bar."));
+                txt64.setText(Html.fromHtml("<b>Data Entry.</b> Data is entered via free text and dropdown menus. You may use your phone’s microphone to add certain data verbally.  Dropdown menus are identified by the little grey Arrow to the right of the line. Click anywhere on the line and the dropdown menu will open. For each dropdown menu we have included an “Other” as the last option on the menu – if you click “Other” a text box will open and you can add your information."));
                 txt65.setText(Html.fromHtml("<b>Save Input.</b> Click SAVE on the top right corner of the screen."));
                 txt66.setText(Html.fromHtml("<b>Summary Data Screen.</b> After a document is stored the User will be brought to the Summary Screen. The User can View, Print or Email a Summary Report of all documents stored in the section by clicking the green icon on the bottom of the screen. (The specific document can be viewed or shared only if working inside the cell – see View Document below)."));
                 txt67.setText(Html.fromHtml("<b>Delete Entry.</b> From the Summary screen, swipe right to left on the applicable cell in the document."));
@@ -654,17 +670,17 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txtPolicy71.setText(Html.fromHtml("<b>Email or Fax Document.</b> Click the green circle located on the bottom of the screen and then click Email or Fax Document."));
                 txtPolicy72.setText(Html.fromHtml("<b>Faxing a Document.</b> Users should only send documents via fax to meet an organizations, (e.g. health, insurance) HIPAA requirements.  Users can receive notification that the fax was received by including a Reply Email Address. The fax will be sent immediately, but the machine you are sending to may be turned off or very busy.  If a reply is not received within 20 minutes, check the fax number and resend."));
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>" +
-                        "<br>"+txt65.getText().toString()+"<br>" +
-                        "<br>"+txt66.getText().toString()+"<br>"+
-                        "<br>"+txt67.getText().toString()+"<br>"+
-                        "<br>"+txt68.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy69.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy71.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy72.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>" +
+                        "<br>" + txt67.getText().toString() + "<br>" +
+                        "<br>" + txt68.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy69.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy71.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy72.getText().toString() + "<br>"
                 ).toString();
 
 
@@ -695,17 +711,17 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 rel72.setVisibility(View.VISIBLE);
                 rel73.setVisibility(View.GONE);
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>" +
-                        "<br>"+txt65.getText().toString()+"<br>" +
-                        "<br>"+txt66.getText().toString()+"<br>"+
-                        "<br>"+txt67.getText().toString()+"<br>"+
-                        "<br>"+txt68.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy69.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy71.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy72.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>" +
+                        "<br>" + txt67.getText().toString() + "<br>" +
+                        "<br>" + txt68.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy69.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy71.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy72.getText().toString() + "<br>"
                 ).toString();
 
 
@@ -751,9 +767,9 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt62.setText(Html.fromHtml("<b>Add or Edit Information.</b> Toggle yes or no and use the note functionality.  Click SAVE to store the information."));
                 txt63.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input, print or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>"
                 ).toString();
 
 
@@ -799,12 +815,12 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt65.setText(Html.fromHtml("<b>Delete an Appointment.</b> To delete the entry swipe left (right to left). You will see the Delete icon (Trash can) - click it. You will be asked if you are sure you want to delete the record. "));
                 txt66.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input, print or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>" +
-                        "<br>"+txt65.getText().toString()+"<br>"+
-                        "<br>"+txt66.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>"
                 ).toString();
 
                 //shradha
@@ -846,11 +862,11 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt64.setText(Html.fromHtml("<b>Delete a Note.</b> To delete the entry swipe left (right to left) the cell of your note. You will see the delete icon (Trash can) – click it. You will be asked if you are sure you want to delete the record."));
                 txt65.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input, print or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>"+
-                        "<br>"+txt65.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>"
                 ).toString();
 
                 //shradha
@@ -899,16 +915,16 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 // txtPolicy73.setText(Html.fromHtml("To exit the User Instructions and go back to the prior screen click the arrow back button on the top left side of the screen. If you want to send or share these instructions click the share button on the top right side of the screen. Clicking the little house will bring you back to the dashboard.\n<br>"));
 
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>" +
-                        "<br>"+txt65.getText().toString()+"<br>" +
-                        "<br>"+txt66.getText().toString()+"<br>"+
-                        "<br>"+txt67.getText().toString()+"<br>"+
-                        "<br>"+txt68.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy69.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy71.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>" +
+                        "<br>" + txt67.getText().toString() + "<br>" +
+                        "<br>" + txt68.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy69.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy71.getText().toString() + "<br>"
                 ).toString();
 
 
@@ -963,16 +979,16 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 // txtPolicy73.setText(Html.fromHtml("To exit the User Instructions and go back to the prior screen click the arrow back button on the top left side of the screen. If you want to send or share these instructions click the share button on the top right side of the screen. Clicking the little house will bring you back to the dashboard.\n<br>"));
 
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>" +
-                        "<br>"+txt65.getText().toString()+"<br>" +
-                        "<br>"+txt66.getText().toString()+"<br>"+
-                        "<br>"+txt67.getText().toString()+"<br>"+
-                        "<br>"+txt68.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy69.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy71.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>" +
+                        "<br>" + txt67.getText().toString() + "<br>" +
+                        "<br>" + txt68.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy69.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy71.getText().toString() + "<br>"
                 ).toString();
 
 
@@ -1026,17 +1042,16 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 // txtPolicy73.setText(Html.fromHtml("To exit the User Instructions and go back to the prior screen click the arrow back button on the top left side of the screen. If you want to send or share these instructions click the share button on the top right side of the screen. Clicking the little house will bring you back to the dashboard.\n<br>"));
 
 
-
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>" +
-                        "<br>"+txt65.getText().toString()+"<br>" +
-                        "<br>"+txt66.getText().toString()+"<br>"+
-                        "<br>"+txt67.getText().toString()+"<br>"+
-                        "<br>"+txt68.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy69.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy71.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>" +
+                        "<br>" + txt67.getText().toString() + "<br>" +
+                        "<br>" + txt68.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy69.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy71.getText().toString() + "<br>"
                 ).toString();
 
 
@@ -1070,7 +1085,7 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txtTitle.setText("User Instructions");
                 txtHeader.setText("Urgent Care, TeleMed, Hospitals, Rehab, Home Care");
                 break;
-                // txtStep1.setText(Html.fromHtml("<b>"));
+            // txtStep1.setText(Html.fromHtml("<b>"));
 
             case "DoctorInstruction":
                 titleHeader.setBackgroundColor(getResources().getColor(R.color.colorSpecialityYellow));
@@ -1092,16 +1107,16 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 // txtPolicy73.setText(Html.fromHtml("To exit the User Instructions and go back to the prior screen click the arrow back button on the top left side of the screen. If you want to send or share these instructions click the share button on the top right side of the screen. Clicking the little house will bring you back to the dashboard.\n<br>"));
 
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>" +
-                        "<br>"+txt65.getText().toString()+"<br>" +
-                        "<br>"+txt66.getText().toString()+"<br>"+
-                        "<br>"+txt67.getText().toString()+"<br>"+
-                        "<br>"+txt68.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy69.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy71.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>" +
+                        "<br>" + txt67.getText().toString() + "<br>" +
+                        "<br>" + txt68.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy69.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy71.getText().toString() + "<br>"
                 ).toString();
 
 
@@ -1156,16 +1171,16 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 // txtPolicy73.setText(Html.fromHtml("To exit the User Instructions and go back to the prior screen click the arrow back button on the top left side of the screen. If you want to send or share these instructions click the share button on the top right side of the screen. Clicking the little house will bring you back to the dashboard.\n<br>"));
 
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>" +
-                        "<br>"+txt65.getText().toString()+"<br>" +
-                        "<br>"+txt66.getText().toString()+"<br>"+
-                        "<br>"+txt67.getText().toString()+"<br>"+
-                        "<br>"+txt68.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy69.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy71.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>" +
+                        "<br>" + txt67.getText().toString() + "<br>" +
+                        "<br>" + txt68.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy69.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy71.getText().toString() + "<br>"
                 ).toString();
 
 
@@ -1197,7 +1212,6 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 rel73.setVisibility(View.GONE);
 
 
-
                 txtTitle.setText("User Instructions");
                 txtHeader.setText("Primary Physician");
                 break;
@@ -1216,21 +1230,21 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt67.setText(Html.fromHtml("<b>Summary Screen.</b> MYLO provides Users with a Summary screen.  To edit information, click the cell of the contact, make changes and then click SAVE on the top right corner of the screen. Clicking SAVE returns the User back to the Summary page. "));
                 txt68.setText(Html.fromHtml("<b>Automated Phone Calls.</b> From the Summary screen, click the Phone icon."));
                 txtPolicy69.setText(Html.fromHtml("<b>Delete an Entry.</b> From the Summary screen, identify the entry to delete, then swipe left (start from the right side of the cell and swipe left)."));
-                 txtPolicy71.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
-                 //txtPolicy72.setText(Html.fromHtml("<b>To view a report or to email the data</b> click the green circle with the three dots located on the left side of the screen. \n<br>"));
-               // txtPolicy73.setText(Html.fromHtml("To exit the User Instructions and go back to the prior screen click the arrow back button on the top left side of the screen. If you want to send or share these instructions click the share button on the top right side of the screen. Clicking the little house will bring you back to the dashboard.\n<br>"));
+                txtPolicy71.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view the input or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
+                //txtPolicy72.setText(Html.fromHtml("<b>To view a report or to email the data</b> click the green circle with the three dots located on the left side of the screen. \n<br>"));
+                // txtPolicy73.setText(Html.fromHtml("To exit the User Instructions and go back to the prior screen click the arrow back button on the top left side of the screen. If you want to send or share these instructions click the share button on the top right side of the screen. Clicking the little house will bring you back to the dashboard.\n<br>"));
 
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>" +
-                        "<br>"+txt65.getText().toString()+"<br>" +
-                        "<br>"+txt66.getText().toString()+"<br>"+
-                        "<br>"+txt67.getText().toString()+"<br>"+
-                        "<br>"+txt68.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy69.getText().toString()+"<br>"+
-                        "<br>"+txtPolicy71.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>" +
+                        "<br>" + txt67.getText().toString() + "<br>" +
+                        "<br>" + txt68.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy69.getText().toString() + "<br>" +
+                        "<br>" + txtPolicy71.getText().toString() + "<br>"
                 ).toString();
 
 
@@ -1332,13 +1346,13 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt65.setText(Html.fromHtml("<b>View Input and Reports.</b> Users can view or email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements. "));
                 txt66.setText(Html.fromHtml("<b>Exiting the Sub-Section.</b> To return to the prior screen, click the back Arrow icon on the top left corner of the screen. To return to the Dashboard, click the Home icon on the top left corner of the screen."));
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                                "<br>"+txt63.getText().toString()+"<br>" +
-                                "<br>"+txt64.getText().toString()+"<br>" +
-                                "<br>"+txt65.getText().toString()+"<br>" +
-                                "<br>"+txt66.getText().toString()+"<br>"
-                        ).toString();
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>"
+                ).toString();
 
                 //nikita
                 txt61.setVisibility(View.VISIBLE);
@@ -1423,15 +1437,15 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 //txt68.setText(Html.fromHtml("<b>To Close a Section.</b> Click the green UP ARROW on the right side of the section."));
                 //txtPolicy69.setText(Html.fromHtml("<b>Reports.</b> Users can view and email reports by clicking the green circle located on the bottom of the screen. Fax capability has been included in certain sections and should only be used to meet HIPAA requirements."));
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>" +
-                        "<br>"+txt65.getText().toString()+"<br>" +
-                        "<br>"+txt66.getText().toString()+"<br>"+
-                      //  "<br>"+txt67.getText().toString()+"<br>"+
-                      //  "<br>"+txt68.getText().toString()+"<br>"+
-                        "<br>"+txt67.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>" +
+                        "<br>" + txt65.getText().toString() + "<br>" +
+                        "<br>" + txt66.getText().toString() + "<br>" +
+                        //  "<br>"+txt67.getText().toString()+"<br>"+
+                        //  "<br>"+txt68.getText().toString()+"<br>"+
+                        "<br>" + txt67.getText().toString() + "<br>"
                 ).toString();
                 //shradha
                 txt61.setVisibility(View.VISIBLE);
@@ -1521,10 +1535,10 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt64.setText(Html.fromHtml("To <b>view</b> the card <b>click</b> on the <b>card</b>, So you can <b>view</b> card and see by <b>zooming</b> it. To <b>share card</b> to your loved ones click the <b>share</b> icon on the top right side of the screen."));
 
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" +
-                        "<br>"+txt64.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                        "<br>" + txt62.getText().toString() + "<br>" +
+                        "<br>" + txt63.getText().toString() + "<br>" +
+                        "<br>" + txt64.getText().toString() + "<br>"
 
                 ).toString();
 
@@ -1609,13 +1623,13 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt61.setText(Html.fromHtml("This section allows Users to maintain information most often needed during an emergency event."));
                 txt62.setText(Html.fromHtml("Users can view the Input, Print and Email a report of the entire section by clicking the green circle located on the bottom of the screen."));
                 txt63.setText(Html.fromHtml("User instructions are available within each sub-section by clicking the Question Mark on the top right corner of the screen.  To email the instructions click the Share icon on the top right corner of the screen. To exit click the back Arrow on the top left corner of the screen. To return to the Dashboard, click the Home icon on the top left corner of the screen."));
-             //   txt64.setText(Html.fromHtml("To <b>view</b> the card <b>click</b> on the <b>card</b>, So you can <b>view</b> card and see by <b>zooming</b> it. To <b>share card</b> to your loved ones click the <b>share</b> icon on the top right side of the screen."));
+                //   txt64.setText(Html.fromHtml("To <b>view</b> the card <b>click</b> on the <b>card</b>, So you can <b>view</b> card and see by <b>zooming</b> it. To <b>share card</b> to your loved ones click the <b>share</b> icon on the top right side of the screen."));
 
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                        "<br>"+txt62.getText().toString()+"<br>" +
-                        "<br>"+txt63.getText().toString()+"<br>" //+
-                      //  "<br>"+txt64.getText().toString()+"<br>"
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                                "<br>" + txt62.getText().toString() + "<br>" +
+                                "<br>" + txt63.getText().toString() + "<br>" //+
+                        //  "<br>"+txt64.getText().toString()+"<br>"
 
                 ).toString();
 
@@ -1658,9 +1672,9 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt62.setText(Html.fromHtml("Users can view input, print and email a report of the entire section by clicking the green circle located on the bottom of the screen."));
                 txt63.setText(Html.fromHtml("User instructions are available within each sub-section by clicking the Question Mark on the top right corner of the screen.  To email the instructions click the Share icon on the top right corner of the screen. To exit click the back Arrow on the top left corner of the screen. To return to the Dashboard, click the Home icon on the top left corner of the screen."));
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                                "<br>"+txt62.getText().toString()+"<br>" +
-                                "<br>"+txt63.getText().toString()+"<br>" //+
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                                "<br>" + txt62.getText().toString() + "<br>" +
+                                "<br>" + txt63.getText().toString() + "<br>" //+
                         //  "<br>"+txt64.getText().toString()+"<br>"
 
                 ).toString();
@@ -1706,9 +1720,9 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 //   txt64.setText(Html.fromHtml("To <b>view</b> the card <b>click</b> on the <b>card</b>, So you can <b>view</b> card and see by <b>zooming</b> it. To <b>share card</b> to your loved ones click the <b>share</b> icon on the top right side of the screen."));
 
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                                "<br>"+txt62.getText().toString()+"<br>" +
-                                "<br>"+txt63.getText().toString()+"<br>" //+
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                                "<br>" + txt62.getText().toString() + "<br>" +
+                                "<br>" + txt63.getText().toString() + "<br>" //+
                         //  "<br>"+txt64.getText().toString()+"<br>"
 
                 ).toString();
@@ -1753,9 +1767,9 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 txt63.setText(Html.fromHtml("User instructions are available within each sub-section by clicking the Question Mark on the top right corner of the screen.  To email the instructions click the Share icon on the top right corner of the screen. To exit click the back Arrow on the top left corner of the screen. To return to the Dashboard, click the Home icon on the top left corner of the screen."));
                 //   txt64.setText(Html.fromHtml("To <b>view</b> the card <b>click</b> on the <b>card</b>, So you can <b>view</b> card and see by <b>zooming</b> it. To <b>share card</b> to your loved ones click the <b>share</b> icon on the top right side of the screen."));
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                                "<br>"+txt62.getText().toString()+"<br>" +
-                                "<br>"+txt63.getText().toString()+"<br>" //+
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                                "<br>" + txt62.getText().toString() + "<br>" +
+                                "<br>" + txt63.getText().toString() + "<br>" //+
                         //  "<br>"+txt64.getText().toString()+"<br>"
 
                 ).toString();
@@ -1801,9 +1815,9 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 //   txt64.setText(Html.fromHtml("To <b>view</b> the card <b>click</b> on the <b>card</b>, So you can <b>view</b> card and see by <b>zooming</b> it. To <b>share card</b> to your loved ones click the <b>share</b> icon on the top right side of the screen."));
 
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                                "<br>"+txt62.getText().toString()+"<br>" +
-                                "<br>"+txt63.getText().toString()+"<br>" //+
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                                "<br>" + txt62.getText().toString() + "<br>" +
+                                "<br>" + txt63.getText().toString() + "<br>" //+
                         //  "<br>"+txt64.getText().toString()+"<br>"
 
                 ).toString();
@@ -1851,9 +1865,9 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 //   txt64.setText(Html.fromHtml("To <b>view</b> the card <b>click</b> on the <b>card</b>, So you can <b>view</b> card and see by <b>zooming</b> it. To <b>share card</b> to your loved ones click the <b>share</b> icon on the top right side of the screen."));
 
 
-                UI = Html.fromHtml("<br>"+txt61.getText().toString()+"<br>" +
-                                "<br>"+txt62.getText().toString()+"<br>" +
-                                "<br>"+txt63.getText().toString()+"<br>" //+
+                UI = Html.fromHtml("<br>" + txt61.getText().toString() + "<br>" +
+                                "<br>" + txt62.getText().toString() + "<br>" +
+                                "<br>" + txt63.getText().toString() + "<br>" //+
                         //  "<br>"+txt64.getText().toString()+"<br>"
 
                 ).toString();
@@ -1963,10 +1977,15 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
         });
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param view The view that was clicked.
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.txtEmail:
+            case R.id.txtEmail://Email instruction
                 showEmailDialog();
                 break;
             case R.id.floatProfile:
@@ -1980,6 +1999,9 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    /**
+     * Function: Prepare email body with instrucion content of section for share
+     */
     private void showEmailDialog() {
         final Dialog dialogEmailIns = new Dialog(context);
         dialogEmailIns.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -2049,24 +2071,19 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                     ui.emailAttachement(InstructionActivity.this, "Instructions for Insurance Card GuideLines", UI);
                 } else if (From.equals("AdvanceInstruction")) {
                     ui.emailAttachement(InstructionActivity.this, "Instructions for Advance Directives", UI);
-                }
-                else if (From.equals("SpecialitySection")) {
+                } else if (From.equals("SpecialitySection")) {
                     ui.emailAttachement(InstructionActivity.this, "Instructions for Specialty Contacts", UI);
-                }
-                else if (From.equals("EmergencySection")) {
+                } else if (From.equals("EmergencySection")) {
                     ui.emailAttachement(InstructionActivity.this, "Instructions for Personal & Medical Profile & Emergency Contacts   ", UI);
-                }
-                else if (From.equals("InsuranceSection")) {
+                } else if (From.equals("InsuranceSection")) {
                     ui.emailAttachement(InstructionActivity.this, "Instructions for Insurance Companies ", UI);
-                }
-                else if (From.equals("EventSection")) {
+                } else if (From.equals("EventSection")) {
                     ui.emailAttachement(InstructionActivity.this, "Instructions for Notes & Appointments Checklist", UI);
-                }else if (From.equals("PrescriptionSection")) {
+                } else if (From.equals("PrescriptionSection")) {
                     ui.emailAttachement(InstructionActivity.this, "Instructions for Prescriptions", UI);
-                }
-                else if (From.equals("DirectiveSection")) {
+                } else if (From.equals("DirectiveSection")) {
                     ui.emailAttachement(InstructionActivity.this, "Instructions for Advance Directives & Documents", UI);
-                }else {
+                } else {
                     Toast.makeText(context, "Some thing went wrong...!!", Toast.LENGTH_SHORT).show();
                 }
                 dialogEmailIns.dismiss();
@@ -2082,10 +2099,4 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
 
 
     }
-
-/*
-    private void showEmailDialog() {
-
-    }
-*/
 }

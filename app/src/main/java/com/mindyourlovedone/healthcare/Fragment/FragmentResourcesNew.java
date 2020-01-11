@@ -34,7 +34,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Locale;
-
+/**
+ * Class: FragmentResourcesNew
+ * Screen: Resources subsection Screen
+ * A class that manages resource type list
+ */
 public class FragmentResourcesNew extends Fragment {
     View rootView;
     ArrayList<ResourcesNew> resourcesList, supportList, enduserList;
@@ -46,20 +50,29 @@ public class FragmentResourcesNew extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_resources_new, container, false);
+
+        //Initialize user interface view and components
         initUi();
+
+        //Define list data
         getData();
+
+        //Set list data
         setData();
 
         return rootView;
     }
 
+    /**
+     * Function: Set List Data
+     */
     private void setData() {
         ResourceAdapter rd = new ResourceAdapter(getActivity(), resourcesList);
         lvResources.setAdapter(rd);
-
-
     }
-
+    /**
+     * Function: Define all resource list data
+     */
     private void getData() {
         resourcesList = new ArrayList<ResourcesNew>();
         supportList = new ArrayList<ResourcesNew>();
@@ -71,8 +84,6 @@ public class FragmentResourcesNew extends Fragment {
 
         ResourcesNew l12 = new ResourcesNew();
         l12.setName("App Wallet Card");
-        // l12.setUrl("http://mindyour-lovedones.com/MYLO/uploads/MYLO_App_Wallet_Card.pdf");
-        //l12.setUrl("wallet_card_new.pdf");
         l12.setResImage(R.drawable.insu_one);
 
         ResourcesNew s5 = new ResourcesNew();
@@ -102,7 +113,7 @@ public class FragmentResourcesNew extends Fragment {
 
 
     }
-
+//Initialize list
     private void initUi() {
         txtTitle = getActivity().findViewById(R.id.txtTitle);
         txtTitle.setText("Resources");
@@ -124,22 +135,6 @@ public class FragmentResourcesNew extends Fragment {
                         break;
 
                     case 1://Wallet Cards
-                        // Code for Server side pdf
-                     /*   String formatD = "https://drive.google.com/viewerng/viewer?embedded=true&url=%s";
-                        String fullPathD = String.format(Locale.ENGLISH, formatD, "http://mindyour-lovedones.com/MYLO/uploads/MYLO_App_Wallet_Card.pdf");
-                        Intent browserIntentDs = new Intent(Intent.ACTION_VIEW, Uri.parse(fullPathD));
-                        startActivity(browserIntentDs);*/
-
-//                     // New code for local pdf // varsha
-//                        Intent intentp = new Intent();
-//                        intentp.setAction(Intent.ACTION_VIEW);
-//                        intentp.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//                        intentp.setData(Uri.parse("market://details?id=cn.wps.moffice_eng"));//varsa ("market://details?id=com.adobe.reader"));
-//                        intentp.setType(String.valueOf(Uri.parse("application/pdf")));
-//                        CopyReadAssetss("wallet_card_new.pdf");
-
-
-                        //nikita
                         Intent browserIntentD2 = new Intent(getActivity(), WebPDFActivity.class);
                         browserIntentD2.putExtra("Name", "Wallet Card");
                         browserIntentD2.putExtra("URL", WebService.WALLET_URL);
@@ -152,7 +147,7 @@ public class FragmentResourcesNew extends Fragment {
                         i.putExtra("FROM", "EndUser");
                         startActivity(i);
                         break;
-                    case 3: //HelpForm
+                    case 3: //Helpful Form
                         // Toast.makeText(getActivity(), "Screen not provided Yet to come", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getActivity(), HelpFormActivity.class);
                         getActivity().startActivity(intent);
@@ -172,61 +167,6 @@ public class FragmentResourcesNew extends Fragment {
                 }
             }
         });
-
-
-    }
-
-    public void CopyReadAssetss(String documentPath) {
-        AssetManager assetManager = getActivity().getAssets();
-        File outFile = null;
-        InputStream in = null;
-        OutputStream out = null;
-        File file = new File(getActivity().getFilesDir(), documentPath);
-        try {
-            in = assetManager.open(documentPath);
-            outFile = new File(getActivity().getExternalFilesDir(null), documentPath);
-            out = new FileOutputStream(outFile);
-
-            copyFiles(in, out);
-            in.close();
-            in = null;
-            out.flush();
-            out.close();
-            out = null;
-            /*out = openFileOutput(file.getName(), Context.MODE_WORLD_READABLE);
-
-            copyFiles(in, out);
-            in.close();
-            in = null;
-            out.flush();
-            out.close();
-            out = null;*/
-        } catch (Exception e) {
-            Log.e("tag", e.getMessage());
-        }
-        Uri uri = null;
-        // Uri uri= Uri.parse("file://" + getFilesDir() +"/"+documentPath);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            //  intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            uri = FileProvider.getUriForFile(getActivity(), "com.mindyourlovedone.healthcare.HomeActivity.fileProvider", outFile);
-        } else {
-            uri = Uri.fromFile(outFile);
-        }
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.setDataAndType(uri, "application/pdf");
-        startActivity(intent);
-
-    }
-
-    private void copyFiles(InputStream in, OutputStream out) throws IOException {
-        byte[] buffer = new byte[1024];
-        int read;
-        while ((read = in.read(buffer)) != -1) {
-            out.write(buffer, 0, read);
-        }
-
 
     }
 }

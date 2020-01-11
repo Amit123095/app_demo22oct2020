@@ -15,7 +15,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 10/7/2017.
  */
-
+/**
+ * Class: PrescriptionUpload
+ * Screen: Add PrescriptionUpload
+ * A class that manages PrescriptionUpload Table CRUD Operations
+ */
 public class PrescriptionUpload {
     public static final String TABLE_NAME = "PrescriptionUpload";
     public static final String COL_USER_ID = "UserId";

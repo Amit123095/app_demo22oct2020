@@ -50,6 +50,16 @@ import java.util.ArrayList;
  * Created by varsha on 8/28/2017.
  */
 
+/**
+ * Class: FragmentInsurance
+ * Screen: Insurance Company Contacts List
+ * A class that manages List of Insurance company Contacts
+ * Add New Insurance company Contact
+ * Call Insurance company Contact
+ * Generate, View, Email, Fax PDF Reports
+ * extends Fragment
+ * implements OnclickListener for onclick event on views
+ */
 public class FragmentInsurance extends Fragment implements View.OnClickListener {
     final String dialog_items[] = {"View", "Email", "User Instructions"};
     ImageView imgRight;
@@ -63,15 +73,26 @@ public class FragmentInsurance extends Fragment implements View.OnClickListener 
     TextView txtMsg, txtFTU;
     FloatingActionButton floatProfile;
     ImageView floatAdd, floatOptions;
-    TextView txthelp; ImageView imghelp;
+    TextView txthelp;
+    ImageView imghelp;
 
+    /**
+     * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
+     * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
+     * @param savedInstanceState Bundle: If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_insurance, null);
+        //Initialize database, get primary data and set data
         initComponent();
         getData();
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
 
         return rootview;
@@ -83,22 +104,29 @@ public class FragmentInsurance extends Fragment implements View.OnClickListener 
         InsuranceQuery i = new InsuranceQuery(getActivity(), dbHelper);
     }
 
+    /**
+     * Function: Set Contact data on list
+     */
     private void setListData() {
         if (insuranceList.size() != 0) {
             InsuranceAdapter insuranceAdapter = new InsuranceAdapter(getActivity(), insuranceList, FragmentInsurance.this);
             lvInsurance.setAdapter(insuranceAdapter);
             lvInsurance.setVisibility(View.VISIBLE);
             rlGuide.setVisibility(View.GONE);
-            imghelp .setVisibility(View.GONE);
+            imghelp.setVisibility(View.GONE);
             txthelp.setVisibility(View.GONE);
         } else {
             lvInsurance.setVisibility(View.GONE);
             rlGuide.setVisibility(View.VISIBLE);
-            imghelp .setVisibility(View.VISIBLE);
+            imghelp.setVisibility(View.VISIBLE);
             txthelp.setVisibility(View.VISIBLE);
         }
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         //  imgADMTick.setOnClickListener(this);
         llAddInsurance.setOnClickListener(this);
@@ -109,6 +137,9 @@ public class FragmentInsurance extends Fragment implements View.OnClickListener 
 
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         floatProfile = rootview.findViewById(R.id.floatProfile);
         floatOptions = rootview.findViewById(R.id.floatOptions);
@@ -141,6 +172,11 @@ public class FragmentInsurance extends Fragment implements View.OnClickListener 
 
         txtFTU = rootview.findViewById(R.id.txtFTU);
         txtFTU.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent intentEmerInstruc = new Intent(getActivity(), InstructionActivity.class);
@@ -169,6 +205,10 @@ public class FragmentInsurance extends Fragment implements View.OnClickListener 
                 new DividerItemDecoration(getActivity(), R.drawable.divider));
         //...
     }
+
+    /**
+     * Function - Display dialog for Reports options i.e view, email, fax
+     */
     private void showFloatPdfDialog() {
         final String RESULT = Environment.getExternalStorageDirectory()
                 + "/mylopdf/";
@@ -179,60 +219,26 @@ public class FragmentInsurance extends Fragment implements View.OnClickListener 
             file.delete();
         }
 
-       /* new Header().createPdfHeader(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-        preferences.copyFile("ic_launcher.png", getActivity());
-        Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-        Header.addEmptyLine(1);
-        Header.addusereNameChank("Insurance Information");//preferences.getString(PrefConstants.CONNECTED_NAME));
-        Header.addEmptyLine(1);
-        Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-        Paragraph p = new Paragraph(" ");
-        LineSeparator line = new LineSeparator();
-        line.setOffset(-4);
-        line.setLineColor(BaseColor.LIGHT_GRAY);
-        p.add(line);
-        try {
-            Header.document.add(p);
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
-        Header.addEmptyLine(1);
-               *//* new Header().createPdfHeader(file.getAbsolutePath(),
-                        "Insurance Information");
-
-                Header.addusereNameChank(preferences.getString(PrefConstants.CONNECTED_NAME));
-                // Header.addEmptyLine(2);*//*
-
-        ArrayList<Insurance> insuranceList = InsuranceQuery.fetchAllInsuranceRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-       //new InsurancePdf(insuranceList);
-        for(int i=0;i<insuranceList.size();i++) {
-            final ArrayList<ContactData> phonelists= ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), insuranceList.get(i).getId(),"Insurance");
-            final ArrayList<ContactData> aphonelists= ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), insuranceList.get(i).getId(),"Agent");
-            new InsurancePdf(insuranceList.get(i), "Insurance", phonelists,i,aphonelists);
-        }
-
-        Header.document.close();*/
-
-        Image pdflogo = null,calendar= null,profile= null,calendarWite= null,profileWite= null;
-        pdflogo=preferences.addFile("pdflogo.png", getActivity());
-        calendar=preferences.addFile("calpdf.png", getActivity());calendarWite=preferences.addFile("calpdf_wite.png", getActivity());
-        profile=preferences.addFile("profpdf.png", getActivity()); profileWite=preferences.addFile("profpdf_wite.png", getActivity());
+        Image pdflogo = null, calendar = null, profile = null, calendarWite = null, profileWite = null;
+        pdflogo = preferences.addFile("pdflogo.png", getActivity());
+        calendar = preferences.addFile("calpdf.png", getActivity());
+        calendarWite = preferences.addFile("calpdf_wite.png", getActivity());
+        profile = preferences.addFile("profpdf.png", getActivity());
+        profileWite = preferences.addFile("profpdf_wite.png", getActivity());
 
         new HeaderNew().createPdfHeaders(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME),preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO),pdflogo,calendar,profile,"INSURANCE COMPANIES", calendarWite, profileWite);
+                "" + preferences.getString(PrefConstants.CONNECTED_NAME), preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO), pdflogo, calendar, profile, "INSURANCE COMPANIES", calendarWite, profileWite);
 
         HeaderNew.addusereNameChank("INSURANCE COMPANIES");//preferences.getString(PrefConstants.CONNECTED_NAME));
         HeaderNew.addEmptyLine(1);
         Image pp = null;
-        pp=preferences.addFile( "insu_three.png", getActivity());
+        pp = preferences.addFile("insu_three.png", getActivity());
         ArrayList<Insurance> insuranceList = InsuranceQuery.fetchAllInsuranceRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
 //Toast.makeText(getActivity(),""+insuranceList.size(),Toast.LENGTH_SHORT).show();
-        for(int i=0;i<insuranceList.size();i++) {
-            final ArrayList<ContactData> phonelists= ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), insuranceList.get(i).getId(),"Insurance");
-            final ArrayList<ContactData> aphonelists= ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), insuranceList.get(i).getId(),"Agent");
-            new InsurancePdfNew(insuranceList.get(i), "Insurance", phonelists,i,aphonelists,pp);
+        for (int i = 0; i < insuranceList.size(); i++) {
+            final ArrayList<ContactData> phonelists = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), insuranceList.get(i).getId(), "Insurance");
+            final ArrayList<ContactData> aphonelists = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), insuranceList.get(i).getId(), "Agent");
+            new InsurancePdfNew(insuranceList.get(i), "Insurance", phonelists, i, aphonelists, pp);
         }
         HeaderNew.document.close();
 
@@ -269,6 +275,11 @@ public class FragmentInsurance extends Fragment implements View.OnClickListener 
 
         rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         floatCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -276,6 +287,11 @@ public class FragmentInsurance extends Fragment implements View.OnClickListener 
         });
 
         floatEmail.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
@@ -290,6 +306,11 @@ public class FragmentInsurance extends Fragment implements View.OnClickListener 
         });
 
         floatViewPdf.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
@@ -308,29 +329,25 @@ public class FragmentInsurance extends Fragment implements View.OnClickListener 
         });
 
     }
+
+    /**
+     * Function: Make Call to clicked contact person
+     */
     public void callUser(Insurance item) {
-        ArrayList<ContactData>  phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID),item.getId(), "Insurance");
+        ArrayList<ContactData> phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), item.getId(), "Insurance");
 
 
-        if (phonelist.size()>0)
-        {
+        if (phonelist.size() > 0) {
             CallDialog c = new CallDialog();
             c.showCallDialogs(getActivity(), phonelist);
-        }else {
-            Toast.makeText(getActivity(), "You have not added phone number for call", Toast.LENGTH_SHORT).show();
-        }
-       /* String mobile = item.getPhone();
-        String hphone = "";
-        String wPhone = "";
-
-        if (mobile.length() != 0 || hphone.length() != 0 || wPhone.length() != 0) {
-            CallDialog c = new CallDialog();
-            c.showCallDialog(getActivity(), mobile, hphone, wPhone);
         } else {
             Toast.makeText(getActivity(), "You have not added phone number for call", Toast.LENGTH_SHORT).show();
-        }*/
+        }
     }
 
+    /**
+     * Function: Delete selected contact
+     */
     public void deleteInsurance(final Insurance item) {
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setTitle("Delete");
@@ -359,175 +376,45 @@ public class FragmentInsurance extends Fragment implements View.OnClickListener 
 
     }
 
+    /**
+     * Function: Fetch all Insurance contacts
+     */
     private void getData() {
         insuranceList = InsuranceQuery.fetchAllInsuranceRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-       /* insuranceList=new ArrayList<>();
-
-        Insurance P1=new Insurance();
-        P1.setName("Symphonix Health");
-        P1.setId("4489");
-        P1.setGroup("Group angels");
-        P1.setType("Medicare");
-        P1.setImage(R.drawable.insu);
-        P1.setPhone("963-789-5236");
-        P1.setMember("Consultive");
-
-      
-        Insurance P2=new Insurance();
-        P2.setName("Sierra Health");
-        P2.setId("8965");
-        P2.setGroup("Group angels");
-        P2.setType("Supplemental");
-        P2.setImage(R.drawable.insur);
-        P2.setPhone("396-545-5236");
-        P2.setMember("Consultive");
-
-        Insurance P3=new Insurance();
-        P3.setName("Humana Insurance");
-        P3.setId("9685");
-        P3.setGroup("Group angels");
-        P3.setType("Long Term Care ");
-        P3.setImage(R.drawable.insurs);
-        P3.setPhone("985-985-5236");
-        P3.setMember("Consultive");
-
-        Insurance P4=new Insurance();
-        P4.setName("Aetna");
-        P4.setId("3698");
-        P4.setGroup("Group angels");
-        P4.setType("Medical");
-        P4.setImage(R.drawable.insir);
-        P4.setPhone("968-985-5236");
-        P4.setMember("Consultive");
-
-        Insurance P5=new Insurance();
-        P5.setName("Aetna");
-        P5.setId("9635");
-        P5.setGroup("Group angels");
-        P5.setType("Dental");
-        P5.setImage(R.drawable.insis);
-        P5.setPhone("365-985-5236");
-        P5.setMember("Consultive");
-
-
-
-        insuranceList.add(P1);
-        insuranceList.add(P2);
-        insuranceList.add(P3);
-        insuranceList.add(P4);
-        insuranceList.add(P5);
-
-*/
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.floatProfile:
                 Intent intentDashboard = new Intent(getActivity(), BaseActivity.class);
                 intentDashboard.putExtra("c", 1);//Profile Data
-                //   intentDashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                // intentDashboard.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentDashboard);
                 break;
-            case R.id.floatAdd:
+            case R.id.floatAdd://Add New Contact
                 showFloatDialog();
                 break;
 
-            case R.id.floatOptions:
+            case R.id.floatOptions://Reports
                 showFloatPdfDialog();
                 break;
-           /* case R.id.llAddInsurance:
-                preferences.putString(PrefConstants.SOURCE, "Insurance");
-                Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
-                startActivity(i);
-                break;*/
-            case R.id.imgRight:
+
+            case R.id.imgRight://Instructiopn
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "InsuranceInstruction");
                 startActivity(i);
-               /* final String RESULT = Environment.getExternalStorageDirectory()
-                        + "/mylopdf/";
-                File dirfile = new File(RESULT);
-                dirfile.mkdirs();
-                File file = new File(dirfile, "InsuranceInformation.pdf");
-                if (file.exists()) {
-                    file.delete();
-                }
-
-                new Header().createPdfHeader(file.getAbsolutePath(),
-                        "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-                preferences.copyFile("ic_launcher.png", getActivity());
-                Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-                Header.addEmptyLine(1);
-                Header.addusereNameChank("Insurance Information");//preferences.getString(PrefConstants.CONNECTED_NAME));
-                Header.addEmptyLine(1);
-                Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-                Paragraph p = new Paragraph(" ");
-                LineSeparator line = new LineSeparator();
-                line.setOffset(-4);
-                line.setLineColor(BaseColor.LIGHT_GRAY);
-                p.add(line);
-                try {
-                    Header.document.add(p);
-                } catch (DocumentException e) {
-                    e.printStackTrace();
-                }
-                Header.addEmptyLine(1);
-               *//* new Header().createPdfHeader(file.getAbsolutePath(),
-                        "Insurance Information");
-
-                Header.addusereNameChank(preferences.getString(PrefConstants.CONNECTED_NAME));
-                // Header.addEmptyLine(2);*//*
-
-                ArrayList<Insurance> insuranceList = InsuranceQuery.fetchAllInsuranceRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-                new InsurancePdf(insuranceList);
-                Header.document.close();
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                builder.setTitle("");
-
-                builder.setItems(dialog_items, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int itemPos) {
-                        String path = Environment.getExternalStorageDirectory()
-                                + "/mylopdf/"
-                                + "/InsuranceInformation.pdf";
-                        switch (itemPos) {
-                            case 0: // view
-                                StringBuffer result = new StringBuffer();
-                                result.append(new MessageString().getInsuranceInfo());
-
-
-                                new PDFDocumentProcess(path,
-                                        getActivity(), result);
-
-                                System.out.println("\n" + result + "\n");
-                                break;
-                            case 1://Email
-
-                                File f = new File(path);
-                                preferences.emailAttachement(f, getActivity(), "Insurance Information");
-                                break;
-                            case 2://FTU
-                                Intent i = new Intent(getActivity(), InstructionActivity.class);
-                                i.putExtra("From", "InsuranceInstruction");
-                                startActivity(i);
-                                break;
-                          *//*  case 2://fax
-                                new FaxCustomDialog(getActivity(), path).show();
-                                break;*//*
-                        }
-                    }
-
-                });
-                builder.create().show();*/
                 break;
         }
     }
 
+    /**
+     * Function: To display floating menu for add new profile
+     */
     private void showFloatDialog() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -560,6 +447,11 @@ public class FragmentInsurance extends Fragment implements View.OnClickListener 
 
         rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         floatCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -567,22 +459,32 @@ public class FragmentInsurance extends Fragment implements View.OnClickListener 
         });
 
         floatNew.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 preferences.putString(PrefConstants.SOURCE, "Insurance");
                 Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
-                i.putExtra("TAB","New");
+                i.putExtra("TAB", "New");
                 startActivity(i);
                 dialog.dismiss();
             }
         });
 
         floatContact.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 preferences.putString(PrefConstants.SOURCE, "Insurance");
                 Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
-                i.putExtra("TAB","Contact");
+                i.putExtra("TAB", "Contact");
                 startActivity(i);
                 dialog.dismiss();
             }

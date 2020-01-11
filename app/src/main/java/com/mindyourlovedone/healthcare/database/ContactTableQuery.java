@@ -12,7 +12,11 @@ import java.util.ArrayList;
 /**
  * Created by varsha on 9/1/2017.
  */
-
+/**
+ * Class: ContactTableQuery
+ * Screen: Add Contacts
+ * A class that manages Contacts Table CRUD Operations
+ */
 public class ContactTableQuery {
     public static final String TABLE_NAME = "Contacts";
     public static final String COL_ID = "id";

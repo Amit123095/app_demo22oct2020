@@ -55,13 +55,6 @@ public class ResourceAdapter extends BaseAdapter {
 
             convertView.setTag(holder);
         }
-        /*if (convertView.equals(position == 0)) {
-            Intent intentContactUs = new Intent(context, BaseNewActivity.class);
-            intentContactUs.putExtra("Home", 5);
-            context.startActivity(intentContactUs);
-        } else {
-            Toast.makeText(context, "Wrong dude..!!", Toast.LENGTH_SHORT).show();
-        }*/
         else {
             holder = (Holders) convertView.getTag();
         }

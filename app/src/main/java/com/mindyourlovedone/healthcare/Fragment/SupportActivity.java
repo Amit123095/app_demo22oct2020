@@ -31,6 +31,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+/**
+ * Class: SupportActivity
+ * Screen: User guide And Support Faq as Well Ende User License  Screen
+ * A class that manages User guide And Support Faq list, End user And License,Privcy policy
+ */
 public class SupportActivity extends AppCompatActivity {
 
     Context context = this;
@@ -43,21 +48,30 @@ public class SupportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_support);
+        //Initialize user interface view and components
         initUI();
-        initListener();
+
+        //Define List
         getData();
+
+        //Set List
         setData();
 
     }
 
     private void setData() {
+        //User uide list
         ResourceAdapter ud = new ResourceAdapter(context, supportList);
         lvSupport.setAdapter(ud);
 
+        //EULA list
         ResourceAdapter ed = new ResourceAdapter(context, enduserList);
         lvEndUser.setAdapter(ed);
     }
 
+    /**
+     * Function: Fetch all Supportlist data
+     */
     private void getData() {
 
         supportList = new ArrayList<ResourcesNew>();
@@ -87,13 +101,17 @@ public class SupportActivity extends AppCompatActivity {
         enduserList.add(e1);
     }
 
-    private void initListener() {
-
-    }
-
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         imgBack = findViewById(R.id.imgBack);
         imgBack.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 finish();
@@ -127,13 +145,10 @@ public class SupportActivity extends AppCompatActivity {
 
                         break;
                     case 1://User Guide-Section
-                          Intent browserIntents = new Intent(context,WebPDFActivity.class);
-                        browserIntents.putExtra("Name","User Guide");
+                        Intent browserIntents = new Intent(context, WebPDFActivity.class);
+                        browserIntents.putExtra("Name", "User Guide");
                         browserIntents.putExtra("URL", WebService.USERGUIDE_URL);
-                         startActivity(browserIntents);
-                       // Intent browserIntentD = new Intent(Intent.ACTION_VIEW, Uri.parse("http://docs.google.com/gview?embedded=true&url=http://mindyour-lovedones.com/MYLO/uploads/User_Guide.pdf"));
-                       // startActivity(browserIntentD);
-
+                        startActivity(browserIntents);
                         break;
                 }
             }
@@ -143,12 +158,6 @@ public class SupportActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0://End User License Agreement-Section
-//                        Intent intentx = new Intent();
-//                        intentx.setAction(Intent.ACTION_VIEW);
-//                        intentx.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//                        intentx.setData(Uri.parse("market://details?id=cn.wps.moffice_eng"));//varsa ("market://details?id=com.adobe.reader"));
-//                        intentx.setType(String.valueOf(Uri.parse("application/pdf")));
-//                        CopyReadAssetss("eula_new.pdf");
                         Intent browserIntentD = new Intent(SupportActivity.this, WebPDFActivity.class);
                         browserIntentD.putExtra("Name", "End User License Agreement");
                         browserIntentD.putExtra("URL", WebService.EULA_URL);
@@ -160,90 +169,10 @@ public class SupportActivity extends AppCompatActivity {
                         browserIntentD2.putExtra("URL", WebService.PRIVACY_URL);
                         startActivity(browserIntentD2);
 
-//                        Intent intentp = new Intent();
-//                        intentp.setAction(Intent.ACTION_VIEW);
-//                        intentp.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//                        intentp.setData(Uri.parse("market://details?id=cn.wps.moffice_eng"));//varsa ("market://details?id=com.adobe.reader"));
-//                        intentp.setType(String.valueOf(Uri.parse("application/pdf")));
-//                       CopyReadAssetss("Privacy Policy.pdf");
                         break;
                 }
             }
         });
 
-    }
-
-    public void CopyReadAssetss(String documentPath) {
-        AssetManager assetManager = getAssets();
-        File outFile = null;
-        InputStream in = null;
-        OutputStream out = null;
-        File file = new File(getFilesDir(), documentPath);
-        try {
-            in = assetManager.open(documentPath);
-            outFile = new File(getExternalFilesDir(null), documentPath);
-            out = new FileOutputStream(outFile);
-
-            copyFiles(in, out);
-            in.close();
-            in = null;
-            out.flush();
-            out.close();
-            out = null;
-            /*out = openFileOutput(file.getName(), Context.MODE_WORLD_READABLE);
-            copyFiles(in, out);
-            in.close();
-            in = null;
-            out.flush();
-            out.close();
-            out = null;*/
-        } catch (Exception e) {
-            Log.e("tag", e.getMessage());
-        }
-        Uri uri = null;
-        // Uri uri= Uri.parse("file://" + getFilesDir() +"/"+documentPath);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            //  intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            uri = FileProvider.getUriForFile(context, "com.mindyourlovedone.healthcare.HomeActivity.fileProvider", outFile);
-        } else {
-            uri = Uri.fromFile(outFile);
-        }
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.setDataAndType(uri, "application/pdf");
-        try {
-            context.startActivity(intent);
-
-        } catch (ActivityNotFoundException e) {
-            // No application to view, ask to download one
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("No Application Found");
-            builder.setMessage("Download Office Tool from Google Play ?");
-            builder.setPositiveButton("Yes",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,
-                                            int which) {
-                            Intent marketIntent = new Intent(
-                                    Intent.ACTION_VIEW);
-                            marketIntent.setData(Uri
-                                    .parse("market://details?id=cn.wps.moffice_eng"));//varsa ("market://details?id=com.adobe.reader"));
-                            context.startActivity(marketIntent);
-                        }
-                    });
-            builder.setNegativeButton("No", null);
-            builder.create().show();
-        }
-
-
-    }
-
-    private void copyFiles(InputStream in, OutputStream out) throws IOException {
-        byte[] buffer = new byte[1024];
-        int read;
-        while ((read = in.read(buffer)) != -1) {
-            out.write(buffer, 0, read);
-        }
     }
 }

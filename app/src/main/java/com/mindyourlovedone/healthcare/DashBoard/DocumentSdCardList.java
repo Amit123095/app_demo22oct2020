@@ -22,7 +22,12 @@ import java.util.ArrayList;
 
 import static android.os.Environment.getExternalStorageState;
 
-
+/**
+ * Class: DocumentSdCardList
+ * Screen: Document list from device storage
+ * A class that manages to display document list from device storage
+ * implements OnclickListener for onClick event on views
+ */
 public class DocumentSdCardList extends AppCompatActivity {
     private static final int RESULTCODE = 200;
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 400;
@@ -37,10 +42,6 @@ public class DocumentSdCardList extends AppCompatActivity {
     ImageView imgBack;
     private File[] imagelist1;
 
-    @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
 
     /**
      * Called when the activity is first created.
@@ -54,8 +55,13 @@ public class DocumentSdCardList extends AppCompatActivity {
         lvSd = findViewById(R.id.lvSd);
         imgBack = findViewById(R.id.imgBack);
         imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 finish();
             }
         });
@@ -63,6 +69,9 @@ public class DocumentSdCardList extends AppCompatActivity {
         showFile();
     }
 
+    /**
+     * Function: Fetc documents from device storae
+     */
     private void showFile() {
         Boolean isSDPresent = getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
         Boolean isSDSupportedDevice = Environment.isExternalStorageRemovable();
@@ -110,20 +119,14 @@ public class DocumentSdCardList extends AppCompatActivity {
         } else {
             Toast.makeText(context, "No Files Available in Download", Toast.LENGTH_SHORT).show();
         }
-        /*if (downloadList!=null) {
-            pdflist1 = new String[downloadList.length];
-            for (int i = 0; i < downloadList.length; i++) {
-                pdflist1[i] = downloadList[i].getName();
-            }
-            PdfAdapter adapter=new PdfAdapter(context,pdflist1,downloadList);
-            lvDownload.setAdapter(adapter);
-        }
-        else{
-            Toast.makeText(context,"No Files Available in Download",Toast.LENGTH_SHORT).show();
-        }*/
 
     }
 
+    /**
+     * Function: Check for runtime permission
+     * If granted go further else request for permission to be granted
+     * Return result in onRequestPermissionsResult method
+     */
     private boolean checkRuntimePermission() {
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -151,46 +154,13 @@ public class DocumentSdCardList extends AppCompatActivity {
         } else {
             return true;
         }
-       /* if (ContextCompat.checkSelfPermission(context,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Asking user if explanation is needed
-            if (ActivityCompat.shouldShowRequestPermissionRationale(DocumentSdCardList.this,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                ActivityCompat.requestPermissions(DocumentSdCardList.this,
-                        new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
-                        PERMISSIONS_REQUEST_READ_CONTACTS);
-
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(DocumentSdCardList.this,
-                        new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
-                        PERMISSIONS_REQUEST_READ_CONTACTS);
-
-            }
-            return false;
-        } else {
-            return true;
-        }*/
     }
 
-    /*@Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        PackageManager packageManager = getPackageManager();
-        Intent testIntent = new Intent(Intent.ACTION_VIEW);
-        testIntent.setType("application/pdf");
-        List list = packageManager.queryIntentActivities(testIntent, PackageManager.MATCH_DEFAULT_ONLY);
-        if (list.size() > 0 && imagelist[(int) id].isFile()) {
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_VIEW);
-            Uri uri = Uri.fromFile(imagelist[(int) id].getAbsoluteFile());
-            intent.setDataAndType(uri, "application/pdf");
-            startActivity(intent);
-        }*/
-
-    // }
-
+    /**
+     * Function: Fetch file name and path
+     * @param name
+     * @param uri
+     */
     public void getData(String name, String uri) {
 
         Intent i = new Intent();

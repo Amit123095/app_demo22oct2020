@@ -12,7 +12,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 9/29/2017.
  */
-
+/**
+ * Class: DosageQuery
+ * Screen: Add Dosage
+ * A class that manages Dosage Table CRUD Operations
+ */
 public class DosageQuery {
     public static final String TABLE_NAME = "Dosage";
     public static final String COL_ID = "Id";

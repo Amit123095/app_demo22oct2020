@@ -13,7 +13,11 @@ import java.util.List;
 /**
  * Created by welcome on 10/28/2017.
  */
-
+/**
+ * Class: DateQuery
+ * Screen: Add Date
+ * A class that manages DATES Table CRUD Operations
+ */
 public class DateQuery {
     public static final String TABLE_NAME = "DATES";
     public static final String COL_ID = "Id";
@@ -41,25 +45,6 @@ public class DateQuery {
         return dropTableQuery;
     }
 
-    /* public static Boolean insertDosageData(int userid, String medicine ,String dose) {
-         boolean flag;
-         SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-         ContentValues cv = new ContentValues();
-         cv.put(COL_USERID, userid);
-         cv.put(COL_DATE, medicine);
-
-         long rowid = db.insert(TABLE_NAME, null, cv);
-
-         if (rowid == -1) {
-             flag = false;
-         } else {
-             flag = true;
-         }
-
-         return flag;
-     }
- */
     public static ArrayList<DateClass> fetchAllDosageRecord(int userid, int id) {
         ArrayList<DateClass> noteList = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();

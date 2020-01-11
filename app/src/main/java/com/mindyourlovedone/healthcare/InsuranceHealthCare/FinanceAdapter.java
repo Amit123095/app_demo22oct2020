@@ -38,7 +38,11 @@ import java.util.ArrayList;
 /**
  * Created by varsha on 8/28/2017. Changes done by nikita on 18/6/18
  */
-
+/**
+ * Class: FinanceAdapter
+ * Screen: Finance Contact List Screen
+ * A class that manages Adpater for Finance Contact List
+ */
 public class FinanceAdapter extends RecyclerSwipeAdapter<FinanceAdapter.ViewHolder> {
     Context context;
     ArrayList<Finance> FinanceList;
@@ -53,6 +57,7 @@ public class FinanceAdapter extends RecyclerSwipeAdapter<FinanceAdapter.ViewHold
         this.context = context;
         this.FinanceList = FinanceList;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
     }
 
@@ -62,9 +67,14 @@ public class FinanceAdapter extends RecyclerSwipeAdapter<FinanceAdapter.ViewHold
         this.context = context;
         this.FinanceList = FinanceList;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
     }
 
+    /**
+     * Function: Image loading and displaying at ImageView
+     * Presents configuration for ImageLoader & options for image display.
+     */
     private void initImageLoader() {
         //Profile
         displayImageOptionsProfile = new DisplayImageOptions.Builder() // resource
@@ -123,8 +133,13 @@ public class FinanceAdapter extends RecyclerSwipeAdapter<FinanceAdapter.ViewHold
             }
         });
         holder.imgNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 if (fr != null) {
                     fr.callUser(FinanceList.get(position));
                 }
@@ -142,27 +157,18 @@ public class FinanceAdapter extends RecyclerSwipeAdapter<FinanceAdapter.ViewHold
         if (FinanceList.get(position).getOfficePhone().equals("")) {
             holder.txtPhone.setVisibility(View.GONE);
         }
-        //Commented as to match screen as invision-shradha
-        /*else {
-            holder.txtPhone.setVisibility(View.VISIBLE);
-        }*/
 
         if (FinanceList.get(position).getAddress().equals("")) {
             holder.txtAddress.setVisibility(View.GONE);
         }
-        //Commented as to match screen as invision-shradha
-        /* else {
-            holder.txtAddress.setVisibility(View.VISIBLE);
-        }*/
+
         if (FinanceList.get(position).getCategory().equals("")) {
             holder.txtCategory.setVisibility(View.GONE);
         } else {
             holder.txtCategory.setVisibility(View.VISIBLE);
         }
         holder.txtName.setText(FinanceList.get(position).getName());
-        //Commented as to match screen as invision-shradha
-        // holder.txtAddress.setText(FinanceList.get(position).getAddress());
-        //  holder.txtPhone.setText(FinanceList.get(position).getOfficePhone());
+
         if (FinanceList.get(position).getCategory().equals("Other")) {
             holder.txtCategory.setVisibility(View.VISIBLE);
             holder.txtCategory.setText(FinanceList.get(position).getCategory() + " - " + FinanceList.get(position).getOtherCategory());
@@ -171,14 +177,6 @@ public class FinanceAdapter extends RecyclerSwipeAdapter<FinanceAdapter.ViewHold
             holder.txtCategory.setText(FinanceList.get(position).getCategory());
         }
 
-       /* if (FinanceList.get(position).getOtherCategory() == null || FinanceList.get(position).getOtherCategory().equals("null") || FinanceList.get(position).getOtherCategory().isEmpty()) {
-            holder.txtCategory.setVisibility(View.VISIBLE);
-            holder.txtCategory.setText(FinanceList.get(position).getCategory());
-        } else {
-            holder.txtCategory.setVisibility(View.VISIBLE);
-            holder.txtCategory.setText(FinanceList.get(position).getOtherCategory());
-        }*/
-        //holder.imgProfile.setImageResource(FinanceList.get(position).getImage());
         File imgFile = new File(preferences.getString(PrefConstants.CONNECTED_PATH), FinanceList.get(position).getPhoto());
         holder.imgProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
 
@@ -189,19 +187,6 @@ public class FinanceAdapter extends RecyclerSwipeAdapter<FinanceAdapter.ViewHold
                 holder.imgProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
             // imageLoaderProfile.displayImage(String.valueOf(Uri.fromFile(imgFile)), viewHolder.imgProfile, displayImageOptionsProfile);
         }
-       // holder.imgProfile.setImageResource(R.drawable.all_profile);
-
-        /*if (!FinanceList.get(position).getPhotoCard().equals("")) {
-            File imgFile1 = new File(preferences.getString(PrefConstants.CONNECTED_PATH), FinanceList.get(position).getPhotoCard());
-            if (imgFile1.exists()) {
-                imageLoaderCard.displayImage(String.valueOf(Uri.fromFile(imgFile1)), holder.imgForward, displayImageOptionsCard);
-            }
-            //Commented as to match screen as invision-shradha
-            //   holder.imgForward.setVisibility(View.VISIBLE);
-        } else {
-            holder.imgForward.setVisibility(View.GONE);
-        }*/
-
         if (!FinanceList.get(position).getPhotoCard().equals("")) {
             File imgFile1 = new File(preferences.getString(PrefConstants.CONNECTED_PATH), FinanceList.get(position).getPhotoCard());
             if (imgFile1.exists()) {
@@ -218,8 +203,13 @@ public class FinanceAdapter extends RecyclerSwipeAdapter<FinanceAdapter.ViewHold
 
 
         holder.imgForward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 Intent i = new Intent(context, AddFormActivity.class);
                 i.putExtra("Image", FinanceList.get(position).getPhotoCard());
                 context.startActivity(i);
@@ -227,8 +217,13 @@ public class FinanceAdapter extends RecyclerSwipeAdapter<FinanceAdapter.ViewHold
         });
 
         holder.rlFinance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 Intent i = new Intent(context, GrabConnectionActivity.class);
                 preferences.putString(PrefConstants.SOURCE, "FinanceData");
                 Finance finance = FinanceList.get(position);
@@ -236,28 +231,6 @@ public class FinanceAdapter extends RecyclerSwipeAdapter<FinanceAdapter.ViewHold
                 context.startActivity(i);
             }
         });
-      /*  holder.txtName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, GrabConnectionActivity.class);
-                preferences.putString(PrefConstants.SOURCE, "FinanceData");
-                Finance finance = FinanceList.get(position);
-                i.putExtra("FinanceObject", finance);
-                context.startActivity(i);
-
-            }
-        });
-        holder.imgNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(context, GrabConnectionActivity.class);
-                preferences.putString(PrefConstants.SOURCE, "FinanceViewData");
-                Finance finance = FinanceList.get(position);
-                i.putExtra("FinanceObject", finance);
-                context.startActivity(i);
-            }
-        });*/
     }
 
     @Override

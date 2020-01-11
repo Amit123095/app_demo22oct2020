@@ -13,7 +13,11 @@ import java.util.ArrayList;
 /**
  * Created by varsha on 9/1/2017.
  */
-
+/**
+ * Class: ContactDataQuery
+ * Screen: Add ContactNumber
+ * A class that manages ContactNumber Table CRUD Operations
+ */
 public class ContactDataQuery {
     public static final String TABLE_NAME = "ContactNumber";
     public static final String COL_ID = "Id";
@@ -43,59 +47,7 @@ public class ContactDataQuery {
         return dropTableQuery;
     }
 
-   /* public static boolean insertContactDataTable(String id, String name, String number, String email, byte[] image, String address, String homePhone, String workPhone) {
-        boolean flag;
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-
-        ContentValues cv = new ContentValues();
-        cv.put(COL_ID, id);
-        cv.put(COL_NAME, name);
-        cv.put(COL_PHONE, number);
-        cv.put(COL_EMAIL, email);
-        cv.put(COL_IMAGE, image);
-        cv.put(COL_ADDRESS, address);
-        cv.put(COL_HPHONE, homePhone);
-        cv.put(COL_WPHONE, workPhone);
-
-        long rowid = db.insert(TABLE_NAME, null, cv);
-
-        flag = rowid != -1;
-
-        return flag;
-    }
-
-    public static ArrayList<Contact> fetchAllContactDetails() {
-        ArrayList contactList = new ArrayList();
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor c = db.rawQuery("select * from " + TABLE_NAME, null);
-        if (c.moveToFirst()) {
-            do {
-                int roll = c.getInt(c.getColumnIndex(COL_ID));
-                String name = c.getString(c.getColumnIndex(COL_NAME));
-                String phone = c.getString(c.getColumnIndex(COL_PHONE));
-                String wphone = c.getString(c.getColumnIndex(COL_WPHONE));
-                String hphone = c.getString(c.getColumnIndex(COL_HPHONE));
-                String email = c.getString(c.getColumnIndex(COL_EMAIL));
-                String address = c.getString(c.getColumnIndex(COL_ADDRESS));
-                byte[] image = c.getBlob(c.getColumnIndex(COL_IMAGE));
-
-                Contact contact = new Contact();
-                contact.setName(name);
-                contact.setPhone(phone);
-                contact.setHomePhone(hphone);
-                contact.setWorkPhone(wphone);
-                contact.setEmail(email);
-                contact.setImage(image);
-                contact.setAddress(address);
-
-                contactList.add(contact);
-
-            } while (c.moveToNext());
-        }
-
-        return contactList;
-    }*/
 
     public static void deleteContactDataTable() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -163,21 +115,6 @@ public class ContactDataQuery {
 
         if (c.moveToFirst()) {
             do {
-//                Pharmacy notes = new Pharmacy();
-//                notes.setId(c.getInt(c.getColumnIndex(COL_ID)));
-//                notes.setUserid(c.getInt(c.getColumnIndex(COL_USER_ID)));
-//                notes.setName(c.getString(c.getColumnIndex(COL_NAME)));
-//                notes.setAddress(c.getString(c.getColumnIndex(COL_ADDRESS)));
-//                notes.setPhone(c.getString(c.getColumnIndex(COL_OFFICE_PHONE)));
-//                notes.setFax(c.getString(c.getColumnIndex(COL_FAX)));
-//                notes.setWebsite(c.getString(c.getColumnIndex(COL_WEBSITE)));
-//                notes.setNote(c.getString(c.getColumnIndex(COL_NOTE)));
-//                notes.setPhoto(c.getString(c.getColumnIndex(COL_PHOTO)));
-//                notes.setPhotoCard(c.getString(c.getColumnIndex(COL_PHOTOCARD)));
-//                notes.setLocator(c.getString(c.getColumnIndex(COL_LOCATOR)));
-//
-//                noteList.add(notes);
-
                 db.execSQL("delete from " + TABLE_NAME + " where " + COL_FROMTABLE + "='" + connection + "' and " + COL_ID_FROMTABLE + "='" + id + "';");
             } while (c.moveToNext());
         }
@@ -193,11 +130,6 @@ public class ContactDataQuery {
         Cursor c=db.rawQuery("update " + TABLE_NAME + " set "+COL_USERID+ "="+id, null);
         c.moveToFirst();
         c.close();
-       /* ContentValues cv = new ContentValues();
-        cv.put(COL_USERID, id);
-        int rowid = db.update(TABLE_NAME, cv,null, null);
-
-        flag = rowid != 0;*/
 
         return flag;
     }

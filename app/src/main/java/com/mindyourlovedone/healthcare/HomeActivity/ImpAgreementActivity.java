@@ -54,6 +54,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * Class: ImpAgreementActivity
+ * Screen: Imp Agreement Screen
+ * A class that manages Registration process of New User and Subscription
+ * implements OnclickListener for onClick event on views
+ * implements OnTouchListener for onTouch event on views
+ */
 public class ImpAgreementActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView imgBack, checkedIcon1, uncheckedIcon1, checkedIcon2, uncheckedIcon2, checkedIcon3, uncheckedIcon3, checkedIcon4, uncheckedIcon4, checkedIcon5, uncheckedIcon5;
     TextView txtSignup;
@@ -76,12 +83,16 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
         name = i.getStringExtra("Name");
         email = i.getStringExtra("Email");
         userid = i.getIntExtra("userid", 0);
+        //Initialize database, get primary data and set data
         initComponent();
+        //Register a callback to be invoked when this views are clicked.
         initListener();
     }
 
+    /**
+     * Function: Initialize App Folder, prefrences, database
+     */
     private void initComponent() {
-
         try {
             File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
             if (!f.exists()) {
@@ -100,11 +111,15 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
         }
         preferences = new Preferences(context);
 
+        //Initialize database
         dbHelper = new DBHelper(context, "MASTER");
-        // PersonalInfoQuery s=new PersonalInfoQuery(context,dbHelper);
         MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         imgBack.setOnClickListener(this);
         txtSignup.setOnClickListener(this);
@@ -126,6 +141,9 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
 
     }
 
+    /**
+     * Function: Initialize UI and View
+     */
     private void initUi() {
         imgBack = findViewById(R.id.imgBack);
         txtSignup = findViewById(R.id.txtSignup);
@@ -142,6 +160,11 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
         uncheckedIcon5 = findViewById(R.id.uncheckedIcon5);
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -150,34 +173,12 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
                 break;
 
             case R.id.txtSignup:
-                //  if (validate()) {
-                //CallWebservice get user profile
-
+                //Validate if user input is valid or not, If true then goes for registration on server
 
                 if (validation()) {
-                    // preferences.putInt(PrefConstants.USER_ID, userid);
-//                        Intent signupIntent = new Intent(context, BaseActivity.class);
-                        /*preferences.putString(PrefConstants.USER_EMAIL, email);
-                        preferences.putString(PrefConstants.USER_NAME, name);
-                        preferences.setREGISTERED(true);
-                        preferences.setLogin(true);
-                        if(getIntent().hasExtra("PDF_EXT")) {
-                            signupIntent.putExtra("PDF_EXT", getIntent().getStringExtra("PDF_EXT"));
-                        }*/
-//                        startActivity(signupIntent);
-//                        finish();
-                    //accessPermission();
                     inApp();//calling subscription here
-                } else {
-                     /*   Toast toast = Toast.makeText(context, Html.fromHtml("<big><b>Click to Accept</b></big>"), Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();*/
-                }
-                //  }
-               /* Intent intentBase = new Intent(context, BaseActivity.class);
-                startActivity(intentBase);*/
-                break;
-
+                } else
+                    break;
 
             case R.id.checkedIcon1:
                 checkedIcon1.setVisibility(View.GONE);
@@ -237,7 +238,10 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
 
         }
     }
-
+    /**
+     * Function: Validation of data input by user
+     * @return boolean, True if given input is valid, false otherwise.
+     */
     private boolean validation() {
         boolean f = false;
 
@@ -253,6 +257,7 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void accessPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
                 ContextCompat.checkSelfPermission(getApplicationContext(),
@@ -292,6 +297,7 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
                 e.printStackTrace();
             }
 
+            //Check if network connection is available and connected or not.
             if (!NetworkUtils.getConnectivityStatusString(ImpAgreementActivity.this).equals("Not connected to Internet")) {
                 CreateUserAsynk asynkTask = new CreateUserAsynk(name, email);
                 asynkTask.execute();
@@ -302,12 +308,20 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
+    /**
+     * Function: Callback for the result from requesting permissions.
+     *
+     * @param requestCode  int: The request code passed in requestPermissions(android.app.Activity, String[], int)
+     * @param permissions  String: The requested permissions. Never null.
+     * @param grantResults int: The grant results for the corresponding permissions which is either PERMISSION_GRANTED or PERMISSION_DENIED. Never null.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
             case REQUEST_CALL_PERMISSION: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    //Check if network connection is available and connected or not.
                     if (!NetworkUtils.getConnectivityStatusString(ImpAgreementActivity.this).equals("Not connected to Internet")) {
                         CreateUserAsynk asynkTask = new CreateUserAsynk(name, email);
                         asynkTask.execute();
@@ -333,6 +347,7 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
                     }
                 } else {
 
+                    //Check for runtime permission
                     accessPermission();
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
@@ -345,13 +360,22 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    /**
+     * Function: Hide device keyboard.
+     */
     public void hideSoftKeyboard() {
         if (getCurrentFocus() != null) {
             InputMethodManager inm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
-
+    /**
+     * Class: CreateUserAsynk
+     * Screen: Imp Areement Screen
+     * A class that manages background process of registering data on server side database
+     * implements OnclickListener for onClick event on views
+     * implements OnTouchListener for onTouch event on views
+     */
     class CreateUserAsynk extends AsyncTask<Void, Void, String> {
         String name;
         String email;
@@ -373,6 +397,12 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
             super.onPreExecute();
         }
 
+        /**
+         * Background long running code
+         *
+         * @param params
+         * @return String, Server Response after server operation
+         */
         @Override
         protected String doInBackground(Void... params) {
             WebService webService = new WebService();
@@ -383,6 +413,11 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
             return result;
         }
 
+        /**
+         * Called when received result from server in onPostExecute for set data and store at local
+         *
+         * @param result Result received in onPostExecute
+         */
         @Override
         protected void onPostExecute(String result) {
             if (pd != null) {
@@ -407,7 +442,10 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
             }
             super.onPostExecute(result);
         }
-
+        /**
+         * Function: Convert data from json format to string and store
+         * @param result
+         */
         private String parseResponse(String result) {
             Log.e("Response", result);
             JSONObject job = null;
@@ -477,22 +515,6 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
         }
 
     }
-   /* private boolean validate() {
-        if (name.equals("")) {
-            txtName.setError("Please Enter Name");
-            DialogManager.showAlert("Please Enter Name", context);
-        } else if (email.equals("")) {
-            txtEmail.setError("Please Enter email");
-            DialogManager.showAlert("Please Enter email", context);
-        } else if (!email.trim().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
-            txtEmail.setError("Please enter valid email");
-            DialogManager.showAlert("Please enter valid email", context);
-        }else {
-            return true;
-//        }
-        return false;
-    }*/
-
     // Subscription code starts here - Nikita#Sub
 
     static final String TAG = "TrivialDrive";
@@ -594,22 +616,24 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
             preferences.putInt(PrefConstants.UPLOAD_FLAG, 0);
 
             //preventing repeat call - as calling in case activity
-//            Data inputData = new Data.Builder()
-//                    .putInt("userId", sub.getUserId())
-//                    .build();
-//
-//            OneTimeWorkRequest mywork =
-//                    new OneTimeWorkRequest.Builder(WorkerPost.class)
-//                            .setInputData(inputData).build();// Use this when you want to add initial delay or schedule initial work to `OneTimeWorkRequest` e.g. setInitialDelay(2, TimeUnit.HOURS)
-//            String id = mywork.getId().toString();
-//            System.out.println("NIKITA WORK ID: " + id);
-//            WorkManager.getInstance().enqueue(mywork);
+////            Data inputData = new Data.Builder()
+////                    .putInt("userId", sub.getUserId())
+////                    .build();
+////
+////            OneTimeWorkRequest mywork =
+////                    new OneTimeWorkRequest.Builder(WorkerPost.class)
+////                            .setInputData(inputData).build();// Use this when you want to add initial delay or schedule initial work to `OneTimeWorkRequest` e.g. setInitialDelay(2, TimeUnit.HOURS)
+////            String id = mywork.getId().toString();
+////            System.out.println("NIKITA WORK ID: " + id);
+////            WorkManager.getInstance().enqueue(mywork);
         }
 
         navigateToAPP();
     }
 
-
+    /**
+     * Function: insert data to local database
+     */
     private void navigateToAPP() {
         //Nikita#Sub
         //After Success
@@ -655,7 +679,9 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
 
     }
 
-
+    /**
+     * Function: Initialize subscription process
+     */
     private void inApp() {
         String base64EncodedPublicKey = context.getResources().getString(R.string.basekey);//"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAq3i1ShkUzBAWxerhJne2R7KYwWVXyERXLxz7Co0kW9wS45C55XnM/kFHNZ0hI62Oz8HWbTO+RisBMQ5If21sHu5DgXLHa+LNYj+2ZPQWlh46jo/jhMgo+V9YJ7EeOLedH70fFRlhy9OT2ZmOWscxN5YJDp22RXvilale2WcoKVOriS+I9fNbeREDcKM4CsB0isJyDEVIagaRaa0Za8MleOVeYUdma5q3ENZDJ8g9W2Dy0h6fioCZ9OIgBCY63qr0jVxHUwD8Jebp91czKWRSRi433suBmSkoE6qkhwtDEdckeG+cx6xErHcoPSrwhaLlvqCC1KngYduRZy5j1jCAywIDAQAB"; //"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt/vQGFXEB+fQ7s5JbO/teKHjmvkZgqSeLSXmicYu4jDC5mBqfZ1/wBES/lhPGEfJAmjmSSQ1Z35XIcoTL74KVASTrUComknH4XiGaiXCjeCe9cFwYCXlWT+B3Y+dkRajRTi9G/iIgUZP6NTyblmKd5KcUn64CQIqgIZ8pD/4GsIR5abUFTEH9XXQEKzFjcdaBKB4uK1m2JLZ+w+FTFeNydzqSYdRL5lY4IHr8RHZwA3BReNMpzPt1Zp7URSkAGjXvbpOkURupUP+hB4VBYQYPfHfx3K4m32XKWl8zP0qwHS2kIIAjAEekzN+l+bDAU9fXdkDKuHIeXA0HLC6i9jRkQIDAQAB";
 
@@ -767,7 +793,9 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
         }
     };
 
-
+    /**
+     * Function:Launching purchase flow for Mylo subscription.
+     */
     public void onInfiniteGasButtonClicked() {
         if (mHelper != null) {
             if (!mHelper.subscriptionsSupported()) {

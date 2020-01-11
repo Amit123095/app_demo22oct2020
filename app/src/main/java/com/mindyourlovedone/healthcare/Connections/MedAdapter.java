@@ -17,7 +17,11 @@ import java.util.ArrayList;
 /**
  * Created by Nikita on 26/6/2018.
  */
-
+/**
+ * Class: MedAdapter
+ * Screen: Medical Information Subsection List
+ * A class that manages listing of medical informations
+ */
 public class MedAdapter extends BaseAdapter {
     Context context;
     ArrayList<String> medArraylist;

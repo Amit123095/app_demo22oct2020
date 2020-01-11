@@ -15,7 +15,10 @@ import com.mindyourlovedone.healthcare.InsuranceHealthCare.SettingAdapter;
 import com.mindyourlovedone.healthcare.model.Setting;
 
 import java.util.ArrayList;
-
+/**
+ * Class: FragmentSponsor
+ * Screen: Sponsor Screen
+ */
 public class FragmentSponsor extends Fragment {
     View rootView;
     TextView txtTitle;
@@ -26,10 +29,8 @@ public class FragmentSponsor extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.activity_sponsor, container, false);
         initUi();
-
         return rootView;
     }
-
 
     private void initUi() {
         txtTitle = getActivity().findViewById(R.id.txtTitle);

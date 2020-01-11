@@ -45,9 +45,14 @@ public class SliderPagerAdapter extends PagerAdapter {
         this.activity = activity;
         this.image_arraylist = image_arraylist;
         this.slider_text_list = slider_text_list;
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
     }
 
+    /**
+     * Function: Image loading and displaying at ImageView
+     * Presents configuration for ImageLoader & options for image display.
+     */
     private void initImageLoader() {
         displayImageOptions = new DisplayImageOptions.Builder() // resource
                 .resetViewBeforeLoading(true) // default
@@ -55,7 +60,6 @@ public class SliderPagerAdapter extends PagerAdapter {
                 .cacheOnDisk(true) // default
                 .showImageOnLoading(R.drawable.ins_card)
                 .considerExifParams(false) // default
-//                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED) // default
                 .bitmapConfig(Bitmap.Config.ARGB_8888) // default
                 .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
                 .displayer(new SimpleBitmapDisplayer()) // default //for square SimpleBitmapDisplayer()
@@ -80,15 +84,18 @@ public class SliderPagerAdapter extends PagerAdapter {
         File imgFile = new File(preferences.getString(PrefConstants.CONNECTED_PATH), image_arraylist.get(position));
         if (imgFile.exists()) {
             imageLoader.displayImage(String.valueOf(Uri.fromFile(imgFile)), im_slider, displayImageOptions);
-                            /* Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            holder.imgProfile.setImageBitmap(myBitmap);*/
         } else {
             im_slider.setImageResource(R.drawable.ins_card);
         }
 
         im_slider.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 Intent i = new Intent(activity, AddFormActivity.class);
                 File imgFile = new File(preferences.getString(PrefConstants.CONNECTED_PATH), image_arraylist.get(position));
                 if (!image_arraylist.get(position).equals("")) {
@@ -104,19 +111,7 @@ public class SliderPagerAdapter extends PagerAdapter {
                 }
             }
         });
-        // imageLoader.displayImage(String.valueOf(image_arraylist.get(position)),im_slider,displayImageOptions);
-       /* byte[] photo=image_arraylist.get(position);
-        Bitmap bmp = BitmapFactory.decodeByteArray(photo, 0, photo.length);
-        im_slider.setImageBitmap(bmp);*/
-      /*  Picasso.with(activity.getApplicationContext())
-                .load(image_arraylist.get(position))
-                .placeholder(R.drawable.im) // optional
-                .error(R.drawable.hosp)         // optional
-                .into(im_slider);*/
-
-
         container.addView(view);
-
         return view;
     }
 

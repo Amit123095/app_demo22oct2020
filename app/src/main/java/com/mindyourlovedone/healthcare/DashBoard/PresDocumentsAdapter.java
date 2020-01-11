@@ -30,6 +30,12 @@ import java.util.ArrayList;
  * Created by varsha on 8/23/2017. Changes done by nikita on 20/6/18. Changes done by shradha on 1/2/19
  */
 
+/**
+ * Class: PresDocumentsAdapter
+ * Screen: Prescription upload list
+ * A class that manages to Prescription upload list
+ * implements OnclickListener for onClick event on views
+ */
 public class PresDocumentsAdapter extends RecyclerSwipeAdapter<PresDocumentsAdapter.ViewHolder> {
     Context context;
     ArrayList<Form> documentList;
@@ -42,7 +48,7 @@ public class PresDocumentsAdapter extends RecyclerSwipeAdapter<PresDocumentsAdap
         this.context = context;
         this.documentList = documentList;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        preferences=new Preferences(context);
+        preferences = new Preferences(context);
     }
 
     public PresDocumentsAdapter(Context context, ArrayList<Form> documentList, FragmentPrescriptionUpload fr) {
@@ -50,7 +56,7 @@ public class PresDocumentsAdapter extends RecyclerSwipeAdapter<PresDocumentsAdap
         this.context = context;
         this.documentList = documentList;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        preferences=new Preferences(context);
+        preferences = new Preferences(context);
     }
 
 
@@ -94,36 +100,15 @@ public class PresDocumentsAdapter extends RecyclerSwipeAdapter<PresDocumentsAdap
         });
 
         holder.txtDocHeader.setText(documentList.get(position).getName());
-      //  holder.imgDocType.setImageResource(R.drawable.pres_two/*documentList.get(position).getImage()*/);
-        holder.txtDocTime.setText("Date: "+documentList.get(position).getDate());
+        holder.txtDocTime.setText("Date: " + documentList.get(position).getDate());
         String extension = FilenameUtils.getExtension(documentList.get(position).getName());
-        showDocIcon(extension, preferences.getString(PrefConstants.CONNECTED_PATH)+ documentList.get(position).getDocument(),holder);
-
-        //   holder.txtDocTime.setVisibility(View.GONE);
-     /*   holder.imgForword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, AddInsuranceFormActivity.class);
-                i.putExtra("GoTo", "View");
-                *//*if (position>3)
-                {
-                    i.putExtra("Path","Yes");
-                }
-                else
-                {
-                    i.putExtra("Path","No");
-                }*//*
-                i.putExtra("FormObject", documentList.get(position));
-                context.startActivity(i);
-            }
-        });*/
+        showDocIcon(extension, preferences.getString(PrefConstants.CONNECTED_PATH) + documentList.get(position).getDocument(), holder);
         holder.rlFix.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, PrescriptionUploadActivity.class);
                 i.putExtra("GoTo", "Edit");
                 i.putExtra("Path", "Yes");
-
                 i.putExtra("FormObject", documentList.get(position));
                 context.startActivity(i);
             }
@@ -138,30 +123,11 @@ public class PresDocumentsAdapter extends RecyclerSwipeAdapter<PresDocumentsAdap
                 context.startActivity(i);
             }
         });
-       /* holder.imgEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, AddInsuranceFormActivity.class);
-                i.putExtra("GoTo", "Edit");
-                i.putExtra("Path", "Yes");
-               *//* if (position>3)
-                {
-
-                }
-                else
-                {
-                    i.putExtra("Path","No");
-                }*//*
-                i.putExtra("FormObject", documentList.get(position));
-                context.startActivity(i);
-            }
-        });*/
     }
 
-    private void showDocIcon(String extension, String originPath,ViewHolder holder) {
+    private void showDocIcon(String extension, String originPath, ViewHolder holder) {
         //  Toast.makeText(context,extension,Toast.LENGTH_SHORT).show();
-        switch (extension)
-        {
+        switch (extension) {
             case "pdf":
                 holder.imgDocType.setImageResource(R.drawable.pdf);
                 break;
@@ -181,7 +147,8 @@ public class PresDocumentsAdapter extends RecyclerSwipeAdapter<PresDocumentsAdap
                 holder.imgDocType.setImageResource(R.drawable.excel);
                 break;
             case "png":
-                holder.imgDocType.setImageURI(Uri.parse(originPath));;
+                holder.imgDocType.setImageURI(Uri.parse(originPath));
+                ;
                 break;
             case "PNG":
                 holder.imgDocType.setImageURI(Uri.parse(originPath));

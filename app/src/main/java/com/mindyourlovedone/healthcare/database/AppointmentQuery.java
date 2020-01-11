@@ -13,7 +13,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 9/29/2017.
  */
-
+/**
+ * Class: AppointmentQuery
+ * Screen: Add Appointment
+ * A class that manages Appointment Table CRUD Operations
+ */
 public class AppointmentQuery {
     public static final String TABLE_NAME = "Appointment";
     public static final String COL_ID = "Id";
@@ -117,26 +121,7 @@ public class AppointmentQuery {
         return true;
     }
 
-    /*public static Boolean updateDate(int id, ArrayList<DateClass> date) {
-        boolean flag;
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        ContentValues cv = new ContentValues();
-        cv.put(COL_DATE_TIME, date);
-
-        int rowid=db.update(TABLE_NAME,cv,COL_ID+"="+id,null);
-
-        if (rowid==0)
-        {
-            flag=false;
-        }
-        else
-        {
-            flag=true;
-        }
-
-        return flag;
-    }*/
 
     public static Boolean addDate(String string, int id, String reportDate) {
         return null;
@@ -164,27 +149,4 @@ public class AppointmentQuery {
         return flag;
     }
 
-
-   /* public static Boolean updateEvent(int id, String note, String date) {
-        boolean flag;
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        ContentValues cv = new ContentValues();
-        cv.put(COL_ID, id);
-        cv.put(COL_NOTE, note);
-        cv.put(COL_DATE_TIME, date);
-
-        int rowid=db.update(TABLE_NAME,cv,COL_ID+"="+id,null);
-
-        if (rowid==0)
-        {
-            flag=false;
-        }
-        else
-        {
-            flag=true;
-        }
-
-        return flag;
-    }*/
 }

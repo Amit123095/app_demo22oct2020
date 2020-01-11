@@ -13,7 +13,11 @@ import com.mindyourlovedone.healthcare.model.Pet;
 import com.mindyourlovedone.healthcare.model.Setting;
 
 import java.util.ArrayList;
-
+/**
+ * Class: PetAdapter
+ * Screen: Pet List
+ * A class that manages listing of pet informations
+ */
 public class PetAdapter extends BaseAdapter {
 
     Context context;

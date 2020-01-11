@@ -22,6 +22,11 @@ import java.util.ArrayList;
  * Created by welcome on 11/14/2017.
  */
 
+/**
+ * Class: FragmentMarketPlace
+ * Screen: Market Place
+ * A class that manages market place list
+ */
 public class FragmentMarketPlace extends Fragment {
 
     View rootview;
@@ -32,12 +37,20 @@ public class FragmentMarketPlace extends Fragment {
     ImageView imgNoti, imgProfile, imgLogo, imgPdf;
 
 
+    /**
+     * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
+     * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
+     * @param savedInstanceState Bundle: If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_resources, null);
-
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
         getData();
         setData();
@@ -49,6 +62,9 @@ public class FragmentMarketPlace extends Fragment {
         list.setAdapter(adapter);
     }
 
+    /**
+     * Function: Fetch all marketplace
+     */
     private void getData() {
         UrlList = new ArrayList<>();
         Links l1 = new Links();
@@ -61,10 +77,17 @@ public class FragmentMarketPlace extends Fragment {
         Datalist.add("OneSeven");
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
 
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         txtTitle = getActivity().findViewById(R.id.txtTitle);
         txtTitle.setVisibility(View.VISIBLE);

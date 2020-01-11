@@ -16,7 +16,12 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 9/19/2017.
  */
-
+/**
+ * Class: DosageAdapter
+ * Screen: Dosage list
+ * A class that manages to dosage list
+ * implements OnclickListener for onClick event on views
+ */
 class DosageAdapter extends BaseAdapter {
     Context context;
     ArrayList<Dosage> dosageList;
@@ -62,18 +67,6 @@ class DosageAdapter extends BaseAdapter {
         holder.txtNote.setText(dosageList.get(position).getMedicine());
         holder.txtDateTime.setText(dosageList.get(position).getDose());
         holder.txtFrequency.setText(": " + dosageList.get(position).getFrequency());
-
-
-        //holder.imgProfile.setImageResource(student.getImgid());
-       /* holder.imgForward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(context,ViewEventActivity.class);
-                intent.putExtra("Dosage",dosageList.get(position).getTxtNote());
-                intent.putExtra("Date",dosageList.get(position).getTxtDate());
-                context.startActivity(intent);
-            }
-        });*/
         return convertView;
     }
 

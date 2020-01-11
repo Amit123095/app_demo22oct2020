@@ -38,7 +38,11 @@ import java.util.ArrayList;
 /**
  * Created by varsha on 8/28/2017. Changes done by nikita on 18/6/18
  */
-
+/**
+ * Class: InsuranceAdapter
+ * Screen: Insurance Contact List Screen
+ * A class that manages Adpater for Insurance Contact List
+ */
 public class InsuranceAdapter extends RecyclerSwipeAdapter<InsuranceAdapter.ViewHolder> {
     Context context;
     //SwipeMenuListView lvInsurance;
@@ -55,6 +59,7 @@ public class InsuranceAdapter extends RecyclerSwipeAdapter<InsuranceAdapter.View
         this.context = context;
         this.insuranceList = insuranceList;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
     }
 
@@ -64,9 +69,14 @@ public class InsuranceAdapter extends RecyclerSwipeAdapter<InsuranceAdapter.View
         this.context = context;
         this.insuranceList = insuranceList;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
     }
 
+    /**
+     * Function: Image loading and displaying at ImageView
+     * Presents configuration for ImageLoader & options for image display.
+     */
     private void initImageLoader() {
 
         //Profile
@@ -132,8 +142,13 @@ public class InsuranceAdapter extends RecyclerSwipeAdapter<InsuranceAdapter.View
             }
         });
         holder.imgNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 if (fr != null) {
                     fr.callUser(insuranceList.get(position));
                 }
@@ -161,13 +176,6 @@ public class InsuranceAdapter extends RecyclerSwipeAdapter<InsuranceAdapter.View
 
         }
 
-       /* if (insuranceList.get(position).getPhone().equals("")) {
-            holder.txtPhone.setVisibility(View.GONE);
-        } else {
-            holder.txtPhone.setVisibility(View.VISIBLE);
-        }
-        holder.txtPhone.setText(insuranceList.get(position).getPhone());*/
-        //  holder.imgProfile.setImageResource(insuranceList.get(position).getImage());
 
         File imgFile = new File(preferences.getString(PrefConstants.CONNECTED_PATH), insuranceList.get(position).getPhoto());
         holder.imgProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
@@ -179,8 +187,6 @@ public class InsuranceAdapter extends RecyclerSwipeAdapter<InsuranceAdapter.View
                 holder.imgProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
             // imageLoaderProfile.displayImage(String.valueOf(Uri.fromFile(imgFile)), viewHolder.imgProfile, displayImageOptionsProfile);
         }
-        //else holder.imgProfile.setImageResource(R.drawable.all_profile); //new change for default image display
-
 
         if (!insuranceList.get(position).getPhotoCard().equals("")) {
             File imgFile1 = new File(preferences.getString(PrefConstants.CONNECTED_PATH), insuranceList.get(position).getPhotoCard());
@@ -199,8 +205,13 @@ public class InsuranceAdapter extends RecyclerSwipeAdapter<InsuranceAdapter.View
 
 
         holder.imgForword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 Intent i = new Intent(context, AddFormActivity.class);
                 i.putExtra("Image", insuranceList.get(position).getPhotoCard());
                 context.startActivity(i);
@@ -209,8 +220,13 @@ public class InsuranceAdapter extends RecyclerSwipeAdapter<InsuranceAdapter.View
 
 
         holder.rlInsurance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 Intent i = new Intent(context, GrabConnectionActivity.class);
                 preferences.putString(PrefConstants.SOURCE, "InsuranceData");
                 Insurance insurance = insuranceList.get(position);
@@ -218,26 +234,7 @@ public class InsuranceAdapter extends RecyclerSwipeAdapter<InsuranceAdapter.View
                 context.startActivity(i);
             }
         });
-      /*  holder.imgEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, GrabConnectionActivity.class);
-                preferences.putString(PrefConstants.SOURCE, "InsuranceData");
-                Insurance insurance = insuranceList.get(position);
-                i.putExtra("InsuranceObject", insurance);
-                context.startActivity(i);
-            }
-        });
-        holder.imgNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, GrabConnectionActivity.class);
-                preferences.putString(PrefConstants.SOURCE, "InsuranceViewData");
-                Insurance insurance = insuranceList.get(position);
-                i.putExtra("InsuranceObject", insurance);
-                context.startActivity(i);
-            }
-        });*/
+
 
     }
 

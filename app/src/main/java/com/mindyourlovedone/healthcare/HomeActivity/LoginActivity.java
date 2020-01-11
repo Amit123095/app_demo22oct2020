@@ -1,18 +1,16 @@
 package com.mindyourlovedone.healthcare.HomeActivity;
 
-import android.Manifest;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -57,14 +55,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * Class: LoginActivity
+ * Screen: Login Screen
+ * A class that manages Login process of Old User and Subscription
+ * implements OnclickListener for onClick event on views
+ */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final int REQUEST_CALL_PERMISSION = 100;
     Context context = this;
     RelativeLayout rlLogin;
     TextView txtSignIn, txtNew, txtForgotPassword;
     ImageView imgFbSignup, imgGoogleSignup;
     TextView txtUserName, txtPassword, txtName;
-    String username = "", password = "", name = "", userid = "", message = "";
+    String username = "", name = "", userid = "", message = "";
     String lastusername = "", lastemail = "";
     Preferences preferences;
     TextInputLayout tilName;
@@ -74,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //Transperent Window, Notification bar, title bar
         Window window = getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -86,52 +89,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         setContentView(R.layout.activity_login);
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+
         preferences = new Preferences(context);
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
     }
 
-    private void initComponent() {// Nikita - added additional check username and email are not similar to old db's
-        if (preferences.getInt(PrefConstants.SUBSCRIPTION_ENDS) != 1 || !username.equalsIgnoreCase(lastemail) || !name.equalsIgnoreCase(lastusername)) {
-            try {
-                File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
-                if (!f.exists()) {
-                    f.mkdirs();
-                } else {
-                    try {
-                        File file = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
-                        FileUtils.deleteDirectory(file);
-                        f.mkdirs();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        dbHelper = new DBHelper(context, "MASTER");
-        MyConnectionsQuery p = new MyConnectionsQuery(context, dbHelper);
-
-    }
-
-    private void initListener() {
-        txtSignIn.setOnClickListener(this);
-        txtNew.setOnClickListener(this);
-        txtForgotPassword.setOnClickListener(this);
-        imgFbSignup.setOnClickListener(this);
-        imgGoogleSignup.setOnClickListener(this);
-    }
-
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
-
-/*
-        String s = getResources().getString(R.string.FullAppname);
-        TextView textlogo = findViewById(R.id.txtLogo);
-        textlogo.setText(Html.fromHtml(s));
-*/
-
         rlLogin = findViewById(R.id.rlLogin);
         txtSignIn = findViewById(R.id.txtSignIn);
         txtNew = findViewById(R.id.txtNew);
@@ -153,6 +123,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
         rlLogin.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 hideSoftKeyboard();
@@ -168,71 +143,92 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
+    private void initListener() {
+        txtSignIn.setOnClickListener(this);
+        txtNew.setOnClickListener(this);
+        txtForgotPassword.setOnClickListener(this);
+        imgFbSignup.setOnClickListener(this);
+        imgGoogleSignup.setOnClickListener(this);
+    }
+
+    /**
+     * Function: Initialize database
+     */
+    private void initComponent() {// Nikita - added additional check username and email are not similar to old db's
+        if (preferences.getInt(PrefConstants.SUBSCRIPTION_ENDS) != 1 || !username.equalsIgnoreCase(lastemail) || !name.equalsIgnoreCase(lastusername)) {
+            try {
+                File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
+                if (!f.exists()) {
+                    f.mkdirs();
+                } else {
+                    try {
+                        File file = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
+                        FileUtils.deleteDirectory(file);
+                        f.mkdirs();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Initialize database
+        dbHelper = new DBHelper(context, "MASTER");
+        MyConnectionsQuery p = new MyConnectionsQuery(context, dbHelper);
+    }
+
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
 
             case R.id.txtSignIn:
-                if (validate()) {
-//                    accessPermission();
-                    if (!NetworkUtils.getConnectivityStatusString(LoginActivity.this).equals("Not connected to Internet")) {
-                        GetUserAsynk asynkTask = new GetUserAsynk(name, username);
-                        asynkTask.execute();
-                    } else {
-                        DialogManager.showAlert("Network Error, Check your internet connection", LoginActivity.this);
-                    }
-
-                   /* ArrayList<PersonalInfo> PersonList = PersonalInfoQuery.fetchOneRecord(username, password);
-                    if (PersonList.size() != 0) {
-                        for (int i = 0; i < PersonList.size(); i++) {
-                            if (username.equals(PersonList.get(i).getEmail()) && password.equals(PersonList.get(i).getPassword())) {
-                                Toast.makeText(context, "You have Logged in successfully", Toast.LENGTH_SHORT).show();
-                                preferences.putString(PrefConstants.USER_EMAIL, PersonList.get(i).getEmail());
-                                preferences.putString(PrefConstants.USER_NAME, PersonList.get(i).getName());
-                               // String saveThis = Base64.encodeToString(PersonList.get(i).getPhoto(), Base64.DEFAULT);
-                                preferences.putString(PrefConstants.USER_PROFILEIMAGE, PersonList.get(i).getPhoto());
-                                preferences.putInt(PrefConstants.USER_ID, PersonList.get(i).getId());
-                                preferences.setREGISTERED(true);
-                                preferences.setLogin(true);
-                                Intent signinIntent = new Intent(context, BaseActivity.class);
-                                startActivity(signinIntent);
-                                finish();
-                            }
-                        }
-                    } else {
-                        Toast.makeText(context, "Enter correct Username or Password", Toast.LENGTH_SHORT).show();
-                        txtUserName.setText("");
-                        txtPassword.setText("");
-                    }*/
-
-                }
-
-               /* Intent signinIntent = new Intent(context, BaseActivity.class);
-                startActivity(signinIntent);
-                finish();*/
+                onClickLogin();
                 break;
-            case R.id.txtNew:
+
+            case R.id.txtNew: //Navigate to Signup screen
                 Intent signupIntent = new Intent(context, SignUpActivity.class);
                 startActivity(signupIntent);
                 finish();
                 break;
-            case R.id.txtForgotPassword:
-
-                break;
-
-            case R.id.imgFbSignup:
-
-                break;
-
-            case R.id.imgGoogleSignup:
-
-                break;
         }
     }
 
-    private boolean validate() {
+    /**
+     * Function: Login with user
+     */
+    private void onClickLogin() {
+        //Validate if user input is valid or not, If true then goes for next task
+        if (validate()) {
+            //Check if network connection is available and connected or not.
+            if (!NetworkUtils.getConnectivityStatusString(LoginActivity.this).equals("Not connected to Internet")) {
+                // Call background Task for login
+                GetUserAsynk asynkTask = new GetUserAsynk(name, username);
+                asynkTask.execute();
+            } else {
+                DialogManager.showAlert("Network Error, Check your internet connection", LoginActivity.this);
+            }
+        }
+    }
 
+
+    /**
+     * Function: Validation of data input by user
+     *
+     * @return boolean, True if given input is valid, false otherwise.
+     */
+    private boolean validate() {
         username = txtUserName.getText().toString().trim();
         name = txtName.getText().toString().trim();
 
@@ -249,10 +245,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return true;
         }
 
-
         return false;
     }
 
+
+    /**
+     * Function: Hide device keyboard.
+     */
     public void hideSoftKeyboard() {
         if (getCurrentFocus() != null) {
             InputMethodManager inm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -260,6 +259,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    /**
+     * Function: Navigate to next Profile Screen
+     * Store User data
+     * Store Subcription data
+     */
     private void navigateToAPP() {
         int userId = Integer.parseInt(userid);
         Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
@@ -317,11 +321,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    /**
+     * Function: Convert data from json format to string and store
+     *
+     * @param result
+     */
     public void parseResponseg(String result) {
         Log.e("Response", result);
         JSONObject job = null;
         String errorCode = "";
         try {
+            //Initialize database, get primary data and set data
             initComponent();//Nikita - Making folder here after check
 
             job = new JSONObject(result);
@@ -347,6 +357,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String source = jobS.optString("source");
 
                     if (!transId.isEmpty() && !endDate.isEmpty()) {
+                        //Checking for current date is before expiry date or not
                         if (validDateChecker(endDate)) {
                             // User has valid subscription data on server
                             // Entry to App
@@ -395,6 +406,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    /**
+     * Function: Checking for current date is before expiry date or not
+     *
+     * @param date
+     * @return boolean true if current date is before expiry date, false otherwise
+     */
     private boolean validDateChecker(String date) {
         // Nikita#Sub - Checking for current date is before expiry date or not
         try {
@@ -412,108 +429,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return false;
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.M)
-//    private void accessPermission() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-//                ContextCompat.checkSelfPermission(getApplicationContext(),
-//                        android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED
-//                ||
-//                ContextCompat.checkSelfPermission(getApplicationContext(),
-//                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-//                ||
-//                ContextCompat.checkSelfPermission(getApplicationContext(),
-//                        android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-//                ||
-//                ContextCompat.checkSelfPermission(getApplicationContext(),
-//                        Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
-//
-//        ) {
-//            requestPermissions(new String[]{android.Manifest.permission.CALL_PHONE,
-//                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
-//                    Manifest.permission.READ_CONTACTS
-//            }, REQUEST_CALL_PERMISSION);
-//
-//        } else {
-//
-//            if (!NetworkUtils.getConnectivityStatusString(LoginActivity.this).equals("Not connected to Internet")) {
-//                GetUserAsynk asynkTask = new GetUserAsynk(name, username);
-//                asynkTask.execute();
-//            } else {
-//                DialogManager.showAlert("Network Error, Check your internet connection", LoginActivity.this);
-//            }
-//            if(preferences.getInt(PrefConstants.SUBSCRIPTION_ENDS)!=1) {
-//                try {
-//                    File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
-//                    if (!f.exists()) {
-//                        f.mkdirs();
-//                    } else {
-//                        try {
-//                            File file = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
-//                            FileUtils.deleteDirectory(file);
-//                            f.mkdirs();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
-//
-//    @RequiresApi(api = Build.VERSION_CODES.M)
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode,
-//                                           String permissions[], int[] grantResults) {
-//        switch (requestCode) {
-//            case REQUEST_CALL_PERMISSION: {
-//                if (grantResults.length > 0 &&grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-//
-//                    if (!NetworkUtils.getConnectivityStatusString(LoginActivity.this).equals("Not connected to Internet")) {
-//                        GetUserAsynk asynkTask = new GetUserAsynk(name, username);
-//                        asynkTask.execute();
-//                    } else {
-//                        DialogManager.showAlert("Network Error, Check your internet connection", LoginActivity.this);
-//                    }
-//                    if(preferences.getInt(PrefConstants.SUBSCRIPTION_ENDS)!=1) {
-//                        try {
-//                            File f = new File(Environment.getExternalStorageDirectory(), "/MYLO/MASTER/");
-//                            if (!f.exists()) {
-//                                f.mkdirs();
-//                            } else {
-//                                try {
-//                                    File file = new File(Environment.getExternalStorageDirectory(), "/MYLO/");
-//                                    FileUtils.deleteDirectory(file);
-//                                    f.mkdirs();
-//                                } catch (IOException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                } else {
-//
-//                    accessPermission();
-//                    // permission denied, boo! Disable the
-//                    // functionality that depends on this permission.
-//                }
-//                return;
-//            }
-//
-//            // other 'switch' lines to check for other
-//            // permissions this app might request
-//        }
-//    }
 
     class GetUserAsynk extends AsyncTask<Void, Void, String> {
         ProgressDialog pd;
         String name = "";
         String email = "";
 
+        /**
+         * Constructor: GetUserAsynk
+         * Initializes the variables.
+         *
+         * @param name  user name of user
+         * @param email email of user
+         */
         public GetUserAsynk(String name, String email) {
             this.name = name;
             this.email = email;
@@ -522,23 +450,38 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            // Initialize progress dialog
             pd = new ProgressDialog(context);
             pd.setMessage("Please Wait..");
             pd.show();
 
         }
 
+        /**
+         * Background long running code
+         *
+         * @param params
+         * @return String, Server Response after server operation
+         */
         @Override
         protected String doInBackground(Void... params) {
+            //Call to get profile metod for get data from server db{
             WebService webService = new WebService();
             String result = webService.getProfile(name, email);
             return result;
         }
 
+
+        /**
+         * Called when received result from server in onPostExecute for set data and store at local
+         *
+         * @param result Result received in onPostExecute
+         */
         @Override
         protected void onPostExecute(String result) {
             if (pd != null) {
                 if (pd.isShowing()) {
+                    // dismiss progress dialog after getting output from server
                     pd.dismiss();
                 }
             }
@@ -547,6 +490,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     //ErrorDialog.errorDialog(context);
                 } else {
                     Log.e("CreateUserAsynk", result);
+                    //Decode Response and save locally
                     parseResponseg(result);
 
                 }
@@ -647,31 +591,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return formatter.format(date);
     }
 
+    /**
+     * Function: Initialize background process,save subscription data to table
+     */
     private void initBGProcess(SubscrptionData sub) {
-
         SubscriptionQuery ss = new SubscriptionQuery(context, dbHelper);
         Boolean ssflag = SubscriptionQuery.insertSubscriptionData(sub.getUserId(), sub);
-
         if (ssflag) {
             preferences.putInt(PrefConstants.UPLOAD_FLAG, 0);
-
-            //preventing repeat call - as calling in case activity
-//            Data inputData = new Data.Builder()
-//                    .putInt("userId", sub.getUserId())
-//                    .build();
-//
-//            OneTimeWorkRequest mywork =
-//                    new OneTimeWorkRequest.Builder(WorkerPost.class)
-//                            .setInputData(inputData).build();// Use this when you want to add initial delay or schedule initial work to `OneTimeWorkRequest` e.g. setInitialDelay(2, TimeUnit.HOURS)
-//            String id = mywork.getId().toString();
-//            System.out.println("NIKITA WORK ID: " + id);
-//            WorkManager.getInstance().enqueue(mywork);
         }
-
         navigateToAPP();
     }
 
-
+    /**
+     * Function: Check for google subscription
+     */
     private void inApp() {
         String base64EncodedPublicKey = context.getResources().getString(R.string.basekey);//"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAq3i1ShkUzBAWxerhJne2R7KYwWVXyERXLxz7Co0kW9wS45C55XnM/kFHNZ0hI62Oz8HWbTO+RisBMQ5If21sHu5DgXLHa+LNYj+2ZPQWlh46jo/jhMgo+V9YJ7EeOLedH70fFRlhy9OT2ZmOWscxN5YJDp22RXvilale2WcoKVOriS+I9fNbeREDcKM4CsB0isJyDEVIagaRaa0Za8MleOVeYUdma5q3ENZDJ8g9W2Dy0h6fioCZ9OIgBCY63qr0jVxHUwD8Jebp91czKWRSRi433suBmSkoE6qkhwtDEdckeG+cx6xErHcoPSrwhaLlvqCC1KngYduRZy5j1jCAywIDAQAB"; //"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt/vQGFXEB+fQ7s5JbO/teKHjmvkZgqSeLSXmicYu4jDC5mBqfZ1/wBES/lhPGEfJAmjmSSQ1Z35XIcoTL74KVASTrUComknH4XiGaiXCjeCe9cFwYCXlWT+B3Y+dkRajRTi9G/iIgUZP6NTyblmKd5KcUn64CQIqgIZ8pD/4GsIR5abUFTEH9XXQEKzFjcdaBKB4uK1m2JLZ+w+FTFeNydzqSYdRL5lY4IHr8RHZwA3BReNMpzPt1Zp7URSkAGjXvbpOkURupUP+hB4VBYQYPfHfx3K4m32XKWl8zP0qwHS2kIIAjAEekzN+l+bDAU9fXdkDKuHIeXA0HLC6i9jRkQIDAQAB";
 
@@ -714,6 +648,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
+    /**
+     * @param requestCode The integer request code originally supplied to startActivityForResult(), allowing you to identify who this result came from.
+     * @param resultCode  The integer result code returned by the child activity through its setResult().
+     * @param data        An Intent, which can return result data to the caller (various data can be attached to Intent "extras").
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onActivityResult(" + requestCode + "," + resultCode + "," + data);
@@ -783,7 +722,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     };
 
-
+    /**
+     * Launching purchase flow for Mylo subscription
+     */
     public void onInfiniteGasButtonClicked() {
         if (mHelper != null) {
             if (!mHelper.subscriptionsSupported()) {

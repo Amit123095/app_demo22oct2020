@@ -21,7 +21,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 11/14/2017.
  */
-
+/**
+ * Class: FragmentVideos
+ * Screen: How-To-Videos Screen
+ * A class is commin soon
+ */
 public class FragmentVideos extends Fragment {
 
     View rootview;
@@ -31,13 +35,20 @@ public class FragmentVideos extends Fragment {
     TextView txtTitle, txtName;
     ImageView imgNoti, imgProfile, imgLogo, imgPdf;
 
-
+    /**
+     * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
+     * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
+     * @param savedInstanceState Bundle: If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_resources, null);
-
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
         getData();
         setData();
@@ -49,22 +60,31 @@ public class FragmentVideos extends Fragment {
         list.setAdapter(adapter);
     }
 
+    /**
+     * Function: Fetch all Video Link
+     */
     private void getData() {
         UrlList = new ArrayList<>();
         Links l1 = new Links();
         l1.setName("Overview | Aging Matters | NPT Reports");
         l1.setUrl("https://www.youtube.com/watch?v=CyIepl3V4Ro");
         UrlList.add(l1);
-
         //Fol show
         Datalist = new ArrayList<>();
         Datalist.add("Overview | Aging Matters | NPT Reports");
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
 
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         txtTitle = getActivity().findViewById(R.id.txtTitle);
         txtTitle.setVisibility(View.VISIBLE);
@@ -79,8 +99,6 @@ public class FragmentVideos extends Fragment {
         imgNoti.setVisibility(View.GONE);
         imgLogo = getActivity().findViewById(R.id.imgLogo);
         imgLogo.setVisibility(View.GONE);
-
-
         list = rootview.findViewById(R.id.list);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

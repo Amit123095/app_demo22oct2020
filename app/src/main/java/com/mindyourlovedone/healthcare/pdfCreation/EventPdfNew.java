@@ -30,7 +30,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 11/7/2017.
  */
-
+/**
+ * Class: EventPdfNew
+ * Screen: Event Sections
+ * A class that manages pdf creation of Event Section
+ */
 public class EventPdfNew {
 
     public static ArrayList<String> messageEvent = new ArrayList<String>();
@@ -39,6 +43,9 @@ public class EventPdfNew {
 
     Font BlackFont;
 
+    /**
+     * Function: Set Font
+     */
     private void EventNewFont() {
         try {
             BaseFont base = BaseFont.createFont("assets/Lato-Regular.ttf", "UTF-8",BaseFont.EMBEDDED);
@@ -48,6 +55,11 @@ public class EventPdfNew {
         }
     }
 
+    /**
+     * Function: Create Appointment PDF
+     * @param appointList
+     * @param pp
+     */
     public EventPdfNew(ArrayList<Appoint> appointList, Image pp) {
         EventNewFont();
         try {
@@ -267,7 +279,12 @@ public class EventPdfNew {
         }
 
 
-
+    /**
+     * Function: Create Event Note Pdf
+     * @param noteList
+     * @param j
+     * @param pp
+     */
     public EventPdfNew(ArrayList<Note> noteList, int j, Image pp) {
         EventNewFont();
         try {
@@ -352,6 +369,13 @@ public class EventPdfNew {
 
     }
 
+    /**
+     * Function: Create Livin Activity Pdf
+     * @param k
+     * @param s
+     * @param j
+     * @param pp
+     */
     public EventPdfNew(int k, Living s, int j, Image pp) {
        EventNewFont();
             try {
@@ -868,6 +892,12 @@ public class EventPdfNew {
 
     }
 
+    /**
+     * Function:Create Pdf for Vital screen
+     * @param vital
+     * @param vitalList
+     * @param pp
+     */
     public EventPdfNew(String vital, ArrayList<VitalSigns> vitalList, Image pp) {
         EventNewFont();
         try {

@@ -43,6 +43,7 @@ public class FragmentSetting extends Fragment {
         lvSetting.setAdapter(sd);
     }
 
+
     private void getData() {
         settingList = new ArrayList<Setting>();
 
@@ -66,7 +67,7 @@ public class FragmentSetting extends Fragment {
         s5.setName("End User License Agreement");
         s5.setResImage(R.drawable.drawer_videos);
 
-      //  settingList.add(s1);
+        //  settingList.add(s1);
         settingList.add(s2);
         settingList.add(s3);
         settingList.add(s4);
@@ -90,22 +91,22 @@ public class FragmentSetting extends Fragment {
                         getActivity().startActivity(intentContactUs);
                         break;*/
                     case 0://Support Faq
-                        Intent browserIntent = new Intent(getActivity(),WebViewActivity.class);
-                        browserIntent.putExtra("Name","Support FAQs");
-                        startActivity(browserIntent);
+                       /* Intent browserIntent = new Intent(getActivity(), WebViewActivity.class);
+                        browserIntent.putExtra("Name", "Support FAQs");
+                        startActivity(browserIntent);*/
                         //nikita
                         //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://mindyour-lovedones.com/MYLO/uploads/Support_Faqs.pdf"));
-                       // startActivity(browserIntent);
+                        // startActivity(browserIntent);
                         break;
                     case 1://User Guide-Section
 
                        /* Intent browserIntents = new Intent(getActivity(),WebViewActivity.class);
                         browserIntents.putExtra("Name","User Guide");
                         startActivity(browserIntents);*/
-                       //nikita
-                        Intent browserIntentD = new Intent(Intent.ACTION_VIEW, Uri.parse("http://mindyour-lovedones.com/MYLO/uploads/User_Guide.pdf"));
+                        //nikita
+                       /* Intent browserIntentD = new Intent(Intent.ACTION_VIEW, Uri.parse("http://mindyour-lovedones.com/MYLO/uploads/User_Guide.pdf"));
                         startActivity(browserIntentD);
-
+*/
                         break;
                     case 2://Privacy Policy-Section
 

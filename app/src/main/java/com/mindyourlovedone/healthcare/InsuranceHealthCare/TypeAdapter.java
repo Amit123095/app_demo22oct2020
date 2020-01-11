@@ -10,7 +10,11 @@ import android.widget.TextView;
 
 import com.mindyourlovedone.healthcare.Activity.RelationshipActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
-
+/**
+ * Class: TypeAdapter
+ * Screen: Specialist or test  List Screen
+ * A class that manages Adpater for Specialist or test  List
+ */
 public class TypeAdapter extends BaseAdapter {
 
     String[] relationship;

@@ -148,32 +148,32 @@ public class FilePath {
                 }
 
 
-            //   Toast.makeText(context,result,Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(context,result,Toast.LENGTH_SHORT).show();
 
-            try {
-                InputStream attachment = context.getContentResolver().openInputStream(uri);
-                if (attachment == null)
-                    Log.e("onCreate", "cannot access mail attachment");
-                else {
-                    String path = Environment.getExternalStorageDirectory()+ "/"+ result;
-                    FileOutputStream tmp = new FileOutputStream(path);
-                    byte[] buffer = new byte[1024];
-                    while (attachment.read(buffer) > 0)
-                        tmp.write(buffer);
+                try {
+                    InputStream attachment = context.getContentResolver().openInputStream(uri);
+                    if (attachment == null)
+                        Log.e("onCreate", "cannot access mail attachment");
+                    else {
+                        String path = Environment.getExternalStorageDirectory() + "/" + result;
+                        FileOutputStream tmp = new FileOutputStream(path);
+                        byte[] buffer = new byte[1024];
+                        while (attachment.read(buffer) > 0)
+                            tmp.write(buffer);
 
-                    tmp.close();
-                    attachment.close();
-                    return path;
+                        tmp.close();
+                        attachment.close();
+                        return path;
+                    }
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 }
-            } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
-        }
-                return uri.getLastPathSegment();
+            return uri.getLastPathSegment();
 
         }
         // File

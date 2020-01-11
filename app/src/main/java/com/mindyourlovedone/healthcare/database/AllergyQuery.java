@@ -10,9 +10,10 @@ import com.mindyourlovedone.healthcare.model.Allergy;
 import java.util.ArrayList;
 
 /**
- * Created by welcome on 9/25/2017.
+ * Class: AllergyQuery
+ * Screen: Add Allergy , Medical Information
+ * A class that manages AllergyInfo Table CRUD Operations
  */
-
 public class AllergyQuery {
     public static final String TABLE_NAME = "AllergyInfo";
     public static final String COL_ID = "Id";

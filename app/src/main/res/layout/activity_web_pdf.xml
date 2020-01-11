@@ -25,25 +25,25 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginLeft="@dimen/dimension1dp"
+            android:layout_toLeftOf="@+id/imgBack2"
             android:layout_toRightOf="@+id/imgBack"
             android:fontFamily="@font/lato"
             android:gravity="center"
             android:maxLines="2"
-            android:layout_toLeftOf="@+id/imgBack2"
             android:text=""
             android:textColor="#FFFFFF"
             android:textSize="@dimen/dimension21dp"
             android:textStyle="bold" />
 
         <ImageView
-            android:layout_alignParentRight="true"
-            android:visibility="invisible"
             android:id="@+id/imgBack2"
             android:layout_width="@dimen/dimension40dp"
             android:layout_height="@dimen/dimension50dp"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dimension10dp"
-            android:src="@drawable/backward_arrow" />
+            android:src="@drawable/backward_arrow"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 

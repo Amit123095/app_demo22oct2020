@@ -52,6 +52,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Class: AddCardActivity
+ * Screen: Add Insurance Screen
+ * A class that manages Insurance card details
+ * implements OnclickListener for onClick event on views
+ */
 public class AddCardActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int REQUEST_CARD = 50;
     private static int RESULT_CAMERA_IMAGE1 = 1;
@@ -63,8 +69,8 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
     ContentValues values;
     Uri imageUriFront, imageUriBack;
     Context context = this;
-    TextView txtName, txttype, txtTitle, txtCard, txtSave,txtOther;
-    TextInputLayout tilTitle,tilOther;
+    TextView txtName, txttype, txtTitle, txtCard, txtSave, txtOther;
+    TextInputLayout tilTitle, tilOther;
     Bitmap bitmap1, bitmap2;
     String imagePathFront = "", imagePathBack = "";
     Card C;
@@ -83,20 +89,26 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
     boolean frontFlag, backFlag;
 
     @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_card);
+        //Initialize database, get primary data and set data
         initComponent();
+
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
+
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
     }
 
+    /**
+     * Function: Image loading and displaying at ImageView
+     * Presents configuration for ImageLoader & options for image display.
+     */
     private void initImageLoader() {
         displayImageOptions = new DisplayImageOptions.Builder() // resource
                 .resetViewBeforeLoading(true) // default
@@ -122,6 +134,10 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
         CardQuery c = new CardQuery(context, dbHelper);
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         txtSave.setOnClickListener(this);
         imgDone.setOnClickListener(this);
@@ -135,14 +151,22 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
         imgBackCard.setOnClickListener(this);
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         txtCard = findViewById(R.id.txtCard);
-        tilOther= findViewById(R.id.tilOther);
-        txtOther= findViewById(R.id.txtOther);
+        tilOther = findViewById(R.id.tilOther);
+        txtOther = findViewById(R.id.txtOther);
         llFrontCam = findViewById(R.id.llFrontCam);
         llBackCam = findViewById(R.id.llBackCam);
 
         txtCard.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(AddCardActivity.this, InstructionActivity.class);
@@ -186,16 +210,13 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                 tilTitle.setHintEnabled(true);
             }
             Card card = (Card) i.getExtras().getSerializable("CardObject");
-            C=(Card) i.getExtras().getSerializable("CardObject");
+            C = (Card) i.getExtras().getSerializable("CardObject");
             txtName.setText(card.getName());
             txttype.setText(card.getType());
             txtOther.setText(card.getOtertype());
-            if (card.getType().equalsIgnoreCase("Other"))
-            {
+            if (card.getType().equalsIgnoreCase("Other")) {
                 tilOther.setVisibility(View.VISIBLE);
-            }
-            else
-            {
+            } else {
                 tilOther.setVisibility(View.GONE);
             }
 
@@ -204,109 +225,65 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
             imagePathFront = photo;
             llFrontCam.setVisibility(View.GONE);
 
-           /* Bitmap bmp = BitmapFactory.decodeByteArray(photo, 0, photo.length);
-           imgfrontCard.setImageBitmap(bmp);*/
             File imgFile = new File(preferences.getString(PrefConstants.CONNECTED_PATH), photo);
-
-
-            if (imgFile.exists()&&!photo.equalsIgnoreCase("")) {
-               /* if (imgfrontCard.getDrawable() == null) {
-                  //  imgfrontCard.setImageDrawable(null);
-                    frontFlag = false;
-                    llFrontCam.setVisibility(View.VISIBLE);
-                    imgEdit1.setVisibility(View.GONE);
-                }
-                else {*/
+            if (imgFile.exists() && !photo.equalsIgnoreCase("")) {
                 imgfrontCard.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
                 frontFlag = true;
                 imgEdit1.setVisibility(View.VISIBLE);
-                //}
-                // imageLoaderProfile.displayImage(String.valueOf(Uri.fromFile(imgFile)), viewHolder.imgProfile, displayImageOptionsProfile);
-            }
-            else {
+            } else {
                 llFrontCam.setVisibility(View.VISIBLE);
                 imgEdit1.setVisibility(View.GONE);
                 frontFlag = false;
-                //llFrontCam.setVisibility(View.VISIBLE);
-            }//new change for default image display
 
-            /*  if (imgFile.exists()) {
-             *//* BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath(),bmOptions);
-                Matrix matrix = new Matrix();
-                if (bitmap.getHeight()>bitmap.getWidth()) {
-                    matrix.postRotate(90);
-                }
-                else
-                {
-                    matrix.postRotate(0);
-                }
-                //  Bitmap scaledBitmap = Bitmap.createScaledBitmap(thumbnail,thumbnail.getWidth(),thumbnail.getHeight(),true);
-                Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap , 0, 0, bitmap .getWidth(), bitmap .getHeight(), matrix, true);
-                imgfrontCard.setImageBitmap(rotatedBitmap);*//*
-                //bitmap = Bitmap.createScaledBitmap(bitmap,bitmap.getWidth(),bitmap.getHeight(),true);
-                imageLoader.displayImage(String.valueOf(Uri.fromFile(imgFile)), imgfrontCard, displayImageOptions);
-                frontFlag = true;
-            } else {
-                frontFlag = false;
-                imgfrontCard.setImageDrawable(null);
-                llFrontCam.setVisibility(View.VISIBLE);
-            }*/
+            }
             String photo1 = card.getImgBack();
             imagePathBack = photo1;
             llBackCam.setVisibility(View.GONE);
             File imgFile1 = new File(preferences.getString(PrefConstants.CONNECTED_PATH), photo1);
-            if (imgFile1.exists()&&!photo1.equalsIgnoreCase("")) {
-                /*if (imgBackCard.getDrawable() == null) {
-                   // imgBackCard.setImageDrawable(null);
-                    backFlag = false;
-                    llBackCam.setVisibility(View.VISIBLE);
-                    imgEdit2.setVisibility(View.GONE);
-                }
-                else {*/
+            if (imgFile1.exists() && !photo1.equalsIgnoreCase("")) {
+
                 imgBackCard.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile1))));
                 imgEdit2.setVisibility(View.VISIBLE);
                 backFlag = true;
-                // }
-                // imageLoaderProfile.displayImage(String.valueOf(Uri.fromFile(imgFile)), viewHolder.imgProfile, displayImageOptionsProfile);
-            }
-            else {
+            } else {
                 imgBackCard.setImageDrawable(null);
                 imgEdit2.setVisibility(View.GONE);
                 backFlag = false;
                 llBackCam.setVisibility(View.VISIBLE);
-                //imgEdit2.setVisibility(View.VISIBLE);
-            }//new change for default image display
 
-           /* Bitmap bmp1 = BitmapFactory.decodeByteArray(photo1, 0, photo1.length);
-            imgBackCard.setImageBitmap(bmp1);*/
+            }//new change for default image display
         }
 
         txttype.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, RelationActivity.class);
                 i.putExtra("Category", "Insurance");
-                i.putExtra("Selected",txttype.getText().toString());
+                i.putExtra("Selected", txttype.getText().toString());
                 startActivityForResult(i, RESULT_INSURANCECard);
             }
         });
 
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.llFrontCam:
-
+            case R.id.llFrontCam://Edit Front card
                 imgEdit1.performClick();
-
-               /* if (frontFlag == true) {
-
-                }*/
                 break;
 
-            case R.id.imgFrontCard:
+            case R.id.imgFrontCard://View Front Card
                 if (frontFlag == true) {
                     Intent i = new Intent(context, AddFormActivity.class);
                     i.putExtra("Image", imagePathFront);
@@ -314,23 +291,17 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                     startActivityForResult(i, REQUEST_CARD);
                 }
                 break;
-            case R.id.llBackCam:
+            case R.id.llBackCam://Edit back Card
                 imgEdit2.performClick();
-               /* if (backFlag == true) {
-                    Intent j = new Intent(context, AddFormActivity.class);
-                    j.putExtra("Image", imagePathBack);
-                    j.putExtra("FROM", "Insurance");
-                    startActivityForResult(j, REQUEST_CARD);
-                }*/
                 break;
-            case R.id.imgHome:
+            case R.id.imgHome: //Move to profilelist screen
                 Intent intentHome = new Intent(context, BaseActivity.class);
                 intentHome.putExtra("c", 1);
                 intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentHome);
                 break;
-            case R.id.imgBackCard:
+            case R.id.imgBackCard:// View Back card
                 if (backFlag == true) {
                     Intent j = new Intent(context, AddFormActivity.class);
                     j.putExtra("Image", imagePathBack);
@@ -338,17 +309,18 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                     startActivityForResult(j, REQUEST_CARD);
                 }
                 break;
-            case R.id.txtSave:
+            case R.id.txtSave:// Save insuranc ecard details
                 //Shradha
+                //Validate if user input is valid or not, If true then goes for next task
                 if (validate()) {
                     type = txttype.getText().toString();
                     name = txtName.getText().toString();
-                    oter=txtOther.getText().toString();
+                    oter = txtOther.getText().toString();
                     storeImage(PHOTO1, "Front");
                     storeImage(PHOTO2, "Back");
 
                     if (isEdit == false) {
-                        boolean flag = CardQuery.insertInsuranceCardData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, type, imagePathFront, imagePathBack,oter);
+                        boolean flag = CardQuery.insertInsuranceCardData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, type, imagePathFront, imagePathBack, oter);
                         if (flag) {
                             Toast.makeText(context, "Insurance Card Information has been saved successfully", Toast.LENGTH_SHORT).show();
                             finish();
@@ -357,7 +329,7 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                         }
                         Toast.makeText(context, "Insurance Card Information has been saved successfully", Toast.LENGTH_SHORT).show();
                     } else if (isEdit == true) {
-                        boolean flag = CardQuery.updateInsuranceCardData(id, name, type, imagePathFront, imagePathBack,oter);
+                        boolean flag = CardQuery.updateInsuranceCardData(id, name, type, imagePathFront, imagePathBack, oter);
                         if (flag) {
                             Toast.makeText(context, "Insurance Card Information has been updated successfully", Toast.LENGTH_SHORT).show();
                             finish();
@@ -366,28 +338,20 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                         }
                         Toast.makeText(context, "Insurance Card Information has been updated successfully", Toast.LENGTH_SHORT).show();
                     }
-                    //  Toast.makeText(context, "Credentials Saved..", Toast.LENGTH_SHORT).show();
-
-                } else {
-                   // Toast.makeText(context, "Invalid Credentials..", Toast.LENGTH_SHORT).show();
-
                 }
-
                 break;
 
-            case R.id.imgBack:
+            case R.id.imgBack:// Move to prevoius screen
                 type = txttype.getText().toString();
                 name = txtName.getText().toString();
-                oter=txtOther.getText().toString();
+                oter = txtOther.getText().toString();
 
-                if(isEdit==false) {
-                    if (type.equals("")&&name.equals("")&&
-                            oter.equals("")&&imagePathBack.equals("")&&
-                            imagePathFront.equals(""))
-                    {
+                if (isEdit == false) {
+                    if (type.equals("") && name.equals("") &&
+                            oter.equals("") && imagePathBack.equals("") &&
+                            imagePathFront.equals("")) {
                         finish();
-                    }
-                    else{
+                    } else {
                         android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(context);
                         alert.setTitle("Save");
                         alert.setMessage("Do you want to save information?");
@@ -410,16 +374,13 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                         alert.show();
                     }
 
-                }
-                else{
+                } else {
 
-                    if (C.getType().equals(type)&&C.getName().equals(name)&&
-                            C.getOtertype().equals(oter)&&C.getImgFront().equals(imagePathFront)&&
-                            C.getImgBack().equals(imagePathBack))
-                    {
+                    if (C.getType().equals(type) && C.getName().equals(name) &&
+                            C.getOtertype().equals(oter) && C.getImgFront().equals(imagePathFront) &&
+                            C.getImgBack().equals(imagePathBack)) {
                         finish();
-                    }
-                    else{
+                    } else {
                         android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(context);
                         alert.setTitle("Save");
                         alert.setMessage("Do you want to save information?");
@@ -443,22 +404,23 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 }
                 break;
-            case R.id.imgEdit1:
+            case R.id.imgEdit1://Select option for addin card front imae
                 showDialogs(RESULT_CAMERA_IMAGE1, RESULT_SELECT_PHOTO1, "Front");
 
                 break;
-            case R.id.imgEdit2:
+            case R.id.imgEdit2://Select option for addin card back imae
                 showDialogs(RESULT_CAMERA_IMAGE2, RESULT_SELECT_PHOTO2, "Back");
-
-//                dialogCameraBack();
-
                 break;
 
 
         }
     }
 
-    //shradha
+    /**
+     * Function: Validation of data input by user
+     *
+     * @return boolean, True if given input is valid, false otherwise.
+     */
     private boolean validate() {
         String name = txtName.getText().toString().trim();
         String type = txttype.getText().toString().trim();
@@ -469,15 +431,17 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
             txttype.setError("Please Enter Type");
             DialogManager.showAlert("Please Enter Type", context);
         } else {
-
-                    return true;
-
-
-
+            return true;
         }
         return false;
     }
 
+    /**
+     * Function : Camera
+     * @param resultCameraImage
+     * @param resultSelectPhoto
+     * @param from
+     */
     private void dialogCameraFront(final int resultCameraImage, final int resultSelectPhoto, final String from) {
         final Dialog dialogCamera = new Dialog(context);
         dialogCamera.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -503,6 +467,11 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
 
 
         txtOk.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 values = new ContentValues();
@@ -550,6 +519,11 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
 
 
         txtOk.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 showDialogs(RESULT_CAMERA_IMAGE2, RESULT_SELECT_PHOTO2, "Back");
@@ -558,12 +532,12 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
-/*
-    private void dialogCameraInstruction() {
-
-    }
-*/
-
+    /**
+     * Dialog to select add image option
+     * @param resultCameraImage
+     * @param resultSelectPhoto
+     * @param from
+     */
     private void showDialogs(final int resultCameraImage, final int resultSelectPhoto, final String from) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -590,28 +564,12 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
         textOption1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //shradha for back and front capture image from camera and gallery
+                // for back and front capture image from camera and gallery
                 if (from.equals("Front")) {
                     dialogCameraFront(RESULT_CAMERA_IMAGE1, RESULT_SELECT_PHOTO1, "Front");
                 } else if (from.equals("Back")) {
                     dialogCameraFront(RESULT_CAMERA_IMAGE2, RESULT_SELECT_PHOTO2, "Back");
                 }
-
-              /*  values = new ContentValues();
-                values.put(MediaStore.Images.Media.TITLE, "New Picture");
-                values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (from.equals("Front")) {
-                    imageUriFront = getContentResolver().insert(
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUriFront);
-                } else if (from.equals("Back")) {
-                    imageUriBack = getContentResolver().insert(
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUriBack);
-                }
-                startActivityForResult(intent, resultCameraImage);
-              */  // dispatchTakePictureIntent(resultCameraImage);
                 dialog.dismiss();
             }
         });
@@ -644,7 +602,6 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                     PHOTO1 = null;
                 } else if (from.equals("Back")) {
                     imagePathBack = "";
-                    //flBack.setBackgroundResource(R.drawable.ins_card);
                     imgBackCard.setImageDrawable(null);
                     llBackCam.setVisibility(View.VISIBLE);
                     backFlag = false;
@@ -718,7 +675,7 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
         ImageView imgfrontCard = findViewById(R.id.imgFrontCard);
         ImageView imgBackCard = findViewById(R.id.imgBackCard);
-        if (requestCode == RESULT_SELECT_PHOTO1 && null != data) {
+        if (requestCode == RESULT_SELECT_PHOTO1 && null != data) {//Front Gallery
             frontFlag = true;
             try {
                 final Uri imageUri = data.getData();
@@ -745,21 +702,12 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                 llFrontCam.setVisibility(View.GONE);
                 imgEdit1.setVisibility(View.VISIBLE);
                 PHOTO1 = rotatedBitmap;
-                storeImage(rotatedBitmap,"Front");
+                storeImage(rotatedBitmap, "Front");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-          /*  try {
-                final Uri imageUri = data.getData();
-                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                bitmap1=selectedImage;
-                imgfrontCard.setImageBitmap(selectedImage);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }*/
 
-        } else if (requestCode == RESULT_CAMERA_IMAGE1) {
+        } else if (requestCode == RESULT_CAMERA_IMAGE1) {//Front Camera
             frontFlag = true;
             try {
 
@@ -770,9 +718,6 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                 }
 
                 Bitmap thumbnail = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUriFront);
-                // String imageurl = getRealPathFromURI(imageUriFront);
-                // Bitmap bitmap = imageOreintationValidator(thumbnail, imageurl);
-                //     imageLoader.displayImage(String.valueOf(imageUriFront),imgfrontCard,displayImageOptions);
                 Matrix matrix = new Matrix();
                 if (thumbnail.getHeight() > thumbnail.getWidth()) {
                     matrix.postRotate(90);
@@ -785,55 +730,12 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                 llFrontCam.setVisibility(View.GONE);
                 imgEdit1.setVisibility(View.VISIBLE);
                 PHOTO1 = rotatedBitmap;
-                storeImage(rotatedBitmap,"Front");
+                storeImage(rotatedBitmap, "Front");
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-          /*
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            imgfrontCard.setImageBitmap(imageBitmap);
-            // imageLoader.displayImage(imageBitmap,profileImage,displayImageOptions);
-
-            FileOutputStream outStream = null;
-            File file = new File(Environment.getExternalStorageDirectory(),
-                    "/MHCWInsurance/");
-            String path = file.getAbsolutePath();
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-
-
-            if (file.isDirectory()) {
-                String[] children = file.list();
-                for (int i = 0; i < children.length; i++) {
-                    new File(file, children[i]).delete();
-                }
-            }
-            try {
-
-                imagepath = path + "/MHCWInsurance_" + String.valueOf(System.currentTimeMillis())
-                        + ".jpg";
-                // Write to SD Card
-                outStream = new FileOutputStream(imagepath);
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-                outStream.write(byteArray);
-                outStream.close();
-
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-
-            }
-*/
-
-        } else if (requestCode == RESULT_SELECT_PHOTO2 && null != data) {
+        } else if (requestCode == RESULT_SELECT_PHOTO2 && null != data) {//Back Gallery
             backFlag = true;
             try {
                 final Uri imageUri = data.getData();
@@ -845,8 +747,6 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                 } else {
                     Toast.makeText(AddCardActivity.this, "Portrait image", Toast.LENGTH_SHORT).show();
                 }
-
-                //  profileImage.setImageBitmap(selectedImage);
                 /*Code added for setting back card image */
                 imageLoader.displayImage(String.valueOf(imageUri), imgBackCard, displayImageOptions);
                 Matrix matrix = new Matrix();
@@ -866,7 +766,7 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-        } else if (requestCode == RESULT_CAMERA_IMAGE2) {
+        } else if (requestCode == RESULT_CAMERA_IMAGE2) {//Back Camera
             backFlag = true;
             try {
                 Bitmap thumbnail = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUriBack);
@@ -876,10 +776,6 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                 } else {
                     Toast.makeText(AddCardActivity.this, "Portrait image", Toast.LENGTH_SHORT).show();
                 }
-
-                // String imageurl = getRealPathFromURI(imageUriBack);
-                // Bitmap bitmap = imageOreintationValidator(thumbnail, imageurl);
-                // imageLoader.displayImage(String.valueOf(imageUriBack),imgBackCard,displayImageOptions);
                 Matrix matrix = new Matrix();
                 if (thumbnail.getHeight() > thumbnail.getWidth()) {
                     matrix.postRotate(90);
@@ -892,56 +788,12 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                 llBackCam.setVisibility(View.GONE);
                 imgEdit2.setVisibility(View.VISIBLE);
                 // profileImage.setImageBitmap(bitmap);
-                storeImage(rotatedBitmap,"Back");
+                storeImage(rotatedBitmap, "Back");
                 PHOTO2 = rotatedBitmap;
             } catch (Exception e) {
                 e.printStackTrace();
             }
-           /* Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-
-            imgBackCard.setImageBitmap(imageBitmap);
-            // imageLoader.displayImage(imageBitmap,profileImage,displayImageOptions);
-
-            FileOutputStream outStream = null;
-            File file = new File(Environment.getExternalStorageDirectory(),
-                    "/MHCWInsurance/");
-            String path = file.getAbsolutePath();
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-
-
-            if (file.isDirectory()) {
-                String[] children = file.list();
-                for (int i = 0; i < children.length; i++) {
-                    new File(file, children[i]).delete();
-                }
-            }
-            try {
-
-                imagepath = path + "/MHCWInsurance_" + String.valueOf(System.currentTimeMillis())
-                        + ".jpg";
-                // Write to SD Card
-                outStream = new FileOutputStream(imagepath);
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-                outStream.write(byteArray);
-                outStream.close();
-
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-
-            }
-
-*/
-        }
-        else if (requestCode == RESULT_INSURANCECard && data != null) {
+        } else if (requestCode == RESULT_INSURANCECard && data != null) {// Card
             type = data.getStringExtra("Category");
             txttype.setText(type);
             if (type.equals("Other")) {
@@ -953,7 +805,11 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
         }
 
     }
-
+    /**
+     * Function: Store Image in application storage folder
+     * @param selectedImage
+     * @param profile
+     */
     private void storeImage(Bitmap selectedImage, String profile) {
         FileOutputStream outStream = null;
         File file = new File(preferences.getString(PrefConstants.CONNECTED_PATH));

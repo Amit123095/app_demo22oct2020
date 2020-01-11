@@ -37,7 +37,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
-
+/**
+ * Class: AddAppointmentActivity
+ * Screen: Add Medical Appointment Screen
+ * A class that manages routine appointments details
+ * implements OnclickListener for onClick event on views
+ */
 public class AddAppointmentActivity extends AppCompatActivity implements View.OnClickListener {
     Context context = this;
     TextView txtRelation, txtFrequency, txtName, txtNote, txtDate, txtOtherSpecialist, txtOtherFrequency, txtAdd, txtSave;
@@ -47,7 +52,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
     ArrayList<DateClass> dateList = null;
     ImageView imgBack, imgHome;
     RelativeLayout llAddConn, rlDelete;
-    TextInputLayout tilName, tilOtherFrequency, tilOtherSpecialist,tilOtherType;
+    TextInputLayout tilName, tilOtherFrequency, tilOtherSpecialist, tilOtherType;
     RadioGroup rgCompleted;
     RadioButton rbYes, rbNo;
     String otherFrequency = "";
@@ -57,23 +62,9 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
     Appoint p;
     private static int RESULT_TYPE = 10;
     private static int RESULT_FREQUENCY = 110;
-
-    ListView lvType, lvSpecialist;
-
-
-    //    String[] Type = {"CT Scan", "Colonoscopy", "Glucose Test", "Hypothyroid Blood test", "Mammogram", "Thyroid Scan", "Other", "",
-//            "Acupunture", "Allergy & Immunology", "Anesthesiology", "Audiology", "Cardiology", "Chiropractor", "Cosmetic and Laser Surgeon ", "Critical Care Medicine ", "Dentist ", "Dermatology", "Diabetes & Metabolism", "Emergency Medicine", "Endocrinology", "Endodontics", "Endovascular Medicine", "Family Medicine", "Foot and Ankle Surgeon", "Gastroenterology", "Geriatric Medicine", "Gynecology", "Hospice & Palliative Medicine	", "Infectious Disease", "Internal Medicine", "Internist", "Massage Therapy", "Medical Genetics", "Nephrology", "Neurology", "Obstetrics & Gynecology", "Oncology ", "Ophthalmology", "Optometrist", "Orthodontics", "Orthopadeic ", "Orthopadeic Surgeon", "Otolaryngology", "Pain Medicine", "Pathology", "Pediatrics", "Periodontics", "Physical Therapist", "Plastic & Reconstructive Surgeon", "Podiatrist ", "Psychiatry", "Pulmonology", "Radiology", "Rheumatology", "Speech Therapist", "Sports Medicine", "Surgeon - General ", "Thoracic & Cardiac Surgeon", "Urology", "Vascular Medicine", "Other"
-//    };
     String[] Type3 = {"", "Type of Test", "Blood Work", "Colonoscopy", "CT Scan", "Echocardiogram", "EKG", "Glucose Test"};
-
     String[] Type1 = {"Hyperthyroid Blood Test", "Hypothyroid Blood Test", "Mammogram", "MRI", "Prostate Specific Antigen (PSA)", "Sonogram", "Thyroid Scan", "",
-
     };
-    String[] Type2 = {"Specialist",
-            "Acupuncturist", "Allergist (Immunologist)", "Anesthesiologist", "Audiologist", "Cardiologist", "Cardiothoracic Surgeon", "Chiropractor", "Colorectal Surgeon", "Cosmetic Surgeon", "Critical Care Medicine", "Dentist", "Dermatologist", "Dietitian/Nutritionist", "Diabetes & Metabolism", "Ear, Nose & Throat Doctor (ENT, Otolaryngologist)", "Emergency Medicine", "Endocrinologist (incl. Diabetes Specialists)", "Endodontics", "Endovascular Medicine", "Eye Doctor", "Family Medicine", "Gastroenterologist", "Geriatrician", "Gynecologist", "Hearing Specialist", "Hematologist (Blood Specialist)", "Hospice", "Infectious Disease Specialist", "Infertility Specialist", "Internal Medicine", "Midwife", "Naturopathic Doctor", "Nephrologist (Kidney Specialist)", "Neurologist (Inc. Headache Specialist)", "Neurosurgeon", "OB-GYN (Obstetrician-Gynecologist)", "Occupational Therapist", "Oncologist", "Ophthalmologist", "Optometrist", "Oral Surgeon", "Orthodontist", "Orthopedic Surgeon (Orthopedist)", "Osteopath", "Otolaryngologist", "Pain Management Specialist", "Palliative Care Specialist", "Pediatric Dentist", "Pediatrician", "Periodontist", "Physician Assistant", "Physiatrist (Physical Medicine)", "Physical Therapist", "Plastic & Reconstructive Surgeon", "Podiatrist (Foot and Ankle Specialist)", "Primary Care Doctor (PCP)", "Prosthodontist", "Psychiatrist", "Psychologist", "Psychotherapist", "Pulmonologist (Lung Doctor)", "Radiologist", "Rheumatologist", "Sleep Medicine Specialist", "Speech Therapist", "Sports Medicine Specialist", "Surgeon - General", "Therapist / Counselor", "Thoracic & Cardiac Surgery", "Urgent Care Specialist", "Urological Surgeon", "Urologist", "Vascular Surgeon", "Other"
-    };
-
-    String[] Frequency = {"Annual", "Daily", "Every 5 Years", "Monthly", "Quarterly", "Semi-Annual", "Weekly", "Other"};
 
     private ArrayList<TypeSpecialist> items;
 
@@ -81,17 +72,18 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_appointment);
+        //Initialize database, get primary data and set data
         initComponent();
+
+        //Initialize UI
         initUi();
+        //Register a callback to be invoked when this views are clicked.
         initListener();
 
     }
-
-    @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
-
+    /**
+     * Function: Initialize database and preferences
+     */
     private void initComponent() {
         preferences = new Preferences(context);
         dbHelper = new DBHelper(context, preferences.getString(PrefConstants.CONNECTED_USERDB));
@@ -99,6 +91,10 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
         DateQuery d = new DateQuery(context, dbHelper);
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
 
         rlDelete.setOnClickListener(this);
@@ -113,6 +109,9 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
 
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUi() {
 
         txtRelation = findViewById(R.id.txtRelation);
@@ -140,11 +139,6 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
         rgCompleted = findViewById(R.id.rgCompleted);
         rbYes = findViewById(R.id.rbYes);
         rbNo = findViewById(R.id.rbNo);
-
-//        ArrayAdapter adapter = new ArrayAdapter(context, android.R.layout.simple_spinner_item, Type);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinnerType.setAdapter(adapter);
-
         items = new ArrayList<TypeSpecialist>();
 
 
@@ -168,106 +162,6 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
             items.add(ts);
         }
 
-
-//Comment for spinner
-     /*   for (int i = 0; i < Type2.length; i++) {
-//            spinnerType.setPrompt("Specialist");//shradha
-            TypeSpecialist ts = new TypeSpecialist();
-            //    ts.setHint("Specialist"+"\n");
-            ts.setType(Type2[i]);
-            ts.setDiff(1);
-            if (i == 0) {
-                ts.setDiff(99);
-            } else {
-                ts.setDiff(1);
-            }
-            items.add(ts);
-        }*/
-
-//Comment for spinner
-    /*    CustomTypeSpecialistAdapters adapter = new CustomTypeSpecialistAdapters(context, android.R.layout.simple_spinner_dropdown_item, items);
-        spinnerType.setAdapter(adapter);
-        spinnerType.setHint("Type of Test or Specialist");*/
-
-
-
-/*
-//shradha
-        final ArrayAdapter<TypeSpecialist> cityAdapter = new ArrayAdapter<TypeSpecialist>(getContext(), android.R.layout.simple_spinner_item, typeList) {
-            @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                View v = null;
-
-                // If this is the initial dummy entry, make it hidden
-                if (position == 0) {
-                    TextView tv = new TextView(getContext());
-                    tv.setHeight(0);
-                    tv.setVisibility(View.GONE);
-                    v = tv;
-                } else {
-                    // Pass convertView as null to prevent reuse of special case views
-                    v = super.getDropDownView(position, null, parent);
-                }
-
-                // Hide scroll bar because it appears sometimes unnecessarily, this does not prevent scrolling
-                //parent.setVerticalScrollBarEnabled(false);
-                return v;
-            }
-        };
-*/
-
-
-//comment for spinner Frequency
-       /* ArrayAdapter adapter1 = new ArrayAdapter(context, android.R.layout.simple_spinner_item, Frequency);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerFrequency.setAdapter(adapter1);
-        spinnerFrequency.setHint("Frequency");
-
-        spinnerFrequency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position).toString().equals("Other")) {
-                    tilOtherFrequency.setVisibility(View.VISIBLE);
-                } else {
-                    tilOtherFrequency.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });*/
-        //Comment for spinner
-/*
-        spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (items != null && !items.isEmpty() && position != -1) {
-                    if (items.get(position).getType().toString().equals("Specialist") || items.get(position).getType().toString().equals("Type of Test")) {
-                        spinnerType.setSelection(0);
-                    } else {
-                        if (items.get(position).getType().toString().equals("Other")) {
-                            tilOtherSpecialist.setVisibility(View.VISIBLE);
-                        } else {
-                            tilOtherSpecialist.setVisibility(View.GONE);
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-*/
-        /*txtName.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                tilName.setHintEnabled(true);
-                txtName.setFocusable(true);
-                return false;
-            }
-        });*/
 
         rgCompleted.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -297,7 +191,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
                         tilOtherSpecialist.setVisibility(View.VISIBLE);
                         txtOtherSpecialist.setText(a.getOtherDoctor());
 
-                    } else{
+                    } else {
                         tilOtherSpecialist.setVisibility(View.GONE);
                         txtOtherSpecialist.setText("");
                     }
@@ -307,9 +201,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
                     if (a.getFrequency().equals("Other")) {
                         txtOtherFrequency.setText(a.getOtherFrequency());
                         tilOtherFrequency.setVisibility(View.VISIBLE);
-                    }
-                    else
-                    {
+                    } else {
                         tilOtherFrequency.setVisibility(View.GONE);
                         txtOtherFrequency.setText("");
                     }
@@ -323,54 +215,31 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
                     txtNote.setText(a.getNote());
                 }
 
-                //Comment for spinner Frequency
-               /* if (a.getFrequency() != null) {
-                    int index = 0;
-                    for (int j = 0; j < Frequency.length; j++) {
-                        if (a.getFrequency().equals(Frequency[j])) {
-                            index = j;
-                        }
-                    }
-                    spinnerFrequency.setSelection(index + 1);
-                }
-                if (a.getFrequency().equals("Other")) {
-                    txtOtherFrequency.setText(a.getOtherFrequency());
-                }*/
-
-                //Comment for spinner type
-              /*  if (a.getType().equals("Other")) {
-                    txtOtherSpecialist.setText(a.getOtherDoctor());
-                }
-                if (a.getType() != null) {
-                    int index = 0;
-                    for (int j = 0; j < items.size(); j++) {
-                        if (a.getType().equals(items.get(j).getType())) {
-                            index = j;
-                        }
-                    }
-                    spinnerType.setSelection(index + 1);
-                }*/
             } else if (i.getExtras().get("FROM").equals("Add")) {
                 txtAdd.setText("Add Routine Appointment");
                 isUpdate = false;
             }
         }
     }
-
+    /**
+     * @param requestCode The integer request code originally supplied to startActivityForResult(), allowing you to identify who this result came from.
+     * @param resultCode  The integer result code returned by the child activity through its setResult().
+     * @param data        An Intent, which can return result data to the caller (various data can be attached to Intent "extras").
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_TYPE && data != null) {
+        if (requestCode == RESULT_TYPE && data != null) {// Selected specialist or type
             String type = data.getExtras().getString("TypeAppointment");
             if (type.equals("Other")) {
                 txtRelation.setText(type);
                 tilOtherSpecialist.setVisibility(View.VISIBLE);
-            } else{
+            } else {
                 txtRelation.setText(type);
                 tilOtherSpecialist.setVisibility(View.GONE);
                 txtOtherSpecialist.setText("");
             }
-        } else if (requestCode == RESULT_FREQUENCY && data != null) {
+        } else if (requestCode == RESULT_FREQUENCY && data != null) {//Selected Frequency
             String freq = data.getExtras().getString("Category");
             txtFrequency.setText(freq);
 
@@ -386,22 +255,27 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
     }
 
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.txtRelation:
+            case R.id.txtRelation://Select Specialist or test
                 Intent intentType = new Intent(context, RelationshipActivity.class);
                 intentType.putExtra("Category", "TypeAppointment");
                 intentType.putExtra("Selected", txtRelation.getText().toString());
                 startActivityForResult(intentType, RESULT_TYPE);
                 break;
-            case R.id.txtFrequency:
+            case R.id.txtFrequency://Select frequency
                 Intent intentFrequency = new Intent(context, RelationActivity.class);
                 intentFrequency.putExtra("Category", "TypeFrequency");
                 startActivityForResult(intentFrequency, RESULT_FREQUENCY);
                 break;
 
-            case R.id.imgBack:
+            case R.id.imgBack://Move to back screen
                 String types = txtRelation.getText().toString().trim();
                 String frequencys = txtFrequency.getText().toString().trim();
                 String names = txtName.getText().toString().trim();
@@ -409,7 +283,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
                 String notes = txtNote.getText().toString().trim();
                 otherType = txtOtherSpecialist.getText().toString();
                 otherFrequency = txtOtherFrequency.getText().toString();
-                if(isUpdate==false) {
+                if (isUpdate == false) {
                     if (types.equals("") && frequencys.equals("") && names.equals("") && notes.equals("")) {
                         finish();
                     } else {
@@ -434,15 +308,12 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
                         });
                         alert.show();
                     }
-                }
-                else{
-                    if (p.getType().equals(types)&&p.getOtherDoctor().equals(otherType)&&
-                            p.getFrequency().equals(frequencys)&&p.getOtherFrequency().equals(otherFrequency)&&
-                            p.getNote().equals(notes)&&p.getDoctor().equals(names))
-                    {
+                } else {
+                    if (p.getType().equals(types) && p.getOtherDoctor().equals(otherType) &&
+                            p.getFrequency().equals(frequencys) && p.getOtherFrequency().equals(otherFrequency) &&
+                            p.getNote().equals(notes) && p.getDoctor().equals(names)) {
                         finish();
-                    }
-                    else{
+                    } else {
                         AlertDialog.Builder alert = new AlertDialog.Builder(context);
                         alert.setTitle("Save");
                         alert.setMessage("Do you want to save information?");
@@ -471,7 +342,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
                 deleteAppointment(p);
                 break;
 
-            case R.id.imgHome:
+            case R.id.imgHome://Move to Home profile list screen
                 Intent intentHome = new Intent(context, BaseActivity.class);
                 intentHome.putExtra("c", 1);
                 intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -479,7 +350,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
                 startActivity(intentHome);
                 break;
 
-            case R.id.txtDate:
+            case R.id.txtDate: //select date
                 Calendar calendar = Calendar.getInstance();
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
@@ -495,7 +366,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
            /* case R.id.txtNote:
 
                 break;*/
-            case R.id.txtSave:
+            case R.id.txtSave:// Save information
                 hideSoftKeyboard();
                 int unique = generateRandom();
                 String type = txtRelation.getText().toString().trim();
@@ -530,7 +401,9 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
         }
     }
 
-    //Shradha
+    /**
+     * Function: Delete selected appointment record
+     */
     private void deleteAppointment(final Appoint p) {
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle("Delete");
@@ -569,6 +442,9 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
         return randomNumber;
     }
 
+    /**
+     * Function: Hide device keyboard.
+     */
     public void hideSoftKeyboard() {
         InputMethodManager inm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         inm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);

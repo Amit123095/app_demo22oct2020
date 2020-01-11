@@ -14,7 +14,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 9/29/2017.
  */
-
+/**
+ * Class: PrescriptionQuery
+ * Screen: Add Prescription
+ * A class that manages Prescription Table CRUD Operations
+ */
 public class PrescriptionQuery {
     public static final String TABLE_NAME = "Prescription";
     public static final String COL_ID = "Id";

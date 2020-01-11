@@ -25,7 +25,11 @@ import java.util.ArrayList;
 /**
  * Created by varsha on 8/23/2017.
  */
-
+/**
+ * Class: ContactAdapter
+ * Screen: Contact List
+ * A class that manages user device phone number list with image and email, number.
+ */
 public class ContactAdapter extends BaseAdapter implements Filterable {
     Context context;
     ArrayList<Contact> contactList;
@@ -72,7 +76,6 @@ public class ContactAdapter extends BaseAdapter implements Filterable {
             holder.txtWPhone = convertView.findViewById(R.id.txtWPhone);
             holder.txtEmail = convertView.findViewById(R.id.txtEmail);
             holder.txtAddress = convertView.findViewById(R.id.txtAddress);
-
             holder.imgConPhoto = convertView.findViewById(R.id.imgConPhoto);
             holder.imgForword = convertView.findViewById(R.id.imgForword);
             convertView.setTag(holder);
@@ -139,8 +142,13 @@ public class ContactAdapter extends BaseAdapter implements Filterable {
         }
 
         convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
 
                 FragmentNewContact fragmentNewContact = new FragmentNewContact();
                 Bundle args = new Bundle();
@@ -156,20 +164,6 @@ public class ContactAdapter extends BaseAdapter implements Filterable {
                 ((GrabConnectionActivity) context).callFragment("NEWCONTACT", fragmentNewContact);
             }
         });
-        // holder.imgConPhoto.setImageResource(contactList.get(position).getImage());
-
-      /*holder.imgForword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentDashboard ldf = new FragmentDashboard ();
-                Bundle args = new Bundle();
-                args.putString("Name", contactList.get(position).getName());
-                args.putString("Relation", contactList.get(position).getRelationType());
-                ldf.setArguments(args);
-
-                ((BaseActivity)context).callFragment("DASHBOARD",ldf);
-            }
-        });*/
 
         return convertView;
     }

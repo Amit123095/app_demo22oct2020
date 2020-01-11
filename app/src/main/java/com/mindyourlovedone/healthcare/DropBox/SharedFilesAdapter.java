@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Adapter for file list
+ * Adapter for received file list
  */
 public class SharedFilesAdapter extends RecyclerView.Adapter<SharedFilesAdapter.MetadataViewHolder> {
     private final Picasso mPicasso;

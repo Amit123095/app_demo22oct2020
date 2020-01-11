@@ -3,7 +3,10 @@ package com.mindyourlovedone.healthcare.utility;
 /**
  * Created by varsha on 8/21/2017.
  */
-
+/**
+ * Class: PrefConstants
+ * Constants used for Preference File
+ */
 public class PrefConstants {
     public static final String FROM_Dropbox = "FROM_Dropbox";//Nikita dropbox chk for whole restore
     public static final String UPLOAD_FLAG = "UPLOAD_FLAG";//Nikita#Sub
@@ -32,19 +35,19 @@ public class PrefConstants {
 
     public static final String TODOWHAT = "ToDoWhat";
     public static final String CONNECTED_RELATION = "Relation";
-    public static final String ID ="Userid" ;
+    public static final String ID = "Userid";
     public static final String EXPIRY_DATE = "EXPIRY_DATE";
     public static final String FIRST_TIME = "FIRST_TIME";
-    public static final String CONNECTED_PHOTO ="ConnectedPhoto" ;
-    public static final String SHARE ="Share" ;
-    public static final String FILE ="File" ;
-    public static final String FINIS ="False" ;
+    public static final String CONNECTED_PHOTO = "ConnectedPhoto";
+    public static final String SHARE = "Share";
+    public static final String FILE = "File";
+    public static final String FINIS = "False";
     public static final String ACCESS = "AccessToken";
-    public static final String BACKUPDATE = "BackupDate" ;
-    public static final String WOLE ="WOLE"  ;
+    public static final String BACKUPDATE = "BackupDate";
+    public static final String WOLE = "WOLE";
     public static final String MYACCESS = "LO";
-    public static final String NOTIFIED ="NOTIFIED" ;
-    public static final String MSG ="BackupMessage" ;
-    public static final String ZIPFILE ="Zipname" ;
-    public static final String CONNECTED_OtherRELATION="OtherRelation";
+    public static final String NOTIFIED = "NOTIFIED";
+    public static final String MSG = "BackupMessage";
+    public static final String ZIPFILE = "Zipname";
+    public static final String CONNECTED_OtherRELATION = "OtherRelation";
 }

@@ -21,7 +21,11 @@ import com.mindyourlovedone.healthcare.HomeActivity.R;
 /**
  * Created by welcome on 9/13/2017.
  */
-
+/**
+ * Class: SpecialistContactAdapter
+ * Screen: Dashboard Box subsection List Screen
+ * A class that manages Adpater for subscetion box List
+ */
 public class SpecialistContactAdapter extends BaseAdapter {
     Context context;
     String[] specialist;
@@ -60,66 +64,20 @@ public class SpecialistContactAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = lf.inflate(R.layout.row_specialistsnew, parent, false);
         }
-       /* RelativeLayout rlmain3 = convertView.findViewById(R.id.rlMain);
-        if (position % 2 == 0) {
-            rlmain3.setBackgroundColor(context.getResources().getColor(R.color.colorTwoBar));
-        } else {
-            rlmain3.setBackgroundColor(context.getResources().getColor(R.color.colorOneBar));
-        }*/
-        /*switch(from)
-        {
 
-            case "Speciality":
-                RelativeLayout rlmain3= (RelativeLayout) convertView.findViewById(R.id.rlMain);
-                if (position%2==0)
-                {
-                    rlmain3.setBackgroundColor(context.getResources().getColor(R.color.colorSkyBlue));
-                }
-                else{
-                    rlmain3.setBackgroundColor(context.getResources().getColor(R.color.colorLightGray));
-                }
-                break;
-            case "Emergency":
-                RelativeLayout rlmain1= (RelativeLayout) convertView.findViewById(R.id.rlMain);
-                if (position%2==0)
-                {
-                    rlmain1.setBackgroundColor(context.getResources().getColor(R.color.colorSkyBlue));
-                }
-                else{
-                    rlmain1.setBackgroundColor(context.getResources().getColor(R.color.colorLightGray));
-                }
-                break;
-            case "Insurance":
-                RelativeLayout rlmain5= (RelativeLayout) convertView.findViewById(R.id.rlMain);
-                if (position%2==0)
-                {
-                    rlmain5.setBackgroundColor(context.getResources().getColor(R.color.colorSkyBlue));
-                }
-                else{
-                    rlmain5.setBackgroundColor(context.getResources().getColor(R.color.colorLightGray));
-                }
-
-                break;
-            case "Event":
-                RelativeLayout rlmain4= (RelativeLayout) convertView.findViewById(R.id.rlMain);
-                if (position%2==0)
-                {
-                    rlmain4.setBackgroundColor(context.getResources().getColor(R.color.colorSkyBlue));
-                }
-                else{
-                    rlmain4.setBackgroundColor(context.getResources().getColor(R.color.colorLightGray));
-                }
-                break;
-        }
-*/
         TextView txtName = convertView.findViewById(R.id.txtName);
         ImageView imgLogo = convertView.findViewById(R.id.imgLogo);
         imgLogo.setImageResource(profile[position]);
         txtName.setText(specialist[position]);
         txtName.setSelected(true);
         convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 String fragment = null;
                 switch (specialist[position]) {
                     case "INSURANCE":
@@ -218,11 +176,7 @@ public class SpecialistContactAdapter extends BaseAdapter {
                             Intent i = new Intent(context, LivingActivity.class);
                             i.putExtra("FRAGMENT", fragment);
                             context.startActivity(i);
-                        }/* else if (fragment.equals("Vital Signs")) {
-                            Intent i = new Intent(context, LivingActivity.class);
-                            i.putExtra("FRAGMEMedical ProfileNT", fragment);
-                            context.startActivity(i);
-                        }*/
+                        }
                     } else {
                         Intent i = new Intent(context, InsuranceActivity.class);
                         i.putExtra("FRAGMENT", fragment);
@@ -232,9 +186,7 @@ public class SpecialistContactAdapter extends BaseAdapter {
                     if (fragment.equals("Individual")) {
                         Intent i = new Intent(context, ProfileActivity.class);
                         context.startActivity(i);
-                       /* Intent i = new Intent(context, ProfileActivity.class);
-                        i.putExtra("FRAGMENT", fragment);
-                        context.startActivity(i);*/
+
                     } else {
                         Intent i = new Intent(context, EmergencyInfoActivity.class);
                         i.putExtra("FRAGMENT", fragment);

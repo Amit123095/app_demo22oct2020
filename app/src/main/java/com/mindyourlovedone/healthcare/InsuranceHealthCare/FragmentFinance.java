@@ -50,8 +50,17 @@ import java.util.ArrayList;
  * Created by varsha on 8/28/2017.
  */
 
+/**
+ * Class: FragmentFinance
+ * Screen: Finance Contacts List
+ * A class that manages List of Finance Contacts
+ * Add New Finance Contact
+ * Call Finance Contact
+ * Generate, View, Email, Fax PDF Reports
+ * extends Fragment
+ * implements OnclickListener for onclick event on views
+ */
 public class FragmentFinance extends Fragment implements View.OnClickListener {
-    final String dialog_items[] = {"View", "Email", "User Instructions"};
     ImageView imgRight;
     View rootview;
     RecyclerView lvFinance;
@@ -63,14 +72,27 @@ public class FragmentFinance extends Fragment implements View.OnClickListener {
     TextView txtMsg, txtFTU;
     FloatingActionButton floatProfile;
     ImageView floatAdd, floatOptions;
-    TextView txthelp; ImageView imghelp;
+    TextView txthelp;
+    ImageView imghelp;
+
+    /**
+     * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
+     * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
+     * @param savedInstanceState Bundle: If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_finance, null);
+        //Initialize database, get primary data and set data
         initComponent();
         getData();
+
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
 
         return rootview;
@@ -82,23 +104,30 @@ public class FragmentFinance extends Fragment implements View.OnClickListener {
         FinanceQuery f = new FinanceQuery(getActivity(), dbHelper);
     }
 
+    /**
+     * Function: Set Contact data on list
+     */
     private void setListData() {
         if (FinanceList.size() != 0) {
             FinanceAdapter financeAdapter = new FinanceAdapter(getActivity(), FinanceList, FragmentFinance.this);
             lvFinance.setAdapter(financeAdapter);
             lvFinance.setVisibility(View.VISIBLE);
             rlGuide.setVisibility(View.GONE);
-            imghelp .setVisibility(View.GONE);
+            imghelp.setVisibility(View.GONE);
             txthelp.setVisibility(View.GONE);
         } else {
             lvFinance.setVisibility(View.GONE);
             rlGuide.setVisibility(View.VISIBLE);
-            imghelp .setVisibility(View.VISIBLE);
+            imghelp.setVisibility(View.VISIBLE);
             txthelp.setVisibility(View.VISIBLE);
         }
     }
 
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         llAddFinance.setOnClickListener(this);
         imgRight.setOnClickListener(this);
@@ -107,6 +136,9 @@ public class FragmentFinance extends Fragment implements View.OnClickListener {
         floatOptions.setOnClickListener(this);
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         //shradha
         floatProfile = rootview.findViewById(R.id.floatProfile);
@@ -151,6 +183,11 @@ public class FragmentFinance extends Fragment implements View.OnClickListener {
         // txtMsg.setText(Html.fromHtml(msg));
         txtFTU = rootview.findViewById(R.id.txtFTU);
         txtFTU.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent intentEmerInstruc = new Intent(getActivity(), InstructionActivity.class);
@@ -177,6 +214,10 @@ public class FragmentFinance extends Fragment implements View.OnClickListener {
         //...
         setListData();
     }
+
+    /**
+     * Function - Display dialog for Reports options i.e view, email, fax
+     */
     private void showFloatPdfDialog() {
         final String RESULT = Environment.getExternalStorageDirectory()
                 + "/mylopdf/";
@@ -186,61 +227,28 @@ public class FragmentFinance extends Fragment implements View.OnClickListener {
         if (file.exists()) {
             file.delete();
         }
-       /* new Header().createPdfHeader(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-        preferences.copyFile("ic_launcher.png", getActivity());
-        Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-        Header.addEmptyLine(1);
-        Header.addusereNameChank("Finance, Legal, Other");//preferences.getString(PrefConstants.CONNECTED_NAME));
-        Header.addEmptyLine(1);
-        Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-        Paragraph p = new Paragraph(" ");
-        LineSeparator line = new LineSeparator();
-        line.setOffset(-4);
-        line.setLineColor(BaseColor.LIGHT_GRAY);
-        p.add(line);
-        try {
-            Header.document.add(p);
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
-        Header.addEmptyLine(1);
-              *//*  new Header().createPdfHeader(file.getAbsolutePath(),
-                        "Finance,Insurance,Legal");
-
-                Header.addusereNameChank(preferences.getString(PrefConstants.CONNECTED_NAME));
-                Header.addEmptyLine(2);*//*
-
-        ArrayList<Finance> financeList = FinanceQuery.fetchAllFinanceRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-      // new Specialty(1, financeList);
-
-        for(int i=0;i<financeList.size();i++) {
-            final ArrayList<ContactData> phonelists= ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), financeList.get(i).getId(),"Finance");
-            new Specialty(financeList.get(i), "Finance", phonelists,i);
-        }
-
-        Header.document.close();*/
 
         // New pdf varsa
-        Image pdflogo = null,calendar= null,profile= null,calendarWite= null,profileWite= null;
-        pdflogo=preferences.addFile("pdflogo.png", getActivity());
-        calendar=preferences.addFile("calpdf.png", getActivity());calendarWite=preferences.addFile("calpdf_wite.png", getActivity());
-        profile=preferences.addFile("profpdf.png", getActivity()); profileWite=preferences.addFile("profpdf_wite.png", getActivity());
+        Image pdflogo = null, calendar = null, profile = null, calendarWite = null, profileWite = null;
+        pdflogo = preferences.addFile("pdflogo.png", getActivity());
+        calendar = preferences.addFile("calpdf.png", getActivity());
+        calendarWite = preferences.addFile("calpdf_wite.png", getActivity());
+        profile = preferences.addFile("profpdf.png", getActivity());
+        profileWite = preferences.addFile("profpdf_wite.png", getActivity());
 
         new HeaderNew().createPdfHeaders(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME),preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO),pdflogo,calendar,profile,"FINANCE, LEGAL, OTHER", calendarWite, profileWite);
+                "" + preferences.getString(PrefConstants.CONNECTED_NAME), preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO), pdflogo, calendar, profile, "FINANCE, LEGAL, OTHER", calendarWite, profileWite);
 
         HeaderNew.addusereNameChank("FINANCE, LEGAL, OTHER");//preferences.getString(PrefConstants.CONNECTED_NAME));
         HeaderNew.addEmptyLine(1);
         Image pp = null;
-        pp=preferences.addFile("sp_four.png", getActivity());
+        pp = preferences.addFile("sp_four.png", getActivity());
         ArrayList<Finance> financeList = FinanceQuery.fetchAllFinanceRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
         // new Specialty(1, financeList);
 
-        for(int i=0;i<financeList.size();i++) {
-            final ArrayList<ContactData> phonelists= ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), financeList.get(i).getId(),"Finance");
-            new SpecialtyNew(financeList.get(i), "Finance", phonelists,i,pp);
+        for (int i = 0; i < financeList.size(); i++) {
+            final ArrayList<ContactData> phonelists = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), financeList.get(i).getId(), "Finance");
+            new SpecialtyNew(financeList.get(i), "Finance", phonelists, i, pp);
         }
         HeaderNew.document.close();
         //-------------------------------------------------------------
@@ -276,6 +284,11 @@ public class FragmentFinance extends Fragment implements View.OnClickListener {
 
         rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         floatCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -283,6 +296,11 @@ public class FragmentFinance extends Fragment implements View.OnClickListener {
         });
 
         floatEmail.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
@@ -296,6 +314,11 @@ public class FragmentFinance extends Fragment implements View.OnClickListener {
         });
 
         floatViewPdf.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
@@ -313,29 +336,26 @@ public class FragmentFinance extends Fragment implements View.OnClickListener {
         });
 
     }
+
+    /**
+     * Function: Make Call to clicked contact person
+     */
     public void callUser(Finance item) {
-        ArrayList<ContactData>  phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID),item.getId(), "Finance");
+        ArrayList<ContactData> phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), item.getId(), "Finance");
 
 
-        if (phonelist.size()>0)
-        {
+        if (phonelist.size() > 0) {
             CallDialog c = new CallDialog();
             c.showCallDialogs(getActivity(), phonelist);
-        }else {
-            Toast.makeText(getActivity(), "You have not added phone number for call", Toast.LENGTH_SHORT).show();
-        }
-        /*String mobile = item.getOfficePhone();
-        String hphone = item.getMobile();
-        String wPhone = item.getOtherPhone();
-
-        if (mobile.length() != 0 || hphone.length() != 0 || wPhone.length() != 0) {
-            CallDialog c = new CallDialog();
-            c.showCallDialog(getActivity(), mobile, hphone, wPhone);
         } else {
             Toast.makeText(getActivity(), "You have not added phone number for call", Toast.LENGTH_SHORT).show();
-        }*/
+        }
+
     }
 
+    /**
+     * Function: Delete selected contact
+     */
     public void deleteFinance(final Finance item) {
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setTitle("Delete");
@@ -364,147 +384,43 @@ public class FragmentFinance extends Fragment implements View.OnClickListener {
 
     }
 
+    /**
+     * Function: Fetch all finance contacts
+     */
     private void getData() {
         FinanceList = FinanceQuery.fetchAllFinanceRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-       /* FinanceList=new ArrayList<>();
-
-        Finance P1=new Finance();
-        P1.setFirm("Grand Capital");
-        P1.setName("James Holms");
-        P1.setCategory("Accountant");
-        P1.setAddress("799 E DRAGRAM SUITE 5A,TUCSON AZ 85705, USA");
-        P1.setImage(R.drawable.insis);
-        P1.setPhone("589-789-5236");
-
-
-        Finance P2=new Finance();
-        P2.setFirm("Latham & Watkins");
-        P2.setCategory("Attorney");
-        P2.setName("Jack Watson");
-        P2.setAddress("300 BOYLSTON AVE E, SEATTLE WA 98102, USA");
-        P2.setImage(R.drawable.insir);
-        P2.setPhone("366-789-5236");
-
-        Finance P3=new Finance();
-        P3.setFirm("American Advisory Group");
-        P3.setName("John Sheridon");
-        P3.setCategory("Financial Planner");
-        P3.setAddress("200 E MAIN ST, PHOENIX AZ 85123, USA");
-        P3.setImage(R.drawable.insurs);
-        P3.setPhone("986-789-5236");
-
-
-        FinanceList.add(P1);
-        FinanceList.add(P2);
-        FinanceList.add(P3);*/
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.floatProfile:
                 Intent intentDashboard = new Intent(getActivity(), BaseActivity.class);
                 intentDashboard.putExtra("c", 1);//Profile Data
-                //     intentDashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                //     intentDashboard.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentDashboard);
                 break;
-            case R.id.floatAdd:
+            case R.id.floatAdd://Add New Contact
                 showFloatDialog();
                 break;
-            case R.id.floatOptions:
+            case R.id.floatOptions://Reports
                 showFloatPdfDialog();
                 break;
-          /*  case R.id.llAddFinance:
-                preferences.putString(PrefConstants.SOURCE, "Finance");
-                Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
-                startActivity(i);
-                break;*/
-            case R.id.imgRight:
+            case R.id.imgRight://Instructions
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "FinanceInstruction");
                 startActivity(i);
-                /*final String RESULT = Environment.getExternalStorageDirectory()
-                        + "/mylopdf/";
-                File dirfile = new File(RESULT);
-                dirfile.mkdirs();
-                File file = new File(dirfile, "Finance.pdf");
-                if (file.exists()) {
-                    file.delete();
-                }
-                new Header().createPdfHeader(file.getAbsolutePath(),
-                        "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-                preferences.copyFile("ic_launcher.png", getActivity());
-                Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-                Header.addEmptyLine(1);
-                Header.addusereNameChank("Finance,Insurance,Legal");//preferences.getString(PrefConstants.CONNECTED_NAME));
-                Header.addEmptyLine(1);
-                Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-                Paragraph p = new Paragraph(" ");
-                LineSeparator line = new LineSeparator();
-                line.setOffset(-4);
-                line.setLineColor(BaseColor.LIGHT_GRAY);
-                p.add(line);
-                try {
-                    Header.document.add(p);
-                } catch (DocumentException e) {
-                    e.printStackTrace();
-                }
-                Header.addEmptyLine(1);
-              *//*  new Header().createPdfHeader(file.getAbsolutePath(),
-                        "Finance,Insurance,Legal");
-
-                Header.addusereNameChank(preferences.getString(PrefConstants.CONNECTED_NAME));
-                Header.addEmptyLine(2);*//*
-
-                ArrayList<Finance> financeList = FinanceQuery.fetchAllFinanceRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-                new Specialty(1, financeList);
-
-                Header.document.close();
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                builder.setTitle("");
-
-                builder.setItems(dialog_items, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int itemPos) {
-                        String path = Environment.getExternalStorageDirectory()
-                                + "/mylopdf/"
-                                + "/Finance.pdf";
-                        switch (itemPos) {
-                            case 0: // view
-
-                                StringBuffer result = new StringBuffer();
-                                result.append(new MessageString().getFinanceInfo());
-
-                                new PDFDocumentProcess(path,
-                                        getActivity(), result);
-
-                                System.out.println("\n" + result + "\n");
-                                break;
-                            case 1://Email
-                                File f = new File(path);
-                                preferences.emailAttachement(f, getActivity(), "Finance & Legal");
-                                break;
-                            case 2://FTU
-                                Intent i = new Intent(getActivity(), InstructionActivity.class);
-                                i.putExtra("From", "FinanceInstruction");
-                                startActivity(i);
-                                break;
-                           *//* case 2://fax
-                                new FaxCustomDialog(getActivity(), path).show();
-                                break;*//*
-                        }
-                    }
-
-                });
-                builder.create().show();*/
                 break;
         }
     }
 
+    /**
+     * Function: To display floating menu for add new profile
+     */
     private void showFloatDialog() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -537,6 +453,11 @@ public class FragmentFinance extends Fragment implements View.OnClickListener {
 
         rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         floatCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -544,23 +465,33 @@ public class FragmentFinance extends Fragment implements View.OnClickListener {
         });
 
         floatNew.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 preferences.putString(PrefConstants.SOURCE, "Finance");
                 Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
-                i.putExtra("TAB","New");
+                i.putExtra("TAB", "New");
                 startActivity(i);
                 dialog.dismiss();
             }
         });
 
         floatContact.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
-               // Toast.makeText(getActivity(),"Work in progress",Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(),"Work in progress",Toast.LENGTH_SHORT).show();
                 preferences.putString(PrefConstants.SOURCE, "Finance");
                 Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
-                i.putExtra("TAB","Contact");
+                i.putExtra("TAB", "Contact");
                 startActivity(i);
                 dialog.dismiss();
             }

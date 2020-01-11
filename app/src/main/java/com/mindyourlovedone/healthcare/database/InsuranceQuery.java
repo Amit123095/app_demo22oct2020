@@ -15,7 +15,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 10/7/2017.
  */
-
+/**
+ * Class: InsuranceQuery
+ * Screen: Add Insurance
+ * A class that manages Insurance Table CRUD Operations
+ */
 public class InsuranceQuery {
     public static final String TABLE_NAME = "Insurance";
     public static final String COL_USER_ID = "UserId";

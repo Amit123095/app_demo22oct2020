@@ -12,7 +12,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 9/25/2017.
  */
-
+/**
+ * Class: VaccineQuery
+ * Screen: Add VaccineInfo
+ * A class that manages VaccineInfo Table CRUD Operations
+ */
 public class VaccineQuery {
     public static final String TABLE_NAME = "VaccineInfo";
     public static final String COL_ID = "Id";

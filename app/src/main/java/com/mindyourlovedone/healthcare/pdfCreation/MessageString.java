@@ -1,45 +1,24 @@
 package com.mindyourlovedone.healthcare.pdfCreation;
 
 import com.mindyourlovedone.healthcare.model.PersonalInfo;
-import com.mindyourlovedone.healthcare.pdfdesign.DocumentPdf;
-import com.mindyourlovedone.healthcare.pdfdesign.Individual;
-import com.mindyourlovedone.healthcare.pdfdesign.InsurancePdf;
-import com.mindyourlovedone.healthcare.pdfdesign.Specialty;
+import com.mindyourlovedone.healthcare.pdfdesign.DocumentPdfNew;
+import com.mindyourlovedone.healthcare.pdfdesign.IndividualNew;
+import com.mindyourlovedone.healthcare.pdfdesign.InsurancePdfNew;
+import com.mindyourlovedone.healthcare.pdfdesign.SpecialtyNew;
 
 /**
  * Created by welcome on 11/1/2017.
  */
 
 public class MessageString {
-
-
-    /* public StringBuffer getProfile() {
-         StringBuffer result = new StringBuffer();
-         if (Individual.Message.size() > 0) {
-             result.append("Mind Your Elders Overview");
-             result.append("\n");
-             result.append(Individual.Message.get(0));
-             result.append("\n");
-             for (int i = 1; i < Individual.Message.size(); i++) {
-                 result.append(Individual.Message.get(i));
-                 if (i % 2 == 0 && i >= 2) {
-                     result.append("\n");
-
-                 }
-
-             }
-         }
-         return result;
-     }
- */
     public StringBuffer getProfileProfile() {
         StringBuffer result = new StringBuffer();
-        if (Individual.messageInfo.size() > 0) {
-            result.append(Individual.messageInfo.get(0));
+        if (IndividualNew.messageInfo.size() > 0) {
+            result.append(IndividualNew.messageInfo.get(0));
             result.append("\n");
-            for (int i = 1; i < Individual.messageInfo.size(); i++) {
+            for (int i = 1; i < IndividualNew.messageInfo.size(); i++) {
 
-                result.append(Individual.messageInfo.get(i));
+                result.append(IndividualNew.messageInfo.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -54,12 +33,12 @@ public class MessageString {
 
     public StringBuffer getProfileUser(PersonalInfo personalInfo) {
         StringBuffer result = new StringBuffer();
-        if (Individual.messageInfo.size() > 0) {
-            result.append(Individual.messageInfo.get(0));
+        if (IndividualNew.messageInfo.size() > 0) {
+            result.append(IndividualNew.messageInfo.get(0));
             result.append("\n");
-            for (int i = 1; i < Individual.messageInfo.size(); i++) {
+            for (int i = 1; i < IndividualNew.messageInfo.size(); i++) {
 
-                result.append(Individual.messageInfo.get(i));
+                result.append(IndividualNew.messageInfo.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
                 }
@@ -72,12 +51,12 @@ public class MessageString {
     public StringBuffer getProfileUser() {
 
         StringBuffer result = new StringBuffer();
-        if (Individual.messageInfo2.size() > 0) {
-            result.append(Individual.messageInfo2.get(0));
+        if (IndividualNew.messageInfo2.size() > 0) {
+            result.append(IndividualNew.messageInfo2.get(0));
             result.append("\n");
-            for (int i = 1; i < Individual.messageInfo2.size(); i++) {
+            for (int i = 1; i < IndividualNew.messageInfo2.size(); i++) {
 
-                result.append(Individual.messageInfo2.get(i));
+                result.append(IndividualNew.messageInfo2.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -91,12 +70,12 @@ public class MessageString {
 
     public StringBuffer getMedicalInfo() {
         StringBuffer result = new StringBuffer();
-        if (Individual.messageInfo3.size() > 0) {
-            result.append(Individual.messageInfo3.get(0));
+        if (IndividualNew.messageInfo3.size() > 0) {
+            result.append(IndividualNew.messageInfo3.get(0));
             result.append("\n");
-            for (int i = 1; i < Individual.messageInfo3.size(); i++) {
+            for (int i = 1; i < IndividualNew.messageInfo3.size(); i++) {
 
-                result.append(Individual.messageInfo3.get(i));
+                result.append(IndividualNew.messageInfo3.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -111,12 +90,12 @@ public class MessageString {
 
     public StringBuffer getEmergencyInfo() {
         StringBuffer result = new StringBuffer();
-        if (Individual.messageEmergency.size() > 0) {
-            result.append(Individual.messageEmergency.get(0));
+        if (IndividualNew.messageEmergency.size() > 0) {
+            result.append(IndividualNew.messageEmergency.get(0));
             result.append("\n");
-            for (int i = 1; i < Individual.messageEmergency.size(); i++) {
+            for (int i = 1; i < IndividualNew.messageEmergency.size(); i++) {
 
-                result.append(Individual.messageEmergency.get(i));
+                result.append(IndividualNew.messageEmergency.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -130,12 +109,12 @@ public class MessageString {
 
     public StringBuffer getPhysicianInfo() {
         StringBuffer result = new StringBuffer();
-        if (Individual.messagePhysician.size() > 0) {
-            result.append(Individual.messagePhysician.get(0));
+        if (IndividualNew.messagePhysician.size() > 0) {
+            result.append(IndividualNew.messagePhysician.get(0));
             result.append("\n");
-            for (int i = 1; i < Individual.messagePhysician.size(); i++) {
+            for (int i = 1; i < IndividualNew.messagePhysician.size(); i++) {
 
-                result.append(Individual.messagePhysician.get(i));
+                result.append(IndividualNew.messagePhysician.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -149,12 +128,12 @@ public class MessageString {
 
     public StringBuffer getProxyInfo() {
         StringBuffer result = new StringBuffer();
-        if (Individual.messageProxy.size() > 0) {
-            result.append(Individual.messageProxy.get(0));
+        if (IndividualNew.messageProxy.size() > 0) {
+            result.append(IndividualNew.messageProxy.get(0));
             result.append("\n");
-            for (int i = 1; i < Individual.messageProxy.size(); i++) {
+            for (int i = 1; i < IndividualNew.messageProxy.size(); i++) {
 
-                result.append(Individual.messageProxy.get(i));
+                result.append(IndividualNew.messageProxy.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -168,12 +147,12 @@ public class MessageString {
 
     public StringBuffer getDoctorsInfo() {
         StringBuffer result = new StringBuffer();
-        if (Specialty.messageDoctor.size() > 0) {
-            result.append(Specialty.messageDoctor.get(0));
+        if (SpecialtyNew.messageDoctor.size() > 0) {
+            result.append(SpecialtyNew.messageDoctor.get(0));
             result.append("\n");
-            for (int i = 1; i < Specialty.messageDoctor.size(); i++) {
+            for (int i = 1; i < SpecialtyNew.messageDoctor.size(); i++) {
 
-                result.append(Specialty.messageDoctor.get(i));
+                result.append(SpecialtyNew.messageDoctor.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -187,12 +166,12 @@ public class MessageString {
 
     public StringBuffer getHospitalInfo() {
         StringBuffer result = new StringBuffer();
-        if (Specialty.messageHospital.size() > 0) {
-            result.append(Specialty.messageHospital.get(0));
+        if (SpecialtyNew.messageHospital.size() > 0) {
+            result.append(SpecialtyNew.messageHospital.get(0));
             result.append("\n");
-            for (int i = 1; i < Specialty.messageHospital.size(); i++) {
+            for (int i = 1; i < SpecialtyNew.messageHospital.size(); i++) {
 
-                result.append(Specialty.messageHospital.get(i));
+                result.append(SpecialtyNew.messageHospital.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -206,12 +185,12 @@ public class MessageString {
 
     public StringBuffer getPharmacyInfo() {
         StringBuffer result = new StringBuffer();
-        if (Specialty.messagePharmacy.size() > 0) {
-            result.append(Specialty.messagePharmacy.get(0));
+        if (SpecialtyNew.messagePharmacy.size() > 0) {
+            result.append(SpecialtyNew.messagePharmacy.get(0));
             result.append("\n");
-            for (int i = 1; i < Specialty.messagePharmacy.size(); i++) {
+            for (int i = 1; i < SpecialtyNew.messagePharmacy.size(); i++) {
 
-                result.append(Specialty.messagePharmacy.get(i));
+                result.append(SpecialtyNew.messagePharmacy.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -225,12 +204,12 @@ public class MessageString {
 
     public StringBuffer getAideInfo() {
         StringBuffer result = new StringBuffer();
-        if (Specialty.messageAides.size() > 0) {
-            result.append(Specialty.messageAides.get(0));
+        if (SpecialtyNew.messageAides.size() > 0) {
+            result.append(SpecialtyNew.messageAides.get(0));
             result.append("\n");
-            for (int i = 1; i < Specialty.messageAides.size(); i++) {
+            for (int i = 1; i < SpecialtyNew.messageAides.size(); i++) {
 
-                result.append(Specialty.messageAides.get(i));
+                result.append(SpecialtyNew.messageAides.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -244,12 +223,12 @@ public class MessageString {
 
     public StringBuffer getFinanceInfo() {
         StringBuffer result = new StringBuffer();
-        if (Specialty.messageFinance.size() > 0) {
-            result.append(Specialty.messageFinance.get(0));
+        if (SpecialtyNew.messageFinance.size() > 0) {
+            result.append(SpecialtyNew.messageFinance.get(0));
             result.append("\n");
-            for (int i = 1; i < Specialty.messageFinance.size(); i++) {
+            for (int i = 1; i < SpecialtyNew.messageFinance.size(); i++) {
 
-                result.append(Specialty.messageFinance.get(i));
+                result.append(SpecialtyNew.messageFinance.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -263,12 +242,12 @@ public class MessageString {
 
     public StringBuffer getInsuranceInfo() {
         StringBuffer result = new StringBuffer();
-        if (InsurancePdf.messageInsurance.size() > 0) {
-            result.append(InsurancePdf.messageInsurance.get(0));
+        if (InsurancePdfNew.messageInsurance.size() > 0) {
+            result.append(InsurancePdfNew.messageInsurance.get(0));
             result.append("\n");
-            for (int i = 1; i < InsurancePdf.messageInsurance.size(); i++) {
+            for (int i = 1; i < InsurancePdfNew.messageInsurance.size(); i++) {
 
-                result.append(InsurancePdf.messageInsurance.get(i));
+                result.append(InsurancePdfNew.messageInsurance.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -282,12 +261,12 @@ public class MessageString {
 
     public StringBuffer getInsuranceCard() {
         StringBuffer result = new StringBuffer();
-        if (InsurancePdf.messageCard.size() > 0) {
-            result.append(InsurancePdf.messageCard.get(0));
+        if (InsurancePdfNew.messageCard.size() > 0) {
+            result.append(InsurancePdfNew.messageCard.get(0));
             result.append("\n");
-            for (int i = 1; i < InsurancePdf.messageCard.size(); i++) {
+            for (int i = 1; i < InsurancePdfNew.messageCard.size(); i++) {
 
-                result.append(InsurancePdf.messageCard.get(i));
+                result.append(InsurancePdfNew.messageCard.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -301,12 +280,12 @@ public class MessageString {
 
     public StringBuffer getAppointInfo() {
         StringBuffer result = new StringBuffer();
-        if (EventPdf.messageAppoint.size() > 0) {
-            result.append(EventPdf.messageAppoint.get(0));
+        if (EventPdfNew.messageAppoint.size() > 0) {
+            result.append(EventPdfNew.messageAppoint.get(0));
             result.append("\n");
-            for (int i = 1; i < EventPdf.messageAppoint.size(); i++) {
+            for (int i = 1; i < EventPdfNew.messageAppoint.size(); i++) {
 
-                result.append(EventPdf.messageAppoint.get(i));
+                result.append(EventPdfNew.messageAppoint.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -320,12 +299,12 @@ public class MessageString {
 
     public StringBuffer getEventInfo() {
         StringBuffer result = new StringBuffer();
-        if (EventPdf.messageEvent.size() > 0) {
-            result.append(EventPdf.messageEvent.get(0));
+        if (EventPdfNew.messageEvent.size() > 0) {
+            result.append(EventPdfNew.messageEvent.get(0));
             result.append("\n");
-            for (int i = 1; i < EventPdf.messageEvent.size(); i++) {
+            for (int i = 1; i < EventPdfNew.messageEvent.size(); i++) {
 
-                result.append(EventPdf.messageEvent.get(i));
+                result.append(EventPdfNew.messageEvent.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -339,12 +318,12 @@ public class MessageString {
 
     public StringBuffer getLivingInfo() {
         StringBuffer result = new StringBuffer();
-        if (EventPdf.messageLiving.size() > 0) {
-            result.append(EventPdf.messageLiving.get(0));
+        if (EventPdfNew.messageLiving.size() > 0) {
+            result.append(EventPdfNew.messageLiving.get(0));
             result.append("\n");
-            for (int i = 1; i < EventPdf.messageLiving.size(); i++) {
+            for (int i = 1; i < EventPdfNew.messageLiving.size(); i++) {
 
-                result.append(EventPdf.messageLiving.get(i));
+                result.append(EventPdfNew.messageLiving.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -359,12 +338,12 @@ public class MessageString {
 
     public StringBuffer getAdvanceDocuments() {
         StringBuffer result = new StringBuffer();
-        if (DocumentPdf.messageAdvance.size() > 0) {
-            result.append(DocumentPdf.messageAdvance.get(0));
+        if (DocumentPdfNew.messageAdvance.size() > 0) {
+            result.append(DocumentPdfNew.messageAdvance.get(0));
             result.append("\n");
-            for (int i = 1; i < DocumentPdf.messageAdvance.size(); i++) {
+            for (int i = 1; i < DocumentPdfNew.messageAdvance.size(); i++) {
 
-                result.append(DocumentPdf.messageAdvance.get(i));
+                result.append(DocumentPdfNew.messageAdvance.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -378,12 +357,12 @@ public class MessageString {
 
     public StringBuffer getOtherDocuments() {
         StringBuffer result = new StringBuffer();
-        if (DocumentPdf.messageOther.size() > 0) {
-            result.append(DocumentPdf.messageOther.get(0));
+        if (DocumentPdfNew.messageOther.size() > 0) {
+            result.append(DocumentPdfNew.messageOther.get(0));
             result.append("\n");
-            for (int i = 1; i < DocumentPdf.messageOther.size(); i++) {
+            for (int i = 1; i < DocumentPdfNew.messageOther.size(); i++) {
 
-                result.append(DocumentPdf.messageOther.get(i));
+                result.append(DocumentPdfNew.messageOther.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -397,12 +376,12 @@ public class MessageString {
 
     public StringBuffer getRecordDocuments() {
         StringBuffer result = new StringBuffer();
-        if (DocumentPdf.messageRecord.size() > 0) {
-            result.append(DocumentPdf.messageRecord.get(0));
+        if (DocumentPdfNew.messageRecord.size() > 0) {
+            result.append(DocumentPdfNew.messageRecord.get(0));
             result.append("\n");
-            for (int i = 1; i < DocumentPdf.messageRecord.size(); i++) {
+            for (int i = 1; i < DocumentPdfNew.messageRecord.size(); i++) {
 
-                result.append(DocumentPdf.messageRecord.get(i));
+                result.append(DocumentPdfNew.messageRecord.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 
@@ -416,12 +395,12 @@ public class MessageString {
 
     public StringBuffer getFormInfo() {
         StringBuffer result = new StringBuffer();
-        if (InsurancePdf.messageForm.size() > 0) {
-            result.append(InsurancePdf.messageForm.get(0));
+        if (InsurancePdfNew.messageForm.size() > 0) {
+            result.append(InsurancePdfNew.messageForm.get(0));
             result.append("\n");
-            for (int i = 1; i < InsurancePdf.messageForm.size(); i++) {
+            for (int i = 1; i < InsurancePdfNew.messageForm.size(); i++) {
 
-                result.append(InsurancePdf.messageForm.get(i));
+                result.append(InsurancePdfNew.messageForm.get(i));
                 if (i % 2 == 0 && i >= 2) {
                     result.append("\n");
 

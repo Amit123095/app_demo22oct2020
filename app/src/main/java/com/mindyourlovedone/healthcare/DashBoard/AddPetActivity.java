@@ -30,7 +30,12 @@ import com.mindyourlovedone.healthcare.utility.Preferences;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
+/**
+ * Class: AddPetActivity
+ * Screen: Add Pet Screen
+ * A class that manages to Add, Update Pet details
+ * implements OnclickListener for onClick event on views
+ */
 public class AddPetActivity extends AppCompatActivity {
     public static final int REQUEST_PET = 400;
     Context context = this;
@@ -49,22 +54,17 @@ public class AddPetActivity extends AppCompatActivity {
    EditText txtCarePh,txtVeteranPh;
 
     @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_pet);
+        //Initialize view
         initUi();
-        initListener();
     }
 
-    private void initListener() {
-
-    }
-
+    /**
+     * Function: Initialize UI and Initial data
+     * Initialize database,preferences
+     */
     private void initUi() {
         preferences = new Preferences(context);
         dbHelper = new DBHelper(context, preferences.getString(PrefConstants.CONNECTED_USERDB));
@@ -91,8 +91,13 @@ public class AddPetActivity extends AppCompatActivity {
         txtPetNotes = findViewById(R.id.txtPetNote);
 
         imgHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 Intent intentHome = new Intent(context, BaseActivity.class);
                 intentHome.putExtra("c", 1);
                 intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -159,20 +164,28 @@ public class AddPetActivity extends AppCompatActivity {
 
         }
 txtDelete.setOnClickListener(new View.OnClickListener() {
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         boolean flag = PetQuery.deleteRecord(p.getId());
         if (flag == true) {
             Toast.makeText(context, "Pet has been deleted succesfully", Toast.LENGTH_SHORT).show();
-           // setPetData();
-          //  ListPet.requestFocus();
             finish();
         }
     }
 });
   txtPetBirthDate.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
           final Calendar calendar = Calendar.getInstance();
           int year = calendar.get(Calendar.YEAR);
           int month = calendar.get(Calendar.MONTH);
@@ -200,8 +213,8 @@ txtDelete.setOnClickListener(new View.OnClickListener() {
       }
   });
         imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
                 getVales();
                 name = txtName.getText().toString();
                 breed = txtBreed.getText().toString();
@@ -276,8 +289,9 @@ txtDelete.setOnClickListener(new View.OnClickListener() {
             }
         });
         txtSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
+                //Validate if user input is valid or not, If true then goes for next task
                 if (validate()) {
 
                     if (isUpdate == false) {
@@ -297,14 +311,9 @@ txtDelete.setOnClickListener(new View.OnClickListener() {
 
                     }
                     Intent intentAllergy = new Intent();
-                           /* intentAllergy.putExtra("Value", value);
-                            intentAllergy.putExtra("Reaction", reaction);
-                            intentAllergy.putExtra("Treatment", treatment);*/
                     setResult(AddInfoActivity.RESULT_ALLERGY, intentAllergy);
                     finish();
                 }
-
-
             }
         });
     }
@@ -324,6 +333,10 @@ txtDelete.setOnClickListener(new View.OnClickListener() {
         notes = txtPetNotes.getText().toString();
     }
 
+   /**
+     * Function: Validation of data input by user
+     * @return boolean, True if given input is valid, false otherwise.
+     */
     private boolean validate() {
         name = txtName.getText().toString();
         breed = txtBreed.getText().toString();
@@ -346,6 +359,11 @@ txtDelete.setOnClickListener(new View.OnClickListener() {
         }  else return true;
         return false;
     }
+     /**
+     * Class: CustomTextWatcher
+     * Screen: Personal Profile Screen
+     * A class that manages hypens from contact number
+     */
     public class CustomTextWatcher implements TextWatcher {
         EditText et = null;
 
@@ -368,12 +386,10 @@ txtDelete.setOnClickListener(new View.OnClickListener() {
         @Override
         public void afterTextChanged(Editable editable) {
             int length = editable.length();
-//            int poss = Integer.parseInt(et.getTag().toString());
             if ((prevL < length) && (length == 3 || length == 7)) {
                 et.setText(editable.toString() + "-");
                 et.setSelection(et.getText().length());
             }
-//            phonelist.get(poss).setValue(et.getText().toString());
         }
 
     }

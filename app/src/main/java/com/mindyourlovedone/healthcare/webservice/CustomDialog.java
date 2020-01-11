@@ -18,42 +18,33 @@ import com.mindyourlovedone.healthcare.HomeActivity.R;
 
 public class CustomDialog {
 
-    public static Dialog createCustomDialog(final Context context, String title,
-                                            String message, final String s) {
+    public static Dialog createCustomDialog(final Context context, String title, String message, final String s) {
         final Dialog custDialog = new Dialog(context);
-
         custDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        custDialog.getWindow().setBackgroundDrawable(
-                new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
+        custDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         custDialog.setContentView(R.layout.custom_dialog);
-
         if (message.equalsIgnoreCase("Information Updated")) {
             message = "Information updated successfully";
         }
-        TextView titleTv = custDialog
-                .findViewById(R.id.text_Title_dialog);
-
+        TextView titleTv = custDialog.findViewById(R.id.text_Title_dialog);
         titleTv.setText(title);
-
-        TextView messageTv = custDialog
-                .findViewById(R.id.text_meesage_dialog);
-
+        TextView messageTv = custDialog.findViewById(R.id.text_meesage_dialog);
         messageTv.setText(message);
-
         Button okButton = custDialog.findViewById(R.id.dialogButtonOK);
         okButton.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 // TODO Auto-generated method stub
                 custDialog.dismiss();
-                if (s.equalsIgnoreCase("close"))
-                {
-                    ((FaxActivity)context).finish();
-                }
-                else{
+                if (s.equalsIgnoreCase("close")) {
+                    ((FaxActivity) context).finish();
+                } else {
 
                 }
             }
@@ -65,12 +56,9 @@ public class CustomDialog {
     public static Dialog createCustomDialogFinishActivity(
             final Context context, String title, String message) {
         final Dialog custDialog = new Dialog(context);
-
         custDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         custDialog.getWindow().setBackgroundDrawable(
                 new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
         custDialog.setContentView(R.layout.custom_dialog);
 
         if (message.equalsIgnoreCase("Information Updated")) {
@@ -78,25 +66,25 @@ public class CustomDialog {
         }
         TextView titleTv = custDialog
                 .findViewById(R.id.text_Title_dialog);
-
         titleTv.setText(title);
-
         TextView messageTv = custDialog
                 .findViewById(R.id.text_meesage_dialog);
-
         messageTv.setText(message);
-
         Button okButton = custDialog.findViewById(R.id.dialogButtonOK);
         okButton.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 // TODO Auto-generated method stub
                 // custDialog.dismiss();
                 ((Activity) context).finish();
             }
         });
-
         return custDialog;
     }
 }

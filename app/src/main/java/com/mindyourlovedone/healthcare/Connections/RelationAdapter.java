@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mindyourlovedone.healthcare.HomeActivity.R;
-import com.mindyourlovedone.healthcare.utility.AppConstants;
+//import com.mindyourlovedone.healthcare.utility.AppConstants;
 
 import java.util.ArrayList;
 
@@ -55,8 +55,13 @@ public class RelationAdapter extends BaseAdapter {
                 previousView = view;
             }
             view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                     if (v != previousView) {
                         v.setBackgroundResource(R.drawable.darkgray_gray_border);
                         previousView.setBackgroundResource(R.drawable.lightgray_gray_border);
@@ -66,7 +71,7 @@ public class RelationAdapter extends BaseAdapter {
                     }
                     FragmentNewContact fragmentNewContact = new FragmentNewContact();
                     fragmentNewContact.callRelation(((TextView) v).getText().toString());
-                    AppConstants.RELATION = ((TextView) v).getText().toString();
+                   // AppConstants.RELATION = ((TextView) v).getText().toString();
                     Toast.makeText(context, ((TextView) v).getText().toString(), Toast.LENGTH_LONG).show();
                 }
             });

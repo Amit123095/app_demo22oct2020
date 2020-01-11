@@ -148,7 +148,8 @@ public class WorkerPost extends Worker {
 
     private void getSubscription() {
         try {
-            if (!NetworkUtils.getConnectivityStatusString(context).equals("Not connected to Internet")) {
+            //Check if network connection is available and connected or not.
+                    if (!NetworkUtils.getConnectivityStatusString(context).equals("Not connected to Internet")) {
                 GetSubAsynk asynkTask = new GetSubAsynk();
                 asynkTask.execute();
             } else {
@@ -167,6 +168,11 @@ public class WorkerPost extends Worker {
             super.onPreExecute();
         }
 
+        /**
+         * Background long running code
+         * @param params
+         * @return String, Server Response after server operation
+         */
         @Override
         protected String doInBackground(Void... params) {
             WebService webService = new WebService();
@@ -174,6 +180,10 @@ public class WorkerPost extends Worker {
             return result;
         }
 
+        /**
+         * Called when received result from server in onPostExecute for set data and store at local
+         * @param result Result received in onPostExecute
+         */
         @Override
         protected void onPostExecute(String result) {
 
@@ -191,12 +201,7 @@ public class WorkerPost extends Worker {
             Log.e("Response", result);
             JSONObject job = null;
             String errorCode = "";
-//            new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    Toast.makeText(context, "op: " + result, Toast.LENGTH_LONG).show();
-//                }
-//            });
+
             try {
                 job = new JSONObject(result);
                 JSONObject jobB = job.optJSONObject("response");
@@ -236,30 +241,15 @@ public class WorkerPost extends Worker {
                     } else {
                         inApp();
                     }
-//                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Toast.makeText(context, "Success : Get Subscription", Toast.LENGTH_LONG).show();
-//                        }
-//                    });
+
                 } else {
                     inApp();
-//                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Toast.makeText(context, "Failure : Get Subscription", Toast.LENGTH_LONG).show();
-//                        }
-//                    });
+
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
-//                new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast.makeText(context, "Get Subscription : Exception detected ", Toast.LENGTH_LONG).show();
-//                    }
-//                });
+
             }
         }
     }
@@ -267,7 +257,8 @@ public class WorkerPost extends Worker {
 
     private void postSubscription() {
         try {
-            if (!NetworkUtils.getConnectivityStatusString(context).equals("Not connected to Internet")) {
+            //Check if network connection is available and connected or not.
+                    if (!NetworkUtils.getConnectivityStatusString(context).equals("Not connected to Internet")) {
                 PostSubAsynk asynkTask = new PostSubAsynk();
                 asynkTask.execute();
             } else {
@@ -286,6 +277,11 @@ public class WorkerPost extends Worker {
             super.onPreExecute();
         }
 
+        /**
+         * Background long running code
+         * @param params
+         * @return String, Server Response after server operation
+         */
         @Override
         protected String doInBackground(Void... params) {
             WebService webService = new WebService();
@@ -296,6 +292,10 @@ public class WorkerPost extends Worker {
             return result;
         }
 
+        /**
+         * Called when received result from server in onPostExecute for set data and store at local
+         * @param result Result received in onPostExecute
+         */
         @Override
         protected void onPostExecute(String result) {
 
@@ -316,12 +316,7 @@ public class WorkerPost extends Worker {
             Log.e("Response", result);
             JSONObject job = null;
             String errorCode = "";
-//            new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    Toast.makeText(context, "op: " + result, Toast.LENGTH_LONG).show();
-//                }
-//            });
+
             try {
                 job = new JSONObject(result);
                 JSONObject jobB = job.optJSONObject("response");
@@ -330,32 +325,16 @@ public class WorkerPost extends Worker {
 
                 if (errorCode.equals("0")) {
                     message = jobB.optString("respMsg");
-//                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
-//                        }
-//                    });
+
                     // Update upload flag for subcription as 1
                     preferences.putInt(PrefConstants.UPLOAD_FLAG, 1);
                 } else if (errorCode.equals("1")) {
                     message = jobB.optString("errorMsg");
-//                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
-//
-//                        }
-//                    });
+
                     preferences.putInt(PrefConstants.UPLOAD_FLAG, 0);
                 } else if (errorCode.equals("2")) {// Duplicate trans-id
                     preferences.putInt(PrefConstants.UPLOAD_FLAG, 0);
-//                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
-//                        }
-//                    });
+
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
@@ -365,23 +344,13 @@ public class WorkerPost extends Worker {
                     moveToLogin();
                 } else {
                     preferences.putInt(PrefConstants.UPLOAD_FLAG, 0);
-//                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Toast.makeText(context, "Unexpected error from server.", Toast.LENGTH_LONG).show();
-//                        }
-//                    });
+
                 }
 
             } catch (JSONException e) {
                 preferences.putInt(PrefConstants.UPLOAD_FLAG, 0);
                 e.printStackTrace();
-//                new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast.makeText(context, "Post Subscription : Exception detected", Toast.LENGTH_LONG).show();
-//                    }
-//                });
+
             }
         }
     }

@@ -38,6 +38,11 @@ import com.mindyourlovedone.healthcare.utility.Preferences;
 
 import java.io.File;
 
+/**
+ * Class: LivingActivity
+ * A class that manages an Livin activities details
+ * implements OnclickListener for onclick event on views
+ */
 public class LivingActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     final CharSequence[] dialog_items = {"View", "Email", "User Instructions"};
     Context context = this;
@@ -52,25 +57,32 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
     ToggleButton tbAlert, tbComputer, tbRemote, tbFinances, tbPreparing, tbShopping, tbUsing, tbBathing, tbContinence, tbDressing, tbfeed, tbToileting, tbTranfering, tbTransport, tbPets, tbDriving, tbKeeping, tbMedication;
     String alert = "NO", computer = "NO", remote = "NO", eating = "NO", finance = "NO", prepare = "NO", shop = "NO", use = "NO", bath = "NO", continence = "NO", dress = "NO", feed = "NO", toileting = "NO", transfer = "NO", transport = "NO", pets = "NO", drive = "NO", keep = "NO", medication = "NO";
     String functionnote = "", fouctionOther = "", instaOther = "", instaNote = "";
-    // FloatingActionButton floatOptions;
     ImageView floatOptions;
     Living medInfo;
 
-    @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_living);
+
+        //Initialize preferences
         preferences = new Preferences(context);
+
+        //Initialize database, get primary data and set data
         initComponent();
+
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         txtSave.setOnClickListener(this);
         floatOptions.setOnClickListener(this);
@@ -83,11 +95,9 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
         tbFinances.setOnCheckedChangeListener(this);
         tbPreparing.setOnCheckedChangeListener(this);
         tbShopping.setOnCheckedChangeListener(this);
-
         tbRemote.setOnCheckedChangeListener(this);
         tbComputer.setOnCheckedChangeListener(this);
         tbAlert.setOnCheckedChangeListener(this);
-
         tbUsing.setOnCheckedChangeListener(this);
         tbBathing.setOnCheckedChangeListener(this);
         tbContinence.setOnCheckedChangeListener(this);
@@ -102,39 +112,24 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
         tbMedication.setOnCheckedChangeListener(this);
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         floatOptions = findViewById(R.id.floatOptions);
         imgInfo = findViewById(R.id.imgInfo);
         imgInfo.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(LivingActivity.this, InstructionActivity.class);
                 i.putExtra("From", "Living");
                 startActivity(i);
-               /* final Dialog customDialog;
-                customDialog = new Dialog(LivingActivity.this);
-                customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                customDialog.setContentView(R.layout.dialog_living);
-                customDialog.setCancelable(false);
-                TextView txtNotes= (TextView) customDialog.findViewById(R.id.txtNotes);
-                String msg="To save information click the check mark" +
-                        " on the top right side of the screen." +
-                        "<br><br>" +
-                        "To edit information simply change the data and then save your edits by clicking on the check mark on the top right side of the screen." +
-                        "<br><br>" +
-                        "To view, email, or fax the data in each section click on the three dots on the top right side of the screen.";
 
-                txtNotes.setText(Html.fromHtml(msg));
-                TextView txtNoteHeader= (TextView) customDialog.findViewById(R.id.txtNoteHeader);
-                txtNoteHeader.setText("Help");
-                TextView btnYes= (TextView) customDialog.findViewById(R.id.btnYes);
-                btnYes.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        customDialog.dismiss();
-                    }
-                });
-                customDialog.show();*/
             }
         });
         rlLiving = findViewById(R.id.rlLiving);
@@ -182,6 +177,11 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
         tbMedication = findViewById(R.id.tbMedication);
 
         rlLiving.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 hideSoftKeyboard();
@@ -191,15 +191,21 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
         setLivingInfo();
     }
 
-    private void hideSoftKeyboard() {
+    /**
+     * Function: Hide device keyboard.
+     */
+    public void hideSoftKeyboard() {
         if (getCurrentFocus() != null) {
             InputMethodManager inm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
             inm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
 
+    /**
+     * Fucntion: fetch and Set Living data
+     */
     private void setLivingInfo() {
-        LivingQuery l=new LivingQuery(context,dbHelper);
+        LivingQuery l = new LivingQuery(context, dbHelper);
         medInfo = LivingQuery.fetchOneRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
         if (medInfo != null) {
             etFunctionalNote.setText(medInfo.getFunctionNote());
@@ -211,7 +217,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getFinance().equals("YES")) {
                 tbFinances.setChecked(true);
                 finance = "YES";
-            } else if (medInfo.getFinance().equals("NO")||medInfo.getFinance().equals("")) {
+            } else if (medInfo.getFinance().equals("NO") || medInfo.getFinance().equals("")) {
                 tbFinances.setChecked(false);
                 finance = "NO";
             }
@@ -219,7 +225,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getAlert().equals("YES")) {
                 tbAlert.setChecked(true);
                 alert = "YES";
-            } else if (medInfo.getAlert().equals("NO")||medInfo.getAlert().equals("")) {
+            } else if (medInfo.getAlert().equals("NO") || medInfo.getAlert().equals("")) {
                 tbAlert.setChecked(false);
                 alert = "NO";
             }
@@ -227,7 +233,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getComputer().equals("YES")) {
                 tbComputer.setChecked(true);
                 computer = "YES";
-            } else if (medInfo.getComputer().equals("NO")||medInfo.getComputer().equals("")) {
+            } else if (medInfo.getComputer().equals("NO") || medInfo.getComputer().equals("")) {
                 tbComputer.setChecked(false);
                 computer = "NO";
             }
@@ -235,7 +241,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getRemote().equals("YES")) {
                 tbRemote.setChecked(true);
                 remote = "YES";
-            } else if (medInfo.getRemote().equals("NO")||medInfo.getRemote().equals("")) {
+            } else if (medInfo.getRemote().equals("NO") || medInfo.getRemote().equals("")) {
                 tbRemote.setChecked(false);
                 remote = "NO";
             }
@@ -243,7 +249,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getPrepare().equals("YES")) {
                 tbPreparing.setChecked(true);
                 prepare = "YES";
-            } else if (medInfo.getPrepare().equals("NO")||medInfo.getPrepare().equals("")) {
+            } else if (medInfo.getPrepare().equals("NO") || medInfo.getPrepare().equals("")) {
                 tbPreparing.setChecked(false);
                 prepare = "NO";
             }
@@ -251,7 +257,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getShop().equals("YES")) {
                 tbShopping.setChecked(true);
                 shop = "YES";
-            } else if (medInfo.getShop().equals("NO")||medInfo.getShop().equals("")) {
+            } else if (medInfo.getShop().equals("NO") || medInfo.getShop().equals("")) {
                 tbShopping.setChecked(false);
                 shop = "NO";
             }
@@ -259,21 +265,21 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getUse().equals("YES")) {
                 tbUsing.setChecked(true);
                 use = "YES";
-            } else if (medInfo.getUse().equals("NO")||medInfo.getUse().equals("")) {
+            } else if (medInfo.getUse().equals("NO") || medInfo.getUse().equals("")) {
                 tbUsing.setChecked(false);
                 use = "NO";
             }
             if (medInfo.getBath().equals("YES")) {
                 tbBathing.setChecked(true);
                 bath = "YES";
-            } else if (medInfo.getBath().equals("NO")||medInfo.getBath().equals("")) {
+            } else if (medInfo.getBath().equals("NO") || medInfo.getBath().equals("")) {
                 tbBathing.setChecked(false);
                 bath = "NO";
             }
             if (medInfo.getContinence().equals("YES")) {
                 tbContinence.setChecked(true);
                 continence = "YES";
-            } else if (medInfo.getContinence().equals("NO")||medInfo.getContinence().equals("")) {
+            } else if (medInfo.getContinence().equals("NO") || medInfo.getContinence().equals("")) {
                 tbContinence.setChecked(false);
                 continence = "NO";
             }
@@ -281,7 +287,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getDress().equals("YES")) {
                 tbDressing.setChecked(true);
                 dress = "YES";
-            } else if (medInfo.getDress().equals("NO")||medInfo.getDress().equals("")) {
+            } else if (medInfo.getDress().equals("NO") || medInfo.getDress().equals("")) {
                 tbDressing.setChecked(false);
                 dress = "NO";
             }
@@ -289,7 +295,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getFeed().equals("YES")) {
                 tbfeed.setChecked(true);
                 feed = "YES";
-            } else if (medInfo.getFeed().equals("NO")||medInfo.getFeed().equals("")) {
+            } else if (medInfo.getFeed().equals("NO") || medInfo.getFeed().equals("")) {
                 tbfeed.setChecked(false);
                 feed = "NO";
             }
@@ -297,7 +303,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getToileting().equals("YES")) {
                 tbToileting.setChecked(true);
                 toileting = "YES";
-            } else if (medInfo.getToileting().equals("NO")||medInfo.getToileting().equals("")) {
+            } else if (medInfo.getToileting().equals("NO") || medInfo.getToileting().equals("")) {
                 tbToileting.setChecked(false);
                 toileting = "NO";
             }
@@ -305,7 +311,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getTransfer().equals("YES")) {
                 tbTranfering.setChecked(true);
                 transfer = "YES";
-            } else if (medInfo.getTransfer().equals("NO")||medInfo.getTransfer().equals("")) {
+            } else if (medInfo.getTransfer().equals("NO") || medInfo.getTransfer().equals("")) {
                 tbTranfering.setChecked(false);
                 transfer = "NO";
             }
@@ -313,7 +319,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getTransport().equals("YES")) {
                 tbTransport.setChecked(true);
                 transport = "YES";
-            } else if (medInfo.getTransport().equals("NO")||medInfo.getTransport().equals("")) {
+            } else if (medInfo.getTransport().equals("NO") || medInfo.getTransport().equals("")) {
                 tbTransport.setChecked(false);
                 transport = "NO";
             }
@@ -321,7 +327,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getPets().equals("YES")) {
                 tbPets.setChecked(true);
                 pets = "YES";
-            } else if (medInfo.getPets().equals("NO")||medInfo.getPets().equals("")) {
+            } else if (medInfo.getPets().equals("NO") || medInfo.getPets().equals("")) {
                 tbPets.setChecked(false);
                 pets = "NO";
             }
@@ -329,7 +335,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getDrive().equals("YES")) {
                 tbDriving.setChecked(true);
                 drive = "YES";
-            } else if (medInfo.getDrive().equals("NO")||medInfo.getDrive().equals("")) {
+            } else if (medInfo.getDrive().equals("NO") || medInfo.getDrive().equals("")) {
                 tbDriving.setChecked(false);
                 drive = "NO";
             }
@@ -337,7 +343,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getKeep().equals("YES")) {
                 tbKeeping.setChecked(true);
                 keep = "YES";
-            } else if (medInfo.getKeep().equals("NO")||medInfo.getKeep().equals("")) {
+            } else if (medInfo.getKeep().equals("NO") || medInfo.getKeep().equals("")) {
                 tbKeeping.setChecked(false);
                 keep = "NO";
             }
@@ -345,7 +351,7 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
             if (medInfo.getMedication().equals("YES")) {
                 tbMedication.setChecked(true);
                 medication = "YES";
-            } else if (medInfo.getMedication().equals("NO")||medInfo.getMedication().equals("")) {
+            } else if (medInfo.getMedication().equals("NO") || medInfo.getMedication().equals("")) {
                 tbMedication.setChecked(false);
                 medication = "NO";
             }
@@ -354,14 +360,19 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
 
     private void initComponent() {
         preferences = new Preferences(context);
-        dbHelper = new DBHelper(context , preferences.getString(PrefConstants.CONNECTED_USERDB));
+        dbHelper = new DBHelper(context, preferences.getString(PrefConstants.CONNECTED_USERDB));
         LivingQuery p = new LivingQuery(context, dbHelper);
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.floatOptions:
+            case R.id.floatOptions://Reports
                 showFloatDialog();
                 break;
 
@@ -375,149 +386,61 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
                 String title = "Activities of Daily Living";
                 showViewDialog(context, msg, title);
                 break;
-            case R.id.imgRight:
+            case R.id.imgRight://Instructions
                 Intent i = new Intent(context, InstructionActivity.class);
                 i.putExtra("From", "LivingInstruction");
                 startActivity(i);
-               /* final String RESULT = Environment.getExternalStorageDirectory()
-                        + "/mylopdf/";
-                File dirfile = new File(RESULT);
-                dirfile.mkdirs();
-                File file = new File(dirfile, "ActivityLiving.pdf");
-                if (file.exists()) {
-                    file.delete();
-                }
-                new Header().createPdfHeader(file.getAbsolutePath(),
-                        "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-                preferences.copyFile("ic_launcher.png", context);
-                Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-                Header.addEmptyLine(1);
-                Header.addusereNameChank("Activities Of Daily Living");//preferences.getString(PrefConstants.CONNECTED_NAME));
-                Header.addEmptyLine(1);
-
-                Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-                Paragraph p = new Paragraph(" ");
-                LineSeparator line = new LineSeparator();
-                line.setOffset(-4);
-                line.setLineColor(BaseColor.LIGHT_GRAY);
-                p.add(line);
-                try {
-                    Header.document.add(p);
-                } catch (DocumentException e) {
-                    e.printStackTrace();
-                }
-                Header.addEmptyLine(1);
-
-                Living Live = LivingQuery.fetchOneRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-                ArrayList<Living> LivingList = new ArrayList<Living>();
-                LivingList.add(Live);
-                new EventPdf(1, LivingList, 1);
-
-                Header.document.close();
-
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-                builder.setTitle("");
-
-                builder.setItems(dialog_items, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int itemPos) {
-                        String path = Environment.getExternalStorageDirectory()
-                                + "/mylopdf/"
-                                + "/ActivityLiving.pdf";
-                        switch (itemPos) {
-                            case 0: //View
-                                StringBuffer result = new StringBuffer();
-                                result.append(new MessageString().getLivingInfo());
-                                new PDFDocumentProcess(path,
-                                        context, result);
-
-                                System.out.println("\n" + result + "\n");
-                                break;
-                            case 1://Email
-                                File f = new File(path);
-                                preferences.emailAttachement(f, context, "Activities of Daily Living");
-                                break;
-                          *//*  case 2://fax
-                                new FaxCustomDialog(context, path).show();
-                                break;*//*
-
-                            case 2://fax
-                                Intent i = new Intent(context, InstructionActivity.class);
-                                i.putExtra("From", "LivingInstruction");
-                                startActivity(i);
-                                break;
-                        }
-                    }
-
-                });
-                builder.create().show();*/
                 break;
-            case R.id.txtSave:
+            case R.id.txtSave:// Save information
                 getValues();
                 Boolean flag = LivingQuery.insertLivingData(preferences.getInt(PrefConstants.CONNECTED_USERID), finance, prepare, shop, use, bath, continence, dress, feed, toileting, transfer, transport, pets, drive, keep, medication, functionnote, fouctionOther, instaNote, instaOther, remote, alert, computer);
                 if (flag == true) {
                     Toast.makeText(context, "Activity Living has been updated succesfully", Toast.LENGTH_SHORT).show();
                     medInfo = LivingQuery.fetchOneRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-
                     hideSoftKeyboard();
-                    //  finish();
                 } else {
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
             case R.id.imgBack:
+                // navigate previous screen after checking data modification done or not, if yes it ask user to save
                 getValues();
-
-                if (medInfo.getFunctionNote().equals(functionnote)&&
-                        medInfo.getFunctionOther().equals(fouctionOther)&&
-                        medInfo.getInstNote().equals(instaNote)&&
-                        medInfo.getInstOther().equals(instaOther)&&
-                        (medInfo.getFinance().equals(finance)||medInfo.getFinance().equals(""))&&
-                        (medInfo.getPrepare().equals(prepare)||medInfo.getPrepare().equals(""))&&
-                        (medInfo.getShop().equals(shop)||medInfo.getShop().equals(""))&&
-                        (medInfo.getUse().equals(use)||medInfo.getUse().equals(""))&&
-                        (medInfo.getBath().equals(bath)||medInfo.getBath().equals(""))&&
-                        (medInfo.getContinence().equals(continence)||medInfo.getContinence().equals(""))&&
-                        (medInfo.getDress().equals(dress)||medInfo.getDress().equals(""))&&
-                        (medInfo.getFeed().equals(feed)||medInfo.getFeed().equals(""))&&
-                        (medInfo.getToileting().equals(toileting)||medInfo.getToileting().equals(""))&&
-                        (medInfo.getTransfer().equals(transfer)||medInfo.getTransfer().equals(""))&&
-                        (medInfo.getTransport().equals(transport)||medInfo.getTransport().equals(""))&&
-                        (medInfo.getPets().equals(pets)||medInfo.getPets().equals(""))&&
-                        (medInfo.getDrive().equals(drive)||medInfo.getDrive().equals(""))&&
-                        (medInfo.getKeep().equals(keep)||medInfo.getKeep().equals(""))&&
-                        (medInfo.getMedication().equals(medication)||medInfo.getMedication().equals(""))&&
-                        (medInfo.getRemote().equals(remote)||medInfo.getRemote().equals(""))&&
-                        (medInfo.getAlert().equals(alert)||medInfo.getAlert().equals(""))&&
-                        (medInfo.getComputer().equals(computer)||medInfo.getComputer().equals("")))
-                {
+                if (medInfo.getFunctionNote().equals(functionnote) &&
+                        medInfo.getFunctionOther().equals(fouctionOther) &&
+                        medInfo.getInstNote().equals(instaNote) &&
+                        medInfo.getInstOther().equals(instaOther) &&
+                        (medInfo.getFinance().equals(finance) || medInfo.getFinance().equals("")) &&
+                        (medInfo.getPrepare().equals(prepare) || medInfo.getPrepare().equals("")) &&
+                        (medInfo.getShop().equals(shop) || medInfo.getShop().equals("")) &&
+                        (medInfo.getUse().equals(use) || medInfo.getUse().equals("")) &&
+                        (medInfo.getBath().equals(bath) || medInfo.getBath().equals("")) &&
+                        (medInfo.getContinence().equals(continence) || medInfo.getContinence().equals("")) &&
+                        (medInfo.getDress().equals(dress) || medInfo.getDress().equals("")) &&
+                        (medInfo.getFeed().equals(feed) || medInfo.getFeed().equals("")) &&
+                        (medInfo.getToileting().equals(toileting) || medInfo.getToileting().equals("")) &&
+                        (medInfo.getTransfer().equals(transfer) || medInfo.getTransfer().equals("")) &&
+                        (medInfo.getTransport().equals(transport) || medInfo.getTransport().equals("")) &&
+                        (medInfo.getPets().equals(pets) || medInfo.getPets().equals("")) &&
+                        (medInfo.getDrive().equals(drive) || medInfo.getDrive().equals("")) &&
+                        (medInfo.getKeep().equals(keep) || medInfo.getKeep().equals("")) &&
+                        (medInfo.getMedication().equals(medication) || medInfo.getMedication().equals("")) &&
+                        (medInfo.getRemote().equals(remote) || medInfo.getRemote().equals("")) &&
+                        (medInfo.getAlert().equals(alert) || medInfo.getAlert().equals("")) &&
+                        (medInfo.getComputer().equals(computer) || medInfo.getComputer().equals(""))) {
                     hideSoftKeyboard();
                     finish();
-                }
-                else{
+                } else {
                     AlertDialog.Builder alert = new AlertDialog.Builder(context);
                     alert.setTitle("Save");
                     alert.setMessage("Do you want to save information?");
                     alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            /*if (!connection.getName().equals(name) || !connection.getEmail().equals(address))
-                            {
-                                isfinis=true;
-                            }*/
                             hideSoftKeyboard();
-                            boolean s=  txtSave.performClick();
-                            // backflap=false;
+                            boolean s = txtSave.performClick();
                             dialog.dismiss();
                             finish();
-                            /*if (connection.getName().equals(name) || connection.getEmail().equals(address))
-                            {
-                                finish();
-                            }*/
 
                         }
                     });
@@ -544,6 +467,9 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    /**
+     * Fucntion: get values from user input
+     */
     private void getValues() {
         functionnote = etFunctionalNote.getText().toString().trim();
         fouctionOther = etOtherFunction.getText().toString().trim();
@@ -551,6 +477,9 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
         instaNote = etInstrumentalNote.getText().toString().trim();
     }
 
+    /**
+     * Function: To display floating menu for reports
+     */
     private void showFloatDialog() {
         final String RESULT = Environment.getExternalStorageDirectory()
                 + "/mylopdf/";
@@ -560,51 +489,22 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
         if (file.exists()) {
             file.delete();
         }
-       /* new Header().createPdfHeader(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-        preferences.copyFile("ic_launcher.png", context);
-        Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-        Header.addEmptyLine(1);
-        Header.addusereNameChank("Activities of Daily Living");//preferences.getString(PrefConstants.CONNECTED_NAME));
-        Header.addEmptyLine(1);
-
-        Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-        Paragraph p = new Paragraph(" ");
-        LineSeparator line = new LineSeparator();
-        line.setOffset(-4);
-        line.setLineColor(BaseColor.LIGHT_GRAY);
-        p.add(line);
-        try {
-            Header.document.add(p);
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
-        Header.addEmptyLine(1);
-
-        Living Live = LivingQuery.fetchOneRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        ArrayList<Living> LivingList = new ArrayList<Living>();
-        LivingList.add(Live);
-        new EventPdf(1, LivingList, 1);
-
-        Header.document.close();*/
-        //New PDF Varsa
-        Image pdflogo = null,calendar= null,profile= null,calendarWite= null,profileWite= null;
-        pdflogo=preferences.addFile("pdflogo.png",context);
-        calendar=preferences.addFile("calpdf.png", context);calendarWite=preferences.addFile("calpdf_wite.png", context);
-        profile=preferences.addFile("profpdf.png", context); profileWite=preferences.addFile("profpdf_wite.png", context);
+        Image pdflogo = null, calendar = null, profile = null, calendarWite = null, profileWite = null;
+        pdflogo = preferences.addFile("pdflogo.png", context);
+        calendar = preferences.addFile("calpdf.png", context);
+        calendarWite = preferences.addFile("calpdf_wite.png", context);
+        profile = preferences.addFile("profpdf.png", context);
+        profileWite = preferences.addFile("profpdf_wite.png", context);
 
         new HeaderNew().createPdfHeaders(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME),preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO),pdflogo,calendar,profile,"ACTIVITIES OF DAILY LIVING", calendarWite, profileWite);
+                "" + preferences.getString(PrefConstants.CONNECTED_NAME), preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO), pdflogo, calendar, profile, "ACTIVITIES OF DAILY LIVING", calendarWite, profileWite);
 
         HeaderNew.addusereNameChank("ACTIVITIES OF DAILY LIVING");//preferences.getString(PrefConstants.CONNECTED_NAME));
         HeaderNew.addEmptyLine(1);
         Image pp = null;
-        pp=preferences.addFile("eve_three.png", context);
+        pp = preferences.addFile("eve_three.png", context);
         Living Live = LivingQuery.fetchOneRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        // ArrayList<Living> LivingList = new ArrayList<Living>();
-        // LivingList.add(Live);
-        new EventPdfNew(1, Live, 1,pp);
+        new EventPdfNew(1, Live, 1, pp);
         HeaderNew.document.close();
         //------------------------------------------------
         final Dialog dialog = new Dialog(context);
@@ -639,6 +539,11 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
         rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
 
         floatCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
 
@@ -647,6 +552,11 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
         });
 
         floatNew.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 //  CopyReadAssetss("insu_pdf.pdf");
@@ -661,6 +571,11 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
         });
 
         floatContact.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
@@ -681,8 +596,6 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
     private void showViewDialog(Context context, String Message, String title) {
         final Dialog customDialog;
 
-        // LayoutInflater inflater = (LayoutInflater) getLayoutInflater();
-        //  View customView = inflater.inflate(R.layout.dialog_input, null);
         // Build the dialog
         customDialog = new Dialog(context);
         customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -694,6 +607,11 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
         txtNoteHeader.setText(title);
         TextView btnYes = customDialog.findViewById(R.id.btnYes);
         btnYes.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 customDialog.dismiss();

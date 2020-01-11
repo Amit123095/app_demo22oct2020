@@ -15,7 +15,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 9/28/2017.
  */
-
+/**
+ * Class: SpecialistQuery
+ * Screen: Add Specialist
+ * A class that manages Specialist Table CRUD Operations
+ */
 public class SpecialistQuery {
     public static final String TABLE_NAME = "Specialist";
     public static final String COL_USER_ID = "UserId";

@@ -38,7 +38,11 @@ import java.util.ArrayList;
 /**
  * Created by V@iBh@V on 10/23/2017. Changes done by nikita on 18/6/18
  */
-
+/**
+ * Class: HospitalAdapter
+ * Screen: Hospital Contact List Screen
+ * A class that manages Adpater for Hospital Contact List
+ */
 public class HospitalAdapter extends RecyclerSwipeAdapter<HospitalAdapter.ViewHolder> {
     Context context;
     ArrayList<Hospital> hospitalList;
@@ -53,6 +57,7 @@ public class HospitalAdapter extends RecyclerSwipeAdapter<HospitalAdapter.ViewHo
         this.context = context;
         this.hospitalList = hospitalList;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
     }
 
@@ -62,9 +67,14 @@ public class HospitalAdapter extends RecyclerSwipeAdapter<HospitalAdapter.ViewHo
         this.context = context;
         this.hospitalList = hospitalList;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
     }
 
+    /**
+     * Function: Image loading and displaying at ImageView
+     * Presents configuration for ImageLoader & options for image display.
+     */
     private void initImageLoader() {
         //Profile
         displayImageOptionsProfile = new DisplayImageOptions.Builder() // resource
@@ -129,8 +139,13 @@ public class HospitalAdapter extends RecyclerSwipeAdapter<HospitalAdapter.ViewHo
             }
         });
         holder.imgNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 if (fr != null) {
                     fr.callUser(hospitalList.get(position));
                 }
@@ -149,18 +164,9 @@ public class HospitalAdapter extends RecyclerSwipeAdapter<HospitalAdapter.ViewHo
         if (hospitalList.get(position).getOfficePhone().equals("")) {
             holder.txtPhone.setVisibility(View.GONE);
         }
-        //Commented as to match screen as invision-shradha
-        /*else {
-            holder.txtPhone.setVisibility(View.VISIBLE);
-        }
-*/
         if (hospitalList.get(position).getAddress().equals("")) {
             holder.txtAddress.setVisibility(View.GONE);
         }
-        //Commented as to match screen as invision-shradha
-        /*else {
-            holder.txtAddress.setVisibility(View.VISIBLE);
-        }*/
 
         if (hospitalList.get(position).getCategory().equals("")) {
             holder.txtCategory.setVisibility(View.GONE);
@@ -168,11 +174,6 @@ public class HospitalAdapter extends RecyclerSwipeAdapter<HospitalAdapter.ViewHo
             holder.txtCategory.setVisibility(View.VISIBLE);
         }
         holder.txtName.setText(hospitalList.get(position).getName());
-        //Commented as to match screen as invision-shradha
-       // holder.txtAddress.setText(hospitalList.get(position).getAddress());
-
-        //Commented as to match screen as invision-shradha
-      //  holder.txtPhone.setText(hospitalList.get(position).getOfficePhone());
         holder.txtType.setText(hospitalList.get(position).getName());
         if (hospitalList.get(position).getCategory().equals("Other")) {
             holder.txtCategory.setText(hospitalList.get(position).getCategory() + " - " + hospitalList.get(position).getOtherCategory());
@@ -192,14 +193,6 @@ public class HospitalAdapter extends RecyclerSwipeAdapter<HospitalAdapter.ViewHo
         }
        else holder.imgProfile.setImageResource(R.drawable.all_profile); //new change for default image display
 
-       /* if (imgFile.exists()) {
-           // imageLoaderProfile.displayImage(String.valueOf(Uri.fromFile(imgFile)), holder.imgProfile, displayImageOptionsProfile);
-            holder.imgProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
-          //  holder.imgProfile.setImageResource(R.drawable.yellow);
-        }else {
-            holder.imgProfile.setImageResource(R.drawable.yellow);
-        }*/
-
        //Varsa 16 marc cardx
         if (!hospitalList.get(position).getPhotoCard().equals("")) {
             File imgFile1 = new File(preferences.getString(PrefConstants.CONNECTED_PATH), hospitalList.get(position).getPhotoCard());
@@ -216,16 +209,26 @@ public class HospitalAdapter extends RecyclerSwipeAdapter<HospitalAdapter.ViewHo
         }
 
         holder.imgForward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 Intent i = new Intent(context, AddFormActivity.class);
                 i.putExtra("Image", hospitalList.get(position).getPhotoCard());
                 context.startActivity(i);
             }
         });
         holder.rlHospital.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 Intent i = new Intent(context, GrabConnectionActivity.class);
                 preferences.putString(PrefConstants.SOURCE, "HospitalData");
                 Hospital hospital = hospitalList.get(position);
@@ -233,28 +236,6 @@ public class HospitalAdapter extends RecyclerSwipeAdapter<HospitalAdapter.ViewHo
                 context.startActivity(i);
             }
         });
-
-       /* holder.txtName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, GrabConnectionActivity.class);
-                preferences.putString(PrefConstants.SOURCE, "HospitalData");
-                Hospital hospital = hospitalList.get(position);
-                i.putExtra("HospitalObject", hospital);
-                context.startActivity(i);
-            }
-        });
-        holder.imgNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(context, GrabConnectionActivity.class);
-                preferences.putString(PrefConstants.SOURCE, "HospitalViewData");
-                Hospital hospital = hospitalList.get(position);
-                i.putExtra("HospitalObject", hospital);
-                context.startActivity(i);
-            }
-        });*/
 
     }
 

@@ -12,7 +12,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 9/29/2017.
  */
-
+/**
+ * Class: EventNoteQuery
+ * Screen: Add NoteInfo
+ * A class that manages NoteInfo Table CRUD Operations
+ */
 public class EventNoteQuery {
     public static final String TABLE_NAME = "NoteInfo";
     public static final String COL_ID = "Id";

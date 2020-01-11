@@ -14,7 +14,12 @@ import android.widget.Toast;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 
 import java.util.ArrayList;
-
+/**
+ * Class: ReactionAdapter
+ * Screen: Reaction list
+ * A class that manages to multichoice of reaction
+ * implements OnclickListener for onClick event on views
+ */
 public class ReactionAdapter extends BaseAdapter {
 
     Context context;
@@ -84,20 +89,6 @@ public class ReactionAdapter extends BaseAdapter {
                 holder.imgCheck.setTag(position);
             }
         });
-      /*  if (selected.equalsIgnoreCase(relationship[pos]))
-        {
-            //holder.imgCheck.setVisibility(View.VISIBLE);
-            holder.imgCheck.setChecked(true);
-            holder.imgCheck.setTag(position);
-        }
-        else
-        {
-           // holder.imgCheck.setVisibility(View.GONE);
-            holder.imgCheck.setChecked(false);
-            holder.imgCheck.setTag(position);
-        }*/
-      //  holder.txtName.setText(student.getName());
-       // holder.txtCity.setText(student.getCity());
         return convertView;
     }
 

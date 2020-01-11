@@ -97,7 +97,12 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
-/*shradha changes*/
+/**
+ * Class: ProfileActivity
+ * Screen: Personal Profile Screen
+ * A class that manages Personal information details
+ * implements OnclickListener for onClick event on views
+ */
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     public static final int REQUEST_PET = 400;
     private static final int REQUEST_CARD = 50;
@@ -112,18 +117,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public static final int REQUEST_LANGUAGE = 24;
     public ArrayList<ContactData> phonelist = new ArrayList<>();
     public ArrayList<ContactData> Originalphonelist = new ArrayList<>();
-    final CharSequence[] dialog_items = {"View", "Email", "User Instructions"};
     Context context = this;
     Bitmap ProfileMap = null, CardMap = null;
     ContentValues values;
     boolean backflap, is_backpressed;
     Uri imageUriProfile = null, imageUriCard = null;
-    // byte[] photoCard=null;
     ImageView imgRight, imgInfo, imgR;
     RelativeLayout llIndividual;
     boolean isfinis;
     String has_card = "NO";
-    //  Button floatingBtn;
     TextView txtPeople, txtAddPet, txtSignUp, txtLogin, txtForgotPassword, txtOther, txtOtherLanguage, txtMsg, txtSave;
     ImageView imgHome, imgEdit, imgProfile, imgDone, imgAddpet, imgEditCard, imgCard;
     TextView txtHeight, txtWeight, txtProfession, txttelephone, txtEmployed, txtReligion, txtIdNumber, txtOtherRelation, txtTitle, txtName, txtEmail, txtAddress, txtCountry, txtPhone, txtHomePhone, txtWorkPhone, txtBdate, txtGender, txtPassword, txtRelation;
@@ -147,26 +149,18 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     String imagepath = "", cardpath = "";//
     String relation = "Self";
     String OtherLang = "";
-    ImageLoader imageLoader;
-    DisplayImageOptions displayImageOptions;
     RelativeLayout rlCard;
     ImageView txtCard;
     DBHelper dbHelper, dbHelper1;
-    View rootview;
     Preferences preferences;
     ImageView imgBack;
     RelativeConnection connection;
-    //   PersonalInfo personalInfo;
     RadioGroup rgGender;
     RadioButton rbMale, rbFemale, rbTrans;
     LinearLayout llAddPhone;
     ToggleButton tbLive, tbEnglish, tbVeteran, tbPet, tbCard;
 
     TextInputLayout tilBdate, tilName, tilWorkPhone;
-    String[] Relationship = {"Aunt", "Brother", "Brother-in-law", "Client", "Cousin", "Dad", "Daughter","Daughter-in-law", "Father-in-law", "Friend", "Granddaughter", "Grandmother", "Grandfather", "Grandson", "Husband", "Mom", "Mother-in-law", "Neighbor", "Nephew", "Niece", "Patient", "Roommate", "Significant Other", "Sister", "Sister-in-law", "Son","Son-in-law", "Uncle", "Wife", "Other"};
-    String[] EyesList = {"Blue", "Green", "Hazel", "Brown"};
-    String[] MaritalList = {"Divorced", "Domestic Partner", "Married", "Other", "Separated", "Single", "Widowed"};
-    String[] LangList = {"Arabic", "Chinese", "English", "French", "German", "Greek", "Hebrew", "Hindi", "Italian", "Japanese", "Korean", "Russian", "Spanish", "Other"};
     ImageLoader imageLoaderProfile, imageLoaderCard;
     DisplayImageOptions displayImageOptionsProfile, displayImageOptionsCard;
     boolean checkSave = false;
@@ -174,30 +168,32 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     String cardImgPath = "";
     FloatingActionButton floatProfile;
     ImageView floatOptions;
-    ;
     NonScrollListView listPhone;
     ContactData contactData;
     RelativeConnection con;
     FrameLayout flFront;
 
     @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         preferences = new Preferences(context);
+        //Initialize database, get primary data and set data
         initComponent();
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
     }
 
+    /**
+     * Function: Image loading and displaying at ImageView
+     * Presents configuration for ImageLoader & options for image display.
+     */
     private void initImageLoader() {
-
         //Profile
         displayImageOptionsProfile = new DisplayImageOptions.Builder() // resource
                 .resetViewBeforeLoading(true) // default
@@ -237,6 +233,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initComponent() {
+        //Initialize database
         dbHelper = new DBHelper(context, "MASTER");
 
         String ss = preferences.getString(PrefConstants.CONNECTED_USERDB);
@@ -255,6 +252,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         imgBack.setOnClickListener(this);
         txtBdate.setOnClickListener(this);
@@ -279,6 +280,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         floatProfile.setOnClickListener(this);
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         llAddPhone = findViewById(R.id.llAddPhone);
         floatProfile = findViewById(R.id.floatProfile);
@@ -305,6 +309,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         vgender = findViewById(R.id.vgender);
         imgInfo = findViewById(R.id.imgInfo);
         imgInfo.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, InstructionActivity.class);
@@ -324,6 +333,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         imgRight = findViewById(R.id.imgRight);
 
         txtTitle.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 hideSoftKeyboard();
@@ -336,25 +350,20 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         txtOtherLanguage = findViewById(R.id.txtOtherLanguage);
         tilOtherLanguage = findViewById(R.id.tilOtherLanguage);
         tilOtherLanguage.setHint("Other Language");
-
         chkChild = findViewById(R.id.chkChild);
         chkSibling = findViewById(R.id.chkSibling);
         chkFriend = findViewById(R.id.chkFriend);
         chkGrandParent = findViewById(R.id.chkGrandParent);
         chkParent = findViewById(R.id.chkParent);
         chkSpouse = findViewById(R.id.chkSpouse);
-
         chkChild.setTypeface(font);
         chkSibling.setTypeface(font);
         chkFriend.setTypeface(font);
         chkGrandParent.setTypeface(font);
         chkParent.setTypeface(font);
         chkSpouse.setTypeface(font);
-
         ListPet = findViewById(R.id.ListPet);
         imgProfile = findViewById(R.id.imgProfile);
-
-
         imgCard = findViewById(R.id.imgCard);
         imgEditCard = findViewById(R.id.imgEditCard);
         flFront = findViewById(R.id.flFront);
@@ -364,7 +373,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         if (pet.equals("")) {
             txtAddPet.setVisibility(View.GONE);
         }
-
         tilName = findViewById(R.id.tilName);
         tilOtherRelation = findViewById(R.id.tilOtherRelation);
         tilOtherRelation.setHint("Other Relation");
@@ -380,7 +388,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         imgEdit = findViewById(R.id.imgEdit);
         imgDone = findViewById(R.id.imgDone);
         txtSave = findViewById(R.id.txtSave);
-        //imgDone.setVisibility(View.VISIBLE);
         txtRelation = findViewById(R.id.txtRelation);
         tilBdate = findViewById(R.id.tilBdate);
         spinnerRelation = findViewById(R.id.spinnerRelation);
@@ -407,54 +414,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         rbMale = findViewById(R.id.rbMale);
         rbFemale = findViewById(R.id.rbFemale);
         rbTrans = findViewById(R.id.rbTrans);
-
-        spinner = findViewById(R.id.spinner);
-        spinnerEyes = findViewById(R.id.spinnerEyes);
-        spinnerLanguage = findViewById(R.id.spinnerLanguage);
-        spinnerMarital = findViewById(R.id.spinnerMarital);
-
-        ArrayAdapter<String> adapterm = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, MaritalList);
-        adapterm.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerMarital.setAdapter(adapterm);
-        spinnerMarital.setHint("Marital Status");
-
-
-        ArrayAdapter<String> adapters = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, EyesList);
-        adapters.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerEyes.setAdapter(adapters);
-        spinnerEyes.setHint("Eye Color");
-
-        ArrayAdapter<String> adapterl = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, LangList);
-        adapterl.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerLanguage.setAdapter(adapterl);
-        spinnerLanguage.setHint("Language Spoken");
-
-        ArrayAdapter adapter = new ArrayAdapter(context, android.R.layout.simple_spinner_item, countryList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setHint("Country");
-
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, Relationship);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerRelation.setAdapter(adapter1);
-        spinnerRelation.setHint("Relationship");
-
-        spinnerLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position).toString().equals("Other")) {
-                    tilOtherLanguage.setVisibility(View.VISIBLE);
-                    //txtOtherLanguage.requestFocus();
-                } else {
-                    tilOtherLanguage.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         chkOther.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -490,7 +449,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 } else {
                     has_card = "NO";
-                    // imgCard.setImageResource(R.drawable.busi_card);
                     txtCard.setVisibility(View.VISIBLE);
                     flFront.setVisibility(View.VISIBLE);
                     imgEditCard.setVisibility(View.GONE);
@@ -556,9 +514,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
                     boolean flag = PetQuery.deleteRecords(preferences.getInt(PrefConstants.CONNECTED_USERID));
                     if (flag == true) {
-                        //  Toast.makeText(context,"Deleted",Toast.LENGTH_SHORT).show();
                         setPetData();
-                        // ListPet.requestFocus();
                     }
                 }
             }
@@ -585,7 +541,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 if (checkedId == R.id.rbMale) {
                     gender = "Male";
-
                 } else if (checkedId == R.id.rbFemale) {
                     gender = "Female";
                 } else if (checkedId == R.id.rbTrans) {
@@ -595,6 +550,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         });
 
         llIndividual.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 if (getCurrentFocus() != null) {
@@ -603,93 +563,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 }
             }
         });
-        txtPhone.addTextChangedListener(new TextWatcher() {
-            int prevL = 0;
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                prevL = txtPhone.getText().toString().length();
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                int length = editable.length();
-                if ((prevL < length) && (length == 3 || length == 7)) {
-                    editable.append("-");
-                }
-            }
-        });
-
-        txttelephone.addTextChangedListener(new TextWatcher() {
-            int prevL = 0;
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                prevL = txttelephone.getText().toString().length();
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                int length = editable.length();
-                if ((prevL < length) && (length == 3 || length == 7)) {
-                    editable.append("-");
-                }
-            }
-        });
-        txtHomePhone.addTextChangedListener(new TextWatcher() {
-            int prevL = 0;
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                prevL = txtHomePhone.getText().toString().length();
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                int length = editable.length();
-                if ((prevL < length) && (length == 3 || length == 7)) {
-                    editable.append("-");
-                }
-            }
-        });
-
-        txtWorkPhone.addTextChangedListener(new TextWatcher() {
-            int prevL = 0;
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                prevL = txtWorkPhone.getText().toString().length();
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                int length = editable.length();
-                if ((prevL < length) && (length == 3 || length == 7)) {
-                    editable.append("-");
-                }
-            }
-        });
-
 
         txtHeight.addTextChangedListener(new TextWatcher() {
             int prevL = 0;
@@ -712,8 +585,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 }
             }
         });
-        setValues();
+
         txtRelation.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, RelationActivity.class);
@@ -724,6 +602,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         });
 
         txtSpinMarital.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, RelationActivity.class);
@@ -734,6 +617,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         });
 
         txtSpinLang.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, RelationActivity.class);
@@ -744,6 +632,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         });
 
         txtSpinEye.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, RelationActivity.class);
@@ -752,52 +645,20 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 startActivityForResult(i, REQUEST_EYES);
             }
         });
-
-        spinnerRelation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position).toString().equals("Other")) {
-                    tilOtherRelation.setVisibility(View.VISIBLE);
-                    tilOtherRelation.setHint("Other Relation");
-                } else {
-                    tilOtherRelation.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-
-        });
+        setValues();
         setPetData();
         setListPh();
-    /*  listPhone.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(context,"CLicked",Toast.LENGTH_SHORT).show();
-                final TextView txtPhoNum=view.findViewById(R.id.txtPhoNum);
-                txtPhoNum.setClickable(true);
-                txtPhoNum.setFocusable(true);
-                final TextView txtType=view.findViewById(R.id.txtType);
-                txtType.setFocusable(true);
-
-                txtPhoNum.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(context,"CLicked",Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });*/
     }
 
-
-    //Nikita - PH format code ends here
     ArrayList<EditText> mTextViewListValue = new ArrayList<>();
     ArrayList<TextView> mTextViewListType = new ArrayList<>();
     ArrayList<ImageView> mImageViewType = new ArrayList<>();
 
+     /**
+     * Class: CustomTextWatcher
+     * Screen: Personal Profile Screen
+     * A class that manages hypens from contact number
+     */
     public class CustomTextWatcher implements TextWatcher {
         EditText et = null;
 
@@ -823,27 +684,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             int length = editable.length();
             int poss = Integer.parseInt(et.getTag().toString());
 
-//            if (length != 12 && length > 4) {
-//                String first = editable.toString().substring(0, 3);
-//                String lastChar = editable.toString().charAt(3) + "";
-//                String lastString = editable.toString().substring(4);
-//                if (!lastChar.equalsIgnoreCase("-")) {
-//                    first = first + "-" + lastChar + lastString;
-//                    et.setText(first);
-//                    et.setSelection(et.getText().length());
-//                }
-//
-//                if (length != 12 && length > 7) {
-//                    String first2 = editable.toString().substring(0, 6);
-//                    String lastChar2 = editable.toString().charAt(6) + "";
-//                    String lastString2 = editable.toString().substring(7);
-//                    if (!lastChar2.equalsIgnoreCase("-")) {
-//                        first2 = first2 + "-" + lastChar2 + lastString2;
-//                        et.setText(first2);
-//                        et.setSelection(et.getText().length());
-//                    }
-//                }
-//            } else {
             if (length == 4 || length == 8) {
                 String first = editable.toString().substring(0, length - 1);
                 String lastChar = editable.toString().substring(length - 1);
@@ -858,12 +698,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     et.setSelection(et.getText().length());
                 }
             }
-//            }
             phonelist.get(poss).setValue(et.getText().toString());
         }
 
     }
 
+   /**
+     * Function: Delete phone number from list of given position
+     */
     public void deletePhone(int position) {// Tricky code to delete required item
         try {
             for (int i = 0; i < phonelist.size(); i++) {
@@ -887,6 +729,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    /**
+     * Function: Add new phone number
+     */
     public void addNewPhone(final int pos) {
         try {
 
@@ -949,6 +794,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             });
 
             mTextViewListType.get(pos).setOnClickListener(new View.OnClickListener() {
+                /**
+                 * Function: Called when a view has been clicked.
+                 *
+                 * @param v The view that was clicked.
+                 */
                 @Override
                 public void onClick(View v) {
                     final int position = Integer.parseInt(mTextViewListType.get(pos).getTag().toString());
@@ -983,8 +833,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    /**
+     * Function: Display phone number list
+     */
     public void setListPh() {
-
         if (phonelist.isEmpty()) {
             ContactData c = new ContactData();
             c.setId(0);
@@ -1027,36 +879,29 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    //Nikita - PH Format code ends here
-
-    private void hideSoftKeyboard() {
+    /**
+     * Function: Hide device keyboard.
+     */
+    public void hideSoftKeyboard() {
         if (getCurrentFocus() != null) {
             InputMethodManager inm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             inm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
 
+    /**
+     * Function: Set initial values, it could be default or ffrom database
+     */
     private void setValues() {
         if (connection.getRelationType().equals("Self")) {
             tilBdate.setVisibility(View.VISIBLE);
-            // spinner.setVisibility(View.VISIBLE);
-            //  SavwGender.setVisibility(View.VISIBLE);
             rgGender.setVisibility(View.VISIBLE);
             txtvGender.setVisibility(View.VISIBLE);
             vgender.setVisibility(View.VISIBLE);
             spinnerRelation.setVisibility(View.GONE);
             flrel.setVisibility(View.GONE);
-            //  txtWorkPhone.setVisibility(View.VISIBLE);//shradha
-            // tilWorkPhone.setVisibility(View.VISIBLE);
             txtHomePhone.setVisibility(View.VISIBLE);
         } else {
-            // Varsa commented 3 june
-            /*tilBdate.setVisibility(View.GONE);
-            flrel.setVisibility(View.VISIBLE);
-            txtGender.setVisibility(View.GONE);
-            txtvGender.setVisibility(View.GONE);
-            vgender.setVisibility(View.GONE);
-            rgGender.setVisibility(View.GONE);*/
             txtBdate.setText(connection.getDob());
         }
         if (connection != null) {
@@ -1069,7 +914,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             txtHomePhone.setText(connection.getPhone());
             txtWorkPhone.setText(connection.getWorkPhone());
             txtBdate.setText(connection.getDob());
-            //txtGender.setText(connection.getGender());
             if (connection.getGender() != null) {
                 if (connection.getGender().equalsIgnoreCase("Male")) {
                     rbMale.setChecked(true);
@@ -1101,8 +945,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 tilOtherRelation.setVisibility(View.GONE);
                 txtOtherRelation.setVisibility(View.GONE);
             }
-           /* if (index!=0)
-                spinnerRelation.setSelection(index+1);*/
             txtOther.setText(connection.getOther_person());
 
             if (connection.getLive() != null) {
@@ -1191,37 +1033,23 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             if (!imagepath.equals("")) {
                 File imgFile = new File(preferences.getString(PrefConstants.CONNECTED_PATH), imagepath);
                 if (imgFile.exists()) {
-                    //Shradha
+
                     imgProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
                     imgEdit.setVisibility(View.VISIBLE);
-                    //imageLoaderProfile.displayImage(String.valueOf(Uri.fromFile(imgFile)), imgProfile, displayImageOptionsProfile);
                 } else {
                     Toast.makeText(context, "File Not Found", Toast.LENGTH_SHORT).show();
                 }
             } else {
-//                Toast.makeText(context, "You have done wrong", Toast.LENGTH_SHORT).show();
-
                 imgProfile.setImageResource(R.drawable.ic_profile_defaults);
                 imgEdit.setVisibility(View.GONE);
             }
-              /*  byte[] photo=personalInfo.getPhoto();
-            Bitmap bmp = BitmapFactory.decodeByteArray(photo, 0, photo.length);
-            imgProfile.setImageBitmap(bmp);*/
             cardpath = connection.getPhotoCard();
             if (!connection.getPhotoCard().equals("")) {
                 File imgFile1 = new File(preferences.getString(PrefConstants.CONNECTED_PATH), connection.getPhotoCard());
                 if (imgFile1.exists()) {
-                        //Bitmap myBitmap = BitmapFactory.decodeFile(imgFile1.getAbsolutePath());
-                  //  imgCard.setImageBitmap(myBitmap);
-
-                   // imgCard.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile1))));
                     imageLoaderCard.displayImage(String.valueOf(Uri.fromFile(imgFile1)), imgCard, displayImageOptionsCard);
-
-                    // imageLoaderCard.displayImage(String.valueOf(Uri.fromFile(imgFile1)), imgCard, displayImageOptionsCard);
                 }
-                   /* byte[] photoCard = personalInfo.getPhotoCard();
-                Bitmap bmps = BitmapFactory.decodeByteArray(photoCard, 0, photoCard.length);*/
-                // imgCard.setImageBitmap(bmps);
+
                 imgCard.setVisibility(View.VISIBLE);
                 imgEditCard.setVisibility(View.VISIBLE);
                 rlCard.setVisibility(View.VISIBLE);
@@ -1276,7 +1104,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 txtSpinMarital.setText(connection.getMarital_status());
             }
 
-
             if (connection.getVeteran() != null) {
                 if (connection.getVeteran().equals("YES")) {
                     tbVeteran.setChecked(true);
@@ -1329,7 +1156,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
 
         }
-        imgHome.setOnClickListener(new View.OnClickListener() {
+        imgHome.setOnClickListener(new View.OnClickListener() {//Move to Home profile list screen
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent intentHome = new Intent(context, BaseActivity.class);
@@ -1343,20 +1175,25 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.txtAddPet:
+            case R.id.txtAddPet:// Add New Pet
                 Intent intent = new Intent(context, AddPetActivity.class);
                 intent.putExtra("FROM", "View");
                 startActivityForResult(intent, REQUEST_PET);
                 break;
 
-            case R.id.floatOptions:
+            case R.id.floatOptions: // reports floatin menu
                 showFloatPdfDialog();
                 break;
 
-            case R.id.txtSave:
+            case R.id.txtSave:// Save profile updation
 
                 if (pet.equals("NO")) {
                     boolean flag = PetQuery.deleteRecords(preferences.getInt(PrefConstants.CONNECTED_USERID));
@@ -1368,11 +1205,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 if (validateConnection()) {
                     if (email.equals("") || email.equals(Email)) {
                         if (is_backpressed) {
-
                             if (!connection.getName().equals(name) || !connection.getEmail().equals(address)) {
                                 isfinis = true;
                             }
-
                         }
                         editToConnection(imagepath, cardpath);
                         if (is_backpressed) {
@@ -1393,7 +1228,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 if (!connection.getName().equals(name) || !connection.getEmail().equals(address)) {
                                     isfinis = true;
                                 }
-
                             }
                             editToConnection(imagepath, cardpath);
                             if (is_backpressed) {
@@ -1403,32 +1237,22 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                     finish();
                                 }
                             }
-
                         }
                     }
                 }
-
-
                 break;
+
             case R.id.floatProfile:
                 Intent intentDashboard = new Intent(context, BaseActivity.class);
                 intentDashboard.putExtra("c", 1);//Profile Data
-//                intentDashboard.putExtra("DASHBOARD", 1);
-                //  intentDashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                //  intentDashboard.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intentDashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intentDashboard.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
                 startActivity(intentDashboard);
-
-
                 break;
 
             case R.id.imgBack:
-
+                // navigate previous screen after checking data modification done or not, if yes it ask user to save
                 getValues();
-
-                //nikita
                 String res = "No";
                 if (Originalphonelist.size() == phonelist.size()) {
                     for (int m = 0; m < Originalphonelist.size(); m++) {
@@ -1506,6 +1330,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 dialogs.getWindow().setAttributes(lps);
                 dialogs.show();
                 textOptions1.setOnClickListener(new View.OnClickListener() {
+                    /**
+                     * Function: Called when a view has been clicked.
+                     *
+                     * @param v The view that was clicked.
+                     */
                     @Override
                     public void onClick(View v) {
                         txtGender.setText("Female");
@@ -1513,6 +1342,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
                 textOptions2.setOnClickListener(new View.OnClickListener() {
+                    /**
+                     * Function: Called when a view has been clicked.
+                     *
+                     * @param v The view that was clicked.
+                     */
                     @Override
                     public void onClick(View v) {
                         txtGender.setText("Male");
@@ -1521,6 +1355,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 });
 
                 textOptions3.setOnClickListener(new View.OnClickListener() {
+                    /**
+                     * Function: Called when a view has been clicked.
+                     *
+                     * @param v The view that was clicked.
+                     */
                     @Override
                     public void onClick(View v) {
                         txtGender.setText("Trans");
@@ -1528,6 +1367,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
                 textCancels.setOnClickListener(new View.OnClickListener() {
+                    /**
+                     * Function: Called when a view has been clicked.
+                     *
+                     * @param v The view that was clicked.
+                     */
                     @Override
                     public void onClick(View v) {
                         dialogs.dismiss();
@@ -1536,33 +1380,29 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
                 break;
 
-            case R.id.imgRight:
+            case R.id.imgRight: // Navigate to instruction screen
                 Intent ia = new Intent(context, InstructionActivity.class);
                 ia.putExtra("From", "Personal");
                 startActivity(ia);
                 break;
 
-            case R.id.imgEdit:
+            case R.id.imgEdit: // Edit Profile picture
                 showCardDialog(RESULT_CAMERA_IMAGE, RESULT_SELECT_PHOTO, imgProfile, "Profile");
 
                 break;
-            case R.id.imgProfile:
+            case R.id.imgProfile: // Edit Profile picture
                 showCardDialog(RESULT_CAMERA_IMAGE, RESULT_SELECT_PHOTO, imgProfile, "Profile");
 
                 break;
-            case R.id.imgEditCard:
+            case R.id.imgEditCard: // Edit Card picture
                 showCardDialog(RESULT_CAMERA_IMAGE_CARD, RESULT_SELECT_PHOTO_CARD, imgCard, "Card");
 
                 break;
-            case R.id.flFront:
+            case R.id.flFront: // Edit Card picture
                 showCardDialog(RESULT_CAMERA_IMAGE_CARD, RESULT_SELECT_PHOTO_CARD, imgCard, "Card");
                 break;
 
-            case R.id.imgCard:
-               /* Bitmap bitma = ((BitmapDrawable) imgCard.getDrawable()).getBitmap();
-                ByteArrayOutputStream bao = new ByteArrayOutputStream();
-                bitma.compress(Bitmap.CompressFormat.JPEG, 100, bao);
-                byte[] photoCard = bao.toByteArray();*/
+            case R.id.imgCard: // View Card and Share
                 if (cardpath != "") {
                     Intent i = new Intent(context, AddFormActivity.class);
                     i.putExtra("Image", cardpath);
@@ -1603,14 +1443,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private void getValues() {
+    /**
+     * Function - Get values from all elements
+     */
+      private void getValues() {
         for (int i = 0; i < phonelist.size(); i++) {
             if (phonelist.get(i).getContactType() == "" && phonelist.get(i).getValue() == "") {
                 phonelist.remove(phonelist.get(i));
             }
         }
-      //  storeImage(ProfileMap, "Profile");
-       // storeImage(CardMap, "Card");
         name = txtName.getText().toString().trim();
         email = txtEmail.getText().toString().trim();
         phone = txtPhone.getText().toString().trim();
@@ -1626,7 +1467,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         bdate = txtBdate.getText().toString().trim();
         homePhone = txtHomePhone.getText().toString().trim();
-        //  gender = txtGender.getText().toString().trim();
         liveOther = txtOther.getText().toString();
         idnumber = txtIdNumber.getText().toString();
         height = txtHeight.getText().toString();
@@ -1638,6 +1478,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         religion = txtReligion.getText().toString();
     }
 
+    /**
+     * Function - Display dialog for Reports view, email, fax
+     */
+    /**
+     * Function - Display dialog for Reports options i.e view, email, fax
+     */
     private void showFloatPdfDialog() {
         final String RESULT = Environment.getExternalStorageDirectory()
                 + "/mylopdf/";
@@ -1698,10 +1544,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         dialog.setContentView(dialogview);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
-        // int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.95);
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        //lp.gravity = Gravity.CENTER;
         dialog.getWindow().setAttributes(lp);
         dialog.show();
 
@@ -1733,11 +1577,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         + "/mylopdf"
                         + "/PersonalProfile.pdf";
                 StringBuffer result = new StringBuffer();
-                               /* if (preferences.getInt(PrefConstants.CONNECTED_USERID)==(preferences.getInt(PrefConstants.USER_ID))) {
-                                    result.append(new MessageString().getProfileUser());
-                                }else {*/
                 result.append(new MessageString().getProfileProfile());
-                // }
 
                 new PDFDocumentProcess(path,
                         context, result);
@@ -1749,6 +1589,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    /**
+     * Function - Display dialog for option to add picture
+     */
     private void showCardDialog(final int resultCameraImage, final int resultSelectPhoto, final ImageView imgProfile, final String from) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -1772,10 +1615,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         lp.gravity = Gravity.CENTER;
         dialog.getWindow().setAttributes(lp);
         dialog.show();
-        textOption1.setOnClickListener(new View.OnClickListener() {
+        textOption1.setOnClickListener(new View.OnClickListener() {//Camera
             @Override
             public void onClick(View v) {
-                // dispatchTakePictureIntent(resultCameraImage,from);
                 if (from.equals("Profile")) {
                     values = new ContentValues();
                     values.put(MediaStore.Images.Media.TITLE, "New Picture");
@@ -1784,9 +1626,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
                     imageUriProfile = getContentResolver().insert(
                             MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-
-
-                    //  intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUriProfile);
                     startActivityForResult(intent, resultCameraImage);
                 } else if (from.equals("Card")) {
@@ -1797,7 +1636,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 dialog.dismiss();
             }
         });
-        textOption2.setOnClickListener(new View.OnClickListener() {
+        textOption2.setOnClickListener(new View.OnClickListener() {//Gallery
             @Override
             public void onClick(View v) {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -1807,7 +1646,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 dialog.dismiss();
             }
         });
-        textOption3.setOnClickListener(new View.OnClickListener() {
+        textOption3.setOnClickListener(new View.OnClickListener() {//Remove
             @Override
             public void onClick(View v) {
                 if (from.equals("Profile")) {
@@ -1816,7 +1655,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     imagepath = "";
                     ProfileMap = null;
                 } else if (from.equals("Card")) {
-//                    imgCard.setImageResource(R.drawable.busi_card);
                     imgEditCard.setVisibility(View.GONE);
                     flFront.setVisibility(View.VISIBLE);
                     imgCard.setVisibility(View.GONE);
@@ -1824,7 +1662,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     txtCard.setVisibility(View.GONE);
                     cardpath = "";
                     CardMap = null;
-                    //photoCard = null;
                 }
                 dialog.dismiss();
             }
@@ -1857,6 +1694,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         return image;
     }
 
+    /**
+     * Function: Validation of data input by user
+     * @return boolean, True if given input is valid, false otherwise.
+     */
     private boolean validateConnection() {
         for (int i = 0; i < phonelist.size(); i++) {
             ContactData c = phonelist.get(i);
@@ -1870,8 +1711,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         for (int i = 0; i < phonelist.size(); i++) {
             if (phonelist.get(i).getValue().isEmpty() && phonelist.get(i).getContactType().isEmpty()) {//nikita
-                 phonelist.remove(phonelist.get(i));
-               // DialogManager.showAlert("Please add Phone number with Type", context);
+                phonelist.remove(phonelist.get(i));
+                // DialogManager.showAlert("Please add Phone number with Type", context);
                 //return false;
             } else if (phonelist.get(i).getValue() == "" && phonelist.get(i).getContactType() != "") {
                 DialogManager.showAlert("Please add Phone number with Type", context);
@@ -1889,9 +1730,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             DialogManager.showAlert("Please Add Business Card.", context);
             return false;
         }
-
-       // storeImage(ProfileMap, "Profile");
-        //storeImage(CardMap, "Card");
         name = txtName.getText().toString().trim();
         email = txtEmail.getText().toString().trim();
         phone = txtPhone.getText().toString().trim();
@@ -1907,7 +1745,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         bdate = txtBdate.getText().toString().trim();
         homePhone = txtHomePhone.getText().toString().trim();
-        //  gender = txtGender.getText().toString().trim();
         liveOther = txtOther.getText().toString();
         idnumber = txtIdNumber.getText().toString();
         height = txtHeight.getText().toString();
@@ -1921,7 +1758,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             if (phonelist.get(i).getContactType() == "" && phonelist.get(i).getValue() == "") {
                 phonelist.remove(phonelist.get(i));
             }
-            // Log.d("TERE",phonelist.get(i).getContactType()+"-"+phonelist.get(i).getValue());
         }
         if (name.equals("")) {
             txtName.setError("Please Enter Name");
@@ -1938,22 +1774,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         } else if (!email.equals("") && !email.trim().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
             txtEmail.setError("Please enter valid email");
             DialogManager.showAlert("Please enter valid email", context);
-        }
-//        else if (phone.length() != 0 && phone.length() < 10) {
-//            txtPhone.setError("Phone number should be 10 digits");
-//            DialogManager.showAlert("Phone number should be 10 digits", context);
-//        } else if (manager_phone.length() != 0 && manager_phone.length() < 10) {
-//            txttelephone.setError("Mobile number should be 10 digits");
-//            DialogManager.showAlert("Mobile number should be 10 digits", context);
-//        }
-        else {
+        } else {
             return true;
         }
         return false;
 
     }
 
-
+    /**
+     * Function: update Profile in local database
+     */
     private void editToConnection(String photo, String photoCard) {
 
         if (connection.getRelationType().equals("Self")) {
@@ -2000,6 +1830,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                 }
             } else {
+                //Check if network connection is available and connected or not.
                 if (!NetworkUtils.getConnectivityStatusString(ProfileActivity.this).equals("Not connected to Internet")) {
                     UpdateUserAsynk asynk = new UpdateUserAsynk(name, email, "" + preferences.getInt(PrefConstants.USER_ID));
                     asynk.execute();
@@ -2055,8 +1886,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         finish();
                     }
                 }
-                // Toast.makeText(context, "You have edited connection successfully", Toast.LENGTH_SHORT).show();
-                //   finish(); //Varsa
             } else {
                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
             }
@@ -2064,7 +1893,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    /**
+     * @param requestCode The integer request code originally supplied to startActivityForResult(), allowing you to identify who this result came from.
+     * @param resultCode  The integer result code returned by the child activity through its setResult().
+     * @param data        An Intent, which can return result data to the caller (various data can be attached to Intent "extras").
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         ImageView profileImage = findViewById(R.id.imgProfile);
         ImageView profileCard = findViewById(R.id.imgCard);
@@ -2072,21 +1907,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             setPetData();
             ListPet.requestFocus();
         }
-
+        //Gallary profile Photo
         if (requestCode == RESULT_SELECT_PHOTO && data != null) {
             try {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                // profileImage.setImageBitmap(selectedImage);
-//                imageLoaderProfile.displayImage(String.valueOf(imageUri), imgProfile, displayImageOptionsProfile);
-                // storeImage(selectedImage,"Profile");
-
                 int nh = (int) (selectedImage.getHeight() * (512.0 / selectedImage.getWidth()));
                 Bitmap scaled = Bitmap.createScaledBitmap(selectedImage, 512, nh, true);
                 imgProfile.setImageBitmap(scaled);
                 imgEdit.setVisibility(View.VISIBLE);
-//                ProfileMap = selectedImage;
                 ProfileMap = scaled;
                 storeImage(ProfileMap, "Profile");
 
@@ -2096,8 +1926,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
 
 
-        /* Camera Code */
-
+        /* Camera profile */
         if (requestCode == RESULT_CAMERA_IMAGE) {
             try {
                 Bitmap thumbnail = MediaStore.Images.Media.getBitmap(
@@ -2110,33 +1939,18 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 imgProfile.setImageBitmap(scaled);
                 imgEdit.setVisibility(View.VISIBLE);
 
-                // imageLoaderProfile.displayImage(String.valueOf(imageUriProfile), imgProfile, displayImageOptionsProfile);
-                // profileImage.setImageBitmap(bitmap);
                 storeImage(scaled, "Profile");
-//                ProfileMap = selectedImage;
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        /* Bundle extras = data.getExtras();
-         Bitmap imageBitmap = (Bitmap) extras.get("data");
-         imgProfile.setImageBitmap(imageBitmap);
-
-         storeImage(imageBitmap,"Profile");*/
-
         }
 
-        String fileName = "";
+        //Gallary Card Photo
         if (requestCode == RESULT_SELECT_PHOTO_CARD && data != null) {
-
-
             try {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                // profileImage.setImageBitmap(selectedImage);
-//                imageLoaderProfile.displayImage(String.valueOf(imageUri), imgProfile, displayImageOptionsProfile);
-                // storeImage(selectedImage,"Profile");
-
                 int nh = (int) (selectedImage.getHeight() * (512.0 / selectedImage.getWidth()));
                 Bitmap scaled = Bitmap.createScaledBitmap(selectedImage, 512, nh, true);
                 imgCard.setImageBitmap(scaled);
@@ -2153,29 +1967,22 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
 
+       //Camera Card Photo
         if (requestCode == RESULT_CAMERA_IMAGE_CARD) {
-
             try {
-
-                Bitmap thumbnail = MediaStore.Images.Media.getBitmap(
-                        getContentResolver(), imageUriCard);
-
+                Bitmap thumbnail = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUriCard);
                 String imageurl = getRealPathFromURI(imageUriCard);
                 Bitmap selectedImage = imageOreintationValidator(thumbnail, imageurl);
-                 imageLoaderCard.displayImage(String.valueOf(imageUriCard), imgCard, displayImageOptionsCard);
-               // profileCard.setImageBitmap(selectedImage);
-                //
+                imageLoaderCard.displayImage(String.valueOf(imageUriCard), imgCard, displayImageOptionsCard);
                 rlCard.setVisibility(View.VISIBLE);
                 imgCard.setVisibility(View.VISIBLE);
                 txtCard.setVisibility(View.GONE);
                 flFront.setVisibility(View.GONE);
                 imgEditCard.setVisibility(View.VISIBLE);
-
                 CardMap = selectedImage;
-
                 isOnActivityResult = true;
                 cardImgPath = String.valueOf(imageUriCard);
-                storeImage(selectedImage,"Card");
+                storeImage(selectedImage, "Card");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -2189,9 +1996,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 imgEditCard.setVisibility(View.GONE);
                 cardpath = "";
             }
-            //photoCard=null;
         }
-        if (requestCode == REQUEST_RELATIONP && data != null) {
+
+        if (requestCode == REQUEST_RELATIONP && data != null) {//Selected Relation
             String relation = data.getStringExtra("Category");
             txtRelation.setText(relation);
             if (relation.equals("Other")) {
@@ -2201,7 +2008,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 tilOtherRelation.setVisibility(View.GONE);
                 txtOtherRelation.setVisibility(View.GONE);
             }
-        } else if (requestCode == REQUEST_LANGUAGE && data != null) {
+        } else if (requestCode == REQUEST_LANGUAGE && data != null) {//Selected Language
             language = data.getStringExtra("Category");
             txtSpinLang.setText(language);
             if (language.equals("Other")) {
@@ -2211,23 +2018,21 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 tilOtherLanguage.setVisibility(View.GONE);
                 txtOtherRelation.setVisibility(View.GONE);
             }
-        } else if (requestCode == REQUEST_EYES && data != null) {
+        } else if (requestCode == REQUEST_EYES && data != null) {//Selected eyes
             eyes = data.getStringExtra("Category");
             txtSpinEye.setText(eyes);
-        } else if (requestCode == REQUEST_MARITAL && data != null) {
+        } else if (requestCode == REQUEST_MARITAL && data != null) {//Selected marital status
             marital_status = data.getStringExtra("Category");
             txtSpinMarital.setText(marital_status);
-
         }
-
     }
-
+    /**
+     * Function: Display Pet list and Data
+     */
     private void setPetData() {
-        final ArrayList allergyList = new ArrayList();
         final ArrayList<Pet> AllargyLists = PetQuery.fetchAllRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
         if (AllargyLists.size() != 0) {
             ListPet.setVisibility(View.VISIBLE);
-
             PetAdapter adapter = new PetAdapter(context, AllargyLists);
             ListPet.setAdapter(adapter);
             ListPet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -2238,15 +2043,18 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     allergyIntent.putExtra("FROM", "Update");
                     allergyIntent.putExtra("PetObject", a);
                     startActivityForResult(allergyIntent, REQUEST_PET);
-
                 }
             });
-
         } else {
             ListPet.setVisibility(View.GONE);
         }
     }
 
+    /**
+     * Callback: Called when the checked state of a compound button has changed.
+     * @param compoundButton CompoundButton: The compound button view whose state has changed.
+     * @param isChecked boolean: The new checked state of buttonView.
+     */
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
         switch (compoundButton.getId()) {
@@ -2290,12 +2098,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 else
                     spouse = "NO";
                 break;
-
         }
     }
 
+    /**
+     * Rotate Image
+      * @param bitmap
+     * @param path
+     * @return
+     */
     private Bitmap imageOreintationValidator(Bitmap bitmap, String path) {
-
         ExifInterface ei;
         try {
             ei = new ExifInterface(path);
@@ -2319,7 +2131,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         return bitmap;
     }
-
+  /*
+  *rotate Image
+   */
     private Bitmap rotateImage(Bitmap source, float angle) {
 
         Bitmap bitmap = null;
@@ -2334,6 +2148,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         return bitmap;
     }
 
+    /**
+     * Function: Path of image from storage
+     * @param imageUri
+     * @return String path
+     */
     private String getRealPathFromURI(Uri imageUri) {
         String path = null;
         String[] proj = {MediaStore.MediaColumns.DATA};
@@ -2346,6 +2165,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         return path;
     }
 
+    /**
+     * Function: Store Image in application storage folder
+     * @param selectedImage
+     * @param profile
+     */
     private void storeImage(Bitmap selectedImage, String profile) {
         FileOutputStream outStream = null;
         FileOutputStream outStream1 = null;
@@ -2395,11 +2219,18 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    /**
+     * Function: Activity Callback method called when screen gets visible and interactive
+     */
     @Override
     public void onResume() {
         super.onResume();
     }
 
+    /**
+     * Function: Convert data from json format to string and store
+     * @param result
+     */
     public String parseResponses(String result) {
 
         JSONObject job = null;
@@ -2461,6 +2292,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             super.onPreExecute();
         }
 
+        /**
+         * Background long running code
+         *
+         * @param params
+         * @return String, Server Response after server operation
+         */
         @Override
         protected String doInBackground(Void... params) {
 
@@ -2474,6 +2311,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             return result;
         }
 
+        /**
+         * Called when received result from server in onPostExecute for set data and store at local
+         *
+         * @param result Result received in onPostExecute
+         */
         @Override
         protected void onPostExecute(String result) {
 
@@ -2519,21 +2361,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             preferences.putString(PrefConstants.CONNECTED_RELATION, relation);
                             preferences.putString(PrefConstants.CONNECTED_OtherRELATION, otherRelation);
 
-                            //   finish(); //Varsa
                         } else {
                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                         }
 
                     } else {
-                        /*Toast.makeText(context, "Updation Failed, Try again",
-                                Toast.LENGTH_LONG).show();*/
                     }
                 }
-
             }
             super.onPostExecute(result);
-
-
         }
 
     }
@@ -2563,6 +2399,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
 
         txtOk.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
 
@@ -2582,50 +2423,4 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
     }
-/*
-    public void loadImageFromFile() {
-
-        ImageView view = (ImageView) this.findViewById(R.id.imgProfile);
-        view.setVisibility(View.VISIBLE);
-
-
-        int targetW = view.getWidth();
-        int targetH = view.getHeight();
-
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(fileName, bmOptions);
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-
-        // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
-
-        final Uri imageUri = data.getData();
-        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-        // profileImage.setImageBitmap(selectedImage);
-//                imageLoaderProfile.displayImage(String.valueOf(imageUri), imgProfile, displayImageOptionsProfile);
-        // storeImage(selectedImage,"Profile");
-
-        int nh = (int) (selectedImage.getHeight() * (512.0 / selectedImage.getWidth()));
-        Bitmap scaled = Bitmap.createScaledBitmap(selectedImage, 512, nh, true);
-        imgProfile.setImageBitmap(scaled);
-
-
-        Bitmap bmp = BitmapFactory.decodeFile(fileName, bmOptions);
-        view.setImageBitmap(bmp);
-        imgProfile.setImageBitmap(bmp);
-
-     //   imgProfile = bmp;
-
-
-    }
-*/
 }

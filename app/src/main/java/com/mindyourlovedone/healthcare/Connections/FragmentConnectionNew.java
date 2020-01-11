@@ -88,26 +88,25 @@ import java.util.List;
  * Created by varsha on 8/26/2017.
  */
 
-public class FragmentConnectionNew extends Fragment implements View.OnClickListener, ZipListner {
-    static int ni;
+/**
+ * Class: FragmentConnectionNew
+ * Screen: Profile List
+ * A class that manages user profile as well users related profile list with image and relation.
+ * facilitate for backup,share profile database,delete profile
+ * Provision for add new profile contacts by selecting option i.e. from contacts,create new,import from dropbox
+ */
+public class FragmentConnectionNew extends Fragment implements View.OnClickListener {
     View rootview;
     GridView lvConnection;
-    RecyclerView lvSelf,rlselflist;
-//    TextView txtUser, txtRelation;
-
+    RecyclerView lvSelf, rlselflist;
     ImageView fab;
-//    LinearLayout llSelf;
-//    ImageView imgSelfFolder, imgSelf;
     ImageView imgBacks;
     ArrayList<RelativeConnection> connectionList;
     TextView txtFTU;
-
     TextView txtTitle, txtName, txtRel, txtDrawerName;
     ImageView imgNoti, imgProfile, imgLogo, imgPdf, imgDrawerProfile, imgRight, imgR;
     DBHelper dbHelper;
-    ConnectionAdapter connectionAdapter;
     Preferences preferences;
-
     RelativeLayout leftDrawer, rlMsg;//rlSelf;
     ImageLoader imageLoader;
     DisplayImageOptions displayImageOptions;
@@ -115,26 +114,35 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
     RelativeConnection connection;
     TextView txthelp, txtYour;
     ImageView imghelp;
-    final CharSequence[] delete_backup = {"Delete Profile", "Share Profile"};
-    final CharSequence[] backup_profile = {"Share Profile"};
-    // FloatingActionButton fab;
-    //RelativeLayout llAddConn;
-    // PersonalInfo personalInfo
-    int noti=0;
 
+    /**
+     * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
+     * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
+     * @param savedInstanceState Bundle: If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_connection_new, null);
+        //Initialize database, get primary data and set data
         initComponent();
-        // getProfile();
-        // getData();
+
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
+
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
         return rootview;
     }
-   
+
+    /**
+     * Function: Image loading and displaying at ImageView
+     * Presents configuration for ImageLoader & options for image display.
+     */
     private void initImageLoader() {
         displayImageOptions = new DisplayImageOptions.Builder() // resource
                 .resetViewBeforeLoading(true) // default
@@ -142,7 +150,6 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
                 .cacheOnDisk(true) // default
                 .showImageOnLoading(R.drawable.profile_darkbluecolor)
                 .considerExifParams(false) // default
-//                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED) // default
                 .bitmapConfig(Bitmap.Config.ARGB_8888) // default
                 .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
                 .displayer(new RoundedBitmapDisplayer(150)) // default //for square SimpleBitmapDisplayer()
@@ -154,29 +161,27 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         imageLoader = ImageLoader.getInstance();
     }
 
+    /**
+     * Function: Initialize database, preferences
+     */
     private void initComponent() {
         preferences = new Preferences(getActivity());
         dbHelper = new DBHelper(getActivity(), "MASTER");
-        // PersonalInfoQuery p = new PersonalInfoQuery(getActivity(), dbHelper);
         MyConnectionsQuery m = new MyConnectionsQuery(getActivity(), dbHelper);
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         lvSelf = rootview.findViewById(R.id.lvSelf);
-       rlselflist = rootview.findViewById(R.id.rlselflist);
-//        rlSelf = rootview.findViewById(R.id.rlSelf);
+        rlselflist = rootview.findViewById(R.id.rlselflist);
         imghelp = rootview.findViewById(R.id.imghelp);
         txthelp = rootview.findViewById(R.id.txthelp);
         txtYour = rootview.findViewById(R.id.txtYour);
         fab = rootview.findViewById(R.id.fab);
-//        llSelf = rootview.findViewById(R.id.llSelf);
-//        imgSelfFolder = rootview.findViewById(R.id.imgSelfFolder);
-//        imgSelf = rootview.findViewById(R.id.imgSelf);
         imgBacks = getActivity().findViewById(R.id.imgBacks);
         imgBacks.setVisibility(View.GONE);
-//        txtUser = rootview.findViewById(R.id.txtUser);
-//        txtRelation = rootview.findViewById(R.id.txtRelation);
-
         imgR = getActivity().findViewById(R.id.imgR);
         imgR.setVisibility(View.GONE);
         imgRight = getActivity().findViewById(R.id.imgRight);
@@ -184,6 +189,11 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         rlMsg = rootview.findViewById(R.id.rlMsg);
         txtFTU = rootview.findViewById(R.id.txtFTU);
         txtFTU.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent intentUserIns = new Intent(getActivity(), UserInsActivity.class);
@@ -210,65 +220,33 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         imgLogo = getActivity().findViewById(R.id.imgLogo);
         rlGuide = rootview.findViewById(R.id.rlGuide);
         imgLogo.setVisibility(View.INVISIBLE);
-        String deviceName = android.os.Build.MODEL;
-        String deviceMan = android.os.Build.MANUFACTURER;
         lvConnection = rootview.findViewById(R.id.lvConnection);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         lvSelf.setLayoutManager(linearLayoutManager);
-
-        //add ItemDecoration
         lvSelf.addItemDecoration(new VerticalSpaceItemDecoration(20));
-
-        //or
         lvSelf.addItemDecoration(
                 new DividerItemDecoration(getActivity(), R.drawable.divider));
 
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getActivity());
         rlselflist.setLayoutManager(linearLayoutManager2);
-
-        //add ItemDecoration
         rlselflist.addItemDecoration(new VerticalSpaceItemDecoration(0));
-
-        //or
         rlselflist.addItemDecoration(
                 new DividerItemDecoration(getActivity(), R.drawable.divider));
 
-        //...
-//        rlSelf.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                ShowOptionDialog("Profiles", -1, preferences.getString(PrefConstants.USER_EMAIL));
-//                return true;
-//            }
-//        });
-
-      /*  lvSelf.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-
-                if (position != 0) {
-                    if (position != connectionList.size()) {
-                        ShowOptionDialog("delete", position, connectionList.get(position).getEmail());
-                    }
-                } else {
-                    ShowOptionDialog("share", position, connectionList.get(position).getEmail());
-                }
-                return false;
-            }
-        });*/
-
-
     }
 
+    /**
+     * Function: Set main user and related profiles name,photo,relation into list.
+     */
     public void setListData() {
         ArrayList<RelativeConnection> selflist = new ArrayList<>();
         selflist.clear();
         selflist.add(new RelativeConnection());
-        SelfAdapter selfAdapter = new SelfAdapter(getActivity(), selflist,FragmentConnectionNew.this);
+        SelfAdapter selfAdapter = new SelfAdapter(getActivity(), selflist, FragmentConnectionNew.this);
         rlselflist.setAdapter(selfAdapter);
         if (connectionList.size() != 0) {
-            ConnectionAdapter connectionAdapter = new ConnectionAdapter(getActivity(), connectionList,FragmentConnectionNew.this);
+            ConnectionAdapter connectionAdapter = new ConnectionAdapter(getActivity(), connectionList, FragmentConnectionNew.this);
             lvSelf.setAdapter(connectionAdapter);
             imghelp.setVisibility(View.GONE);
             txthelp.setVisibility(View.GONE);
@@ -284,103 +262,19 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         }
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         imgLogo.setOnClickListener(this);
         imgRight.setOnClickListener(this);
         fab.setOnClickListener(this);
-//        imgSelfFolder.setOnClickListener(this);
-//        rlSelf.setOnClickListener(this);
-//        imgSelf.setOnClickListener(this);
     }
 
-    private void ShowOptionDialog(final String Type, final int position, final String email) {
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        LayoutInflater lf = (LayoutInflater) getActivity()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View dialogview = lf.inflate(R.layout.dialog_add_contacts, null);
-
-        final TextView textOption1 = dialogview.findViewById(R.id.txtOption1);
-        final TextView textOption2 = dialogview.findViewById(R.id.txtOption2);
-        TextView textCancel = dialogview.findViewById(R.id.txtCancel);
-
-        if (Type.equalsIgnoreCase("Profiles")) {
-            textOption1.setVisibility(View.GONE);
-            textOption2.setText("Backup/Share Profile");
-        } else {
-            textOption1.setText("Delete Profile");
-            textOption2.setText("Backup/Share Profile");
-        }
-
-        dialog.setContentView(dialogview);
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        int width = (int) (getActivity().getResources().getDisplayMetrics().widthPixels * 0.95);
-        lp.width = width;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.gravity = Gravity.BOTTOM;
-        dialog.getWindow().setAttributes(lp);
-        dialog.show();
-
-        textOption1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                alert.setTitle("Delete");
-                alert.setMessage("Do you want to Delete " + connectionList.get(position).getName() + "'s profile?");
-                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String mail = connectionList.get(position).getEmail();
-                        mail = mail.replace(".", "_");
-                        mail = mail.replace("@", "_");
-                        preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
-                        preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
-                        deleteConnection(connectionList.get(position).getId());
-                        dialog.dismiss();
-                    }
-                });
-                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        dialog.dismiss();
-                    }
-                });
-                alert.show();
-
-                dialog.dismiss();
-            }
-        });
-
-        textOption2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getActivity(), DropboxLoginActivity.class);
-                i.putExtra("FROM", "Backup");
-                i.putExtra("ToDo", "Individual");
-                i.putExtra("ToDoWhat", "Share");
-                String mail = email;
-                mail = mail.replace(".", "_");
-                mail = mail.replace("@", "_");
-                preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
-                preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
-                startActivity(i);
-                dialog.dismiss();
-            }
-        });
-
-        textCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-
-
-        });
-    }
-
+    /**
+     * Function: Get profile details of main user
+     */
     private void getProfile() {
         dbHelper = new DBHelper(getActivity(), "MASTER");
         MyConnectionsQuery m = new MyConnectionsQuery(getActivity(), dbHelper);
@@ -391,6 +285,9 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         preferences.putString(PrefConstants.USER_EMAIL, connection.getEmail());
     }
 
+    /**
+     * Function: Get profile details of connected user
+     */
     public void getData() {
         DBHelper dbHelper = new DBHelper(getActivity(), "MASTER");
         MyConnectionsQuery m = new MyConnectionsQuery(getActivity(), dbHelper);
@@ -403,11 +300,16 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         }
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     * * @param v The view that was clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
-            case R.id.imgSelf:
+            case R.id.imgSelf: //Navigate to Personal Profile of clicked profile
                 getProfile();
                 Intent intentP = new Intent(getActivity(), ProfileActivity.class);
                 preferences.putString(PrefConstants.USER_IMAGE, connection.getPhoto());
@@ -424,46 +326,50 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
                 startActivity(intentP);
                 break;
 
-            case R.id.rlSelf:
-//                imgSelfFolder.performClick();
+            case R.id.imgSelfFolder: //Navigate top Dasboard of clicked profile
+                openDashboard();
                 break;
 
-            case R.id.imgSelfFolder:
-                FragmentDashboard ldf = new FragmentDashboard();
-                Bundle args = new Bundle();
-                args.putString("Name", preferences.getString(PrefConstants.USER_NAME));
-                // args.putString("Address", connectionList.get(position).getAddress());
-                args.putString("Relation", "Self");
-                getProfile();
-                //String saveThis = Base64.encodeToString(connectionList.get(position).getPhoto(), Base64.DEFAULT);
-                preferences.putString(PrefConstants.USER_IMAGE, preferences.getString(PrefConstants.USER_PROFILEIMAGE));
-                preferences.putString(PrefConstants.CONNECTED_NAME, preferences.getString(PrefConstants.USER_NAME));
-                preferences.putString(PrefConstants.CONNECTED_USEREMAIL, preferences.getString(PrefConstants.USER_EMAIL));
-                preferences.putInt(PrefConstants.CONNECTED_USERID, connection.getId());
-                String mail = preferences.getString(PrefConstants.USER_EMAIL);
-                mail = mail.replace(".", "_");
-                mail = mail.replace("@", "_");
-                preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
-                preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
-                ldf.setArguments(args);
-                ((BaseActivity) getActivity()).callFragment("DASHBOARD", ldf);
-                break;
-
-            case R.id.imgRight:
+            case R.id.imgRight: //Navigate to User Instruction Screen -Profile Screen Getting started
                 Intent intentUserIns = new Intent(getActivity(), UserInsActivity.class);
                 intentUserIns.putExtra("From", "Profile");
                 startActivity(intentUserIns);
-//                showInstructionDialog();
                 break;
 
-            case R.id.fab:
-                //showContactDialog();
+            case R.id.fab: //Display Add New Profile floating dialog
                 showFloatDialog();
                 break;
         }
     }
 
+    /**
+     * Function: Navigate to Dashboard of clicked profile
+     */
+    private void openDashboard() {
+        FragmentDashboard ldf = new FragmentDashboard();
+        Bundle args = new Bundle();
+        args.putString("Name", preferences.getString(PrefConstants.USER_NAME));
+        args.putString("Relation", "Self");
+        getProfile();
+        preferences.putString(PrefConstants.USER_IMAGE, preferences.getString(PrefConstants.USER_PROFILEIMAGE));
+        preferences.putString(PrefConstants.CONNECTED_NAME, preferences.getString(PrefConstants.USER_NAME));
+        preferences.putString(PrefConstants.CONNECTED_USEREMAIL, preferences.getString(PrefConstants.USER_EMAIL));
+        preferences.putInt(PrefConstants.CONNECTED_USERID, connection.getId());
+        String mail = preferences.getString(PrefConstants.USER_EMAIL);
+        mail = mail.replace(".", "_");
+        mail = mail.replace("@", "_");
+        preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
+        preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
+        ldf.setArguments(args);
+        ((BaseActivity) getActivity()).callFragment("DASHBOARD", ldf);
+    }
 
+    /**
+     * Function: To display floating menu for add new profile
+     */
+      /**
+     * Function: To display floating menu for add new profile
+     */
     private void showFloatDialog() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -484,22 +390,32 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         dialog.setContentView(dialogview);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
-        // int width = (int) (getActivity().getResources().getDisplayMetrics().widthPixels * 0.95);
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        //lp.gravity = Gravity.CENTER;
+
         dialog.getWindow().setAttributes(lp);
         dialog.show();
-
         rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
+        //Dismiss Dialog
         floatCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
 
+        //Create New
         floatNew.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 preferences.putString(PrefConstants.SOURCE, "Connection");
@@ -511,10 +427,15 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
 
         });
 
+        //Add from contacts
         floatContact.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getActivity(),"Work in Progress due to ph number",Toast.LENGTH_SHORT).show();
                 preferences.putString(PrefConstants.SOURCE, "Connection");
                 Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
                 i.putExtra("TAB", "Contact");
@@ -525,7 +446,13 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
 
         });
 
+        //Import from dropbox
         floatfax.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(getActivity(), DropboxLoginActivity.class);
@@ -533,10 +460,6 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
                 in.putExtra("ToDo", "Individual");
                 in.putExtra("ToDoWhat", "Import");
                 getActivity().startActivity(in);
-               /* preferences.putString(PrefConstants.STORE, "Restore");
-                preferences.putString(PrefConstants.TODO, "Individual");
-                preferences.putString(PrefConstants.TODOWHAT, "Import");
-                startActivity(FilesActivity.getIntent(getActivity(), ""));*/
                 dialog.dismiss();
             }
 
@@ -544,25 +467,22 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         });
     }
 
-
+    /**
+     * Function: Activity Callback method called when screen gets visible and interactive
+     */
     @Override
     public void onResume() {
         super.onResume();
-        // getProfile();
         getProfile();
         getData();
         setListData();
         String image = preferences.getString(PrefConstants.USER_PROFILEIMAGE);
-//        //byte[] photo = Base64.decode(image, Base64.DEFAULT);
         txtDrawerName.setText(preferences.getString(PrefConstants.USER_NAME));
-//        txtUser.setText(preferences.getString(PrefConstants.USER_NAME));
         if (!image.equals("")) {
             String mail1 = preferences.getString(PrefConstants.USER_EMAIL);
             mail1 = mail1.replace(".", "_");
             mail1 = mail1.replace("@", "_");
             File imgFile = new File(Environment.getExternalStorageDirectory() + "/MYLO/" + mail1 + "/", image);
-
-            //File imgFile = new File(Environment.getExternalStorageDirectory() + "/MYLO/Master/", image);
             imgDrawerProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
             if (imgFile.exists()) {
                 if (imgDrawerProfile.getDrawable() == null) {
@@ -570,120 +490,28 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
                 } else {
                     imgDrawerProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
                 }
-//                if (imgSelf.getDrawable() == null) {
-//                    imgSelf.setImageResource(R.drawable.lightblue);
-//                } else {
-//                    imgSelf.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
-//                }
             }
         } else {
             imgDrawerProfile.setImageResource(R.drawable.lightblue);
-//            imgSelf.setImageResource(R.drawable.lightblue);
         }
-        if (preferences.getString(PrefConstants.FINIS).equals("Share"))
-        {
-            preferences.putString(PrefConstants.FINIS,"False");
+        if (preferences.getString(PrefConstants.FINIS).equals("Share")) {
+            preferences.putString(PrefConstants.FINIS, "False");
             showEmailDialog();
-        }else if (preferences.getString(PrefConstants.FINIS).equals("Backup"))
-        {
-            preferences.putString(PrefConstants.FINIS,"False");
+        } else if (preferences.getString(PrefConstants.FINIS).equals("Backup")) {
+            preferences.putString(PrefConstants.FINIS, "False");
             showBackupDialog();
         }
-     /*   if (preferences.getString(PrefConstants.FINIS).equals("Restore"))
-        {
-            preferences.putString(PrefConstants.FINIS,"False");
-            final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-            alert.setTitle("Restore?");
-            alert.setMessage("Do you want to unzip and  restore " + preferences.getString(PrefConstants.RESULT) + " database?");
-            alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    String name = preferences.getString(PrefConstants.RESULT);
-                    Log.v("NAME", name);
-                    if (preferences.getString(PrefConstants.TODO).equals("Individual")) {
-                        String sd = Environment.getExternalStorageDirectory().getAbsolutePath();
-                        //  File data=DropboxLoginActivity.this.getDatabasePath(DBHelper.DATABASE_NAME);
-                        String backupDBPath = "/Download/" + name;
-                        String newname = name.replace(".zip", "");
-                        final File folder = new File(sd, backupDBPath);
-                        final File destfolder = new File(Environment.getExternalStorageDirectory(),
-                                "/MYLO/" + newname);
-                        final File destfolder1 = new File(Environment.getExternalStorageDirectory(),
-                                "/MYLO/");//nikita
-                        if (!destfolder.exists()) {
-                            destfolder.mkdir();
-                             new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
-                           // new UnZipTask((DropboxLoginActivity) getActivity(), folder.getAbsolutePath(), destfolder1.getAbsolutePath()).execute();//nikita
-                        } else {
-
-                            AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                            alert.setTitle("Replace?");
-                            alert.setMessage("Profile is already exists, Do you want to replace?");
-                            alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    destfolder.delete();//nikita
-                                    try {
-                                        destfolder.createNewFile();//nikita
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                   // new UnZipTask((DropboxLoginActivity) getActivity(), folder.getAbsolutePath(), destfolder1.getAbsolutePath()).execute();//nikita
-                                    new DropboxLoginActivity().unZip(folder.getAbsolutePath(), destfolder1.getAbsolutePath());
-                                    dialog.dismiss();
-                                }
-                            });
-
-                            alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    dialog.dismiss();
-                                }
-                            });
-
-                            alert.show();
-                        }
-                    } else {
-
-                        String sd = Environment.getExternalStorageDirectory().getAbsolutePath();
-                        //  File data=DropboxLoginActivity.this.getDatabasePath(DBHelper.DATABASE_NAME);
-                        String backupDBPath = "/Download/" + name;
-                        String newname = name.replace(".zip", "");
-                        final File folder = new File(sd, backupDBPath);
-                        final File destfolder = new File(Environment.getExternalStorageDirectory(),
-                                newname);
-                        new DropboxLoginActivity().unZip(folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath());
-
-                      //  new UnZipTask((DropboxLoginActivity) getActivity(), folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath()).execute();//nikita
-
-
-                    }
-
-                }
-            });
-            alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            alert.show();
-        }*/
-
         validateBackupDate();
-
-        if (preferences.getString(PrefConstants.BACKUPDATE)!=null) {
-            String backupdatestring = preferences.getString(PrefConstants.BACKUPDATE);
-           // Toast.makeText(getActivity(),backupdatestring,Toast.LENGTH_SHORT).show();
-        }
     }
 
+
+    /**
+     * Function: Display dropbox backup done successfully dialog for Whole database
+     */
     private void showBackupDialog() {
-        String message="";
-        if (preferences.getString(PrefConstants.MSG)!=null) {
-             message = preferences.getString(PrefConstants.MSG);
+        String message = "";
+        if (preferences.getString(PrefConstants.MSG) != null) {
+            message = preferences.getString(PrefConstants.MSG);
         }
         if (preferences.getString(PrefConstants.FILE).equals("MYLO.zip")) {
             Calendar c = Calendar.getInstance();
@@ -707,9 +535,12 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         alert.show();
     }
 
+    /**
+     * Function: Display reminder for your data backup
+     */
     private void validateBackupDate() {
         DateFormat df = new SimpleDateFormat("dd MM yy HH:mm:ss");
-        if (preferences.getString(PrefConstants.BACKUPDATE)!=null||!preferences.getString(PrefConstants.BACKUPDATE).equals("")) {
+        if (preferences.getString(PrefConstants.BACKUPDATE) != null || !preferences.getString(PrefConstants.BACKUPDATE).equals("")) {
             String backupdatestring = preferences.getString(PrefConstants.BACKUPDATE);
             Date backupDate = null;
             try {
@@ -719,95 +550,64 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
             }
             Calendar cal = Calendar.getInstance();
             Date currentDate = cal.getTime();
-            if (backupDate!=null)
-            {
+            if (backupDate != null) {
                 if (currentDate.after(backupDate)) {
-                    if (preferences.getBoolean(PrefConstants.NOTIFIED)==true)
-                    {
+                    if (preferences.getBoolean(PrefConstants.NOTIFIED) == true) {
                         sendNotification();
                     }
-                }}
-
+                }
+            }
         }
-        //String currentDateString=df.format(backupDate);
-        // preferences.putString(PrefConstants.BACKUPDATE,currentDateString);
     }
+
+    /**
+     * Function: Create Notification channel for show notification in latest devices
+     */
     private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "name";
             String description = "desc";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("10", name, importance);
             channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
             NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
     }
+
+    /**
+     * Function: Create Notification
+     */
     private void sendNotification() {
-        preferences.putBoolean(PrefConstants.NOTIFIED,false);
+        preferences.putBoolean(PrefConstants.NOTIFIED, false);
         createNotificationChannel();
-// Create an explicit intent for an Activity in your app
         Intent intent = new Intent(getActivity(), DropboxLoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent, 0);
-        String msg="This is a reminder for your data backup, your last backup was a month ago. You should backup regularly.";
+        String msg = "This is a reminder for your data backup, your last backup was a month ago. You should backup regularly.";
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "10")
                 .setSmallIcon(R.mipmap.mylo_new_cropped_logo)
                 .setContentTitle("Backup Your Data")
                 .setContentText(msg)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                // Set the intent that will fire when the user taps the notification
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(msg))
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
-
-// notificationId is a unique int for each notification that you must define
         notificationManager.notify(1, builder.build());
-      /*  NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(getActivity())
-                        .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("Unread Message")   //this is the title of notification
-                        .setColor(101)
-                        .setContentText("You have an unread message.");   //this is the message showed in notification
-        Intent intent = new Intent(getActivity(), BaseActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(contentIntent);
-        // Add as notification
-        NotificationManager manager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(0, builder.build());*/
-       /* Intent intent = new Intent(getActivity(), BaseActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(getActivity(),(int) System.currentTimeMillis(), intent, 0);
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-        NotificationCompat.Builder notification  = (NotificationCompat.Builder) new NotificationCompat.Builder(getActivity())
-                .setContentTitle("New mail from " + "test@gmail.com")
-                .setContentText("Subject dsiu nioef jh dfihre ijre kjhgf jf oirf iof iof uirf juiyhree uirf uirf uirf ijurg uirge uir")
-                .setSmallIcon(R.drawable.ic_launcher_new)
-                .setContentIntent(pIntent)
-                .setSound(defaultSoundUri)
-                .setAutoCancel(true)
-                .setTicker("Subject dsiu nioef jh dfihre ijre kjhgf jf oirf iof iof uirf juiyhree uirf uirf uirf ijurg uirge uir");
-
-        NotificationManager notificationManager =
-                (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
-        notificationManager.notify(ni++, notification.build());
-*/
     }
 
-
+    /**
+     * Function: Delete selected profile from database and list
+     *
+     * @param id The id of profile user was clicked for delete record.
+     */
     public void deleteConnection(int id) {
         boolean flag = MyConnectionsQuery.deleteRecord(id);
         if (flag == true) {
-            //     Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_SHORT).show();
             getData();
             setListData();
-
             File dir = new File(preferences.getString(PrefConstants.CONNECTED_PATH));
             try {
                 FileUtils.deleteDirectory(dir);
@@ -817,172 +617,21 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         }
     }
 
-    @SuppressLint("ResourceAsColor")
-    private void showInstructionDialog() {
-        final Dialog dialogInstruction = new Dialog(getActivity());
-        dialogInstruction.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialogInstruction.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        LayoutInflater lf = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View dialogview = lf.inflate(R.layout.instruction_dialog, null);
-        final TextView textOption1 = dialogview.findViewById(R.id.txtInstruction);
-        final TextView textOption2 = dialogview.findViewById(R.id.txtCancel);
-        final View viewIns = dialogview.findViewById(R.id.viewIns);
-        textOption1.setText("User Instructions");
-        textOption2.setText("Cancel");
-        dialogInstruction.setContentView(dialogview);
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialogInstruction.getWindow().getAttributes());
-        int width = (int) (getActivity().getResources().getDisplayMetrics().widthPixels * 0.95);
-        lp.width = width;
-        RelativeLayout.LayoutParams buttonLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        // buttonLayoutParams.setMargins(0, 0, 0, 10);
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.gravity = Gravity.CENTER_VERTICAL | Gravity.BOTTOM;
-        dialogInstruction.getWindow().setAttributes(lp);
-        dialogInstruction.setCanceledOnTouchOutside(false);
-        dialogInstruction.show();
-        textOption1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentUserIns = new Intent(getActivity(), UserInsActivity.class);
-                startActivity(intentUserIns);
-                dialogInstruction.dismiss();
-/*
-                Intent i = new Intent(getActivity(), InstructionActivity.class);
-                i.putExtra("From", "ConnectionInstuction");
-                startActivity(i);
-*/
-            }
-        });
-
-        textOption2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogInstruction.dismiss();
-            }
-        });
-    }
-
-    private void callFragment(Fragment fragment) {
-        FragmentManager fm = getActivity().getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.fragmentContainer, fragment);
-        ft.commit();
-    }
-
-    private void showContactDialog() {
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        LayoutInflater lf = (LayoutInflater) getActivity()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View dialogview = lf.inflate(R.layout.dialog_add_contacts, null);
-
-        final TextView textOption1 = dialogview.findViewById(R.id.txtOption1);
-        final TextView textOption2 = dialogview.findViewById(R.id.txtOption2);
-        TextView textCancel = dialogview.findViewById(R.id.txtCancel);
-
-        textOption1.setText("Create New");
-        textOption2.setText("Import From Dropbox");
-
-        dialog.setContentView(dialogview);
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        int width = (int) (getActivity().getResources().getDisplayMetrics().widthPixels * 0.95);
-        lp.width = width;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.gravity = Gravity.BOTTOM;
-        dialog.getWindow().setAttributes(lp);
-        dialog.show();
-
-        textOption1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFloatDialog();
-               /* Intent intent = new Intent(getActivity(), TransparentActivity.class);
-                startActivity(intent);*/
-                dialog.dismiss();
-            }
-        });
-
-        textOption2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in = new Intent(getActivity(), DropboxLoginActivity.class);
-                in.putExtra("FROM", "Backup");
-                in.putExtra("ToDo", "Individual");
-                in.putExtra("ToDoWhat", "Import");
-                getActivity().startActivity(in);
-                dialog.dismiss();
-            }
-
-        });
-
-        textCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-    }
-
-    public void deleteConnections(final int position) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-        alert.setTitle("Delete");
-        alert.setMessage("Do you want to Delete " + connectionList.get(position).getName() + "'s profile?");
-        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String mail = connectionList.get(position).getEmail();
-                mail = mail.replace(".", "_");
-                mail = mail.replace("@", "_");
-                preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
-                preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
-                deleteConnection(connectionList.get(position).getId());
-                dialog.dismiss();
-            }
-        });
-        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.dismiss();
-            }
-        });
-        alert.show();
-    }
+    /**
+     * Function: Hide device keyboard.
+     */
     public void hideSoftKeyboard() {
         if (getActivity().getCurrentFocus() != null) {
             InputMethodManager inm = (InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
             inm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
         }
     }
-    @Override
-    public void getFile(String res) {
-        preferences=new Preferences(getActivity());
-        if (res.equals("Yes")) {
-            if (preferences.getString(PrefConstants.TODO).equals("Individual")) {
-                copydb(getActivity());
-            } else {
-                copydbWholeBU(getActivity());
-            }
-            Toast.makeText(getActivity(), "Unzipped and restored files successfully", Toast.LENGTH_SHORT).show();
-
-        } else {
-            Toast.makeText(getActivity(), "Restoring Failed, Please try again", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void setNameFile(String dirName) {
-
-    }
-
-    public void callBackup() {
-    }
 
     String txt = "Profile";
 
+    /**
+     * Function: Display dialog for input of dropbox email from user for sharing backup
+     */
     private void showEmailDialog() {
         final Dialog customDialog;
         customDialog = new Dialog(getActivity());
@@ -993,7 +642,13 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         TextView btnAdd = customDialog.findViewById(R.id.btnYes);
         TextView btnCancel = customDialog.findViewById(R.id.btnNo);
 
+        //dismiss
         btnCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 hideSoftKeyboard();
@@ -1002,7 +657,13 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
             }
         });
 
+        //Validate and share
         btnAdd.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 hideSoftKeyboard();
@@ -1017,35 +678,30 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
                     customDialog.dismiss();
                     List<MemberSelector> newMembers = new ArrayList<MemberSelector>();
                     MemberSelector newMember = MemberSelector.email(username);
-                    // MemberSelector newMember1 = MemberSelector.email("kmllnk@j.uyu");
                     newMembers.add(newMember);
-                    // newMembers.add(newMember1);
-
-
-                    if(preferences.getString(PrefConstants.FILE).contains("MYLO.zip")){
+                    if (preferences.getString(PrefConstants.FILE).contains("MYLO.zip")) {
                         txt = "Whole Backup";
-                    }else{
+                    } else {
                         txt = "Profile";
                     }
 
                     final ProgressDialog dialog = new ProgressDialog(getActivity());
                     dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     dialog.setCancelable(false);
-                    dialog.setMessage("Sharing "+txt+" can take several minutes");
+                    dialog.setMessage("Sharing " + txt + " can take several minutes");
                     dialog.show();
+                    // Start backuping and sharing process
                     new ShareFileTask(newMembers, getActivity(), DropboxClientFactory.getClient(), new ShareFileTask.Callback() {
                         @Override
                         public void onUploadComplete(List<FileMemberActionResult> result) {
                             dialog.dismiss();
                             final AlertDialog.Builder alerts = new AlertDialog.Builder(getActivity());
                             alerts.setTitle("Success");
-                            alerts.setMessage(txt+" shared successfully");
+                            alerts.setMessage(txt + " shared successfully");
                             alerts.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
-
-
                                 }
                             });
                             alerts.show();
@@ -1064,199 +720,4 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         customDialog.show();
     }
 
-
-    private void copydb(Context context) {
-        if (preferences.getString(PrefConstants.TODO).equals("Individual")) {
-            String backupDBPath = preferences.getString(PrefConstants.RESULT);
-            backupDBPath = backupDBPath.replace(".zip", "");
-            //open new imported db
-            DBHelper dbHelper = new DBHelper(context, backupDBPath);
-            MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
-            //fetch data
-            RelativeConnection connection = MyConnectionsQuery.fetchConnectionRecordforImport(1);
-       /* Boolean flag = MyConnectionsQuery.updateImportMyConnectionsData(preferences.getInt(PrefConstants.USER_ID), connection.getUserid());
-        if (flag == true) {*/
-            DBHelper dbHelpers = new DBHelper(context, "MASTER");
-            MyConnectionsQuery ms = new MyConnectionsQuery(context, dbHelpers);
-            RelativeConnection connections = MyConnectionsQuery.fetchConnectionRecordforImport(connection.getEmail());
-            if (connections != null) {
-                if (connection.getRelationType().equals("Self")) {
-                    Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard(), connection.getHas_card());
-                    if (flags == true) {
-                        //Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
-                        storeImage(connection.getPhoto(), "Profile", backupDBPath);
-                    }
-                } else {
-                    Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard(), connection.getHas_card());
-                    if (flags == true) {
-                      //  Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
-                        storeImage(connection.getPhoto(), "Profile", backupDBPath);
-                        ContactDataQuery c = new ContactDataQuery(context, dbHelpers);
-                        Boolean flagf = ContactDataQuery.updateUserId(connections.getId());
-                        if (flagf == true) {
-                            //Toast.makeText(context, "updated", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-            } else {
-//                Boolean flags = MyConnectionqsQuery.insertMyConnectionsData(connection.getUserid(), connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), "", connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
-
-                Boolean flags = MyConnectionsQuery.insertMyConnectionsDataBACKUP(connection, true);
-
-                if (flags == true) {
-                    //Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
-                    storeImage(connection.getPhoto(), "Profile", backupDBPath);
-                   /* RelativeConnection con = MyConnectionsQuery.fetchEmailRecords(connection.getEmail());
-                    ContactDataQuery c=new ContactDataQuery(context,dbHelpers);
-                    Boolean flagf = ContactDataQuery.updateUserId(con.getId());
-                    if (flagf == true) {
-                        Toast.makeText(context, "Insret updated", Toast.LENGTH_SHORT).show();
-                    }*/
-                }
-            }
-        } else {
-            //Toast.makeText(context, "Need Data save to master db", Toast.LENGTH_SHORT).show();
-        }
-        //  }
-       /* String mail=connection.getEmail();
-        mail=mail.replace(".","_");
-        mail=mail.replace("@","_");
-        preferences.putString(PrefConstants.CONNECTED_USERDB,mail);
-        preferences.putString(PrefConstants.CONNECTED_PATH,Environment.getExternalStorageDirectory()+"/MYLO/"+preferences.getString(PrefConstants.CONNECTED_USERDB)+"/");
-            */
-       /* File data = DropboxLoginActivity.this.getDatabasePath("temp.db");
-        Log.e("", data.getAbsolutePath());
-
-        File currentDB = new File(data.getAbsolutePath());
-        File backupDB = new File(sd, backupDBPath);
-        try {
-            copy(backupDB, currentDB);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-    }
-
-
-    private void copydbWholeBU(Context context) {
-        if (preferences.getString(PrefConstants.TODO).equals("Individual")) {
-            String backupDBPath = preferences.getString(PrefConstants.RESULT);
-            backupDBPath = backupDBPath.replace(".zip", "");
-            //open new imported db
-            DBHelper dbHelper = new DBHelper(context, backupDBPath);
-            MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
-            //fetch data
-            ArrayList<RelativeConnection> connectionlist = MyConnectionsQuery.fetchConnectionRecordforImportAll();
-       /* Boolean flag = MyConnectionsQuery.updateImportMyConnectionsData(preferences.getInt(PrefConstants.USER_ID), connection.getUserid());
-        if (flag == true) {*/
-            DBHelper dbHelpers = new DBHelper(context, "MASTER");
-            MyConnectionsQuery ms = new MyConnectionsQuery(context, dbHelpers);
-            for (int i = 0; i < connectionlist.size(); i++) {
-                RelativeConnection connection = connectionlist.get(i);
-                RelativeConnection connections = MyConnectionsQuery.fetchConnectionRecordforImport(connection.getEmail());
-                if (connections != null) {
-                    if (connection.getRelationType().equals("Self")) {
-                        Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard(), connection.getHas_card());
-                        if (flags == true) {
-                            //Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
-                            storeImage(connection.getPhoto(), "Profile", backupDBPath);
-                        }
-                    } else {
-                        Boolean flags = MyConnectionsQuery.updateImportedMyConnectionsData(connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard(), connection.getHas_card());
-                        if (flags == true) {
-                           // Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
-                            storeImage(connection.getPhoto(), "Profile", backupDBPath);
-                        }
-                    }
-                } else {
-//                    Boolean flags = MyConnectionsQuery.insertMyConnectionsData(connection.getUserid(), connection.getName(), connection.getEmail(), connection.getAddress(), connection.getMobile(), connection.getPhone(), connection.getWorkPhone(), "", connection.getPhoto(), "", 1, 2, connection.getOtherRelation(), connection.getPhotoCard());
-
-                    Boolean flags = MyConnectionsQuery.insertMyConnectionsDataBACKUP(connection, false);
-                    if (flags == true) {
-                        //Toast.makeText(context, "Data save to master db", Toast.LENGTH_SHORT).show();
-                        storeImage(connection.getPhoto(), "Profile", backupDBPath);
-                    }
-                }
-            }
-        } else {
-            DBHelper dbHelpers = new DBHelper(context, "MASTER");
-            ContactTableQuery ms = new ContactTableQuery(context, dbHelpers);
-            ContactTableQuery.deleteContactData();
-            //Toast.makeText(context, "Need Data save to master db", Toast.LENGTH_SHORT).show();
-        }
-
-        //  }
-       /* String mail=connection.getEmail();
-        mail=mail.replace(".","_");
-        mail=mail.replace("@","_");
-        preferences.putString(PrefConstants.CONNECTED_USERDB,mail);
-        preferences.putString(PrefConstants.CONNECTED_PATH,Environment.getExternalStorageDirectory()+"/MYLO/"+preferences.getString(PrefConstants.CONNECTED_USERDB)+"/");
-            */
-       /* File data = DropboxLoginActivity.this.getDatabasePath("temp.db");
-        Log.e("", data.getAbsolutePath());
-
-        File currentDB = new File(data.getAbsolutePath());
-        File backupDB = new File(sd, backupDBPath);
-        try {
-            copy(backupDB, currentDB);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-    }
-
-    private void storeImage(String selectedImage, String profile, String backupDBPath) {
-        FileOutputStream outStream1 = null;
-        File createDir = new File(Environment.getExternalStorageDirectory() + "/MYLO/MASTER/");
-        if (!createDir.exists()) {
-            createDir.mkdir();
-        }
-        File file = new File(Environment.getExternalStorageDirectory() + "/MYLO/" + backupDBPath + "/" + selectedImage);
-        Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-        try {
-            if (myBitmap != null) {
-                if (profile.equals("Profile")) {
-                    outStream1 = new FileOutputStream(Environment.getExternalStorageDirectory() + "/MYLO/MASTER/" + selectedImage);
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    myBitmap.compress(Bitmap.CompressFormat.JPEG, 40, stream);
-                    byte[] byteArray = stream.toByteArray();
-                    outStream1.write(byteArray);
-                    outStream1.close();
-                }
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-
-        }
-
-      /*  FileOutputStream outStream2 = null;
-        File fileori = new File(Environment.getExternalStorageDirectory()+"/MYLO/"+backupDBPath);
-        File files = new File(Environment.getExternalStorageDirectory()+"/MYLO/MASTER/");
-        if (!files.exists()) {
-            files.mkdirs();
-        }
-
-        try {
-            outStream2=new FileOutputStream(fileori);
-            outStream2.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-
-        }*/
-    }
-
-    public void hideSofFtKeyboard() {
-
-            if (getActivity().getCurrentFocus() != null) {
-                InputMethodManager inm = (InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
-                inm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-            }
-
-    }
 }

@@ -30,20 +30,28 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
+/**
+ * Class: HelpFormActivity
+ * Screen: Helpful Forms and Templates Screen
+ * A class that manages Helpful Forms and Templates link list
+ */
 public class HelpFormActivity extends AppCompatActivity {
     Context context = this;
     ArrayList<Links> UrlList;
     ListView list;
-    TextView txtTitle, txtName;
-    ImageView imgNoti, imgProfile, imgLogo, imgPdf, imgBack;
+    ImageView imgBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help_form);
+        //Initialize user interface view and components
         initUI();
-        initListener();
+
+        //Define list data
         getData();
+
+        //Set list data
         setData();
     }
 
@@ -52,34 +60,16 @@ public class HelpFormActivity extends AppCompatActivity {
         list.setAdapter(adapter);
     }
 
+    /**
+     * Function: Define list data
+     */
     private void getData() {
         UrlList = new ArrayList<>();
-        /*Links l1=new Links();
-        l1.setName("ABA - Elder Law");
-        l1.setUrl("https://www.americanbar.org/groups/senior_lawyers/elder_law.html");
-        l1.setImage(R.drawable.aba_market);
-
-        Links l2=new Links();
-        l2.setName("Caring Info - all 50 states ");
-        l2.setUrl("http://www.caringinfo.org/i4a/pages/index.cfm?pageid=1");
-        l2.setImage(R.drawable.aba_market);
-
-        Links l3=new Links();
-        l3.setName("Aging with Dignity - all 50 states");
-        l3.setUrl("https://www.agingwithdignity.org/");
-        l3.setImage(R.drawable.aba_market);
-*/
         Links l4 = new Links();
         l4.setName("Medical History Form");
         l4.setUrl("medical_history_form_new.pdf");
         l4.setImage(R.drawable.pdf);
 
-        /*Links l5 = new Links();
-        l5.setName("Checklist for Organizing Estate Planning Docs");
-        l5.setUrl("checklist_for_organizing_estate_planning_docs.pdf");
-        l5.setImage(R.drawable.pdf);*/
-
-        //shradha add forms
         Links l6 = new Links();
         l6.setName("Fillable Form Personal Profile");
         l6.setUrl("mylo_personal.pdf");
@@ -111,37 +101,6 @@ public class HelpFormActivity extends AppCompatActivity {
         l11.setUrl("mylo_prescription_tracker.pdf");
         l11.setImage(R.drawable.pdf);
 
-        //varsa commented
-        /*Links l12 = new Links();
-        l12.setName("Mind Your Loved Ones App Wallet Cards");
-       // l12.setUrl("http://mindyour-lovedones.com/MYLO/uploads/MYLO_App_Wallet_Card.pdf");
-        l12.setUrl("wallet_card_new.pdf");
-
-        l12.setImage(R.drawable.pdf);*/
-
-       /* Links l9=new Links();
-        l9.setName("Center for Practical Bioethics, Caring Conversations");
-        l9.setUrl("http://practicalbioethics.org/programs/caring-conversations.html?jaredirect");
-        l9.setImage(R.drawable.link_five);
-
-        Links l10=new Links();
-        l10.setName("National Healthcare Decisions Day (NHDD),  Advance Care Planning");
-        l10.setUrl("https://www.nhdd.org/public-resources/#where-can-i-get-an-advance-directive");
-        l10.setImage(R.drawable.link_six);
-
-        Links l11=new Links();
-        l11.setName("The Commission on Law and Aging, ABA");
-        l11.setUrl("https://www.americanbar.org/groups/law_aging/resources/health_care_decision_making/consumer_s_toolkit_for_health_care_advance_planning/");
-        l11.setImage(R.drawable.aba_market);*/
-
-      /*  Links l12=new Links();
-        l12.setName("The Commission on Law and Aging, ABA, Consumer’s Tool Kit for Advance Planning");
-        l12.setUrl("https://www.americanbar.org/content/dam/aba/uncategorized/2011/2011_aging_bk_consumer_tool_kit_bk.authcheckdam.pdf");
-        l12.setImage(R.drawable.aba_market);*/
-
-        // UrlList.add(l1);
-        // UrlList.add(l2);
-        // UrlList.add(l3);
         UrlList.add(l4);
         UrlList.add(l6);
         UrlList.add(l7);
@@ -149,36 +108,21 @@ public class HelpFormActivity extends AppCompatActivity {
         UrlList.add(l9);
         UrlList.add(l10);
         UrlList.add(l11);
-        //   UrlList.add(l12);
-       /* UrlList.add(l8);
-        UrlList.add(l9);
-        UrlList.add(l10);
-        UrlList.add(l11);*/
-        //  UrlList.add(l12);
-        //Fol show
-        // Datalist=new ArrayList<>();
-        //Datalist.add("ABA - Elder Law");
-    }
-
-    private void initListener() {
 
     }
 
+
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
-//        txtTitle = findViewById(R.id.txtTitle);
-//        txtTitle.setVisibility(View.VISIBLE);
-//        txtTitle.setText("Helpful Forms and\nTemplates");
-//        txtTitle.setGravity(View.TEXT_ALIGNMENT_CENTER);
-//        imgPdf = findViewById(R.id.imgPdf);
-//        imgPdf.setVisibility(View.GONE);
-//        imgProfile = findViewById(R.id.imgProfile);
-//        txtName = findViewById(R.id.txtName);
-//        txtName.setVisibility(View.GONE);
-//        imgProfile.setVisibility(View.GONE);
-//        imgNoti = findViewById(R.id.imgNoti);
-//        imgNoti.setVisibility(View.GONE);
         imgBack = findViewById(R.id.imgBack);
         imgBack.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 finish();
@@ -191,26 +135,7 @@ public class HelpFormActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-//                Intent browserIntentD2 = new Intent(HelpFormActivity.this, WebPDFActivity.class);
-//                Uri uri = Uri.fromFile(new File("//assets/"+ UrlList.get(position).getUrl()));
-//                browserIntentD2.putExtra("URL", uri.toString());//"file:///android_asset/" + UrlList.get(position).getUrl());
-//                browserIntentD2.putExtra("Name", UrlList.get(position).getName());
-//                startActivity(browserIntentD2);
-
                 CopyReadAssetss(UrlList.get(position).getUrl());
-                /*if (position==7)
-                {
-
-
-                    String formatD = "https://drive.google.com/viewerng/viewer?embedded=true&url=%s";
-                    String fullPathD = String.format(Locale.ENGLISH, formatD, UrlList.get(position).getUrl());
-                    Intent browserIntentD = new Intent(Intent.ACTION_VIEW, Uri.parse(fullPathD));
-                    startActivity(browserIntentD);
-                }
-                else {
-                    CopyReadAssetss(UrlList.get(position).getUrl());
-                }*/
 
             }
         });
@@ -288,6 +213,10 @@ public class HelpFormActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Function: VIew File
+     * @param documentPath
+     */
     public void CopyReadAssetss(String documentPath) {
         AssetManager assetManager = getAssets();
         File outFile = null;
@@ -305,14 +234,7 @@ public class HelpFormActivity extends AppCompatActivity {
             out.flush();
             out.close();
             out = null;
-            /*out = openFileOutput(file.getName(), Context.MODE_WORLD_READABLE);
 
-            copyFiles(in, out);
-            in.close();
-            in = null;
-            out.flush();
-            out.close();
-            out = null;*/
         } catch (Exception e) {
             Log.e("tag", e.getMessage());
         }

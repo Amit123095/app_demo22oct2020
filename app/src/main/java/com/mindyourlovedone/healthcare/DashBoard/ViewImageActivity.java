@@ -23,7 +23,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.File;
 
-
+/**
+ * Class: ViewImageActivity
+ * Screen: View,delete,share image of prescription
+ * A class that manages to View,delete,share image of prescription
+ */
 public class ViewImageActivity extends AppCompatActivity {
     private static final int RESULT_CARD = 50;
     Context context = this;
@@ -38,23 +42,18 @@ public class ViewImageActivity extends AppCompatActivity {
     Bitmap myBitmap;
 
     @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_form);
         preferences = new Preferences(context);
+        //Initialize View and interface
         initUi();
-        initListener();
     }
 
-    private void initListener() {
 
-    }
-
+    /**
+     * Function: Initialize view and UI, Display image
+     */
     private void initUi() {
         imgBack = findViewById(R.id.imgBack);
         imgDoc = findViewById(R.id.imgDoc);
@@ -62,29 +61,6 @@ public class ViewImageActivity extends AppCompatActivity {
         txtTitle = findViewById(R.id.txtTitle);
         imgDot = findViewById(R.id.imgDot);
         txtTitle.setText("Prescription");
-
-      /*  Intent i=getIntent();
-        if (i.getExtras()!=null) {
-            photo = i.getExtras().getString("Image");
-            if (!photo.equals("")) {
-                imgFile = new File(photo);
-                //  if (imgFile.exists()) {
-                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                imgDoc.setImageBitmap(myBitmap);
-                //imageLoader.displayImage(String.valueOf(Uri.fromFile(imgFile)),holder.imgConPhoto,displayImageOptions);
-            }
-           *//* Bitmap photoCard = BitmapFactory.decodeByteArray(photo, 0, photo.length);
-            imgDoc.setImageBitmap(photoCard);*//*
-
-          *//*  if (i.getExtras().containsKey("IsDelete")) {
-                IsDelete = i.getExtras().getBoolean("IsDelete");
-                if (IsDelete == true) {
-                    imgDelete.setVisibility(View.VISIBLE);
-                } else {
-                    imgDelete.setVisibility(View.GONE);
-                }
-            }*//*
-        }*/
 
         Intent i = getIntent();
         if (i.getExtras() != null) {
@@ -104,23 +80,15 @@ public class ViewImageActivity extends AppCompatActivity {
                     //   imgCard.setImageBitmap(myBitmap);
                 }
             }
-           /* Bitmap photoCard = BitmapFactory.decodeByteArray(photo, 0, photo.length);
-            imgDoc.setImageBitmap(photoCard);*/
-
-/*
-            if (i.getExtras().containsKey("IsDelete")) {
-                IsDelete = i.getExtras().getBoolean("IsDelete");
-                if (IsDelete == true) {
-                    imgDelete.setVisibility(View.VISIBLE);
-                } else {
-                    imgDelete.setVisibility(View.GONE);
-                }
-            }
-*/
 
             imgDelete.setOnClickListener(new View.OnClickListener() {
+                /**
+                 * Function: Called when a view has been clicked.
+                 *
+                 * @param v The view that was clicked.
+                 */
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v) {//Delete File
                     Intent i = new Intent();
                     i.putExtra("Prescription", "Delete");
                     i.putExtra("Photo", photo);
@@ -132,28 +100,25 @@ public class ViewImageActivity extends AppCompatActivity {
 
 
         imgBack.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
-/*
-        imgDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i=new Intent();
-                i.putExtra("Prescription","Delete");
-                i.putExtra("Photo",photo);
-                setResult(RESULT_CARD,i);
-                finish();
-            }
-        });
-*/
 
         imgDot.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {// Email File
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(ViewImageActivity.this);
                 alert.setTitle("Email ?");
@@ -178,6 +143,12 @@ public class ViewImageActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Function: Email File
+     * @param f
+     * @param context
+     * @param s
+     */
     private void emailAttachement(File f, Context context, String s) {
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 
@@ -191,7 +162,7 @@ public class ViewImageActivity extends AppCompatActivity {
 
         String body = "Hi, \n" +
                 "\n" +
-               // "\n" + name +
+                // "\n" + name +
                 "I shared these document with you. Please check the attachment. \n" +
                 "\n" +
                 "Thank you,\n" +
@@ -207,7 +178,6 @@ public class ViewImageActivity extends AppCompatActivity {
             uri = Uri.fromFile(f);
         }
         emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
-//emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
         emailIntent.setType("application/email");
 
         context.startActivity(Intent.createChooser(emailIntent, "Send mail..."));

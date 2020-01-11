@@ -12,7 +12,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 9/25/2017.
  */
-
+/**
+ * Class: HistoryQuery
+ * Screen: Add HistoryInfo
+ * A class that manages HistoryInfo Table CRUD Operations
+ */
 public class HistoryQuery {
     public static final String TABLE_NAME = "HistoryInfo";
     public static final String COL_ID = "Id";
@@ -73,13 +77,7 @@ public class HistoryQuery {
         if (c != null && c.getCount() > 0) {
             if (c.moveToFirst()) {
                 do {
-                   /* History history=new History();
-                    history.setId(c.getInt(c.getColumnIndex(COL_ID)));
-                    history.setUserId(c.getInt(c.getColumnIndex(COL_USERID)));
-                    history.setOther(c.getString(c.getColumnIndex(COL_OTHER)));
-                    history.setDate(c.getString(c.getColumnIndex(COL_DATE)));
-                    history.setDoctor(c.getString(c.getColumnIndex(COL_DOCTOR)));
-                    history.setDone(c.getString(c.getColumnIndex(COL_DONE)));*/
+
                     historyList.add(c.getString(c.getColumnIndex(COL_HISTORY)));
                 } while (c.moveToNext());
             }

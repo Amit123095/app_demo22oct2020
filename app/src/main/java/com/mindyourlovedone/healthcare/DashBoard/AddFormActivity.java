@@ -15,7 +15,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mindyourlovedone.healthcare.HomeActivity.R;
@@ -30,6 +29,12 @@ import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import java.io.File;
 
 
+/**
+ * Class: AddFormActivity
+ * Screen: Business Card Screen
+ * A class that manages to View,Delete,Share Business Card Screen
+ * implements OnclickListener for onClick event on views
+ */
 public class AddFormActivity extends AppCompatActivity {
     private static final int RESULT_CARD = 50;
     final String dialog_items[] = {"Email"};
@@ -45,23 +50,20 @@ public class AddFormActivity extends AppCompatActivity {
 
 
     @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_form);
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
+
+        //Initialize UI
         initUi();
-        initListener();
     }
 
-    private void initListener() {
-
-    }
-
+    /**
+     * Function: Image loading and displaying at ImageView
+     * Presents configuration for ImageLoader & options for image display.
+     */
     private void initImageLoader() {
         //Card
         displayImageOptionsCard = new DisplayImageOptions.Builder() // resource
@@ -82,6 +84,9 @@ public class AddFormActivity extends AppCompatActivity {
         imageLoaderCard = ImageLoader.getInstance();
     }
 
+    /**
+     * Function: Initialize UI and View Card
+     */
     private void initUi() {
         preferences = new Preferences(AddFormActivity.this);
         imgDot = findViewById(R.id.imgDot);
@@ -89,7 +94,6 @@ public class AddFormActivity extends AppCompatActivity {
         imgDoc = findViewById(R.id.imgDoc);
         imgDelete = findViewById(R.id.imgDelete);
         txtTitle = findViewById(R.id.txtTitle);
-
 
         if (IsDelete == true) {
             imgDelete.setVisibility(View.VISIBLE);
@@ -120,11 +124,6 @@ public class AddFormActivity extends AppCompatActivity {
                     }
                 }
             }
-          /*  byte[] photo = i.getExtras().getByteArray("Image");
-            Bitmap photoCard = BitmapFactory.decodeByteArray(photo, 0, photo.length);*/
-         /*   int nh = (int) ( photoCard.getHeight() * (600.0 / photoCard.getWidth()) );
-            Bitmap scaled = Bitmap.createScaledBitmap(photoCard, 600, nh, true);*/
-
 
             if (i.getExtras().containsKey("IsDelete")) {
                 IsDelete = i.getExtras().getBoolean("IsDelete");
@@ -147,6 +146,11 @@ public class AddFormActivity extends AppCompatActivity {
 
 
         imgBack.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 finish();
@@ -154,8 +158,13 @@ public class AddFormActivity extends AppCompatActivity {
         });
 
         imgDelete.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//Delete Card
                 Intent i = new Intent();
                 i.putExtra("Card", "Delete");
                 setResult(RESULT_CARD, i);
@@ -163,7 +172,7 @@ public class AddFormActivity extends AppCompatActivity {
             }
         });
 
-        imgDot.setOnClickListener(new View.OnClickListener() {
+        imgDot.setOnClickListener(new View.OnClickListener() {//Email Card
             @Override
             public void onClick(View v) {
 
@@ -194,6 +203,13 @@ public class AddFormActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Function: Prepare email body and attach card for sending mail
+     *
+     * @param path
+     * @param context
+     * @param s
+     */
     public void emailAttachement(String path, Context context, String s) {
         File f = new File(preferences.getString(PrefConstants.CONNECTED_PATH), path);
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);

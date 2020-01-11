@@ -61,14 +61,6 @@ public class FaxCustomDialog extends Dialog implements
 
         setContentView(R.layout.dialog_fax);
 
-        /*WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(getWindow().getAttributes());
-        int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.70);
-        lp.width = width;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.gravity = Gravity.CENTER;
-        getWindow().setAttributes(lp);*/
-
         preferences = new Preferences(context);
         this.path = path;
         scroll = findViewById(R.id.scroll);
@@ -99,6 +91,11 @@ public class FaxCustomDialog extends Dialog implements
 
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -113,19 +110,7 @@ public class FaxCustomDialog extends Dialog implements
 
                 if (validation()) {
                     this.dismiss();
-
                     new ServiceAsyncTask().execute();
-                    // WebService.uploadFile(path, number, to, from, subject,
-                    // context);
-                    // if(editnumber.getText().length()==0){
-
-                    // }
-
-                    // textmsg.setTextColor(context.getResources().getColor(R.color.red_color));
-
-                    // Toast.makeText(context, "Please enter fax number",
-                    // Toast.LENGTH_LONG).show();
-
                 }
                 break;
 

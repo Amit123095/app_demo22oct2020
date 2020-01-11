@@ -24,7 +24,12 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 9/18/2017. Changes done by nikita on 20/6/18
  */
-
+/**
+ * Class: NoteAdapter
+ * Screen: Event note list
+ * A class that manages to Event note list
+ * implements OnclickListener for onClick event on views
+ */
 public class NoteAdapter extends RecyclerSwipeAdapter<NoteAdapter.Holder> {
     Context context;
     ArrayList<Note> noteList;
@@ -82,19 +87,7 @@ public class NoteAdapter extends RecyclerSwipeAdapter<NoteAdapter.Holder> {
             holder.txtNote.setVisibility(View.VISIBLE);
             holder.txtNote.setText(noteList.get(position).getTxtNote());
         }
-    /*    if (holder.txtNote.getVisibility() == View.VISIBLE) {
-            holder.txtNote.setVisibility(View.GONE);
-        } else {
-            holder.txtNote.setVisibility(View.VISIBLE);
-        }*/
-       /* if (holder.txtNoteData.getVisibility() == View.VISIBLE) {
-            holder.txtNote.setVisibility(View.GONE);
-        } else {
-            holder.txtNote.setVisibility(View.VISIBLE);
-        }*/
 
-
-        //   holder.txtNoteData.setText(noteList.get(position).getTxtNote());
         holder.txtNote.setSingleLine(true);
         holder.txtNote.setEllipsize(TextUtils.TruncateAt.END);
         holder.txtNote.setText(noteList.get(position).getTxtNote());
@@ -110,20 +103,15 @@ public class NoteAdapter extends RecyclerSwipeAdapter<NoteAdapter.Holder> {
                 }
             }
         });
-/*
-        holder.txtDateTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (context instanceof EventNoteActivity) {
-                    ((EventNoteActivity) context).datetimeDialog(noteList.get(position));
-                }
-            }
-        });
-*/
 
         holder.rlTop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 if (flagDrop == false) {
                     holder.llNote.setVisibility(View.VISIBLE);
                     holder.imgForward.setImageResource(R.drawable.dropup);

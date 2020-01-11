@@ -6,15 +6,11 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
@@ -24,13 +20,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -48,7 +41,6 @@ import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
-import com.android.vending.billing.IInAppBillingService;
 import com.google.firebase.crash.FirebaseCrash;
 import com.mindyourlovedone.healthcare.Connections.FragmentConnectionNew;
 import com.mindyourlovedone.healthcare.DashBoard.AddDocumentActivity;
@@ -56,13 +48,11 @@ import com.mindyourlovedone.healthcare.DashBoard.AddInsuranceFormActivity;
 import com.mindyourlovedone.healthcare.DashBoard.CustomArrayAdapter;
 import com.mindyourlovedone.healthcare.DashBoard.DropboxLoginActivity;
 import com.mindyourlovedone.healthcare.DashBoard.FragmentDashboard;
-import com.mindyourlovedone.healthcare.DashBoard.FragmentNotification;
 import com.mindyourlovedone.healthcare.DashBoard.PrescriptionUploadActivity;
 import com.mindyourlovedone.healthcare.Fragment.FragmentContactUs;
 import com.mindyourlovedone.healthcare.Fragment.FragmentResourcesNew;
 import com.mindyourlovedone.healthcare.Fragment.FragmentSetting;
 import com.mindyourlovedone.healthcare.Fragment.FragmentSponsor;
-import com.mindyourlovedone.healthcare.IndexMenu.FragmentOverview;
 import com.mindyourlovedone.healthcare.customview.MySpinner;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.MyConnectionsQuery;
@@ -77,13 +67,14 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class: BaseActivity
+ * Screen: Main Screen
+ * A class that manages Profile, Dashboard, Drawer and Drawer fragments
+ * implements OnclickListener for onClick event on views
+ */
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int REQUEST_CALL_PERMISSION = 600;
     public static FragmentManager fragmentManager;
@@ -91,91 +82,197 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     Context context = this;
     FragmentDashboard fragmentDashboard = null;
     FragmentResources fragmentResources = null;
-    FragmentForm fragmentForm = null;
     FragmentMarketPlace fragmentMarketPlace = null;
     FragmentVideos fragmentVideos = null;
-    FragmentBackup fragmentBackup = null;
     FragmentConnectionNew fragmentConnection = null;
-    FragmentNotification fragmentNotification = null;
-    FragmentOverview fragmentOverview = null;
-    ImageView imgHelp, imgR, imgDrawer, imgNoti, imgLogout, imgLocationFeed, imgProfile, imgDrawerProfile, imgPdf, imgDoc, imgRight;
+    ImageView imgHelp, imgR, imgDrawer, imgNoti, imgLocationFeed, imgProfile, imgDrawerProfile, imgPdf, imgDoc, imgRight;
     TextView txtTitle, txtName, txtRel, txtDrawerName, txtFname, txtAdd;
     TextView txtBank, txtForm, txtSenior, txtAdvance, txtPodcast;
     DrawerLayout drawerLayout;
-    RelativeLayout leftDrawer, container, footer, header;
-    RelativeLayout rlLogOutt;
+    RelativeLayout leftDrawer, container, header;
     FrameLayout flLogout;
     Preferences preferences;
     ImageView txtDrawer;
-    TextView txtPrivacyPolicy, txtEULA, txtversion;
-    RelativeLayout rlBackup, rlSettings, rlWebsite, rlGuide, rlProfiles, rlHome, rlSupport, rlContactUs, rlSponsor, rlResources, rlPrivacy, rlMarketPlace, rlVideos, rlResourcesDetail, rlMarketDetail, rlPrivacyDetail;
-    TextView txtBackup, txtSettings, txtWebsite, txtGuide, txtProfiles, txtHome, txtSupport, txtContactUs, txtSponsor, txtResources, txtPrivacy, txtMarketPlace, txtVideos, txtResourcesDetail, txtMarketDetail, txtPrivacyDetail;
-    ImageView imgBackup, imgSettings, imgWebsite, imgGuide, imgProfiles, imgHome, imgSupport, imgContactUs, imgSponsor, imgResources, imgPrivacy, imgMarketPlace, imgVideos, imgResourcesDetail, imgMarketDetail, imgPrivacyDetail;
+    TextView txtPrivacyPolicy, txtEULA;
+    RelativeLayout rlBackup, rlSettings, rlWebsite, rlProfiles, rlHome, rlContactUs, rlSponsor, rlResources, rlPrivacy, rlMarketPlace, rlVideos, rlResourcesDetail, rlMarketDetail, rlPrivacyDetail;
+    TextView txtBackup, txtSettings, txtProfiles, txtHome, txtContactUs, txtSponsor, txtResources, txtPrivacy, txtMarketPlace, txtVideos, txtResourcesDetail, txtMarketDetail, txtPrivacyDetail;
+    ImageView imgBackup, imgSettings, imgProfiles, imgHome, imgContactUs, imgSponsor, imgResources, imgPrivacy, imgMarketPlace, imgVideos, imgResourcesDetail, imgMarketDetail, imgPrivacyDetail;
 
-    boolean flagResource = false, flagMarket = false, flagPrivacy = false;
     int p = 0, bginit = 0;
-
-    ImageLoader imageLoader, imageLoaderProfile;
-    DisplayImageOptions displayImageOptions, displayDrawerImageOptions;
-    DBHelper dbHelper;
-    boolean external_flag = false;
-    String originPath = "";
-    String documentPath = "";
-    String name = "";
-
-    String From;
-    Intent i;
+    ImageLoader imageLoader;
+    DisplayImageOptions displayImageOptions;
     final CharSequence[] dialog_add = {"Add to Advance Directives", "Add to Other Documents", "Add to Medical Records", "Add to Insurance Forms", "Add to Prescription List"};
     ProgressDialog pd;
-//    ServiceConnection mServiceConn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
-
-        //Nikita#sub - autorenew
-//        Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
-//        serviceIntent.setPackage("com.android.vending");
-//        mServiceConn = new ServiceConnection() {
-//            @Override
-//            public void onServiceDisconnected(ComponentName name) {
-//                mService = null;
-//            }
-//
-//            @Override
-//            public void onServiceConnected(ComponentName name,
-//                                           IBinder service) {
-//                mService = IInAppBillingService.Stub.asInterface(service);
-//                getSubDetails();
-//            }
-//        };
-//        bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
-
         //    Crashlytics.getInstance().crash(); // Force a crash
+
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
+
+        //Initialize database, get primary data and set data
         initComponent();
+
+        //Initialize user interface view and components
         initUI();
 
+
         pd = new ProgressDialog(this);//nikita
-//        pd.setTitle("Loading UI...");
-//        pd.show();
+
+        //Get external Files for add into application
+        checkForExternalFiles();
+    }
+
+    /**
+     * Function: Image loading and displaying at ImageView
+     * Presents configuration for ImageLoader & options for image display.
+     */
+    private void initImageLoader() {
+
+        displayImageOptions = new DisplayImageOptions.Builder() // resource
+                .resetViewBeforeLoading(true) // default
+                .cacheInMemory(true) // default
+                .cacheOnDisk(true) // default
+                .showImageOnLoading(R.drawable.ic_profiles)
+                .considerExifParams(false) // default
+//                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED) // default
+                .bitmapConfig(Bitmap.Config.ARGB_8888) // default
+                .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
+                .displayer(new RoundedBitmapDisplayer(150)) // default //for square SimpleBitmapDisplayer()
+                .handler(new Handler()) // default
+                .build();
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).defaultDisplayImageOptions(displayImageOptions)
+                .build();
+        ImageLoader.getInstance().init(config);
+        imageLoader = ImageLoader.getInstance();
+    }
+
+    /**
+     * Function: Initialize preference
+     */
+    private void initComponent() {
+        preferences = new Preferences(context);
+    }
+
+    /**
+     * Function: Initialize user interface view and components
+     */
+    private void initUI() {
+        imgHelp = findViewById(R.id.imgHelp);
+        imgDrawer = findViewById(R.id.imgDrawer);
+        drawerLayout = findViewById(R.id.drawerLayout);
+        leftDrawer = findViewById(R.id.leftDrawer);
+        container = findViewById(R.id.fragmentContainer);
+
+        rlHome = leftDrawer.findViewById(R.id.rlHome);
+        rlProfiles = leftDrawer.findViewById(R.id.rlProfiles);
+        rlResources = leftDrawer.findViewById(R.id.rlResources);
+        rlSponsor = leftDrawer.findViewById(R.id.rlSponsor);
+        rlSettings = leftDrawer.findViewById(R.id.rlSettings);
+        rlBackup = leftDrawer.findViewById(R.id.rlBackup);
+        rlContactUs = leftDrawer.findViewById(R.id.rlContactUs);
+        rlMarketPlace = leftDrawer.findViewById(R.id.rlMarketPlace);
+        rlVideos = leftDrawer.findViewById(R.id.rlVideos);
+
+        imgHome = leftDrawer.findViewById(R.id.imgHome);
+        imgProfiles = leftDrawer.findViewById(R.id.imgProfiles);
+        imgResources = leftDrawer.findViewById(R.id.imgResources);
+        imgSponsor = leftDrawer.findViewById(R.id.imgSponsor);
+        imgSettings = leftDrawer.findViewById(R.id.imgSettings);
+        imgBackup = leftDrawer.findViewById(R.id.imgBackup);
+        imgContactUs = leftDrawer.findViewById(R.id.imgContactUs);
+        imgMarketPlace = leftDrawer.findViewById(R.id.imgMarketPlace);
+        imgVideos = leftDrawer.findViewById(R.id.imgVideos);
+
+        txtHome = leftDrawer.findViewById(R.id.txtHome);
+        txtProfiles = leftDrawer.findViewById(R.id.txtProfiles);
+        txtResources = leftDrawer.findViewById(R.id.txtResources);
+        txtSponsor = leftDrawer.findViewById(R.id.txtSponsor);
+        txtSettings = leftDrawer.findViewById(R.id.txtSettings);
+        txtBackup = leftDrawer.findViewById(R.id.txtBackup);
+        txtContactUs = leftDrawer.findViewById(R.id.txtContactUs);
+        txtMarketPlace = leftDrawer.findViewById(R.id.txtMarketPlace);
+        txtVideos = leftDrawer.findViewById(R.id.txtVideos);
+        flLogout = leftDrawer.findViewById(R.id.flLogout);
 
 
+        txtFname = findViewById(R.id.txtFName);
+        txtAdd = findViewById(R.id.txtAdd);
+        txtDrawer = findViewById(R.id.txtDrawer);
+
+        imgNoti = findViewById(R.id.imgNoti);
+        imgR = findViewById(R.id.imgR);
+        imgR.setVisibility(View.GONE);
+        imgProfile = findViewById(R.id.imgProfile);
+        imgPdf = findViewById(R.id.imgPdf);
+        imgPdf.setVisibility(View.GONE);
+        imgLocationFeed = findViewById(R.id.imgLocationFeed);
+        txtHome = findViewById(R.id.txtHome);
+        txtTitle = findViewById(R.id.txtTitle);
+        txtName = findViewById(R.id.txtName);
+        txtRel = findViewById(R.id.txtRel);
+
+        txtBank = findViewById(R.id.txtBank);
+        txtForm = findViewById(R.id.txtForm);
+        txtSenior = findViewById(R.id.txtSenior);
+        txtAdvance = findViewById(R.id.txtAdvance);
+
+        drawerLayout = findViewById(R.id.drawerLayout);
+        leftDrawer = findViewById(R.id.leftDrawer);
+        header = findViewById(R.id.header);
+        txtDrawerName = leftDrawer.findViewById(R.id.txtDrawerName);
+        imgDrawerProfile = leftDrawer.findViewById(R.id.imgDrawerProfile);
+        imgDrawerProfile.setVisibility(View.VISIBLE);
+        imgRight = leftDrawer.findViewById(R.id.imgRight);
+        rlWebsite = leftDrawer.findViewById(R.id.rlWebsite);
+        txtPrivacyPolicy = leftDrawer.findViewById(R.id.txtPrivacyPolicy);
+        txtEULA = leftDrawer.findViewById(R.id.txtEULA);
+        txtPodcast = leftDrawer.findViewById(R.id.txtPodcast);
+    }
+
+
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
+    private void initListener() {
+        txtDrawer.setOnClickListener(this);
+        imgDrawer.setOnClickListener(this);
+        rlHome.setOnClickListener(this);
+        rlProfiles.setOnClickListener(this);
+        rlResources.setOnClickListener(this);
+        rlMarketPlace.setOnClickListener(this);
+        rlVideos.setOnClickListener(this);
+        rlSponsor.setOnClickListener(this);
+        rlSettings.setOnClickListener(this);
+        rlBackup.setOnClickListener(this);
+        rlContactUs.setOnClickListener(this);
+        // flLogout.setOnClickListener(this);
+
+    }
+
+    /**
+     * Function: check for user is registered or login
+     * If user is login, Add pdf by calling extPDF method
+     */
+    private void checkForExternalFiles() {
         try {
-
-            //nikita -pdf
             Intent i = getIntent();
             if (i != null) {
                 Uri audoUri = i.getParcelableExtra(Intent.EXTRA_STREAM);
-
                 if (audoUri != null) {
                     Log.v("URI", audoUri.toString());
                     preferences = new Preferences(context);
+                    //Check if application is registered or login by user
                     if (preferences.getREGISTERED() && preferences.isLogin()) {
+                        //If true, Add into app
                         asyninit();
                         extPDF(audoUri + "");
                     } else {
+                        //If false, Navigate to splash screen for register of login
                         Toast.makeText(getApplicationContext(), "You need to login first", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(BaseActivity.this, SplashNewActivity.class));
                         finish();
@@ -191,6 +288,111 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Background Operation
+     */
+    private void asyninit() {
+        new Handler().postDelayed(new Runnable() {//nikita
+            @Override
+            public void run() {
+                //Here you can send the extras.
+                new AsynData().execute("");
+            }
+        }, 100);
+    }
+
+    /**
+     * Function: Add External PDF into profile and chosen sub-section from list
+     *
+     * @param URI URI of file
+     */
+    private void extPDF(final String URI) {//nikita
+        getData();
+
+        //Dialog for Profile in which documents want to be add
+        final Dialog dialogSharePdf = new Dialog(context);
+        dialogSharePdf.setCancelable(false);
+        dialogSharePdf.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogSharePdf.setContentView(R.layout.dialog_share_storage_pdf);
+
+        TextView txtSelect = dialogSharePdf.findViewById(R.id.txtSelect);
+        TextView txtOk = dialogSharePdf.findViewById(R.id.txtOk);
+        final MySpinner spinnerPro = dialogSharePdf.findViewById(R.id.spinnerPro);
+        CustomArrayAdapter adapter = new CustomArrayAdapter(context,
+                android.R.layout.simple_spinner_dropdown_item, items);
+
+        spinnerPro.setAdapter(adapter);
+        spinnerPro.setHint("Profile");
+
+        txtOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = items.get(spinnerPro.getSelectedItemPosition() - 1).getEmail();
+                String mail = email;
+                mail = mail.replace(".", "_");
+                mail = mail.replace("@", "_");
+                preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
+                preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
+                dialogSharePdf.dismiss();
+
+                //Dialog for subsections in which documents need to be add
+                AlertDialog.Builder builders = new AlertDialog.Builder(context);
+                builders.setTitle("");
+                builders.setCancelable(false);
+                builders.setItems(dialog_add, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int itemPos) {
+                        switch (itemPos) {
+                            case 0: // Advance Directive
+                                Intent in = new Intent(BaseActivity.this, AddDocumentActivity.class);
+                                in.putExtra("FROM", "AD");
+                                in.putExtra("PDF_EXT", URI);
+                                startActivity(in);
+                                break;
+                            case 1: // Other Doc
+                                Intent in1 = new Intent(BaseActivity.this, AddDocumentActivity.class);
+                                in1.putExtra("FROM", "Other");
+                                in1.putExtra("PDF_EXT", URI);
+                                startActivity(in1);
+                                break;
+                            case 2: // Medical Record
+                                Intent in2 = new Intent(BaseActivity.this, AddDocumentActivity.class);
+                                in2.putExtra("FROM", "Record");
+                                in2.putExtra("PDF_EXT", URI);
+                                startActivity(in2);
+                                break;
+                            case 3: // Insurance Form
+                                Intent in3 = new Intent(BaseActivity.this, AddInsuranceFormActivity.class);
+                                in3.putExtra("FROM", "Insurance");
+                                in3.putExtra("PDF_EXT", URI);
+                                startActivity(in3);
+                                break;
+                            case 4: // Prescription list
+                                Intent in4 = new Intent(BaseActivity.this, PrescriptionUploadActivity.class);
+                                in4.putExtra("FROM", "Prescription");
+                                in4.putExtra("PDF_EXT", URI);
+                                startActivity(in4);
+                                break;
+                        }
+                    }
+                });
+
+                AlertDialog dialog = builders.create();
+                builders.show();
+            }
+        });
+
+        dialogSharePdf.show();
+
+    }
+
+    // Fetch All Profiles
+    public void getData() {//nikita
+        DBHelper dbHelper = new DBHelper(this, "MASTER");
+        MyConnectionsQuery m = new MyConnectionsQuery(this, dbHelper);
+        items = MyConnectionsQuery.fetchAllRecord();
+    }
+
     private String getContentName(ContentResolver resolver, Uri uri) {
         Cursor cursor = resolver.query(uri, new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null);
         cursor.moveToFirst();
@@ -202,15 +404,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void asyninit() {
-        new Handler().postDelayed(new Runnable() {//nikita
-            @Override
-            public void run() {
-                //Here you can send the extras.
-                new AsynData().execute("");
-            }
-        }, 100);
-    }
 
     private void initBGProcess() {//Nikita#Sub Background check on subscription
         Data inputData = new Data.Builder()
@@ -224,51 +417,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         WorkManager.getInstance().enqueue(mywork);
     }
 
-//    IInAppBillingService mService;//Nikita#Sub auto renewal subscription
-//
-//
-//    private void getSubDetails() {
-//        try {
-//            Bundle ownedItems = mService.getPurchases(3, context.getPackageName(), "subs", null);
-//            int response = ownedItems.getInt("RESPONSE_CODE");
-//            if (response == 0) {
-//                ArrayList<String> ownedSkus =
-//                        ownedItems.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
-//                ArrayList<String> purchaseDataList =
-//                        ownedItems.getStringArrayList("INAPP_PURCHASE_DATA_LIST");
-//                ArrayList<String> signatureList =
-//                        ownedItems.getStringArrayList("INAPP_DATA_SIGNATURE");
-//                String continuationToken =
-//                        ownedItems.getString("INAPP_CONTINUATION_TOKEN");
-//
-//                for (int i = 0; i < purchaseDataList.size(); ++i) {
-//                    String purchaseData = purchaseDataList.get(i);
-//                    String signature = signatureList.get(i);
-//                    String sku = ownedSkus.get(i);
-//
-//                    if (sku.equalsIgnoreCase("subscribe_app")) {
-////                        Bundle ownedItems1 = mService.getPurchases(3, context.getPackageName(), "subs", null);
-//                    }
-//
-//                    // do something with this purchase information
-//                    // e.g. display the updated list of products owned by user
-//                }
-//
-//                // if continuationToken != null, call getPurchases again
-//                // and pass in the token to retrieve more items
-//            }
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        if (mService != null) {
-//            unbindService(mServiceConn);
-//        }
-    }
 
     private void callFragmentData(Fragment fragment) {
         FragmentManager fm = getFragmentManager();
@@ -286,25 +434,24 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Function: Load initial Data for fragment and drawer
+     */
     private void loadData() {
-
         FirebaseCrash.report(new Exception("My first Android non-fatal error"));
 //                    //I'm also creating a log message, which we'll look at in more detail later//
         FirebaseCrash.log("MainActivity started");
+        //Check for runtime permission
         accessPermission();
-        //Crashlytics.getInstance().crash(); // Force a crash
-
+        //Register a callback to be invoked when this views are clicked.
         initListener();
-
         fragmentData();
-
-
         if (fragmentManager.findFragmentByTag("CONNECTION") == null) {
             if (preferences.getREGISTERED()) {
                 callFirstFragment("CONNECTION", fragmentConnection);
             }
         }
-        /*shradha*/
+
         try {
             Intent intent = getIntent();
             if (intent != null) {
@@ -323,7 +470,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                     imgMarketPlace.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                     imgVideos.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                     imgBackup.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
-
 
                     txtHome.setTypeface(txtHome.getTypeface(), Typeface.BOLD);
                     txtProfiles.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
@@ -358,7 +504,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                     txtContactUs.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtMarketPlace.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtVideos.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
-                }/*New Changes*/ else if (p == 2) {
+                } else if (p == 2) {
                     txtTitle.setVisibility(View.VISIBLE);
                     txtTitle.setText("Resources");
                     imgProfile.setVisibility(View.GONE);
@@ -407,32 +553,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                     txtSponsor.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtSettings.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtBackup.setTypeface(txtHome.getTypeface(), Typeface.BOLD);
-                    txtContactUs.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
-                    txtMarketPlace.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
-                    txtVideos.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
-                } else if (p == 8) {
-                    imgProfile.setVisibility(View.GONE);
-                    txtTitle.setVisibility(View.VISIBLE);
-                    txtTitle.setText("Settings");
-                    callFragmentData(new FragmentSetting());
-                    //nikita
-                    imgHome.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
-                    imgProfiles.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
-                    imgResources.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
-                    imgSponsor.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
-                    imgSettings.setColorFilter(ContextCompat.getColor(context, R.color.colorBlue), android.graphics.PorterDuff.Mode.MULTIPLY);
-                    imgContactUs.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
-                    imgMarketPlace.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
-                    imgVideos.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
-                    imgBackup.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
-
-
-                    txtHome.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
-                    txtProfiles.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
-                    txtResources.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
-                    txtSponsor.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
-                    txtSettings.setTypeface(txtHome.getTypeface(), Typeface.BOLD);
-                    txtBackup.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtContactUs.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtMarketPlace.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtVideos.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
@@ -501,352 +621,38 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         } catch (Exception e) {
             e.printStackTrace();
         }
-        /*Intent intent = getIntent();
-        if (intent.getExtras() != null) {
-            p = intent.getExtras().getInt("c");
-            if (p == 1) {
-                callFragmentData(new FragmentDashboard());
-                p = 1;
-            } else if (p == 3) {
-                callFragmentData(new FragmentConnectionNew());
-                p = 1;
-            }
-        }*/
+
     }
 
 
     List<RelativeConnection> items;//nikita
 
-
-    public void getData() {//nikita
-        DBHelper dbHelper = new DBHelper(this, "MASTER");
-        MyConnectionsQuery m = new MyConnectionsQuery(this, dbHelper);
-        items = MyConnectionsQuery.fetchAllRecord();
-    }
-
-    private void extPDF(final String URI) {//nikita
-        getData();
-        final Dialog dialogSharePdf = new Dialog(context);
-        dialogSharePdf.setCancelable(false);
-        dialogSharePdf.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialogSharePdf.setContentView(R.layout.dialog_share_storage_pdf);
-
-        TextView txtSelect = dialogSharePdf.findViewById(R.id.txtSelect);
-        TextView txtOk = dialogSharePdf.findViewById(R.id.txtOk);
-        final MySpinner spinnerPro = dialogSharePdf.findViewById(R.id.spinnerPro);
-        CustomArrayAdapter adapter = new CustomArrayAdapter(context,
-                android.R.layout.simple_spinner_dropdown_item, items);
-
-        spinnerPro.setAdapter(adapter);
-        spinnerPro.setHint("Profile");
-
-        txtOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = items.get(spinnerPro.getSelectedItemPosition() - 1).getEmail();
-                String mail = email;
-                mail = mail.replace(".", "_");
-                mail = mail.replace("@", "_");
-                preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
-                //silly mistake - forgets this line to give path for saving copy of pdfs
-                //-corrected by nikita on 30-5-19
-                preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
-                dialogSharePdf.dismiss();
-                AlertDialog.Builder builders = new AlertDialog.Builder(context);
-                builders.setTitle("");
-                builders.setCancelable(false);
-                builders.setItems(dialog_add, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int itemPos) {
-                        switch (itemPos) {
-                            case 0: // email
-                                Intent in = new Intent(BaseActivity.this, AddDocumentActivity.class);
-                                in.putExtra("FROM", "AD");
-                                in.putExtra("PDF_EXT", URI);
-                                startActivity(in);
-                                break;
-                            case 1: // email
-                                Intent in1 = new Intent(BaseActivity.this, AddDocumentActivity.class);
-                                in1.putExtra("FROM", "Other");
-                                in1.putExtra("PDF_EXT", URI);
-                                startActivity(in1);
-                                break;
-                            case 2: // Fax
-                                Intent in2 = new Intent(BaseActivity.this, AddDocumentActivity.class);
-                                in2.putExtra("FROM", "Record");
-                                in2.putExtra("PDF_EXT", URI);
-                                startActivity(in2);
-                                break;
-                            case 3: // Fax
-                                Intent in3 = new Intent(BaseActivity.this, AddInsuranceFormActivity.class);
-                                in3.putExtra("FROM", "Insurance");
-                                in3.putExtra("PDF_EXT", URI);
-                                startActivity(in3);
-                                break;
-                            case 4: // Fax
-                                Intent in4 = new Intent(BaseActivity.this, PrescriptionUploadActivity.class);
-                                in4.putExtra("FROM", "Prescription");
-                                in4.putExtra("PDF_EXT", URI);
-                                startActivity(in4);
-                                break;
-                        }
-                    }
-                });
-
-                AlertDialog dialog = builders.create();
-                builders.show();
-            }
-        });
-
-        dialogSharePdf.show();
-
-    }
-
-/*
-    private void showSharePdfDialog() {
-      final   Dialog dialogSharePdf = new Dialog(context);
-        dialogSharePdf.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialogSharePdf.setContentView(R.layout.dialog_share_storage_pdf);
-        TextView txtSelect = dialogSharePdf.findViewById(R.id.txtSelect);
-        TextView txtOk = dialogSharePdf.findViewById(R.id.txtOk);
-        txtSelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // dialogSharePdf.dismiss();
-            }
-        });
-        dialogSharePdf.show();
-        txtOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogSharePdf.dismiss();
-                initComponent();
-            }
-        });
-    }
-*/
-
-
-    private void initImageLoader() {
-
-        displayImageOptions = new DisplayImageOptions.Builder() // resource
-                .resetViewBeforeLoading(true) // default
-                .cacheInMemory(true) // default
-                .cacheOnDisk(true) // default
-                .showImageOnLoading(R.drawable.ic_profiles)
-                .considerExifParams(false) // default
-//                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED) // default
-                .bitmapConfig(Bitmap.Config.ARGB_8888) // default
-                .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
-                .displayer(new RoundedBitmapDisplayer(150)) // default //for square SimpleBitmapDisplayer()
-                .handler(new Handler()) // default
-                .build();
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).defaultDisplayImageOptions(displayImageOptions)
-                .build();
-        ImageLoader.getInstance().init(config);
-        imageLoader = ImageLoader.getInstance();
-    }
-/*
-    private void initComponent() {
-        preferences = new Preferences(context);
-        dbHelper = new DBHelper(context, preferences.getString(PrefConstants.CONNECTED_USERDB));
-        DocumentQuery d = new DocumentQuery(context, dbHelper);
-        if (preferences == null) {
-            preferences = new Preferences(BaseActivity.this);
-        }
-        if (preferences.getREGISTERED() && preferences.isLogin()) {
-        } else {
-            Toast.makeText(getApplicationContext(), "You need to login first", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(BaseActivity.this, SplashNewActivity.class));
-            finish();
-        }
-        From = preferences.getString(PrefConstants.FROM);
-        i = getIntent();
-        Log.v("URI", i.getExtras().toString());
-        final Uri audoUri = i.getParcelableExtra(Intent.EXTRA_STREAM);
-        if (audoUri != null) {
-            Log.v("URI", audoUri.toString());
-            AlertDialog.Builder builders = new AlertDialog.Builder(context);
-            builders.setTitle("");
-            builders.setCancelable(false);
-            builders.setItems(dialog_add, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int itemPos) {
-                    switch (itemPos) {
-                        case 0: // email
-                            From = "AD";
-                            addfile(audoUri);
-                            //initUi();
-                            external_flag = true;
-                            break;
-                     */
-/*   case 1: // email
-                            From = "Other";
-                            addfile(audoUri);
-                            initUi();
-                            external_flag = true;
-                            break;
-                        case 2: // Fax
-                            From = "Record";
-                            addfile(audoUri);
-                            initUi();
-                            external_flag = true;
-                            break;*//*
-                    }
-                }
-            });
-            builders.create().show();
-        }
-    }
-*/
-
-/*
-    private void addfile(Uri audoUri) {
-        originPath = audoUri.toString();
-        File f = new File(audoUri.getPath());
-        originPath = f.getPath();
-        originPath = originPath.replace("/root_path/", "");
-        documentPath = f.getName();
-        name = f.getName();
-        preferences.putInt(PrefConstants.CONNECTED_USERID, 1);
-        txtFname.setText(name);
-        imgDoc.setClickable(false);
-        String text = "You Have selected <b>" + name + "</b> Document";
-        Toast.makeText(context, Html.fromHtml(text), Toast.LENGTH_SHORT).show();
-        showDialogWindow(text);
-        txtAdd.setText("Edit File");
-        imgDoc.setImageResource(R.drawable.pdf);
-    }
-*/
-
-    private void showDialogWindow(String text) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(context);
-        alert.setMessage(Html.fromHtml(text));
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        alert.show();
-    }
-
-
-    private void initComponent() {
-        preferences = new Preferences(context);
-    }
-
-    private void initListener() {
-        txtDrawer.setOnClickListener(this);
-        imgDrawer.setOnClickListener(this);
-        rlHome.setOnClickListener(this);
-        rlProfiles.setOnClickListener(this);
-        rlResources.setOnClickListener(this);
-        rlMarketPlace.setOnClickListener(this);
-        rlVideos.setOnClickListener(this);
-        rlSponsor.setOnClickListener(this);
-        rlSettings.setOnClickListener(this);
-        rlBackup.setOnClickListener(this);
-        rlContactUs.setOnClickListener(this);
-        // flLogout.setOnClickListener(this);
-
-    }
-
-    private void initUI() {
-
-        imgHelp = findViewById(R.id.imgHelp);
-        imgDrawer = findViewById(R.id.imgDrawer);
-        drawerLayout = findViewById(R.id.drawerLayout);
-        leftDrawer = findViewById(R.id.leftDrawer);
-        container = findViewById(R.id.fragmentContainer);
-
-        rlHome = leftDrawer.findViewById(R.id.rlHome);
-        rlProfiles = leftDrawer.findViewById(R.id.rlProfiles);
-        rlResources = leftDrawer.findViewById(R.id.rlResources);
-        rlSponsor = leftDrawer.findViewById(R.id.rlSponsor);
-        rlSettings = leftDrawer.findViewById(R.id.rlSettings);
-        rlBackup = leftDrawer.findViewById(R.id.rlBackup);
-        rlContactUs = leftDrawer.findViewById(R.id.rlContactUs);
-        rlMarketPlace = leftDrawer.findViewById(R.id.rlMarketPlace);
-        rlVideos = leftDrawer.findViewById(R.id.rlVideos);
-
-        imgHome = leftDrawer.findViewById(R.id.imgHome);
-        imgProfiles = leftDrawer.findViewById(R.id.imgProfiles);
-        imgResources = leftDrawer.findViewById(R.id.imgResources);
-        imgSponsor = leftDrawer.findViewById(R.id.imgSponsor);
-        imgSettings = leftDrawer.findViewById(R.id.imgSettings);
-        imgBackup = leftDrawer.findViewById(R.id.imgBackup);
-        imgContactUs = leftDrawer.findViewById(R.id.imgContactUs);
-        imgMarketPlace = leftDrawer.findViewById(R.id.imgMarketPlace);
-        imgVideos = leftDrawer.findViewById(R.id.imgVideos);
-
-        txtHome = leftDrawer.findViewById(R.id.txtHome);
-        txtProfiles = leftDrawer.findViewById(R.id.txtProfiles);
-        txtResources = leftDrawer.findViewById(R.id.txtResources);
-        txtSponsor = leftDrawer.findViewById(R.id.txtSponsor);
-        txtSettings = leftDrawer.findViewById(R.id.txtSettings);
-        txtBackup = leftDrawer.findViewById(R.id.txtBackup);
-        txtContactUs = leftDrawer.findViewById(R.id.txtContactUs);
-        txtMarketPlace = leftDrawer.findViewById(R.id.txtMarketPlace);
-        txtVideos = leftDrawer.findViewById(R.id.txtVideos);
-        flLogout = leftDrawer.findViewById(R.id.flLogout);
-
-
-        txtFname = findViewById(R.id.txtFName);
-        txtAdd = findViewById(R.id.txtAdd);
-        txtDrawer = findViewById(R.id.txtDrawer);
-
-        imgNoti = findViewById(R.id.imgNoti);
-        imgR = findViewById(R.id.imgR);
-        imgR.setVisibility(View.GONE);
-        imgProfile = findViewById(R.id.imgProfile);
-        imgPdf = findViewById(R.id.imgPdf);
-        imgPdf.setVisibility(View.GONE);
-        imgLocationFeed = findViewById(R.id.imgLocationFeed);
-        txtHome = findViewById(R.id.txtHome);
-        txtTitle = findViewById(R.id.txtTitle);
-        txtName = findViewById(R.id.txtName);
-        txtRel = findViewById(R.id.txtRel);
-        //  txtversion= findViewById(R.id.txtversion);
-
-       /* try {
-            PackageInfo pInfo = context.getPackageManager().getPackageInfo(getPackageName(), 0);
-            String version = pInfo.versionName;
-            SpannableString s = new SpannableString("Version - " + version);
-            s.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, s.length(), 0);
-            txtversion.setText(s);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }*/
-
-        txtBank = findViewById(R.id.txtBank);
-        txtForm = findViewById(R.id.txtForm);
-        txtSenior = findViewById(R.id.txtSenior);
-        txtAdvance = findViewById(R.id.txtAdvance);
-
-        drawerLayout = findViewById(R.id.drawerLayout);
-        leftDrawer = findViewById(R.id.leftDrawer);
-        header = findViewById(R.id.header);
-        txtDrawerName = leftDrawer.findViewById(R.id.txtDrawerName);
-        imgDrawerProfile = leftDrawer.findViewById(R.id.imgDrawerProfile);
-        imgDrawerProfile.setVisibility(View.VISIBLE);
-        imgRight = leftDrawer.findViewById(R.id.imgRight);
-        rlWebsite = leftDrawer.findViewById(R.id.rlWebsite);
-        txtPrivacyPolicy = leftDrawer.findViewById(R.id.txtPrivacyPolicy);
-        txtEULA = leftDrawer.findViewById(R.id.txtEULA);
-        txtPodcast = leftDrawer.findViewById(R.id.txtPodcast);
-    }
-
+    /**
+     * Function: Initialize Fragment
+     */
     private void fragmentData() {
         fragmentManager = getFragmentManager();
         fragmentDashboard = new FragmentDashboard();
-        fragmentOverview = new FragmentOverview();
         fragmentConnection = new FragmentConnectionNew();
-        fragmentNotification = new FragmentNotification();
         fragmentResources = new FragmentResources();
-        fragmentForm = new FragmentForm();
+
         fragmentMarketPlace = new FragmentMarketPlace();
         fragmentVideos = new FragmentVideos();
-        fragmentBackup = new FragmentBackup();
+
+    }
+
+    public void callFirstFragment(String fragName, Fragment fragment) {
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainer, fragment, fragName);
+        fragmentTransaction.commit();
+
+        new Handler().postDelayed(new Runnable() {//shradha
+            @Override
+            public void run() {
+                //Here you can send the extras.
+                pd.dismiss();
+            }
+        }, 1000);
     }
 
     public void callFragment(String fragName, Fragment fragment) {
@@ -866,120 +672,83 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         }, 1000);
 
     }
-    /*|| fragName.equals("ADVANCE")*/
 
-    public void callFirstFragment(String fragName, Fragment fragment) {
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainer, fragment, fragName);
-        fragmentTransaction.commit();
-
-        new Handler().postDelayed(new Runnable() {//shradha
-            @Override
-            public void run() {
-                //Here you can send the extras.
-                pd.dismiss();
-            }
-        }, 1000);
-    }
-
-
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
-            /*Left drawer clicks-Shradha*/
-
-            case R.id.txtDrawer:
-                // Intent intn=new Intent(context, ImageActivity.class);
-                // startActivity(intn);
+            case R.id.txtDrawer://Oopen Drawer
                 drawerLayout.openDrawer(leftDrawer);
-                // copydb(context);
                 break;
 
             case R.id.rlHome:
-              /*  Drawable mDrawable = context.getResources().getDrawable(R.drawable.drawer_home);
-                mDrawable.setColorFilter(new
-                        PorterDuffColorFilter(context.getResources().getColor(R.color.colorMaroon),PorterDuff.Mode.MULTIPLY));
-*/
-
                 Intent intentHome = new Intent(context, SplashNewActivity.class);
                 intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentHome);
                 drawerLayout.closeDrawer(leftDrawer);
                 break;
-            case R.id.rlProfiles:
+
+            case R.id.rlProfiles://Profile list
                 Intent intentProfile = new Intent(context, BaseActivity.class);
                 intentProfile.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intentProfile.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentProfile);
                 drawerLayout.closeDrawer(leftDrawer);
-
-
                 break;
-            case R.id.rlResources:
+
+            case R.id.rlResources://Resources
                 Intent intentResources = new Intent(context, BaseActivity.class);
                 intentResources.putExtra("c", 2);
                 intentResources.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intentResources.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentResources);
                 drawerLayout.closeDrawer(leftDrawer);
-
-
                 break;
-            case R.id.rlSponsor:
 
+            case R.id.rlSponsor://sponsor
                 Intent intentSponsor = new Intent(context, BaseActivity.class);
                 intentSponsor.putExtra("c", 6);
                 intentSponsor.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intentSponsor.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentSponsor);
                 drawerLayout.closeDrawer(leftDrawer);
-
-
                 break;
-            case R.id.rlSettings:
+
+            case R.id.rlSettings://Settins
                 Intent intentSettings = new Intent(context, BaseActivity.class);
                 intentSettings.putExtra("c", 8);
                 intentSettings.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intentSettings.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentSettings);
                 drawerLayout.closeDrawer(leftDrawer);
-
-
                 break;
-            case R.id.rlBackup:
+
+            case R.id.rlBackup://Backup,restore
                 Intent intentBackup = new Intent(context, DropboxLoginActivity.class);
                 // intentBackup.putExtra("c", 7);
                 intentBackup.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intentBackup.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentBackup);
                 drawerLayout.closeDrawer(leftDrawer);
-
-             /*   Intent intentSettings = new Intent(context, BaseActivity.class);
-                intentSettings.putExtra("c", 7);
-                intentSettings.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intentSettings.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intentSettings);
-                drawerLayout.closeDrawer(leftDrawer);*/
-
-
                 break;
-            case R.id.rlContactUs:
+
+            case R.id.rlContactUs://Contact us
                 Intent intentContactUs = new Intent(context, BaseActivity.class);
                 intentContactUs.putExtra("c", 9);
                 intentContactUs.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intentContactUs.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentContactUs);
                 drawerLayout.closeDrawer(leftDrawer);
-
-
                 break;
-            case R.id.rlMarketPlace:
+
+            case R.id.rlMarketPlace://Market place
                 drawerLayout.closeDrawer(leftDrawer);
                 dialogCommingSoon();
-
-                //nikita
                 imgHome.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                 imgProfiles.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                 imgResources.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
@@ -989,7 +758,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 imgMarketPlace.setColorFilter(ContextCompat.getColor(context, R.color.colorBlue), android.graphics.PorterDuff.Mode.MULTIPLY);
                 imgVideos.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                 imgBackup.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
-
 
                 txtHome.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                 txtProfiles.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
@@ -1001,7 +769,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 txtMarketPlace.setTypeface(txtHome.getTypeface(), Typeface.BOLD);
                 txtVideos.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                 break;
-            case R.id.rlVideos:
+
+            case R.id.rlVideos://Video
                 drawerLayout.closeDrawer(leftDrawer);
                 dialogCommingSoon();
 
@@ -1034,6 +803,9 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Function: Comming Soon Dialog
+     */
     private void dialogCommingSoon() {
         final Dialog dialogBank = new Dialog(context);
         dialogBank.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -1043,9 +815,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         View dialogview = lf.inflate(R.layout.dialog_bank, null);
         final TextView txtComming = dialogview.findViewById(R.id.txtComming);
         final TextView txtOk = dialogview.findViewById(R.id.txtOk);
-
-        // txtComming.setText("Comming Soon");
-        // txtComming.setTextColor(R.color.colorBlue);
         dialogBank.setContentView(dialogview);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialogBank.getWindow().getAttributes());
@@ -1057,6 +826,11 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         dialogBank.show();
 
         txtOk.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 dialogBank.dismiss();
@@ -1064,47 +838,13 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-  /*  private void dialogCommingSoon() {
-    }*/
-
-
-    //Shradha
-    private void showBankDialog() {
-        final Dialog dialogBank = new Dialog(context);
-        dialogBank.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialogBank.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        LayoutInflater lf = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View dialogview = lf.inflate(R.layout.dialog_bank, null);
-        final TextView txtComming = dialogview.findViewById(R.id.txtComming);
-        final TextView txtOk = dialogview.findViewById(R.id.txtOk);
-
-        // txtComming.setText("Comming Soon");
-        // txtComming.setTextColor(R.color.colorBlue);
-        dialogBank.setContentView(dialogview);
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialogBank.getWindow().getAttributes());
-        int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.70);
-        lp.width = width;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.gravity = Gravity.CENTER;
-        dialogBank.getWindow().setAttributes(lp);
-        dialogBank.show();
-
-        txtOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogBank.dismiss();
-            }
-        });
-    }
-
-
+    /**
+     * Function: Activity Callback method called when screen gets visible and interactive
+     */
     @Override
     protected void onResume() {
         super.onResume();
         String image = preferences.getString(PrefConstants.USER_PROFILEIMAGE);
-
         txtDrawerName.setText(preferences.getString(PrefConstants.USER_NAME));
 
         if (!image.equals("")) {
@@ -1115,9 +855,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                     imgDrawerProfile.setImageResource(R.drawable.ic_profiles);
                 else
                     imgDrawerProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
-
-                //   imageLoaderProfile.displayImage(String.valueOf(Uri.fromFile(imgFile)), imgDrawerProfile, displayImageOptions);
-
             }
         } else {
             imgDrawerProfile.setImageResource(R.drawable.ic_profiles);
@@ -1129,80 +866,9 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
-    public void CopyReadAssetss(String documentPath) {
-        AssetManager assetManager = getAssets();
-        File outFile = null;
-        InputStream in = null;
-        OutputStream out = null;
-        File file = new File(getFilesDir(), documentPath);
-        try {
-            in = assetManager.open(documentPath);
-            outFile = new File(getExternalFilesDir(null), documentPath);
-            out = new FileOutputStream(outFile);
-
-            copyFiles(in, out);
-            in.close();
-            in = null;
-            out.flush();
-            out.close();
-            out = null;
-            /*out = openFileOutput(file.getName(), Context.MODE_WORLD_READABLE);
-            copyFiles(in, out);
-            in.close();
-            in = null;
-            out.flush();
-            out.close();
-            out = null;*/
-        } catch (Exception e) {
-            Log.e("tag", e.getMessage());
-        }
-        Uri uri = null;
-        // Uri uri= Uri.parse("file://" + getFilesDir() +"/"+documentPath);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            //  intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            uri = FileProvider.getUriForFile(context, "com.mindyourlovedone.healthcare.HomeActivity.fileProvider", outFile);
-        } else {
-            uri = Uri.fromFile(outFile);
-        }
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.setDataAndType(uri, "application/pdf");
-        try {
-            context.startActivity(intent);
-
-        } catch (ActivityNotFoundException e) {
-            // No application to view, ask to download one
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("No Application Found");
-            builder.setMessage("Download Office Tool from Google Play ?");
-            builder.setPositiveButton("Yes",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,
-                                            int which) {
-                            Intent marketIntent = new Intent(
-                                    Intent.ACTION_VIEW);
-                            marketIntent.setData(Uri
-                                    .parse("market://details?id=cn.wps.moffice_eng"));//varsa ("market://details?id=com.adobe.reader"));
-                            context.startActivity(marketIntent);
-                        }
-                    });
-            builder.setNegativeButton("No", null);
-            builder.create().show();
-        }
-
-    }
-
-    private void copyFiles(InputStream in, OutputStream out) throws IOException {
-        byte[] buffer = new byte[1024];
-        int read;
-        while ((read = in.read(buffer)) != -1) {
-            out.write(buffer, 0, read);
-        }
-    }
-
+    /**
+     * Function:Ceck for runtime permission
+     */
     private void accessPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
                 ContextCompat.checkSelfPermission(getApplicationContext(),
@@ -1219,28 +885,32 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                     android.Manifest.permission.READ_EXTERNAL_STORAGE
             }, REQUEST_CALL_PERMISSION);
 
-        } else {
-            // checkForRegistration();
         }
     }
 
+    /**
+     * Function: Callback for the result from requesting permissions.
+     *
+     * @param requestCode  int: The request code passed in requestPermissions(android.app.Activity, String[], int)
+     * @param permissions  String: The requested permissions. Never null.
+     * @param grantResults int: The grant results for the corresponding permissions which is either PERMISSION_GRANTED or PERMISSION_DENIED. Never null.
+     */
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
         switch (requestCode) {
             case REQUEST_CALL_PERMISSION: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                     //  checkForRegistration();
 
                 } else {
-
+                    //Check for runtime permission
                     accessPermission();
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                 }
                 return;
             }
-
             // other 'switch' lines to check for other
             // permissions this app might request
         }
@@ -1255,8 +925,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
             //Back buttons was pressed, do whatever logic you want
         }
 
@@ -1299,7 +967,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public class AsynData extends AsyncTask {//shradha
+    public class AsynData extends AsyncTask {
 
         @Override
         protected Object doInBackground(Object[] objects) {

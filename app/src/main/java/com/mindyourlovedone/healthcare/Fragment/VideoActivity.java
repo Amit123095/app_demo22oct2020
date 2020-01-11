@@ -17,29 +17,45 @@ import com.mindyourlovedone.healthcare.model.Links;
 
 import java.util.ArrayList;
 
+/**
+ * Class: VideoActivity
+ * Screen: Podcast and Videos Screen
+ * A class that manages Podcast and Videos list
+ */
 public class VideoActivity extends AppCompatActivity {
-    Context context=this;
+    Context context = this;
     ArrayList<String> Datalist;
     ArrayList<Links> UrlList;
     ListView list;
     TextView txtTitle, txtName;
     ImageView imgNoti, imgProfile, imgBack, imgPdf;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
+        //Initialize user interface view and components
         initUI();
-        initListener();
+
+        //Define Data
         getData();
+
+        //Set Data to list
         setData();
 
     }
 
+    /**
+     * Function: Set List Data
+     */
     private void setData() {
         ArrayAdapter adapter = new ArrayAdapter(context, R.layout.row_video, R.id.txtName, Datalist);
         list.setAdapter(adapter);
     }
 
+    /**
+     * Function: Define all Video link list
+     */
     private void getData() {
         UrlList = new ArrayList<>();
         Links l1 = new Links();
@@ -62,7 +78,6 @@ public class VideoActivity extends AppCompatActivity {
         l4.setUrl("https://youtu.be/fOhg2KrzL_I");
         UrlList.add(l4);
 
-        //Fol show
         Datalist = new ArrayList<>();
         Datalist.add("Overview | Aging Matters | NPT Reports");
         Datalist.add("Introduction to MYLO");
@@ -71,30 +86,23 @@ public class VideoActivity extends AppCompatActivity {
 
     }
 
-    private void initListener() {
 
-    }
-
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
-//        txtTitle = findViewById(R.id.txtTitle);
-//        txtTitle.setVisibility(View.VISIBLE);
-//        txtTitle.setText("VIDEOS");
-//        imgPdf = findViewById(R.id.imgPdf);
-//        imgPdf.setVisibility(View.GONE);
-//        imgProfile = findViewById(R.id.imgProfile);
-//        txtName = findViewById(R.id.txtName);
-//        txtName.setVisibility(View.GONE);
-//        imgProfile.setVisibility(View.GONE);
-//        imgNoti = findViewById(R.id.imgNoti);
-//        imgNoti.setVisibility(View.GONE);
         imgBack = findViewById(R.id.imgBack);
         imgBack.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
 
 
         list = findViewById(R.id.list);

@@ -25,7 +25,13 @@ import android.widget.Toast;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.utility.PrefConstants;
 import com.mindyourlovedone.healthcare.utility.Preferences;
-
+/**
+ * Class: GrabConnectionActivity
+ * Screen: Add new Contacts Screen
+ * A class that manages an Add new contacts from contacts list or create new
+ * extends Fragment
+ * implements OnclickListener for onclick event on views
+ */
 public class GrabConnectionActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     public static FragmentManager fragmentManager;
@@ -338,42 +344,26 @@ public class GrabConnectionActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
 
-
-           /* case R.id.txtsave:
-              //  Toast.makeText(context,"clicked",Toast.LENGTH_SHORT).show();
-//                if (fragmentManager.findFragmentByTag("NEWCONTACT") == null) {
-                fragmentNewContact.savedata();
-//                }
-
-                break;*/
-
             case R.id.txtNew:
                 if (fragmentManager.findFragmentByTag("NEWCONTACT") == null) {
                     callFragment("NEWCONTACT", fragmentNewContact);
                 }
-
                 break;
 
             case R.id.txtContact:
                 if (fragmentManager.findFragmentByTag("CONTACT") == null) {
                     callFragment("CONTACT", fragmentGrabContact);
                 }
-
                 break;
 
             case R.id.imgFb:
-                /*if (fragmentManager.findFragmentByTag("CONTACT") == null) {
-                    callFragment("CONTACT", fragmentGrabContact);
-                }*/
+
                 txtNew.setBackgroundColor(getResources().getColor(R.color.colorGray));
                 txtNew.setTextColor(getResources().getColor(R.color.colorLightBlue));
 
                 txtContact.setBackgroundColor(getResources().getColor(R.color.colorGray));
                 txtContact.setTextColor(getResources().getColor(R.color.colorLightBlue));
 
-               /* imgContact.setBackgroundColor(getResources().getColor(R.color.colorGray));
-                imgContact.setImageResource(R.drawable.ic_person_white);
-               */
                 imgFb.setBackgroundColor(getResources().getColor(R.color.colorLightBlue));
                 imgFb.setImageResource(R.drawable.fb_gray);
                 imgGoogle.setBackgroundColor(getResources().getColor(R.color.colorGray));
@@ -382,18 +372,12 @@ public class GrabConnectionActivity extends AppCompatActivity implements View.On
                 txtsave.setVisibility(View.VISIBLE);
                 break;
             case R.id.imgGoogle:
-               /* if (fragmentManager.findFragmentByTag("CONTACT") == null) {
-                    callFragment("CONTACT", fragmentGrabContact);
-                }*/
                 txtNew.setBackgroundColor(getResources().getColor(R.color.colorGray));
                 txtNew.setTextColor(getResources().getColor(R.color.colorLightBlue));
 
                 txtContact.setBackgroundColor(getResources().getColor(R.color.colorGray));
                 txtContact.setTextColor(getResources().getColor(R.color.colorLightBlue));
 
-               /* imgContact.setBackgroundColor(getResources().getColor(R.color.colorGray));
-                imgContact.setImageResource(R.drawable.ic_person_white);
-               */
                 imgFb.setBackgroundColor(getResources().getColor(R.color.colorGray));
                 imgFb.setImageResource(R.drawable.fb);
                 imgGoogle.setBackgroundColor(getResources().getColor(R.color.colorLightBlue));
@@ -427,7 +411,6 @@ public class GrabConnectionActivity extends AppCompatActivity implements View.On
 
         @Override
         protected Object doInBackground(Object[] objects) {
-
             return null;
         }
 

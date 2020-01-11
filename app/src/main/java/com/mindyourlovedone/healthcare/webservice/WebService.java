@@ -27,30 +27,12 @@ import java.net.URL;
 /**
  * Created by welcome on 11/17/2017.
  */
-
+/**
+ * Class: WebService
+ * Screen: WebService
+ * A class that manages Web API
+ */
 public class WebService {
-
-    //AWS Test Server
-  /*  private final static String POST_PDF_URL = "http://18.188.114.139/public/test/public/webservices/fax/sendFax";
-    private final String CREATE_PROFILE_URL = "http://18.188.114.139/public/test/public/webservices/user/createProfile";
-    private final String GET_PROFILE_URL = "http://18.188.114.139/public/test/public/webservices/user/getProfile";
-    private final String LOGIN_PROFILE_URL = "http://18.188.114.139/public/test/public/webservices/user/loginUser";
-    private final String EDIT_PROFILE_URL = "http://18.188.114.139/public/test/public/webservices/user/editProfile";
-    private final String UNSSUBSCRIBE_ME_URL = "http://18.188.114.139/public/test/public/webservices/user/unRegister";*/
-
-    //AWS Live Server
-  /*   private final static String POST_PDF_URL = "http://18.188.114.139/webservices/fax/sendFax";
-    private final String CREATE_PROFILE_URL = "http://18.188.114.139/webservices/user/createProfile";
-    private final String GET_PROFILE_URL = "http://18.188.114.139/webservices/user/getProfile";
-    private final String LOGIN_PROFILE_URL = "http://18.188.114.139/webservices/user/loginUser";
-    private final String EDIT_PROFILE_URL = "http://18.188.114.139/webservices/user/editProfile";
-    private final String UNSSUBSCRIBE_ME_URL = "http://18.188.114.139/webservices/user/unRegister";
-    */
-
-    //Live Server
-//    private final static String Base_URL ="http://mindyour-lovedones.com/MYLO/index.php/webservices"; //OLD Production
-    // private final static String Base_URL = "http://18.188.114.139/public/test/public/webservices"; //test -Nikita#Sub
-//    private final static String Base_URL = "http://app.mindyour-lovedones.com/public/test/public/webservices"; //test -Nikita#Sub
     private final static String Base_URL = "http://app.mindyour-lovedones.com/webservices";
 
     private final static String POST_PDF_URL = Base_URL + "/fax/sendFax";
@@ -62,22 +44,13 @@ public class WebService {
     private final String POST_SUBSCRIPTION = Base_URL + "/user/postSubscription";//Nikita#Sub
     private final String GET_SUBSCRIPTION = Base_URL + "/user/getSubscription";//Nikita#Sub
 
-//    //test
-//    private final String PRIVACY_URL = "http://18.188.114.139/PRIVACY_POLICY.pdf";
-//    private final String EULA_URL = "http://18.188.114.139/LICENSE_AGREEMENT.pdf";
-//    private final String WALLET_URL = "http://18.188.114.139/Wallet_Card.pdf";
-
-//    //TEST
-//    public static String PRIVACY_URL = "http://app.mindyour-lovedones.com/test/public/PRIVACY_POLICY.pdf";
-//    public static String EULA_URL = "http://app.mindyour-lovedones.com/test/public/LICENSE_AGREEMENT.pdf";
-//    public static String WALLET_URL = "http://app.mindyour-lovedones.com/test/public/Wallet_Card.pdf";
 
     //Prod
     public static String PRIVACY_URL = "http://app.mindyour-lovedones.com/PRIVACY_POLICY.pdf";
     public static String EULA_URL = "http://app.mindyour-lovedones.com/LICENSE_AGREEMENT.pdf";
     public static String WALLET_URL = "http://app.mindyour-lovedones.com/Wallet_Card.pdf";
-    public static String FAQ_URL= "http://mindyour-lovedones.com/MYLO/faq.html";
-    public static String USERGUIDE_URL  = "http://mindyour-lovedones.com/MYLO/uploads/User_Guide.pdf";
+    public static String FAQ_URL = "http://mindyour-lovedones.com/MYLO/faq.html";
+    public static String USERGUIDE_URL = "http://mindyour-lovedones.com/MYLO/uploads/User_Guide.pdf";
 
 
 //Test Server
@@ -88,6 +61,18 @@ public class WebService {
     private final String EDIT_PROFILE_URL = "http://demo.arihantwebconsultancy.com/mylo/public/webservices/user/editProfile";
     private final String UNSSUBSCRIBE_ME_URL = "http://demo.arihantwebconsultancy.com/mylo/public/webservices/user/unRegister";*/
 
+
+    /**
+     * Function : Upload File and Send Fax
+     * @param sourceFileUri
+     * @param number
+     * @param to
+     * @param from
+     * @param subject
+     * @param replayEmail
+     * @param context
+     * @return
+     */
     public static String uploadFile(String sourceFileUri, String number, String to, String from, String subject, String replayEmail, Context context) {
         String fileName = sourceFileUri;
         String result = "";
@@ -162,15 +147,6 @@ public class WebService {
             // Responses from the server (code and message)
             int serverResponseCode = conn.getResponseCode();
             String serverResponseMessage = conn.getResponseMessage();
-
-//			Log.i("uploadFile", "HTTP Response is : " + serverResponseMessage
-//					+ ": " + serverResponseCode);
-
-//			if (serverResponseCode == 200) {
-//				Toast.makeText(context, "Fax Submitted Sucessfully", Toast.LENGTH_LONG).show();
-//				System.out.println("" + serverResponseCode);
-//			}
-
             // close the streams //
             fileInputStream.close();
             dos.flush();
@@ -198,6 +174,12 @@ public class WebService {
         return result;
     }
 
+
+    /**
+     * Function: Decode Response into v result
+     * @param is
+     * @return
+     */
     public static String decodeResponse(InputStream is) {
 
         String result = "";
@@ -206,7 +188,7 @@ public class WebService {
             BufferedReader reader = new BufferedReader(new InputStreamReader(
                     is, "iso-8859-1"), 8);
             StringBuilder sb = new StringBuilder();
-            String line ;
+            String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
             }
@@ -214,7 +196,7 @@ public class WebService {
             result = sb.toString();
 
             Log.e("Response**** WebService", result);
-        } catch (IOException e){
+        } catch (IOException e) {
 
             Log.e("Buffer Error", "Problem reading a line " + e.toString());
         } catch (Exception e) {
@@ -247,16 +229,24 @@ public class WebService {
 
     }
 
-    //    Nikita#Sub
+    /**
+     * Function: Send Subscription Data
+     * @param userid
+     * @param transactionId
+     * @param startDate
+     * @param endDate
+     * @param email
+     * @return
+     */
     public String postSubscriptionData(String userid,
                                        String transactionId, String startDate, String endDate, String email) {
         String result = "";
         InputStream is = null;
         // new changes - nikita
-        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost(POST_SUBSCRIPTION);
-            try{
+            try {
                 httppost.setHeader("email", email);
                 httppost.setHeader("transactionId", transactionId);
                 httppost.setHeader("startDate", startDate);
@@ -281,65 +271,70 @@ public class WebService {
 
 
             result = decodeResponse(is);
-        }else {
-        HttpURLConnection conn = null;
+        } else {
+            HttpURLConnection conn = null;
 
-        try {
-            URL url = new URL(POST_SUBSCRIPTION);
+            try {
+                URL url = new URL(POST_SUBSCRIPTION);
 
-            conn = (HttpURLConnection)url.openConnection();
-            Log.e("URL parameter", "userid :" + userid + "\ntransactionId : "
-                    + transactionId + " \nstartDate : " + startDate + " \nendDate :" + endDate
-                    + "\nsource :" + "Android");
+                conn = (HttpURLConnection) url.openConnection();
+                Log.e("URL parameter", "userid :" + userid + "\ntransactionId : "
+                        + transactionId + " \nstartDate : " + startDate + " \nendDate :" + endDate
+                        + "\nsource :" + "Android");
 
-            conn.setReadTimeout(10000);
-            conn.setConnectTimeout(15000);
-            conn.setRequestMethod("POST");
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestProperty("charset", "utf-8");
-            //conn.setRequestProperty("userid", userid);
-            conn.setRequestProperty("email", email);// Varsha 15 oct 2019
-            conn.setRequestProperty("transactionId", transactionId);
-            conn.setRequestProperty("startDate", startDate);
-            conn.setRequestProperty("endDate", endDate);
-            conn.setRequestProperty("source", "Android");
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("charset", "utf-8");
+                //conn.setRequestProperty("userid", userid);
+                conn.setRequestProperty("email", email);// Varsha 15 oct 2019
+                conn.setRequestProperty("transactionId", transactionId);
+                conn.setRequestProperty("startDate", startDate);
+                conn.setRequestProperty("endDate", endDate);
+                conn.setRequestProperty("source", "Android");
 
-            conn.connect();
+                conn.connect();
 
-            // get stream
-            if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
-                is = conn.getInputStream();
-            } else {
-                is = conn.getErrorStream();
+                // get stream
+                if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                    is = conn.getInputStream();
+                } else {
+                    is = conn.getErrorStream();
+                }
+
+            } catch (ClientProtocolException e) {
+                return "exception";
+            } catch (IOException e) {
+                return "exception";
+            } finally {
+                if (conn != null) {
+                    conn.disconnect();
+                }
             }
 
-        } catch (ClientProtocolException e) {
-            return "exception";
-        } catch (IOException e) {
-            return "exception";
-        } finally {
-            if (conn != null) {
-                conn.disconnect();
-            }
+            result = decodeResponse(is);
         }
-
-        result = decodeResponse(is);
-    }
         return result;
 
     }
 
-    //    Nikita#Sub
+    /**
+     * Finction: Get Subscription Data
+     * @param userid
+     * @param email
+     * @return
+     */
     public String getSubscriptionData(String userid, String email) {
         String result = "";
         InputStream is = null;
         // new changes - nikita
-        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost(GET_SUBSCRIPTION);
-            try{
+            try {
                 httppost.setHeader("email", email);
 
                 HttpResponse response = httpclient.execute(httppost);
@@ -361,13 +356,13 @@ public class WebService {
 
 
             result = decodeResponse(is);
-        }else {
+        } else {
             HttpURLConnection conn = null;
 
             try {
                 URL url = new URL(GET_SUBSCRIPTION);
 
-                conn = (HttpURLConnection)url.openConnection();
+                conn = (HttpURLConnection) url.openConnection();
                 Log.e("URL parameter", "userid :" + userid);
 
                 conn.setReadTimeout(10000);
@@ -405,53 +400,61 @@ public class WebService {
 
     }
 
-
+    /**
+     * Function: Registration On Server
+     * @param firstName
+     * @param lastName
+     * @param state
+     * @param mail
+     * @param password
+     * @param deviceUdid
+     * @param deviceType
+     * @return
+     */
     public String createProfile(String firstName, String lastName,
                                 String state, String mail, String password, String deviceUdid,
                                 String deviceType) {
 
-//        HttpClient httpclient = new DefaultHttpClient();
-//        HttpPost httppost = new HttpPost(CREATE_PROFILE_URL);
         String result = "";
         InputStream is = null;
         // new changes - nikita
-        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost(CREATE_PROFILE_URL);
-            try{
+            try {
                 httppost.setHeader("firstName", firstName);
-            httppost.setHeader("lastName", lastName);
-            httppost.setHeader("state", state);
-            httppost.setHeader("email", mail.trim());
-            httppost.setHeader("password", password);
-            httppost.setHeader("deviceUdid", deviceUdid);
-            httppost.setHeader("deviceType", deviceType);
-            HttpResponse response = httpclient.execute(httppost);
+                httppost.setHeader("lastName", lastName);
+                httppost.setHeader("state", state);
+                httppost.setHeader("email", mail.trim());
+                httppost.setHeader("password", password);
+                httppost.setHeader("deviceUdid", deviceUdid);
+                httppost.setHeader("deviceType", deviceType);
+                HttpResponse response = httpclient.execute(httppost);
 
-            HttpEntity responseEntity = response.getEntity();
+                HttpEntity responseEntity = response.getEntity();
 
-            if (responseEntity != null) {
+                if (responseEntity != null) {
 
-                is = responseEntity.getContent();
+                    is = responseEntity.getContent();
+                }
+
+            } catch (ClientProtocolException e) {
+                return "exception";
+            } catch (IOException e) {
+                return "exception";
+            } finally {
+
             }
 
-        } catch (ClientProtocolException e) {
-            return "exception";
-        } catch (IOException e) {
-            return "exception";
-        } finally {
 
-        }
-
-
-        result = decodeResponse(is);
-    }else {
+            result = decodeResponse(is);
+        } else {
             HttpURLConnection conn = null;
 
             try {
                 URL url = new URL(CREATE_PROFILE_URL);
 
-                conn = (HttpURLConnection)url.openConnection();
+                conn = (HttpURLConnection) url.openConnection();
                 Log.e("URL parameter", "First Name :" + firstName + "\nlastName : "
                         + lastName + " \nState : " + state + " \nemail :" + mail
                         + "\npassword :" + password + " \nDeviceId :" + deviceUdid
@@ -471,25 +474,6 @@ public class WebService {
                 conn.setRequestProperty("password", password);
                 conn.setRequestProperty("deviceUdid", deviceUdid);
                 conn.setRequestProperty("deviceType", deviceType);
-
-//            Uri.Builder builder = new Uri.Builder()
-//                    .appendQueryParameter("firstName", firstName)
-//                    .appendQueryParameter("lastName", lastName)
-//                    .appendQueryParameter("state", state)
-//            .appendQueryParameter("email", mail.trim())
-//            .appendQueryParameter("password", password)
-//            .appendQueryParameter("deviceUdid", deviceUdid)
-//                    .appendQueryParameter("deviceType", deviceType);
-//            String query = builder.build().getEncodedQuery();
-//
-//            OutputStream os = conn.getOutputStream();
-//            BufferedWriter writer = new BufferedWriter(
-//                    new OutputStreamWriter(os, "UTF-8"));
-//            writer.write(query);
-//            writer.flush();
-//            writer.close();
-//            os.close();
-
                 conn.connect();
 
                 // get stream
@@ -498,23 +482,6 @@ public class WebService {
                 } else {
                     is = conn.getErrorStream();
                 }
-
-
-//            httppost.setHeader("firstName", firstName);
-//            httppost.setHeader("lastName", lastName);
-//            httppost.setHeader("state", state);
-//            httppost.setHeader("email", mail.trim());
-//            httppost.setHeader("password", password);
-//            httppost.setHeader("deviceUdid", deviceUdid);
-//            httppost.setHeader("deviceType", deviceType);
-//            HttpResponse response = httpclient.execute(httppost);
-//
-//            HttpEntity responseEntity = response.getEntity();
-//
-//            if (responseEntity != null) {
-//
-//                is = responseEntity.getContent();
-//            }
 
             } catch (ClientProtocolException e) {
                 return "exception";
@@ -532,26 +499,19 @@ public class WebService {
 
     }
 
+    /**
+     * Function: Get user profile
+     * @param name
+     * @param email
+     * @return
+     */
     public String getProfile(String name, String email) {
         String result = "";
         InputStream is = null;
-        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost(LOGIN_PROFILE_URL);
             try {
-//                Uri.Builder builder = new Uri.Builder()
-//                        .appendQueryParameter("firstName", name)
-//                        .appendQueryParameter("email", email);
-//                String query = builder.build().getEncodedQuery();
-
-//                OutputStream os = conn.getOutputStream();
-//                BufferedWriter writer = new BufferedWriter(
-//                        new OutputStreamWriter(os, "UTF-8"));
-//                writer.write(query);
-//                writer.flush();
-//                writer.close();
-//                os.close();
-
 
                 httppost.setHeader("firstName", name);
                 httppost.setHeader("email", email);
@@ -572,18 +532,14 @@ public class WebService {
             } finally {
 
             }
-
-
             result = decodeResponse(is);
-        }else {
+        } else {
             // new changes - nikita
             HttpURLConnection conn = null;
-
-
             try {
                 URL url = new URL(LOGIN_PROFILE_URL);
 
-                conn = (HttpURLConnection)url.openConnection();
+                conn = (HttpURLConnection) url.openConnection();
                 Log.e("Encode String", name);
                 Log.e("Encode String", email);
 
@@ -607,18 +563,6 @@ public class WebService {
                     is = conn.getErrorStream();
                 }
 
-//            httppost.setHeader("firstName", name);
-//            httppost.setHeader("email", email);
-//
-//            HttpResponse response = httpclient.execute(httppost);
-//
-//            HttpEntity responseEntity = response.getEntity();
-//
-//            if (responseEntity != null) {
-//
-//                is = responseEntity.getContent();
-//            }
-
             } catch (ClientProtocolException e) {
                 return "exception";
             } catch (IOException e) {
@@ -636,80 +580,40 @@ public class WebService {
 
     }
 
-    /* public String unSubscribeMe(String userId) {
-
-         HttpClient httpclient = new DefaultHttpClient();
-         HttpPost httppost = new HttpPost(UNSSUBSCRIBE_ME_URL);
-         String result = "";
-         InputStream is = null;
-         try {
-
-             Log.e("Encode String", userId);
-
-             httppost.setHeader("userId", userId);
-
-             HttpResponse response = httpclient.execute(httppost);
-
-             HttpEntity responseEntity = response.getEntity();
-
-             if (responseEntity != null) {
-
-                 is = responseEntity.getContent();
-             }
-
-         } catch (ClientProtocolException e) {
-             return "exception";
-         } catch (IOException e) {
-             return "exception";
-         }
-
-         result = decodeResponse(is);
-
-         return result;
-
-     }
- */
+    /**
+     * Function: Update User Profile
+     * @param id
+     * @param firstName
+     * @param lastName
+     * @param state
+     * @param email
+     * @param password
+     * @return
+     */
     public String editProfile(String id, String firstName, String lastName,
                               String state, String email, String password) {
-        // new changes - nikita
         String result = "";
         InputStream is = null;
-        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost(LOGIN_PROFILE_URL);
             try {
-//                Uri.Builder builder = new Uri.Builder()
-//                        .appendQueryParameter("firstName", name)
-//                        .appendQueryParameter("email", email);
-//                String query = builder.build().getEncodedQuery();
+                httppost.setHeader("userId", id);
+                httppost.setHeader("firstName", firstName);
+                httppost.setHeader("lastName", lastName);
+                httppost.setHeader("state", state);
+                httppost.setHeader("email", email.trim());
+                //    if (!password.equals("")) {
+                httppost.setHeader("password", password);
+                //   }
+                HttpResponse response = httpclient.execute(httppost);
 
-//                OutputStream os = conn.getOutputStream();
-//                BufferedWriter writer = new BufferedWriter(
-//                        new OutputStreamWriter(os, "UTF-8"));
-//                writer.write(query);
-//                writer.flush();
-//                writer.close();
-//                os.close();
+                HttpEntity responseEntity = response.getEntity();
 
+                if (responseEntity != null) {
 
-                            httppost.setHeader("userId", id);
-            httppost.setHeader("firstName", firstName);
-            httppost.setHeader("lastName", lastName);
-            httppost.setHeader("state", state);
-            httppost.setHeader("email", email.trim());
-            //    if (!password.equals("")) {
-            httppost.setHeader("password", password);
-            //   }
-            HttpResponse response = httpclient.execute(httppost);
-
-            HttpEntity responseEntity = response.getEntity();
-
-            if (responseEntity != null) {
-
-                is = responseEntity.getContent();
-            }
-
-
+                    is = responseEntity.getContent();
+                }
 
             } catch (ClientProtocolException e) {
                 return "exception";
@@ -718,94 +622,50 @@ public class WebService {
             } finally {
 
             }
-
-
             result = decodeResponse(is);
-        }else {
+        } else {
 
-        HttpURLConnection conn = null;
-//        HttpClient httpclient = new DefaultHttpClient();
-//        HttpPost httppost = new HttpPost(EDIT_PROFILE_URL);
+            HttpURLConnection conn = null;
+            try {
+                URL url = new URL(EDIT_PROFILE_URL);
 
-        try {
-            URL url = new URL(EDIT_PROFILE_URL);
+                conn = (HttpURLConnection) url.openConnection();
+                Log.e("URL parameter", "id :" + id + "First Name :" + firstName
+                        + "\nlastName : " + lastName + " \nState : " + state
+                        + " \nemail :" + email + "\npassword :" + password);
 
-            conn = (HttpURLConnection)url.openConnection();
-            Log.e("URL parameter", "id :" + id + "First Name :" + firstName
-                    + "\nlastName : " + lastName + " \nState : " + state
-                    + " \nemail :" + email + "\npassword :" + password);
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("charset", "utf-8");
+                conn.setRequestProperty("userId", id);
+                conn.setRequestProperty("firstName", firstName);
+                conn.setRequestProperty("lastName", lastName);
+                conn.setRequestProperty("state", state);
+                conn.setRequestProperty("email", email.trim());
+                conn.setRequestProperty("password", password);
+                conn.connect();
+                // get stream
+                if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                    is = conn.getInputStream();
+                } else {
+                    is = conn.getErrorStream();
+                }
 
-            conn.setReadTimeout(10000);
-            conn.setConnectTimeout(15000);
-            conn.setRequestMethod("POST");
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestProperty("charset", "utf-8");
-            conn.setRequestProperty("userId", id);
-            conn.setRequestProperty("firstName", firstName);
-            conn.setRequestProperty("lastName", lastName);
-            conn.setRequestProperty("state", state);
-            conn.setRequestProperty("email", email.trim());
-            conn.setRequestProperty("password", password);
-
-//            Uri.Builder builder = new Uri.Builder()
-//                    .appendQueryParameter("userId", id)
-//                    .appendQueryParameter("firstName", firstName)
-//                    .appendQueryParameter("lastName", lastName)
-//                    .appendQueryParameter("state", state)
-//                    .appendQueryParameter("email", email.trim())
-//                    .appendQueryParameter("password", password);
-//            String query = builder.build().getEncodedQuery();
-//
-//            OutputStream os = conn.getOutputStream();
-//            BufferedWriter writer = new BufferedWriter(
-//                    new OutputStreamWriter(os, "UTF-8"));
-//            writer.write(query);
-//            writer.flush();
-//            writer.close();
-//            os.close();
-
-            conn.connect();
-
-            // get stream
-            if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
-                is = conn.getInputStream();
-            } else {
-                is = conn.getErrorStream();
+            } catch (ClientProtocolException e) {
+                return "exception";
+            } catch (IOException e) {
+                return "exception";
+            } finally {
+                if (conn != null) {
+                    conn.disconnect();
+                }
             }
-
-
-//            httppost.setHeader("userId", id);
-//            httppost.setHeader("firstName", firstName);
-//            httppost.setHeader("lastName", lastName);
-//            httppost.setHeader("state", state);
-//            httppost.setHeader("email", email.trim());
-//            //    if (!password.equals("")) {
-//            httppost.setHeader("password", password);
-//            //   }
-//            HttpResponse response = httpclient.execute(httppost);
-//
-//            HttpEntity responseEntity = response.getEntity();
-//
-//            if (responseEntity != null) {
-//
-//                is = responseEntity.getContent();
-//            }
-
-        } catch (ClientProtocolException e) {
-            return "exception";
-        } catch (IOException e) {
-            return "exception";
-        } finally {
-            if (conn != null) {
-                conn.disconnect();
-            }
+            result = decodeResponse(is);
         }
-
-
-        result = decodeResponse(is);
-    }
         return result;
 
     }

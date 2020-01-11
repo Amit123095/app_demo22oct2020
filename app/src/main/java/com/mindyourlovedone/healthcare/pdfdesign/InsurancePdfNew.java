@@ -22,14 +22,18 @@ import java.util.ArrayList;
  * Created by welcome on 11/7/2017.
  */
 
-
+/**
+ * Class: InsurancePdfNew
+ * Screen: Personal Insurance Sections
+ * A class that manages pdf creation of Insurance Section
+ */
 public class InsurancePdfNew {
     public static ArrayList<String> messageInsurance = new ArrayList<String>();
     public static ArrayList<String> messageCard = new ArrayList<String>();
     public static ArrayList<String> messageForm = new ArrayList<String>();
 
     Font BlackFont;
-
+//Set Font
     private void InsuranceNewFont() {
         try {
             BaseFont base = BaseFont.createFont("assets/Lato-Regular.ttf", "UTF-8",BaseFont.EMBEDDED);
@@ -244,6 +248,12 @@ public class InsurancePdfNew {
         }
     }
 
+    /**
+     * Function: Create Insurance Card list PDF
+     * @param cardList
+     * @param f
+     * @param pp
+     */
     public InsurancePdfNew(ArrayList<Card> cardList, int f, Image pp) {
         InsuranceNewFont();
         try {
@@ -323,6 +333,12 @@ public class InsurancePdfNew {
         }
     }
 
+    /**
+     * Function: Create Inurance Form PDF
+     * @param formList
+     * @param form
+     * @param pp
+     */
     public InsurancePdfNew(ArrayList<Form> formList, String form, Image pp) {
         InsuranceNewFont();
         try {
@@ -410,6 +426,15 @@ public class InsurancePdfNew {
 
     }
 
+    /**
+     * Function: Create Insurance Companies PDF
+     * @param s
+     * @param insurance1
+     * @param phonelists
+     * @param i
+     * @param aphonelists
+     * @param pp
+     */
     public InsurancePdfNew(Insurance s, String insurance1, ArrayList<ContactData> phonelists, int i, ArrayList<ContactData> aphonelists, Image pp) {
       InsuranceNewFont();
         try {

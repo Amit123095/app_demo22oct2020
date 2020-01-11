@@ -52,8 +52,17 @@ import java.util.Comparator;
  * Created by varsha on 8/28/2017.
  */
 
+/**
+ * Class: FragmentSpecialist
+ * Screen: Doctor Contacts List
+ * A class that manages List of Physician Contacts
+ * Add New Physician Contact
+ * Call Physician Contact
+ * Generate, View, Email, Fax PDF Reports
+ * extends Fragment
+ * implements OnclickListener for onclick event on views
+ */
 public class FragmentSpecialist extends Fragment implements View.OnClickListener {
-    final String dialog_items[] = {"View", "Email", "User Instructions"};
     ImageView imgRight;
     View rootview;
     RecyclerView lvSpecialist;
@@ -64,27 +73,48 @@ public class FragmentSpecialist extends Fragment implements View.OnClickListener
     RelativeLayout rlGuide, relMsg;
     TextView txtMsg, txtFTU;
     FloatingActionButton floatProfile;
-    ImageView  floatAdd, floatOptions;
-    TextView txthelp; ImageView imghelp;
+    ImageView floatAdd, floatOptions;
+    TextView txthelp;
+    ImageView imghelp;
 
+    /**
+     * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
+     * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
+     * @param savedInstanceState Bundle: If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_specialist, null);
+
+        //Initialize database, get primary data and set data
         initComponent();
+
+        //Fetch physician Contact Data
         getData();
+
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
 
         return rootview;
     }
 
+    /**
+     * Function: Initialize database, Preferences
+     */
     private void initComponent() {
         preferences = new Preferences(getActivity());
         dbHelper = new DBHelper(getActivity(), preferences.getString(PrefConstants.CONNECTED_USERDB));
         SpecialistQuery s = new SpecialistQuery(getActivity(), dbHelper);
     }
 
+    /**
+     * Function: Set Contact data on list
+     */
     private void setListData() {
         if (specialistList.size() != 0) {
             Collections.sort(specialistList, new Comparator<Specialist>() {
@@ -97,16 +127,20 @@ public class FragmentSpecialist extends Fragment implements View.OnClickListener
             lvSpecialist.setAdapter(specialistAdapter);
             lvSpecialist.setVisibility(View.VISIBLE);
             rlGuide.setVisibility(View.GONE);
-            imghelp .setVisibility(View.GONE);
+            imghelp.setVisibility(View.GONE);
             txthelp.setVisibility(View.GONE);
         } else {
             lvSpecialist.setVisibility(View.GONE);
             rlGuide.setVisibility(View.VISIBLE);
             txthelp.setVisibility(View.VISIBLE);
-            imghelp .setVisibility(View.VISIBLE);
+            imghelp.setVisibility(View.VISIBLE);
         }
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         //  imgADMTick.setOnClickListener(this);
         llAddSpecialist.setOnClickListener(this);
@@ -116,6 +150,9 @@ public class FragmentSpecialist extends Fragment implements View.OnClickListener
         floatOptions.setOnClickListener(this);
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         //shradha
         floatProfile = rootview.findViewById(R.id.floatProfile);
@@ -162,12 +199,16 @@ public class FragmentSpecialist extends Fragment implements View.OnClickListener
         // txtMsg.setText(Html.fromHtml(msg));
         txtFTU = rootview.findViewById(R.id.txtFTU);
         txtFTU.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent intentEmerInstruc = new Intent(getActivity(), InstructionActivity.class);
                 intentEmerInstruc.putExtra("From", "DoctorInstruction");
                 startActivity(intentEmerInstruc);
-                //relMsg.setVisibility(View.VISIBLE);
             }
         });
         imgRight = getActivity().findViewById(R.id.imgRight);
@@ -181,55 +222,30 @@ public class FragmentSpecialist extends Fragment implements View.OnClickListener
         // Layout Managers:
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         lvSpecialist.setLayoutManager(linearLayoutManager);
-
         //add ItemDecoration
         lvSpecialist.addItemDecoration(new VerticalSpaceItemDecoration(48));
-
         //or
         lvSpecialist.addItemDecoration(
                 new DividerItemDecoration(getActivity(), R.drawable.divider));
-        //...
-      /*  if (specialistList.size()!=0||specialistList!=null)
-        {*/
         setListData();
-        //}*/
-
-
     }
 
+    /**
+     * Function: Make Call to clicked contact person
+     */
     public void callUser(Specialist item) {
-        ArrayList<ContactData>  phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID),item.getId(), "Doctor");
-
-
-        if (phonelist.size()>0)
-        {
+        ArrayList<ContactData> phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), item.getId(), "Doctor");
+        if (phonelist.size() > 0) {
             CallDialog c = new CallDialog();
             c.showCallDialogs(getActivity(), phonelist);
-        }else {
-            Toast.makeText(getActivity(), "You have not added phone number for call", Toast.LENGTH_SHORT).show();
-        }
-        /*ArrayList<ContactData>  phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID),item.getId(), "Specialist");
-
-
-        if (phonelist.size()>0)
-        {
-            CallDialog c = new CallDialog();
-            c.showCallDialogs(getActivity(), phonelist);
-        }else {
-            Toast.makeText(getActivity(), "You have not added phone number for call", Toast.LENGTH_SHORT).show();
-        }*//* String mobile = item.getOfficePhone();
-        String hphone = item.getHourPhone();
-        String wPhone = item.getOtherPhone();
-
-        if (mobile.length() != 0 || hphone.length() != 0 || wPhone.length() != 0) {
-            CallDialog c = new CallDialog();
-            c.showCallDialog(getActivity(), mobile, hphone, wPhone);
         } else {
             Toast.makeText(getActivity(), "You have not added phone number for call", Toast.LENGTH_SHORT).show();
-        }*/
-
+        }
     }
 
+    /**
+     * Function: Delete selected contact
+     */
     public void deleteSpecialist(final Specialist item) {
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setTitle("Delete");
@@ -255,156 +271,45 @@ public class FragmentSpecialist extends Fragment implements View.OnClickListener
             }
         });
         alert.show();
-
-
     }
-
+    /**
+     * Function: Fetch all doctor contacts
+     */
     private void getData() {
         specialistList = SpecialistQuery.fetchAllPhysicianRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), 2);
-        //   specialistList=new ArrayList<>();
-
-        /*Specialist P1=new Specialist();
-        P1.setName("Dr. John");
-        P1.setType("Orthopedic");
-        P1.setAddress("#203,10 los Street, los Angeles, California.");
-        P1.setImage(R.drawable.doct);
-        P1.setPhone("789-789-5236");
-
-
-        Specialist P2=new Specialist();
-        P2.setName("Dr. James");
-        P2.setType("Neuro Surgeon");
-        P2.setAddress("#204,10 upper Street, los Angeles, California.");
-        P2.setImage(R.drawable.docto);
-        P2.setPhone("987-789-5236");
-
-        Specialist P3=new Specialist();
-        P3.setName("Dr. Smith");
-        P3.setType("Neuro Surgeon");
-        P3.setAddress("#205,10 Left Street, los Angeles, California.");
-        P3.setImage(R.drawable.doctors);
-        P3.setPhone("789-789-5236");
-*/
-      /*  specialistList.add(P1);
-        specialistList.add(P2);
-        specialistList.add(P3);*/
-
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.floatProfile:
                 Intent intentDashboard = new Intent(getActivity(), BaseActivity.class);
                 intentDashboard.putExtra("c", 1);//Profile Data
-                // intentDashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                //   intentDashboard.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentDashboard);
                 break;
-            case R.id.floatAdd:
+            case R.id.floatAdd://Add New Contact// Add new doctor
                 showFloatDialog();
-
-                // DialogManager dialogManager=new DialogManager(new FragmentSpecialist());
-                // dialogManager.showCommonDialog("Add?","Do you want to add new specialist?",getActivity(),"ADD_SPECIALIST",null);
                 break;
-            case R.id.floatOptions:
+            case R.id.floatOptions: //Reports option
                 showFloatPdfDialog();
-
-                // DialogManager dialogManager=new DialogManager(new FragmentSpecialist());
-                // dialogManager.showCommonDialog("Add?","Do you want to add new specialist?",getActivity(),"ADD_SPECIALIST",null);
                 break;
-           /* case R.id.llAddSpecialist:
-                preferences.putString(PrefConstants.SOURCE, "Speciality");
-                Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
-                startActivity(i);
-                // DialogManager dialogManager=new DialogManager(new FragmentSpecialist());
-                // dialogManager.showCommonDialog("Add?","Do you want to add new specialist?",getActivity(),"ADD_SPECIALIST",null);
-                break;*/
-            case R.id.imgRight:
+
+            case R.id.imgRight:// Instructions
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "DoctorInstruction");
                 startActivity(i);
-               /* final String RESULT = Environment.getExternalStorageDirectory()
-                        + "/mylopdf/";
-                File dirfile = new File(RESULT);
-                dirfile.mkdirs();
-                File file = new File(dirfile, "Doctor.pdf");
-                if (file.exists()) {
-                    file.delete();
-                }
-                new Header().createPdfHeader(file.getAbsolutePath(),
-                        "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-                preferences.copyFile("ic_launcher.png", getActivity());
-                Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-                Header.addEmptyLine(1);
-                Header.addusereNameChank("Doctor");//preferences.getString(PrefConstants.CONNECTED_NAME));
-                Header.addEmptyLine(1);
-                Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-                Paragraph p = new Paragraph(" ");
-                LineSeparator line = new LineSeparator();
-                line.setOffset(-4);
-                line.setLineColor(BaseColor.LIGHT_GRAY);
-                p.add(line);
-                try {
-                    Header.document.add(p);
-                } catch (DocumentException e) {
-                    e.printStackTrace();
-                }
-                Header.addEmptyLine(1);
-               *//* new Header().createPdfHeader(file.getAbsolutePath(),
-                        "Doctor");
-
-                Header.addusereNameChank(preferences.getString(PrefConstants.CONNECTED_NAME));
-                Header.addEmptyLine(2);*//*
-
-                ArrayList<Specialist> specialistsList = SpecialistQuery.fetchAllPhysicianRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), 2);
-                new Specialty(specialistsList, "Doctors");
-                Header.document.close();
-
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                builder.setTitle("");
-
-                builder.setItems(dialog_items, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int itemPos) {
-                        String path = Environment.getExternalStorageDirectory()
-                                + "/mylopdf/"
-                                + "/Doctor.pdf";
-                        switch (itemPos) {
-                            case 0: //View
-                                StringBuffer result = new StringBuffer();
-                                result.append(new MessageString().getDoctorsInfo());
-
-                                new PDFDocumentProcess(path,
-                                        getActivity(), result);
-
-                                System.out.println("\n" + result + "\n");
-
-                                break;
-                            case 1://Email
-                                File f = new File(path);
-                                preferences.emailAttachement(f, getActivity(), "Doctors");
-                                break;
-                            case 2://FTU
-                                Intent i = new Intent(getActivity(), InstructionActivity.class);
-                                i.putExtra("From", "DoctorInstruction");
-                                startActivity(i);
-                                break;
-                          *//*  case 2://fax
-                                new FaxCustomDialog(getActivity(), path).show();
-                                break;*//*
-                        }
-                    }
-
-                });
-                builder.create().show();*/
                 break;
         }
     }
 
+    /**
+     * Function - Display dialog for Reports options i.e view, email, fax
+     */
     private void showFloatPdfDialog() {
         final String RESULT = Environment.getExternalStorageDirectory()
                 + "/mylopdf/";
@@ -414,59 +319,26 @@ public class FragmentSpecialist extends Fragment implements View.OnClickListener
         if (file.exists()) {
             file.delete();
         }
-      /*  new Header().createPdfHeader(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-        preferences.copyFile("ic_launcher.png", getActivity());
-        Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-        Header.addEmptyLine(1);
-        Header.addusereNameChank("Doctors & Other Health Care Professionals");//pFreferences.getString(PrefConstants.CONNECTED_NAME));
-        Header.addEmptyLine(1);
-        Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-        Paragraph p = new Paragraph(" ");
-        LineSeparator line = new LineSeparator();
-        line.setOffset(-4);
-        line.setLineColor(BaseColor.LIGHT_GRAY);
-        p.add(line);
-        try {
-            Header.document.add(p);
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
-        Header.addEmptyLine(1);
-               *//* new Header().createPdfHeader(file.getAbsolutePath(),
-                        "Doctor");
-
-                Header.addusereNameChank(preferences.getString(PrefConstants.CONNECTED_NAME));
-                Header.addEmptyLine(2);*//*
-
-        ArrayList<Specialist> specialistsList = SpecialistQuery.fetchAllPhysicianRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), 2);
-
-        for(int i=0;i<specialistsList.size();i++) {
-            final ArrayList<ContactData> phonelists= ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), specialistsList.get(i).getId(),"Doctor");
-            new Specialty(specialistsList.get(i), "Doctors", phonelists,i);
-        }
-
-        Header.document.close();*/
-
         // New pdf varsa
-        Image pdflogo = null,calendar= null,profile= null,calendarWite= null,profileWite= null;
-        pdflogo=preferences.addFile("pdflogo.png", getActivity());
-        calendar=preferences.addFile("calpdf.png", getActivity());calendarWite=preferences.addFile("calpdf_wite.png", getActivity());
-        profile=preferences.addFile("profpdf.png", getActivity()); profileWite=preferences.addFile("profpdf_wite.png", getActivity());
+        Image pdflogo = null, calendar = null, profile = null, calendarWite = null, profileWite = null;
+        pdflogo = preferences.addFile("pdflogo.png", getActivity());
+        calendar = preferences.addFile("calpdf.png", getActivity());
+        calendarWite = preferences.addFile("calpdf_wite.png", getActivity());
+        profile = preferences.addFile("profpdf.png", getActivity());
+        profileWite = preferences.addFile("profpdf_wite.png", getActivity());
 
         new HeaderNew().createPdfHeaders(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME),preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO),pdflogo,calendar,profile,"DOCTORS & OTHER HEALTH CARE PROFESSIONALS", calendarWite, profileWite);
+                "" + preferences.getString(PrefConstants.CONNECTED_NAME), preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO), pdflogo, calendar, profile, "DOCTORS & OTHER HEALTH CARE PROFESSIONALS", calendarWite, profileWite);
 
         HeaderNew.addusereNameChank("DOCTORS & OTHER HEALTH CARE PROFESSIONALS");//preferences.getString(PrefConstants.CONNECTED_NAME));
         HeaderNew.addEmptyLine(1);
         Image pp = null;
-        pp=preferences.addFile("sp_one.png", getActivity());
+        pp = preferences.addFile("sp_one.png", getActivity());
         ArrayList<Specialist> specialistsList = SpecialistQuery.fetchAllPhysicianRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), 2);
 
-        for(int i=0;i<specialistsList.size();i++) {
-            final ArrayList<ContactData> phonelists= ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), specialistsList.get(i).getId(),"Doctor");
-            new SpecialtyNew(specialistsList.get(i), "Doctors", phonelists,i,pp);
+        for (int i = 0; i < specialistsList.size(); i++) {
+            final ArrayList<ContactData> phonelists = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), specialistsList.get(i).getId(), "Doctor");
+            new SpecialtyNew(specialistsList.get(i), "Doctors", phonelists, i, pp);
         }
         HeaderNew.document.close();
         //--------------------------------------------------------
@@ -502,6 +374,11 @@ public class FragmentSpecialist extends Fragment implements View.OnClickListener
 
         rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         floatCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -509,6 +386,11 @@ public class FragmentSpecialist extends Fragment implements View.OnClickListener
         });
 
         floatEmail.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
@@ -523,6 +405,11 @@ public class FragmentSpecialist extends Fragment implements View.OnClickListener
         });
 
         floatViewPdf.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
@@ -543,70 +430,87 @@ public class FragmentSpecialist extends Fragment implements View.OnClickListener
     }
 
 
+    /**
+     * Function: To display floating menu for add new profile
+     */
     private void showFloatDialog() {
-            final Dialog dialog = new Dialog(getActivity());
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            LayoutInflater lf = (LayoutInflater) getActivity()
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View dialogview = lf.inflate(R.layout.activity_transparent, null);
-            final RelativeLayout rlView = dialogview.findViewById(R.id.rlView);
-            final FloatingActionButton floatCancel = dialogview.findViewById(R.id.floatCancel);
-            final FloatingActionButton floatContact = dialogview.findViewById(R.id.floatContact);
-            //floatContact.setImageResource(R.drawable.closee);
-            final FloatingActionButton floatNew = dialogview.findViewById(R.id.floatNew);
-            // floatNew.setImageResource(R.drawable.eyee);
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        LayoutInflater lf = (LayoutInflater) getActivity()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View dialogview = lf.inflate(R.layout.activity_transparent, null);
+        final RelativeLayout rlView = dialogview.findViewById(R.id.rlView);
+        final FloatingActionButton floatCancel = dialogview.findViewById(R.id.floatCancel);
+        final FloatingActionButton floatContact = dialogview.findViewById(R.id.floatContact);
+        //floatContact.setImageResource(R.drawable.closee);
+        final FloatingActionButton floatNew = dialogview.findViewById(R.id.floatNew);
+        // floatNew.setImageResource(R.drawable.eyee);
 
-            TextView txtNew = dialogview.findViewById(R.id.txtNew);
-            txtNew.setText(getResources().getString(R.string.AddNew));
+        TextView txtNew = dialogview.findViewById(R.id.txtNew);
+        txtNew.setText(getResources().getString(R.string.AddNew));
 
-            TextView txtContact = dialogview.findViewById(R.id.txtContact);
-            txtContact.setText(getResources().getString(R.string.AddContacts));
+        TextView txtContact = dialogview.findViewById(R.id.txtContact);
+        txtContact.setText(getResources().getString(R.string.AddContacts));
 
-            dialog.setContentView(dialogview);
-            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-            lp.copyFrom(dialog.getWindow().getAttributes());
-            // int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.95);
-            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-            lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-            //lp.gravity = Gravity.CENTER;
-            dialog.getWindow().setAttributes(lp);
-            dialog.show();
+        dialog.setContentView(dialogview);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        // int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.95);
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        //lp.gravity = Gravity.CENTER;
+        dialog.getWindow().setAttributes(lp);
+        dialog.show();
 
-            rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
-            floatCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
+        rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
+        floatCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
-            floatNew.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    preferences.putString(PrefConstants.SOURCE, "Speciality");
-                    Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
-                    i.putExtra("TAB","New");
-                    startActivity(i);
-                    dialog.dismiss();
-                }
-            });
+        floatNew.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
+                preferences.putString(PrefConstants.SOURCE, "Speciality");
+                Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
+                i.putExtra("TAB", "New");
+                startActivity(i);
+                dialog.dismiss();
+            }
+        });
 
-            floatContact.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                  //  Toast.makeText(getActivity(),"Work in progress",Toast.LENGTH_SHORT).show();
-                  preferences.putString(PrefConstants.SOURCE, "Speciality");
-                    Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
-                    i.putExtra("TAB","Contact");
-                    startActivity(i);
-                    dialog.dismiss();
-                }
-            });
-        }
+        floatContact.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
+                //  Toast.makeText(getActivity(),"Work in progress",Toast.LENGTH_SHORT).show();
+                preferences.putString(PrefConstants.SOURCE, "Speciality");
+                Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
+                i.putExtra("TAB", "Contact");
+                startActivity(i);
+                dialog.dismiss();
+            }
+        });
+    }
 
     public void postCommonDialog() {
-        //preferences.putString(PrefConstants.SOURCE,"Speciality");
         Intent i = new Intent(getActivity(), GrabConnectionActivity.class);
         startActivity(i);
     }

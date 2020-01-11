@@ -32,7 +32,12 @@ import java.util.Comparator;
 /**
  * Created by welcome on 10/12/2017. Changes done by shradha on 18/6/18
  */
-
+/**
+ * Class: AppointAdapter
+ * Screen: Appoinment list
+ * A class that manages to appointment list
+ * implements OnclickListener for onClick event on views
+ */
 public class AppointAdapter extends RecyclerSwipeAdapter<AppointAdapter.Holder> {
     Context context;
     ArrayList<Appoint> noteList;
@@ -111,19 +116,6 @@ public class AppointAdapter extends RecyclerSwipeAdapter<AppointAdapter.Holder> 
             }
         });
 
-
-/*
-        holder.lltrash.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (context instanceof MedicalAppointActivity) {
-                    ((MedicalAppointActivity) context).deleteNote(noteList.get(position));
-                }
-            }
-        });
-*/
-
-
         Appoint a = noteList.get(position);
 
 //Commented for adding static values for checking
@@ -156,15 +148,16 @@ if (noteList.get(position).getNote()!=null) {
         holder.llDate.requestFocus();
 
         txtdatetime =new ArrayList<>();
-
-//        if (flagd == false) {
-//            flagd = true;
-
         LayoutInflater lf;
         //new code starts here- Nikita
         holder.txtDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
 
                 if (context instanceof MedicalAppointActivity) {
                     ((MedicalAppointActivity) context).SetDate(noteList.get(position), dates.size());
@@ -204,81 +197,16 @@ if (noteList.get(position).getNote()!=null) {
             txtdatetime.get(i).setText(/*"Completion Date:  " + */dates.get(i).getDate());
 
             holder.llDate.addView(helperview);
-// New code ends here -Nikita
-
-            //old- useless code below
-//                final SwipeLayout swipeDate = helperview.findViewById(R.id.swipeDate);
-//
-//                if (i == dates.size()) {
-//
-////                    swipeDate.setSwipeEnabled(false);
-//
-//                    //  datetime.setText("Add +");
-//                    //datetime.setTextColor(context.getResources().getColor(R.color.colorBlue));
-//
-//                    holder.txtDate.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//
-//                            if (context instanceof MedicalAppointActivity) {
-//                                ((MedicalAppointActivity) context).SetDate(noteList.get(position), dates.size());
-//                            }
-//                        }
-//                    });
-//                } else {
-//                    swipeDate.setSwipeEnabled(true);//shradha
-//                    final LinearLayout lltrash;
-//                    lltrash = helperview.findViewById(R.id.lltrashinner);//shradha
-//                    lltrash.setTag(dates.get(i));//shradha
-//                    txtdatetime.get(i).setTag(dates.get(i));
-//
-//                txtdatetime.get(i).setOnClickListener(new CustomClick(txtdatetime.get(i)));
-//
-//                txtdatetime.get(i).setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            if (context instanceof MedicalAppointActivity) {
-//                                DateClass dd = (DateClass) view.getTag();//shradha
-//                                if (dd != null) {
-//                                    ((MedicalAppointActivity) context).deleteDateNote(dd.getId());
-//                                } else {
-//                                    Toast.makeText(context, "Error...", Toast.LENGTH_SHORT).show();
-//                                }
-//                            }
-//                        }
-//                    });
-//
-//                    if (dates.get(i).getDate().equals("08/09/2017  14:00") && dates.get(i).getDate().equals("")) {
-//                        datetime.setVisibility(View.GONE);
-//                    } else {
-//                txtdatetime.get(i).setVisibility(View.VISIBLE);
-//                txtdatetime.get(i).setText(/*"Completion Date:  " + */dates.get(i).getDate());
-//                    }
-//
-//                    if (dates.get(i).getDate().equals("")) {
-//                        datetime.setVisibility(View.GONE);
-//                    } else {
-//                        datetime.setVisibility(View.VISIBLE);
-//                    }
-//                    datetime.setText(/*"Completion Date:  " + */dates.get(i).getDate());
-//                    if (i % 2 == 0) {
-//                        datetime.setBackgroundColor(context.getResources().getColor(R.color.colorWhite));
-//                    } else {
-//                        datetime.setBackgroundColor(context.getResources().getColor(R.color.colorWhite));
-//                    }
-//
-//                holder.llDate.addView(helperview);
-//                }
             }
 
-//        } else if (flagd == true) {
-//            holder.llDate.removeAllViews();
-//            flagd = false;
-//        }
-
         holder.llSubApp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
 
 
             }
@@ -300,14 +228,12 @@ if (noteList.get(position).getNote()!=null) {
             holder.imgEdit.setImageResource(R.drawable.dropup);
             holder.txtEdit.setVisibility(View.VISIBLE);
             holder.view1.setVisibility(View.VISIBLE);
-//                    holder.view2.setVisibility(View.GONE);
             flagDrop = true;
         } else {
             holder.llSubApp.setVisibility(View.GONE);
             holder.imgEdit.setImageResource(R.drawable.drop_down);
             holder.txtEdit.setVisibility(View.GONE);
             holder.view1.setVisibility(View.GONE);
-//                    holder.view2.setVisibility(View.VISIBLE);
             flagDrop = false;
         }
         holder.rlMain.setOnClickListener(new View.OnClickListener() {
@@ -318,53 +244,16 @@ if (noteList.get(position).getNote()!=null) {
                     holder.imgEdit.setImageResource(R.drawable.dropup);
                     holder.txtEdit.setVisibility(View.VISIBLE);
                     holder.view1.setVisibility(View.VISIBLE);
-//                    holder.view2.setVisibility(View.GONE);
                     flagDrop = true;
                 } else if (flagDrop == true) {
                     holder.llSubApp.setVisibility(View.GONE);
                     holder.imgEdit.setImageResource(R.drawable.drop_down);
                     holder.txtEdit.setVisibility(View.GONE);
                     holder.view1.setVisibility(View.GONE);
-//                    holder.view2.setVisibility(View.VISIBLE);
                     flagDrop = false;
                 }
             }
         });
-        /*if (noteList.get(position).getDate().equals(""))
-        {
-            holder.txtDateTime.setVisibility(View.GONE);
-        }
-        else{
-            holder.txtDateTime.setVisibility(View.VISIBLE);
-            holder.txtDateTime.setText(noteList.get(position).getDate());
-        }*/
-
-        //holder.txtDateTime.setText(noteList.get(position).getDate());
-        // LinearLayout llDate= (LinearLayout) convertView.findViewById(R.id.llDate);
-       /* for (int i=0;i<dates.size()+1;i++) {
-
-            View helperview = lf.inflate(R.layout.date_row, null);
-            holder.llDate.addView(helperview);
-            TextView datetime = (TextView) helperview.findViewById(R.id.txtDateTime);
-
-            if (i == dates.size()) {
-                datetime.setText("Add +");
-                datetime.setTextColor(context.getResources().getColor(R.color.colorBlue));
-                datetime.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ((MedicalAppointActivity) context).SetDate(noteList.get(position), position);
-                    }
-                });
-            } else {
-                datetime.setText("Completion Date:  " + dates.get(i).getDate());
-                if (i % 2 == 0) {
-                    datetime.setBackgroundColor(context.getResources().getColor(R.color.colorSkyBlue));
-                } else {
-                    datetime.setBackgroundColor(context.getResources().getColor(R.color.colorWhite));
-                }
-            }
-        }*/
 
         //Commented for adding static values for checking
 
@@ -388,101 +277,8 @@ if (noteList.get(position).getNote()!=null) {
             holder.txtFrequency.setVisibility(View.VISIBLE);
             holder.txtFrequency.setText(noteList.get(position).getFrequency());
         }
-        /*if (noteList.get(position).getDate().equals("")) {
-            holder.txtLatestDate.setVisibility(View.GONE);
-        } else {
-            holder.txtLatestDate.setVisibility(View.VISIBLE);
-            holder.txtLatestDate.setText(noteList.get(position).getDate());
-        }*/
-        /*Comment ends here*/
-
-
-      /*  ArrayList<Date> datesliST=new ArrayList<>();
-        {
-            for (int i=0;i<dates.size();i++) {
-                String dtStart = "2010-10-15T09:27:37Z";
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-                try {
-                    Date date = (Date) format.parse(dtStart);
-                    datesliST.add(date);
-                    System.out.println(date);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        Collections.sort(datesliST, new Comparator<Date>(){
-            public int compare(Date date1, Date date2){
-                return date1.after(date2);
-            }
-        });*/
-
-        //holder.imgProfile.setImageResource(student.getImgid());
-       /* final View finalConvertView = convertView;
-        holder.txtDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LinearLayout ll= (LinearLayout) finalConvertView.findViewById(R.id.llDate);
-
-              *//*  if ( ll.getVisibility() == View.GONE)
-                {
-                    //expandedChildList.set(arg2, true);
-                    ll.setVisibility(View.VISIBLE);
-                }
-                else
-                {
-                    //expandedChildList.set(arg2, false);
-                    ll.setVisibility(View.GONE);
-                }*//*
-            }
-        });
-       */
-       /* holder.txtDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog dpd = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        holder.txtDateTime.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
-                    }
-                }, year, month, day);
-                dpd.show();
-            }
-        });*/
 
     }
-
-//    public void deleteDateNote(final DateClass items) {
-//        AlertDialog.Builder alert = new AlertDialog.Builder(context);
-//        alert.setTitle("Delete");
-//        alert.setMessage("Do you want to Delete this record?");
-//        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-////                boolean flag = DateQuery.deleteDateRecord(items.getPreid(), items.getDate());
-//                boolean flag = DateQuery.deleteRecords(items.getId());
-//                if (flag == true) {
-//                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
-//                    ((MedicalAppointActivity) context).deleteDateNote(d);
-//                    ((MedicalAppointActivity) context).deleteDateNote(d);
-//                }
-//                dialog.dismiss();
-//            }
-//        });
-//
-//        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//
-//                dialog.dismiss();
-//            }
-//        });
-//        alert.show();
-//    }
 
 
     public class Holder extends RecyclerView.ViewHolder {
@@ -493,13 +289,9 @@ if (noteList.get(position).getNote()!=null) {
         SwipeLayout swipeLayout;
         LinearLayout lintrash;
         View view1, view2;
-        // SwipeRevealLayout swipeLayout;
 
         public Holder(View convertView) {
             super(convertView);
-
-//            imgtrash = convertView.findViewById(R.id.imgtrash);
-
             lintrash = convertView.findViewById(R.id.lintrash);
             llSubApp = convertView.findViewById(R.id.llSubApp);
             swipeLayout = convertView.findViewById(R.id.swipe);

@@ -58,7 +58,12 @@ import java.util.Date;
 /**
  * Created by Nikita on 7/10/2019.
  */
-
+/**
+ * Class: ConnectionAdapter
+ * Screen: Profile List
+ * A class that manages user profile list with image and relation.
+ * facilitate for backup,share profile database profile
+ */
 public class SelfAdapter extends RecyclerSwipeAdapter<SelfAdapter.ViewHolder> {
 
     Context context;
@@ -76,9 +81,14 @@ public class SelfAdapter extends RecyclerSwipeAdapter<SelfAdapter.ViewHolder> {
         this.connectionList = connectionList;
         this.fragmentConnectionNew = fragmentConnectionNew;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
     }
 
+    /**
+     * Function: Image loading and displaying at ImageView
+     * Presents configuration for ImageLoader & options for image display.
+     */
     private void initImageLoader() {
         displayImageOptions = new DisplayImageOptions.Builder() // resource
                 .resetViewBeforeLoading(true) // default
@@ -253,18 +263,7 @@ public class SelfAdapter extends RecyclerSwipeAdapter<SelfAdapter.ViewHolder> {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         showEmailDialog(position,"Share");
-                       /* Intent i = new Intent(context, DropboxLoginActivity.class);
-                        i.putExtra("FROM", "Share");
-                        i.putExtra("ToDo", "Individual");
-                        i.putExtra("ToDoWhat", "Share");
-                        String mail = preferences.getString(PrefConstants.USER_EMAIL);
-                        ;
-                        mail = mail.replace(".", "_");
-                        mail = mail.replace("@", "_");
 
-                        preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
-                        preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
-                        context.startActivity(i);*/
                     }
                 });
                 alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -296,8 +295,13 @@ public class SelfAdapter extends RecyclerSwipeAdapter<SelfAdapter.ViewHolder> {
         etNote.setText(mail+"_"+formattedDate);
         etNote.setSelection(etNote.getText().length());
         btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 fragmentConnectionNew.hideSoftKeyboard();
                 customDialog.dismiss();
 
@@ -305,21 +309,14 @@ public class SelfAdapter extends RecyclerSwipeAdapter<SelfAdapter.ViewHolder> {
         });
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentConnectionNew.hideSofFtKeyboard();
-                /*Intent i = new Intent(context, DropboxLoginActivity.class);
-                i.putExtra("FROM", "Backup");
-                i.putExtra("ToDo", "Individual");
-                i.putExtra("ToDoWhat", "Share");
-                String mail = preferences.getString(PrefConstants.USER_EMAIL);
-                ;
-                mail = mail.replace(".", "_");
-                mail = mail.replace("@", "_");
-                preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
-                preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
-                context.startActivity(i);*/
-
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+                fragmentConnectionNew.hideSoftKeyboard();
 
                 String mail = preferences.getString(PrefConstants.USER_EMAIL);
                 mail = mail.replace(".", "_");
@@ -340,7 +337,6 @@ public class SelfAdapter extends RecyclerSwipeAdapter<SelfAdapter.ViewHolder> {
                     }else if (from.equalsIgnoreCase("Backup")) {
                         i.putExtra("FROM", "Backup");
                     }
-
                     i.putExtra("ToDo", "Individual");
                     i.putExtra("ToDoWhat", "Share");
 
@@ -357,7 +353,8 @@ public class SelfAdapter extends RecyclerSwipeAdapter<SelfAdapter.ViewHolder> {
     }
 
     private RelativeConnection getProfile() {
-        DBHelper dbHelper = new DBHelper(context, "MASTER");
+        DBHelper //Initialize database
+        dbHelper = new DBHelper(context, "MASTER");
         MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
         RelativeConnection connection = MyConnectionsQuery.fetchOneRecord("Self");
         preferences.putInt(PrefConstants.USER_ID, connection.getId());
@@ -401,13 +398,7 @@ public class SelfAdapter extends RecyclerSwipeAdapter<SelfAdapter.ViewHolder> {
         }
     }
 
-   /* @Override
-    public boolean getSwipEnableByPosition(int position) {
-        if(position % 2 == 0){
-            return false;
-        }
-        return true;
-    }*/
+
 }
 
 

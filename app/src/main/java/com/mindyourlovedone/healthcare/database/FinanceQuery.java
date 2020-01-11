@@ -12,7 +12,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 9/28/2017.
  */
-
+/**
+ * Class: FinanceQuery
+ * Screen: Add FinanceLegal
+ * A class that manages FinanceLegal Table CRUD Operations
+ */
 public class FinanceQuery {
     public static final String TABLE_NAME = "FinanceLegal";
     public static final String COL_USER_ID = "UserId";

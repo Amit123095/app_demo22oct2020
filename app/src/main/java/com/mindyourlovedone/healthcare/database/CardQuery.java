@@ -12,7 +12,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 10/10/2017.
  */
-
+/**
+ * Class: CardQuery
+ * Screen: Add InsuranceCard
+ * A class that manages InsuranceCard Table CRUD Operations
+ */
 public class CardQuery {
     public static final String TABLE_NAME = "InsuranceCard";
     public static final String COL_USER_ID = "UserId";

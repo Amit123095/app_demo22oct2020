@@ -25,40 +25,47 @@ import com.mindyourlovedone.healthcare.utility.Preferences;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Class: ViewEventActivity
+ * Screen: Add,Edit Event Note
+ * A class that manages to Add, display event and edit
+ * implements OnclickListener for onClick event on views
+ */
 public class ViewEventActivity extends AppCompatActivity implements View.OnClickListener {
     Context context = this;
-    ImageView imgBack, imgEdit,imgHome;
+    ImageView imgBack, imgEdit, imgHome;
     EditText etNote;
     TextView txtDate, txtSave, txtTitle, txtDelete;
     int id, userid;
     Note note;
 
     @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_event);
 
-        //  getData();
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
+        //Initialize database, get primary data and set data
         initComponent();
     }
 
+    /**
+     * Function: Initialize initial data , database ,prefrences
+     */
     private void initComponent() {
         Intent intent = getIntent();
         if (intent.getExtras() != null) {
-            if(intent.hasExtra("NEW")){
+            if (intent.hasExtra("NEW")) {
                 txtTitle.setText("Add Event Notes");
                 txtDelete.setVisibility(View.GONE);
                 SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy - hh:mm a");
                 String currentDateandTime = sdf.format(new Date());
                 txtDate.setText(currentDateandTime);
-            }else {
+            } else {
                 note = (Note) intent.getExtras().getSerializable("NoteObject");
                 txtTitle.setText("Edit Event Notes");
                 String notes = note.getTxtNote();
@@ -71,6 +78,10 @@ public class ViewEventActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         imgBack.setOnClickListener(this);
         imgEdit.setOnClickListener(this);
@@ -80,6 +91,9 @@ public class ViewEventActivity extends AppCompatActivity implements View.OnClick
         imgHome.setOnClickListener(this);
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         imgHome = findViewById(R.id.imgHome);
         imgBack = findViewById(R.id.imgBack);
@@ -91,6 +105,11 @@ public class ViewEventActivity extends AppCompatActivity implements View.OnClick
         txtTitle = findViewById(R.id.txtTitle);
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -102,14 +121,12 @@ public class ViewEventActivity extends AppCompatActivity implements View.OnClick
                 startActivity(intentHome);
                 break;
             case R.id.imgBack:
+                // Navigate previous screen after checking data modification done or not, if yes it ask user to save
                 String notes = etNote.getText().toString();
-                String dates = txtDate.getText().toString();
-                if(getIntent().hasExtra("NEW")) {
-                    if (notes.equals(""))
-                    {
+                if (getIntent().hasExtra("NEW")) {
+                    if (notes.equals("")) {
                         finish();
-                    }
-                    else{
+                    } else {
                         AlertDialog.Builder alert = new AlertDialog.Builder(context);
                         alert.setTitle("Save");
                         alert.setMessage("Do you want to save information?");
@@ -132,13 +149,10 @@ public class ViewEventActivity extends AppCompatActivity implements View.OnClick
                         alert.show();
                     }
 
-                }
-                else{
-                    if (note.getTxtNote().equals(notes))
-                    {
+                } else {
+                    if (note.getTxtNote().equals(notes)) {
                         finish();
-                    }
-                    else{
+                    } else {
                         AlertDialog.Builder alert = new AlertDialog.Builder(context);
                         alert.setTitle("Save");
                         alert.setMessage("Do you want to save information?");
@@ -163,8 +177,8 @@ public class ViewEventActivity extends AppCompatActivity implements View.OnClick
                 }
                 //finish();
                 break;
-            case R.id.txtSave:
-                if(!getIntent().hasExtra("NEW")) {
+            case R.id.txtSave:// Save Event
+                if (!getIntent().hasExtra("NEW")) {
                     String note = etNote.getText().toString();
                     String date = txtDate.getText().toString();
                     Boolean flag = EventNoteQuery.updateEvent(id, note, date);
@@ -180,7 +194,7 @@ public class ViewEventActivity extends AppCompatActivity implements View.OnClick
                     } else {
                         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                     }
-                }else{
+                } else {
                     String note = etNote.getText().toString();
                     SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy - hh:mm a");
                     String currentDateandTime = sdf.format(new Date());
@@ -204,6 +218,9 @@ public class ViewEventActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    /**
+     * Function: Delete Event record
+     */
     private void deleteNote() {
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle("Delete");

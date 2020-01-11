@@ -38,7 +38,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 9/22/2017. Changes done by nikita on 18/6/18
  */
-
+/**
+ * Class: PharmacyAdapter
+ * Screen: Pharmacy Contact List Screen
+ * A class that manages Adpater for Pharmacy Contact List
+ */
 class PharmacyAdapter extends RecyclerSwipeAdapter<PharmacyAdapter.ViewHolder> {
     Context context;
     ArrayList<Pharmacy> pharmacyList;
@@ -53,6 +57,7 @@ class PharmacyAdapter extends RecyclerSwipeAdapter<PharmacyAdapter.ViewHolder> {
         this.pharmacyList = pharmacyList;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         preferences = new Preferences(context);
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
     }
 
@@ -62,9 +67,14 @@ class PharmacyAdapter extends RecyclerSwipeAdapter<PharmacyAdapter.ViewHolder> {
         this.pharmacyList = pharmacyList;
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         preferences = new Preferences(context);
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
     }
 
+    /**
+     * Function: Image loading and displaying at ImageView
+     * Presents configuration for ImageLoader & options for image display.
+     */
     private void initImageLoader() {
         //Profile
         displayImageOptionsProfile = new DisplayImageOptions.Builder() // resource
@@ -129,8 +139,13 @@ class PharmacyAdapter extends RecyclerSwipeAdapter<PharmacyAdapter.ViewHolder> {
             }
         });
         holder.imgNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 if (fr != null) {
                     fr.callUser(pharmacyList.get(position));
                 }
@@ -163,18 +178,7 @@ class PharmacyAdapter extends RecyclerSwipeAdapter<PharmacyAdapter.ViewHolder> {
                 holder.imgProfile.setImageURI(Uri.parse(String.valueOf(Uri.fromFile(imgFile))));
             // imageLoaderProfile.displayImage(String.valueOf(Uri.fromFile(imgFile)), viewHolder.imgProfile, displayImageOptionsProfile);
         }
-     //   holder.imgProfile.setImageResource(R.drawable.all_profile);
 
-        /*if (!pharmacyList.get(position).getPhotoCard().equals("")) {
-            File imgFile1 = new File(preferences.getString(PrefConstants.CONNECTED_PATH), pharmacyList.get(position).getPhotoCard());
-            if (imgFile1.exists()) {
-                imageLoaderCard.displayImage(String.valueOf(Uri.fromFile(imgFile1)), holder.imgForword, displayImageOptionsCard);
-            }
-            //Commented as to match screen as invision-shradha
-          //  holder.imgForword.setVisibility(View.VISIBLE);
-        } else {
-            holder.imgForword.setVisibility(View.GONE);
-        }*/
         if (!pharmacyList.get(position).getPhotoCard().equals("")) {
             File imgFile1 = new File(preferences.getString(PrefConstants.CONNECTED_PATH), pharmacyList.get(position).getPhotoCard());
             if (imgFile1.exists()) {
@@ -190,8 +194,13 @@ class PharmacyAdapter extends RecyclerSwipeAdapter<PharmacyAdapter.ViewHolder> {
         }
 
         holder.imgForword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 Intent i = new Intent(context, AddFormActivity.class);
                 i.putExtra("Image", pharmacyList.get(position).getPhotoCard());
                 context.startActivity(i);
@@ -199,8 +208,13 @@ class PharmacyAdapter extends RecyclerSwipeAdapter<PharmacyAdapter.ViewHolder> {
         });
 
         holder.rlPharmacy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
                 Intent i = new Intent(context, GrabConnectionActivity.class);
                 preferences.putString(PrefConstants.SOURCE, "PharmacyData");
                 Pharmacy insurance = pharmacyList.get(position);
@@ -209,31 +223,6 @@ class PharmacyAdapter extends RecyclerSwipeAdapter<PharmacyAdapter.ViewHolder> {
                 context.startActivity(i);
             }
         });
-       /* holder.txtName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, GrabConnectionActivity.class);
-                preferences.putString(PrefConstants.SOURCE, "PharmacyData");
-                Pharmacy insurance = pharmacyList.get(position);
-               *//* i.putExtra("Name", insurance.getName());
-                i.putExtra("Type", insurance.getType());
-                i.putExtra("Address", insurance.getAddress());
-                i.putExtra("Phone", insurance.getOfficePhone());
-                i.putExtra("Photo", insurance.getImage());*//*
-                i.putExtra("PharmacyObject", insurance);
-                context.startActivity(i);
-            }
-        });
-        holder.imgNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, GrabConnectionActivity.class);
-                preferences.putString(PrefConstants.SOURCE, "PharmacyDataView");
-                Pharmacy insurance = pharmacyList.get(position);
-                i.putExtra("PharmacyObject", insurance);
-                context.startActivity(i);
-            }
-        });*/
 
     }
 

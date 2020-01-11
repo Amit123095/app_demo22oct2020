@@ -57,14 +57,19 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+/**
+ * Class: AddInsuranceFormActivity
+ * Screen: Add Insurance Form Screen
+ * A class that manages to Add, Update Insurance Form
+ * implements OnclickListener for onClick event on views
+ */
 public class AddInsuranceFormActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int RESULTCODE = 200;
     private static final int RQUESTCODE = 400;
     final CharSequence[] alert_items = {"Phone Storage", "Dropbox"};
     final CharSequence[] dialog_items = {"View", "Email", "Fax"};
     Context context = this;
-    ImageView imgBack, imgDot, imgDone, imgDoc, imgAdd, imgEdit,floatOptions;
+    ImageView imgBack, imgDot, imgDone, imgDoc, imgAdd, imgEdit, floatOptions;
     TextView txtName, txtAdd, txtSave, txtAttach;
     TextInputLayout tilName;
     String From;
@@ -84,21 +89,27 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
     TextView txtTitle;
     int id;
 
-    @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_insurance_form);
+
+        //Initialize database, get primary data and set data
         initComponent();
+
+        //Initialize UI and Views
         initUi();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
     }
 
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         imgBack.setOnClickListener(this);
         imgDot.setOnClickListener(this);
@@ -114,6 +125,9 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
         floatOptions.setOnClickListener(this);
     }
 
+    /**
+     * Function: Initialize User Interface and View
+     */
     private void initUi() {
         txtAttach = findViewById(R.id.txtAttach);
         imgDot = findViewById(R.id.imgDot);
@@ -125,7 +139,7 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
         tilName = findViewById(R.id.tilName);
         txtAdd = findViewById(R.id.txtAdd);
         txtSave = findViewById(R.id.txtSave);
-        floatOptions= findViewById(R.id.floatOptions);
+        floatOptions = findViewById(R.id.floatOptions);
         rlDoc = findViewById(R.id.rlDoc);
         rlDocument = findViewById(R.id.rlDocument);
         flDelete = findViewById(R.id.flDelete);
@@ -133,14 +147,6 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
         txtTitle = findViewById(R.id.txtTitle);
         txtName.setClickable(true);
         txtName.setFocusable(false);
-        /*txtName.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                tilName.setHintEnabled(false);
-                txtName.setFocusable(false);
-                return false;
-            }
-        });*/
         Intent i = getIntent();
         if (i.getExtras() != null) {
             if (i.hasExtra("GoTo")) {
@@ -161,9 +167,8 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
             txtName.setText(document.getName());
             documentPath = document.getDocument();
             imgEdit.setVisibility(View.VISIBLE);
-            // rlDoc.setBackgroundResource(document.getImage());
             String extension = FilenameUtils.getExtension(document.getName());
-            showDocIcon(extension, preferences.getString(PrefConstants.CONNECTED_PATH)+ documentPath);
+            showDocIcon(extension, preferences.getString(PrefConstants.CONNECTED_PATH) + documentPath);
             imgDoc.setVisibility(View.GONE);
             txtAttach.setVisibility(View.GONE);
             txtAdd.setVisibility(View.GONE);
@@ -174,37 +179,23 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
             txtName.setText(document.getName());
             documentPath = document.getDocument();
             floatOptions.setVisibility(View.VISIBLE);
-            // rlDoc.setBackgroundResource(document.getImage());
             String extension = FilenameUtils.getExtension(document.getName());
-            showDocIcon(extension, preferences.getString(PrefConstants.CONNECTED_PATH)+ documentPath);
+            showDocIcon(extension, preferences.getString(PrefConstants.CONNECTED_PATH) + documentPath);
             imgEdit.setVisibility(View.VISIBLE);
             imgDoc.setVisibility(View.GONE);
             txtAttach.setVisibility(View.GONE);
             id = document.getId();
             imgDot.setVisibility(View.GONE);
             txtSave.setVisibility(View.VISIBLE);
-            // imgDone.setVisibility(View.VISIBLE);
             imgAdd.setVisibility(View.GONE);
             txtAdd.setVisibility(View.GONE);
             txtTitle.setText("Update Insurance Form");
-            //txtAdd.setText("Edit File");
-        } else {
-            /*floatOptions.setVisibility(View.GONE);
-            imgDot.setVisibility(View.GONE);
-            txtSave.setVisibility(View.VISIBLE);
-            imgDoc.setVisibility(View.VISIBLE);
-            imgEdit.setVisibility(View.GONE);
-            //  rlDoc.setBackgroundResource(R.drawable.pdf);
-            txtAttach.setVisibility(View.VISIBLE);
-            // imgDone.setVisibility(View.VISIBLE);
-            imgAdd.setVisibility(View.GONE);
-            txtAdd.setVisibility(View.GONE);
-            txtTitle.setText("Add Insurance Form");
-            txtAdd.setText("Select File");*/
         }
-
     }
 
+    /**
+     * Function: Initialize database , preferences
+     */
     private void initComponent() {
         preferences = new Preferences(context);
         dbHelper = new DBHelper(context, preferences.getString(PrefConstants.CONNECTED_USERDB));
@@ -212,7 +203,7 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
 
         Intent i = getIntent();
         Log.v("URI", i.getExtras().toString());
-        if (i.hasExtra("PDF_EXT")) {
+        if (i.hasExtra("PDF_EXT")) {// Add file externally
             final Uri audoUri = Uri.parse(i.getStringExtra("PDF_EXT"));
             if (audoUri != null) {
                 Log.v("URI", audoUri.toString());
@@ -224,6 +215,11 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
             }
         }
     }
+
+    /**
+     * Function: Select and Add File into storae and db
+     * @param audoUri
+     */
     private void addfile(Uri audoUri) {
         try {
             originPath = audoUri.toString();
@@ -244,16 +240,12 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
 
             documentPath = f.getName();
             name = f.getName();
-            //preferences.putInt(PrefConstants.CONNECTED_USERID, 1);
             txtName.setText(name);
-            // imgDoc.setClickable(false);
-            if (!name.equalsIgnoreCase("")&&!documentPath.equalsIgnoreCase("")) {
+            if (!name.equalsIgnoreCase("") && !documentPath.equalsIgnoreCase("")) {
                 String text = "You Have selected <b>" + name + "</b> Document";
                 Toast.makeText(context, Html.fromHtml(text), Toast.LENGTH_SHORT).show();
                 showDialogWindow(text);
-
                 imgDoc.setClickable(false);
-                // rlDoc.setBackgroundResource(R.drawable.pdf);
                 String extension = FilenameUtils.getExtension(name);
                 showDocIcon(extension, originPath);
                 imgDoc.setVisibility(View.GONE);
@@ -266,6 +258,7 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
             ex.printStackTrace();
         }
     }
+
     private void showDialogWindow(String text) {
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setMessage(Html.fromHtml(text));
@@ -277,17 +270,22 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
         });
         alert.show();
     }
+
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imgBack:
+                // navigate previous screen after checking data modification done or not, if yes it ask user to save
                 name = txtName.getText().toString().trim();
-                if(!Goto.equals("Edit")) {
-                    if (name.equals("")&&documentPath.equals(""))
-                    {
+                if (!Goto.equals("Edit")) {
+                    if (name.equals("") && documentPath.equals("")) {
                         finish();
-                    }
-                    else{
+                    } else {
                         AlertDialog.Builder alert = new AlertDialog.Builder(context);
                         alert.setTitle("Save");
                         alert.setMessage("Do you want to save information?");
@@ -296,7 +294,6 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 txtSave.performClick();
-
                             }
                         });
 
@@ -310,14 +307,11 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                         alert.show();
                     }
 
-                }
-                else{
+                } else {
 
-                    if (document.getName().equals(name)&&document.getDocument().equals(documentPath))
-                    {
+                    if (document.getName().equals(name) && document.getDocument().equals(documentPath)) {
                         finish();
-                    }
-                    else{
+                    } else {
                         AlertDialog.Builder alert = new AlertDialog.Builder(context);
                         alert.setTitle("Save");
                         alert.setMessage("Do you want to save information?");
@@ -326,7 +320,6 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 txtSave.performClick();
-
                             }
                         });
 
@@ -345,7 +338,7 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                 deleteForm(document);
                 break;
 
-            case R.id.floatOptions:
+            case R.id.floatOptions://View,Email,Fax Form Document
                 final Dialog dialog = new Dialog(context);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -376,27 +369,29 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                     public void onClick(View view) {
                         Uri uris = Uri.parse(documentPath);
                         String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + txtName.getText().toString();
-                        Intent i=new Intent(context,FaxActivity.class);
-                        i.putExtra("PATH",preferences.getString(PrefConstants.CONNECTED_PATH) + documentPath);
+                        Intent i = new Intent(context, FaxActivity.class);
+                        i.putExtra("PATH", preferences.getString(PrefConstants.CONNECTED_PATH) + documentPath);
                         startActivity(i);
                         dialog.dismiss();
                     }
                 });
 
 
-
                 dialog.setContentView(dialogview);
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 lp.copyFrom(dialog.getWindow().getAttributes());
-                // int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.95);
                 lp.width = WindowManager.LayoutParams.MATCH_PARENT;
                 lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-                //lp.gravity = Gravity.CENTER;
                 dialog.getWindow().setAttributes(lp);
                 dialog.show();
 
                 rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
                 floatCancel.setOnClickListener(new View.OnClickListener() {
+                    /**
+                     * Function: Called when a view has been clicked.
+                     *
+                     * @param v The view that was clicked.
+                     */
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
@@ -404,6 +399,11 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                 });
 
                 floatEmail.setOnClickListener(new View.OnClickListener() {
+                    /**
+                     * Function: Called when a view has been clicked.
+                     *
+                     * @param v The view that was clicked.
+                     */
                     @Override
                     public void onClick(View v) {
                         if (path.equals("No")) {
@@ -416,9 +416,7 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                                 urifile = Uri.fromFile(file);
                             }
 
-                            // emailAttachement(urifile, txtFName.getText().toString());
                         } else {
-                            // Uri uris = Uri.parse(documentPath);
                             emailAttachement(documentPath, txtName.getText().toString());
                         }
                         dialog.dismiss();
@@ -427,6 +425,11 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                 });
 
                 floatViewPdf.setOnClickListener(new View.OnClickListener() {
+                    /**
+                     * Function: Called when a view has been clicked.
+                     *
+                     * @param v The view that was clicked.
+                     */
                     @Override
                     public void onClick(View v) {
                         Uri uri = null;
@@ -442,12 +445,10 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                             } else {
                                 uri = Uri.fromFile(targetFile);
                             }
-                            // Uri uris = Uri.parse(documentPath);
-                            //  intent.setDataAndType(uri, "application/pdf");
-                            String mimeType= MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
-                            // Uri uris = Uri.parse(documentPath);
+                            String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
+
                             intent.setDataAndType(uri, mimeType);
-                            //  //intent.setPackage("com.adobe.reader");//varsa
+
                             try {
                                 context.startActivity(intent);
 
@@ -477,7 +478,7 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                 });
 
                 break;
-            case R.id.txtName:
+            case R.id.txtName://View Form Document
                 Uri uri = null;
                 if (!documentPath.equals("")) {
                     File targetFile = new File(preferences.getString(PrefConstants.CONNECTED_PATH), documentPath);
@@ -489,12 +490,8 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                     } else {
                         uri = Uri.fromFile(targetFile);
                     }
-                    // Uri uris = Uri.parse(documentPath);
-                    //  intent.setDataAndType(uri, "application/pdf");
-                    String mimeType= MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
-                    // Uri uris = Uri.parse(documentPath);
+                    String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
                     intent.setDataAndType(uri, mimeType);
-                    //  //intent.setPackage("com.adobe.reader");//varsa
                     try {
                         context.startActivity(intent);
 
@@ -518,31 +515,19 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                         builder.setNegativeButton("No", null);
                         builder.create().show();
                     }
-                   /* Uri uris = Uri.parse(documentPath);
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_VIEW);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        //  uri = FileProvider.getUriForFile(context, "com.mindyourelders.healthcare.HomeActivity.fileProvider", targetFile);
-                    } else {
-                        //  uri = Uri.fromFile(targetFile);
-                    }
-                    intent.setDataAndType(uris, "application/pdf");
-                    context.startActivity(intent);*/
-
-
                 }
 
                 break;
 
-            case R.id.txtSave:
+            case R.id.txtSave:// Save Form details
+                //Validate if user input is valid or not, If true then goes for next task
                 if (validate()) {
                     documentPath = copydb(originPath, name);
                     DateFormat dateFormat = new SimpleDateFormat("d MMM yyyy");
                     Date dates = new Date();
-                    date=dateFormat.format(dates);
+                    date = dateFormat.format(dates);
                     if (Goto.equals("Edit")) {
-                        Boolean flag = FormQuery.updateDocumentData(id, name, photo, documentPath,date);
+                        Boolean flag = FormQuery.updateDocumentData(id, name, photo, documentPath, date);
                         if (flag == true) {
                             Toast.makeText(context, "Insurance Form has been updated succesfully", Toast.LENGTH_SHORT).show();
                             finish();
@@ -550,7 +535,7 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Boolean flag = FormQuery.insertDocumentData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, photo, documentPath,date);
+                        Boolean flag = FormQuery.insertDocumentData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, photo, documentPath, date);
                         if (flag == true) {
                             Toast.makeText(context, "Insurance Form has been saved succesfully", Toast.LENGTH_SHORT).show();
                             try {
@@ -568,10 +553,10 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                     }
                 }
                 break;
-            case R.id.imgEdit:
+            case R.id.imgEdit://
                 formDialog();
                 break;
-            case R.id.rlDoc:
+            case R.id.rlDoc://View Document
                 Uri uris = null;
                 if (!documentPath.equals("")) {
                     File targetFile = new File(preferences.getString(PrefConstants.CONNECTED_PATH), documentPath);
@@ -583,10 +568,8 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                     } else {
                         uris = Uri.fromFile(targetFile);
                     }
-                    String mimeType= MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
-                    // Uri uris = Uri.parse(documentPath);
+                    String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
                     intent.setDataAndType(uris, mimeType);
-                    //  //intent.setPackage("com.adobe.reader");//varsa
                     try {
                         context.startActivity(intent);
 
@@ -610,20 +593,7 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                         builder.setNegativeButton("No", null);
                         builder.create().show();
                     }
-                   /* Uri uris = Uri.parse(documentPath);
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_VIEW);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        //  uri = FileProvider.getUriForFile(context, "com.mindyourelders.healthcare.HomeActivity.fileProvider", targetFile);
-                    } else {
-                        //  uri = Uri.fromFile(targetFile);
-                    }
-                    intent.setDataAndType(uris, "application/pdf");
-                    context.startActivity(intent);*/
-
-
-                }else {
+                } else {
                     formDialog();
                 }
                 break;
@@ -631,32 +601,6 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
 
             case R.id.imgAdd:
                 formDialog();
-               /* AlertDialog.Builder builder = new AlertDialog.Builder(AddInsuranceFormActivity.this);
-
-                builder.setTitle("");
-                builder.setItems(alert_items, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int itemPos) {
-
-                        switch (itemPos) {
-                            case 0:
-                                Intent i = new Intent(context, DocumentSdCardList.class);
-                                startActivityForResult(i, RESULTCODE);
-                                break;
-                            case 1:
-                                Intent intent = new Intent(context, DropboxLoginActivity.class);
-                                intent.putExtra("FROM", "Document");
-                                startActivityForResult(intent, RQUESTCODE);
-                                break;
-
-                        }
-
-                    }
-
-                });
-
-                builder.create().show();
-*/
                 break;
 
             case R.id.imgDot:
@@ -682,11 +626,8 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                                     } else {
                                         uri = Uri.fromFile(targetFile);
                                     }
-                                    String mimeType= MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
-                                    // Uri uris = Uri.parse(documentPath);
+                                    String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
                                     intent.setDataAndType(uri, mimeType);
-                                    //  //intent.setPackage("com.adobe.reader");//varsa
-                                    //  intent.setDataAndType(uri, "application/pdf");
                                     try {
                                         context.startActivity(intent);
 
@@ -711,24 +652,13 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                                         builder.create().show();
                                     }
                                 }
-                                       /* Uri uris = Uri.parse(documentPath);
-                                        Intent intent = new Intent();
-                                        intent.setAction(Intent.ACTION_VIEW);
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                            //  uri = FileProvider.getUriForFile(context, "com.mindyourelders.healthcare.HomeActivity.fileProvider", targetFile);
-                                        } else {
-                                            //  uri = Uri.fromFile(targetFile);
-                                        }
-                                        intent.setDataAndType(uris, "application/pdf");
-                                        context.startActivity(intent);*/
+
                                 break;
                             case 1: //email
                                 Uri urisd = Uri.parse(documentPath);
                                 emailAttachement(documentPath, txtName.getText().toString());
                                 break;
                             case 2: // fax
-                                //Uri uri= Uri.parse(documentPath);
                                 String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + txtName.getText().toString();
                                 new FaxCustomDialog(AddInsuranceFormActivity.this, preferences.getString(PrefConstants.CONNECTED_PATH) + documentPath).show();
 
@@ -745,6 +675,10 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
         }
     }
 
+    /**
+     * Function: Delete document record
+     * @param item
+     */
     private void deleteForm(final Form item) {
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle("Delete");
@@ -771,6 +705,9 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
         alert.show();
     }
 
+    /**
+     * Function: Add documents through given methods i.e storae , dropbox, email
+     */
     private void formDialog() {
         final Dialog dialogDirective = new Dialog(context);
         dialogDirective.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -797,6 +734,11 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
         dialogDirective.show();
 
         txtPhoneStorage.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, DocumentSdCardList.class);
@@ -807,6 +749,11 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
 
 
         txtDropbox.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DropboxLoginActivity.class);
@@ -816,6 +763,11 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
             }
         });
         txtEmail.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 showEmailInsDialog();
@@ -823,6 +775,11 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
             }
         });
         txtCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 dialogDirective.dismiss();
@@ -831,7 +788,9 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
 
 
     }
-
+    /**
+     * Function: Instruction for adding document via email
+     */
     private void showEmailInsDialog() {
         final Dialog dialogEmail = new Dialog(context);
         dialogEmail.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -841,11 +800,11 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
         View dialogview = lf.inflate(R.layout.dialog_email, null);
         final TextView txtIns = dialogview.findViewById(R.id.txtIns);
         final TextView txtOk = dialogview.findViewById(R.id.txtOk);
-        String data=Html.fromHtml(
+        String data = Html.fromHtml(
                 "<li> √ To upload an email attachment open the attachment from your email and click the forward button on the upper right side of the screen. <br></li>" +
                         "<li> √ Scroll through the App until you find MYLO.  Click MYLO – then click the Profile you wish to attach the document to, then click the sub-section the document pertains to and click OK. <br></li>" +
                         "<li> √ Enter additional information and then click Save. <br></li>"
-                        //+ "<li> √ Watch a 10 second video found in the Menu section of “How to Videos”. <br></li>"
+                //+ "<li> √ Watch a 10 second video found in the Menu section of “How to Videos”. <br></li>"
         ).toString();
 
         txtIns.setText(data);
@@ -865,6 +824,11 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
 
 
         txtOk.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 dialogEmail.dismiss();
@@ -874,8 +838,6 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
 
 
     private String copydb(String originPath, String name) {
-
-
         String sd = preferences.getString(PrefConstants.CONNECTED_PATH);
 
         File data = new File(originPath);
@@ -920,6 +882,11 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
         }
     }
 
+    /**
+     * Function: Prepare email body with attachment form for share
+     * @param uris
+     * @param s
+     */
     private void emailAttachement(String uris, String s) {
         Uri uri = null;
         File targetFile = new File(preferences.getString(PrefConstants.CONNECTED_PATH), documentPath);
@@ -957,6 +924,11 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
         startActivity(Intent.createChooser(emailIntent, "Send mail..."));
     }
 
+    /**
+     * Function: Validation of data input by user
+     *
+     * @return boolean, True if given input is valid, false otherwise.
+     */
     private boolean validate() {
         photo = R.drawable.pdf;
         name = txtName.getText().toString();
@@ -972,7 +944,7 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULTCODE && data != null) {
+        if (requestCode == RESULTCODE && data != null) {//Selected File
             name = data.getExtras().getString("Name");
             originPath = data.getExtras().getString("URI");
             if (!name.equalsIgnoreCase("")) {
@@ -989,7 +961,7 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                 txtAdd.setText("Edit File");
                 ShowWindowDialog(text);
             }
-        } else if (requestCode == RQUESTCODE) {
+        } else if (requestCode == RQUESTCODE) {//Selected File
             name = preferences.getString(PrefConstants.RESULT);
             // name = data.getExtras().getString("Name");
             originPath = preferences.getString(PrefConstants.URI);//data.getExtras().getString("URI");
@@ -1001,7 +973,7 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                 Toast.makeText(context, Html.fromHtml(text), Toast.LENGTH_SHORT).show();
                 // rlDoc.setBackgroundResource(R.drawable.pdf);
                 String extension = FilenameUtils.getExtension(name);
-                showDocIcon(extension,originPath);
+                showDocIcon(extension, originPath);
                 imgDoc.setVisibility(View.GONE);
                 txtAttach.setVisibility(View.GONE);
                 imgDoc.setClickable(false);
@@ -1011,7 +983,6 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
             }
         }
     }
-
 
 
     private void ShowWindowDialog(String text) {
@@ -1025,6 +996,11 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
         });
         alert.show();
     }
+
+    /**
+     * Function: Store And Access View file
+     * @param documentPath
+     */
     public void CopyReadAssetss(String documentPath) {
         AssetManager assetManager = getAssets();
         File outFile = null;
@@ -1042,20 +1018,11 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
             out.flush();
             out.close();
             out = null;
-            /*out = openFileOutput(file.getName(), Context.MODE_WORLD_READABLE);
-            copyFiles(in, out);
-            in.close();
-            in = null;
-            out.flush();
-            out.close();
-            out = null;*/
         } catch (Exception e) {
             Log.e("tag", e.getMessage());
         }
         Uri uri = null;
-        // Uri uri= Uri.parse("file://" + getFilesDir() +"/"+documentPath);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            //  intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             uri = FileProvider.getUriForFile(context, "com.mindyourlovedone.healthcare.HomeActivity.fileProvider", outFile);
         } else {
             uri = Uri.fromFile(outFile);
@@ -1063,10 +1030,8 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        String mimeType= MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
-        // Uri uris = Uri.parse(documentPath);
+        String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(documentPath));
         intent.setDataAndType(uri, mimeType);
-        //  //intent.setPackage("com.adobe.reader");//varsa
         try {
             context.startActivity(intent);
 
@@ -1092,6 +1057,7 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
         }
 
     }
+
     private void copyFiles(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int read;
@@ -1104,8 +1070,7 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
 
     private void showDocIcon(String extension, String originPath) {
         // Toast.makeText(context,extension,Toast.LENGTH_SHORT).show();
-        switch (extension)
-        {
+        switch (extension) {
             case "pdf":
                 rlDoc.setBackgroundResource(R.drawable.pdf);
                 break;

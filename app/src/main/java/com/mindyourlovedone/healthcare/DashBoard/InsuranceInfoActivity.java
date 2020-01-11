@@ -16,7 +16,12 @@ import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.InsuranceHealthCare.FragmentInsurance;
 
-
+/**
+ * Class: InsuranceInfoActivity
+ * Screen: Insurance SubSection Screen
+ * A class that manages to display list of subsection of Speciality Contacts
+ * implements OnclickListener for onClick event on views
+ */
 public class InsuranceInfoActivity extends AppCompatActivity implements View.OnClickListener {
     public static FragmentManager fragmentManager;
     public FragmentTransaction fragmentTransaction;
@@ -28,21 +33,27 @@ public class InsuranceInfoActivity extends AppCompatActivity implements View.OnC
     RelativeLayout header;
     Context context = this;
 
-    @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emergency_info);
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
+
+        //initialize Fragment
         fragmentData();
+
+        //Initialize database, get primary data and set data
         initComponent();
     }
 
+    /**
+     * Function: Initialize Subsection screen
+     */
     private void initComponent() {
         Intent i = getIntent();
         if (i.getExtras() != null) {
@@ -71,17 +82,27 @@ public class InsuranceInfoActivity extends AppCompatActivity implements View.OnC
         fragmentTransaction.commit();
     }
 
+    /**
+     * Function: Initialize Fragment
+     */
     private void fragmentData() {
         fragementInsuarnceCard = new FragementInsuarnceCard();
         fragmentInsurance = new FragmentInsurance();
         fragementform = new FragementForm();
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         imgBack.setOnClickListener(this);
         imgHome.setOnClickListener(this);
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         header = findViewById(R.id.header);
         header.setBackgroundResource(R.color.colorFive);
@@ -91,6 +112,11 @@ public class InsuranceInfoActivity extends AppCompatActivity implements View.OnC
         imgHome = findViewById(R.id.imgHome);
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

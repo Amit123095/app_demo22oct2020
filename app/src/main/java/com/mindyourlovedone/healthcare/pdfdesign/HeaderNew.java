@@ -38,11 +38,16 @@ import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
+/**
+ * Class: HeaderNew
+ * Screen: Header Footer of PDF
+ * A class that manages pdf creation of Header Footer of PDF
+ */
 public class HeaderNew {
 
     public static Font GrayFont, GrayTitleFont, GreenFont, BlackFont, FooterFont, CompFont;
 
+    //Set Font
     public static void HeaderNewfont() {
         //nikita - new code for font
        try {

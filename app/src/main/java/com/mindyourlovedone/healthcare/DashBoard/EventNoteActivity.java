@@ -48,37 +48,50 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
+/**
+ * Class: EventNoteActivity
+ * Screen: Event Note List Screen
+ * A class that manages to display list of event notes
+ * implements OnclickListener for onClick event on views
+ */
 public class EventNoteActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int VERTICAL_ITEM_SPACE = 0;
     final CharSequence[] dialog_items = {"View", "Email", "User Instructions"};
     Context context = this;
     RecyclerView lvNote;
     ArrayList<Note> noteList = new ArrayList<>();
-    ImageView imgBack, imgHome, imgAdd, imgEdit, imgRight,imghelp;
+    ImageView imgBack, imgHome, imgAdd, imgEdit, imgRight, imghelp;
     RelativeLayout rlGuide;
     Preferences preferences;
     DBHelper dbHelper;
-    TextView txtMsg, txtFTU, txtAdd,txthelp;
+    TextView txtMsg, txtFTU, txtAdd, txthelp;
     RelativeLayout header, rlEvent;
     ScrollView scrollvw;
-   // FloatingActionButton floatAdd;
-   ImageView floatAdd, floatOptions;
+    ImageView floatAdd, floatOptions;
 
-    @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_note);
+
+        //Initialize database, get primary data and set data
         initComponent();
+
+        //Fetc Notes
         getData();
+
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         txtAdd.setOnClickListener(this);
         imgHome.setOnClickListener(this);
@@ -86,26 +99,18 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
         imgRight.setOnClickListener(this);
         floatAdd.setOnClickListener(this);
         floatOptions.setOnClickListener(this);
-        //txtDateTime.setOnClickListener(this);
-
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         scrollvw = findViewById(R.id.scrollvw);
         floatAdd = findViewById(R.id.floatAdd);
         floatOptions = findViewById(R.id.floatOptions);
         txtMsg = findViewById(R.id.txtMsg);
-        txthelp= findViewById(R.id.txthelp);
-        imghelp= findViewById(R.id.imghelp);
-//        String msg = "To add a note click plus box " +
-//                "at the top right of the screen.  Once completed click Add.  The note is automatically saved." +
-//                "<br><br>" +
-//                "To <b>edit</b> the note  click the picture of the pencil to the right of the screen.To save your edits click the check mark at the top right of the screen. To <b>delete</b> the event note swipe (right to left) and click the garbage can or inside viewing note click the garbage can at the bottom of the screen." +
-//                "<br><br>" +
-//                "To <b>view a report</b> or to <b>email</b> or <b>fax</b> the data in each section click the three dots on the upper right side of the screen.";
-//        txtMsg.setText(Html.fromHtml(msg));
-
-        //nikita
+        txthelp = findViewById(R.id.txthelp);
+        imghelp = findViewById(R.id.imghelp);
         final RelativeLayout relMsg = findViewById(R.id.relMsg);
         TextView txt61 = findViewById(R.id.txtPolicy61);
         TextView txt62 = findViewById(R.id.txtPolicy62);
@@ -120,15 +125,17 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
 
         txtFTU = findViewById(R.id.txtFTU);
         txtFTU.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//First time instruction
                 Intent intentEmerInstruc = new Intent(context, InstructionActivity.class);
                 intentEmerInstruc.putExtra("From", "EventNotesInstruction");
                 startActivity(intentEmerInstruc);
-//                txtMsg.setVisibility(View.VISIBLE);
                 rlGuide.setVisibility(View.GONE);//nikita
-                //  scrollvw.setVisibility(View.VISIBLE);//nikita
-                //  relMsg.setVisibility(View.VISIBLE);//nikita
             }
         });
         rlEvent = findViewById(R.id.rlEvent);
@@ -140,72 +147,21 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
         txtAdd = findViewById(R.id.txtAdd);
         imgAdd = findViewById(R.id.imgAdd);
         imgRight = findViewById(R.id.imgRight);
-        //imgEdit= (ImageView) findViewById(R.id.imgEdit);
         lvNote = findViewById(R.id.lvNote);
         rlEvent.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 hideSoftKeyboard();
             }
         });
 
-//        lvNote.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-//
-//                // hideSoftKeyboard();
-//                TextView txtDateTime = (TextView) view.findViewById(R.id.txtDateTime);
-//                ImageView imgForward = (ImageView) view.findViewById(R.id.imgForword);
-//                imgForward.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Intent intent = new Intent(context, ViewEventActivity.class);
-//                        intent.putExtra("NoteObject", noteList.get(position));
-//                        startActivity(intent);
-//                    }
-//                });
-//                txtDateTime.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Calendar calendar = Calendar.getInstance();
-//                        int year = calendar.get(Calendar.YEAR);
-//                        int month = calendar.get(Calendar.MONTH);
-//                        int day = calendar.get(Calendar.DAY_OF_MONTH);
-//                        DatePickerDialog dpd = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-//                            @Override
-//                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//                                Calendar newDate = Calendar.getInstance();
-//                                newDate.set(year, month, dayOfMonth);
-//                                long selectedMilli = newDate.getTimeInMillis();
-//
-//                                Date datePickerDate = new Date(selectedMilli);
-//                                String reportDate = new SimpleDateFormat("d-MMM-yyyy").format(datePickerDate);
-//
-//                                DateClass d = new DateClass();
-//                                d.setDate(reportDate);
-//
-//                                Boolean flag = EventNoteQuery.updateNoteDate(noteList.get(position).getId(), reportDate);
-//
-//                                if (flag == true) {
-//                                    Toast.makeText(context, "Event Note Date Updated Succesfully", Toast.LENGTH_SHORT).show();
-//                                    getData();
-//                                    setNoteData();
-//                                } else {
-//                                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-//                                }
-//                                //noteList.get(position).setTxtDate(reportDate);
-//
-//                            }
-//                        }, year, month, day);
-//                        dpd.show();
-//                    }
-//                });
-//            }
-//            });
-
         rlGuide = findViewById(R.id.rlGuide);
         if (noteList.size() != 0) {
-
             setNoteData();
         }
         //Changes done by nikita on 20/6/18
@@ -223,6 +179,10 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
         //...
     }
 
+    /**
+     * Function: View Event note in details
+     * @param item
+     */
     public void imgFrowardClick(final Note item) {
         Intent intent = new Intent(context, ViewEventActivity.class);
         intent.putExtra("NoteObject", item);
@@ -256,13 +216,15 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
                 } else {
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                 }
-                //noteList.get(position).setTxtDate(reportDate);
 
             }
         }, year, month, day);
         dpd.show();
     }
 
+    /**
+     * Function: Delete selected Note
+     */
     public void deleteNote(final Note item) {
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle("Delete");
@@ -291,6 +253,9 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
 
     }
 
+    /**
+     * Function: Set all Event note to the list
+     */
     private void setNoteData() {
         if (noteList.size() != 0) {
             lvNote.setVisibility(View.VISIBLE);
@@ -310,16 +275,25 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
         lvNote.setAdapter(adapter);
     }
 
+    /**
+     * Function: Fetch all Event notes record
+     */
     private void getData() {
         noteList = EventNoteQuery.fetchAllNoteRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
     }
 
+    /**
+     * Function: Initialize database and preferences
+     */
     private void initComponent() {
         preferences = new Preferences(context);
         dbHelper = new DBHelper(context, preferences.getString(PrefConstants.CONNECTED_USERDB));
         EventNoteQuery e = new EventNoteQuery(context, dbHelper);
     }
 
+    /**
+     * Function: To display floating menu for reports
+     */
     private void showFloatDialog() {
 
         final String RESULT = Environment.getExternalStorageDirectory()
@@ -330,49 +304,23 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
         if (file.exists()) {
             file.delete();
         }
-      /* new Header().createPdfHeader(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-        preferences.copyFile("ic_launcher.png", context);
-        Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-        Header.addEmptyLine(1);
-        Header.addusereNameChank("Event Note");//preferences.getString(PrefConstants.CONNECTED_NAME));
-        Header.addEmptyLine(1);
-        Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-
-        Paragraph p = new Paragraph(" ");
-        LineSeparator line = new LineSeparator();
-        line.setOffset(-4);
-        line.setLineColor(BaseColor.LIGHT_GRAY);
-        p.add(line);
-        try {
-            Header.document.add(p);
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
-        Header.addEmptyLine(1);
-
-        // ArrayList<Appoint> AppointList= AppointmentQuery.fetchAllAppointmentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        ArrayList<Note> NoteList = EventNoteQuery.fetchAllNoteRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        new EventPdf(NoteList, 1);
-        //new EventPdf(AppointList);
-
-        Header.document.close();*/
-
         //New PDF Varsa
-        Image pdflogo = null,calendar= null,profile= null,calendarWite= null,profileWite= null;
-        pdflogo=preferences.addFile("pdflogo.png",context);
-        calendar=preferences.addFile("calpdf.png", context);calendarWite=preferences.addFile("calpdf_wite.png", context);
-        profile=preferences.addFile("profpdf.png", context); profileWite=preferences.addFile("profpdf_wite.png", context);
+        Image pdflogo = null, calendar = null, profile = null, calendarWite = null, profileWite = null;
+        pdflogo = preferences.addFile("pdflogo.png", context);
+        calendar = preferences.addFile("calpdf.png", context);
+        calendarWite = preferences.addFile("calpdf_wite.png", context);
+        profile = preferences.addFile("profpdf.png", context);
+        profileWite = preferences.addFile("profpdf_wite.png", context);
 
         new HeaderNew().createPdfHeaders(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME),preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO),pdflogo,calendar,profile,"EVENT NOTE", calendarWite, profileWite);
+                "" + preferences.getString(PrefConstants.CONNECTED_NAME), preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO), pdflogo, calendar, profile, "EVENT NOTE", calendarWite, profileWite);
 
         HeaderNew.addusereNameChank("EVENT NOTE");//preferences.getString(PrefConstants.CONNECTED_NAME));
         HeaderNew.addEmptyLine(1);
         Image pp = null;
-        pp=preferences.addFile("eve.png", context);
+        pp = preferences.addFile("eve.png", context);
         ArrayList<Note> NoteList = EventNoteQuery.fetchAllNoteRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        new EventPdfNew(NoteList, 1,pp);
+        new EventPdfNew(NoteList, 1, pp);
         HeaderNew.document.close();
 //--------------------------------------------------------------------------------------
         final Dialog dialog = new Dialog(this);
@@ -406,6 +354,11 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
 
         rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         floatCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -413,6 +366,11 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
         });
 
         floatNew.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
 
@@ -427,6 +385,11 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
         });
 
         floatContact.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
@@ -448,14 +411,18 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
 
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.floatAdd:
+            case R.id.floatAdd://Add New Contact
                 Intent intent = new Intent(context, ViewEventActivity.class);
                 intent.putExtra("NEW", true);
                 context.startActivity(intent);
-//                showInputDialog(context);
                 break;
 
             case R.id.imgBack:
@@ -463,7 +430,7 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
                 finish();
                 break;
 
-            case R.id.imgHome:
+            case R.id.imgHome://Move to Home screen i.e Profile list
                 Intent intentHome = new Intent(context, BaseActivity.class);
                 intentHome.putExtra("c", 1);
                 intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -471,151 +438,23 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
                 startActivity(intentHome);
                 break;
 
-            case R.id.txtAdd:
-                showInputDialog(context);
-                break;
 
-            case R.id.floatOptions:
+            case R.id.floatOptions://Reports
                 showFloatDialog();
                 break;
 
-            case R.id.imgRight:
-
+            case R.id.imgRight://Instructions
                 Intent i = new Intent(context, InstructionActivity.class);
                 i.putExtra("From", "EventNotesInstruction");
                 startActivity(i);
-
-//                final String RESULT = Environment.getExternalStorageDirectory()
-//                        + "/mylopdf/";
-//                File dirfile = new File(RESULT);
-//                dirfile.mkdirs();
-//                File file = new File(dirfile, "EventNote.pdf");
-//                if (file.exists()) {
-//                    file.delete();
-//                }
-//                new Header().createPdfHeader(file.getAbsolutePath(),
-//                        "" + preferences.getString(PrefConstants.CONNECTED_NAME));
-//                preferences.copyFile("ic_launcher.png", context);
-//                Header.addImage("/sdcard/MYLO/images/" + "ic_launcher.png");
-//                Header.addEmptyLine(1);
-//                Header.addusereNameChank("Event Note");//preferences.getString(PrefConstants.CONNECTED_NAME));
-//                Header.addEmptyLine(1);
-//                Header.addChank("MindYour-LovedOnes.com");//preferences.getString(PrefConstants.CONNECTED_NAME));
-//
-//                Paragraph p = new Paragraph(" ");
-//                LineSeparator line = new LineSeparator();
-//                line.setOffset(-4);
-//                line.setLineColor(BaseColor.LIGHT_GRAY);
-//                p.add(line);
-//                try {
-//                    Header.document.add(p);
-//                } catch (DocumentException e) {
-//                    e.printStackTrace();
-//                }
-//                Header.addEmptyLine(1);
-//              /*  new Header().createPdfHeader(file.getAbsolutePath(),
-//                        "Event Note");
-//                Header.addusereNameChank(preferences.getString(PrefConstants.CONNECTED_NAME));
-//                Header.addEmptyLine(2);*/
-//                // ArrayList<Appoint> AppointList= AppointmentQuery.fetchAllAppointmentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-//                ArrayList<Note> NoteList = EventNoteQuery.fetchAllNoteRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-//                new EventPdf(NoteList, 1);
-//                //new EventPdf(AppointList);
-//
-//                Header.document.close();
-//
-//
-//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//
-//                builder.setTitle("");
-//
-//                builder.setItems(dialog_items, new DialogInterface.OnClickListener() {
-//
-//                    public void onClick(DialogInterface dialog, int itemPos) {
-//                        String path = Environment.getExternalStorageDirectory()
-//                                + "/mylopdf/"
-//                                + "/EventNote.pdf";
-//                        switch (itemPos) {
-//                            case 0: //View
-//                                StringBuffer result = new StringBuffer();
-//                                result.append(new MessageString().getEventInfo());
-//                                new PDFDocumentProcess(path,
-//                                        context, result);
-//
-//                                System.out.println("\n" + result + "\n");
-//                                break;
-//                            case 1://Email
-//                                File f = new File(path);
-//                                preferences.emailAttachement(f, context, "Event Note");
-//                                break;
-//                            case 2://FTU
-//                                Intent i = new Intent(context, InstructionActivity.class);
-//                                i.putExtra("From", "EventNotesInstruction");
-//                                startActivity(i);
-//                                break;
-//                           /* case 2://fax
-//                                new FaxCustomDialog(context, path).show();
-//                                break;*/
-//
-//                        }
-//                    }
-//
-//                });
-//                builder.create().show();
                 break;
-            /*case R.id.txtDateTime:
-
-                break;*/
 
         }
     }
 
-    private void showInputDialog(final Context context) {
-        final Dialog customDialog;
-        customDialog = new Dialog(context);
-        customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        customDialog.setContentView(R.layout.dialog_input);
-        customDialog.setCancelable(false);
-        final EditText etNote = customDialog.findViewById(R.id.etNote);
-        TextView btnAdd = customDialog.findViewById(R.id.btnYes);
-        TextView btnCancel = customDialog.findViewById(R.id.btnNo);
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                customDialog.dismiss();
-                hideSoftKeyboard();
-            }
-        });
-
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String note = etNote.getText().toString();
-                SimpleDateFormat sdf = new SimpleDateFormat("d-MMM-yyyy - hh:mm a");
-                String currentDateandTime = sdf.format(new Date());
-                if (note.length() != 0) {
-                    Boolean flag = EventNoteQuery.insertNoteData(preferences.getInt(PrefConstants.CONNECTED_USERID), note, currentDateandTime);
-                    if (flag == true) {
-                        Toast.makeText(context, "Event Note has been saved succesfully", Toast.LENGTH_SHORT).show();
-                        getData();
-                        setNoteData();
-                        hideSoftKeyboard();
-                        customDialog.dismiss();
-                    } else {
-                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(context, "Enter Note", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-
-        customDialog.show();
-    }
-
+    /**
+     * Function: Activity Callback method called when screen gets visible and interactive
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -624,14 +463,9 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
         hideSoftKeyboard();
     }
 
-    /* public static void closeKeyboard(Activity context) {
-         try {
-             InputMethodManager inm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
-             inm.hideSoftInputFromWindow(context.getCurrentFocus().getWindowToken(), 0);
-         } catch (Exception e) {
- //Todo:Handle Exception
-         }
-     }*/
+    /**
+     * Function: Hide device keyboard.
+     */
     public void hideSoftKeyboard() {
         if (getCurrentFocus() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);

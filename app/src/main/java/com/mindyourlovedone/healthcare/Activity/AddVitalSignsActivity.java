@@ -30,7 +30,12 @@ import com.mindyourlovedone.healthcare.utility.Preferences;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
+/**
+ * Class: AddVitalSignsActivity
+ * Screen: Add Vital Signs Screen
+ * A class that manages to add new vital sin
+ * implements OnclickListener for onClick event on views
+ */
 public class AddVitalSignsActivity extends AppCompatActivity implements View.OnClickListener {
     TextInputLayout tilLocation;
     TextView txtTitle, txtLocation, txtDate, txtTime, txtBP, txtHeart, txtTemperature, txtPulseRate, txtRespRate, txtNote,txtOther,txtCol, txtSave;
@@ -45,21 +50,24 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
     FragmentVitalSigns fragmentVitalSigns = null;
 
     @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_vital_signs);
+        //Initialize database, get primary data and set data
         initComponent();
+
+        //Initialize user interface view and components
         initUi();
+        //Register a callback to be invoked when this views are clicked.
         initListener();
+
+        //Initialize Fragments
         FragmentData();
     }
 
-
+    /**
+     * Function: Initialize preferences and database
+     */
     private void initComponent() {
         try {
             Intent intent = getIntent();
@@ -90,14 +98,14 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
         VitalQuery p = new VitalQuery(context, dbHelper);
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUi() {
         imgBack = findViewById(R.id.imgBack);
         imgHome = findViewById(R.id.imgHome);
         tilLocation = findViewById(R.id.tilLocation);
-
         txtLocation = findViewById(R.id.txtLocation);
-
-
         txtDate = findViewById(R.id.txtDate);
         txtTime = findViewById(R.id.txtTime);
         txtBP = findViewById(R.id.txtBP);
@@ -108,10 +116,8 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
         txtNote = findViewById(R.id.txtNote);
         txtOther = findViewById(R.id.txtOther);
         txtCol = findViewById(R.id.txtCol);
-
         txtSave = findViewById(R.id.txtSave);
         txtTitle = findViewById(R.id.txtTitle);
-
 
         try {
             Intent intent1 = getIntent();
@@ -167,6 +173,10 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
 
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         imgHome.setOnClickListener(this);
         imgBack.setOnClickListener(this);
@@ -174,21 +184,29 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
         txtDate.setOnClickListener(this);
         txtTime.setOnClickListener(this);
     }
+
+
     private void FragmentData() {
         fragmentVitalSigns = new FragmentVitalSigns();
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.imgHome:
+            case R.id.imgHome:// Navigate to home screen
                 Intent intentHome = new Intent(context, BaseActivity.class);
                 intentHome.putExtra("c", 1);
                 intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentHome);
                 break;
-            case R.id.imgBack:
+            case R.id.imgBack: // navigate previous screen after checking data modification done or not, if yes it ask user to save
+
                 getValues();
 
                 if(isUpdate==false) {
@@ -257,7 +275,8 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
                 }
                 //finish();
                 break;
-            case R.id.txtSave:
+            case R.id.txtSave://insert or update
+                //Validate if user input is valid or not, If true then goes for next task
                 if (validate()) {
                     if (isUpdate == false) {
                         Boolean flag = VitalQuery.insertVitalData(preferences.getInt(PrefConstants.CONNECTED_USERID), location, Date, time, bp, heart, temperature, pulse, respiratory, note,oter,col);
@@ -290,6 +309,10 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+   /**
+     * Function: Validation of data input by user
+     * @return boolean, True if given input is valid, false otherwise.
+     */
     private boolean validate() {
         getValues();
         if (bp.equals("")&&heart.equals("")&&temperature.equals("")) {
@@ -300,7 +323,9 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
 
         return false;
     }
-
+    /**
+     * Function - Get values from all elements
+     */
     private void getValues() {
         location = txtLocation.getText().toString().trim();
         Date = txtDate.getText().toString().trim();
@@ -361,52 +386,3 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
     }
 }
 
-/*else if (isUpdate == true) {
-                    Boolean flag = VitalQuery.updateVitalData(vitalSigns.getId(), location, Date, time, bp, heart, temperature, pulse, respiratory, note);
-                    if (flag == true) {
-                        Toast.makeText(context, "Vital Signs Updated Succesfully", Toast.LENGTH_SHORT).show();
-                        DialogManager.closeKeyboard(AddVitalSignsActivity.this);
-                        clearData();
-                        finish();
-                    } else {
-                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-                    }
-                }*/
-
-
-               /*else {
-
-                    Intent i = getIntent();
-                    if (i.getExtras() != null) {
-
-                        boolean update = i.getExtras().getBoolean("IsEDIT");
-                        if (update == true) {
-                            Boolean flag = VitalQuery.updateVitalData(colid, location, Date, time, bp, heart, temperature, pulse, respiratory, note);
-                            if (flag == true) {
-                                Toast.makeText(context, "Vital Signs Updated Succesfully", Toast.LENGTH_SHORT).show();
-                                DialogManager.closeKeyboard(AddVitalSignsActivity.this);
-                                clearData();
-                                // fragmentVitalSigns.getData();
-                                //  fragmentVitalSigns.setListData();
-                                finish();
-                            } else {
-                                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-                            }
-                            finish();
-                        } else {
-                            Boolean flag = VitalQuery.insertVitalData(preferences.getInt(PrefConstants.CONNECTED_USERID), location, Date, time, bp, heart, temperature, pulse, respiratory, note);
-                            if (flag == true) {
-                                Toast.makeText(context, "Vital Signs Added Succesfully", Toast.LENGTH_SHORT).show();
-                                DialogManager.closeKeyboard(AddVitalSignsActivity.this);
-                                clearData();
-                                // fragmentVitalSigns.getData();
-                                // fragmentVitalSigns.setListData();
-                                finish();
-                            } else {
-                                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                    }
-
-                }*/

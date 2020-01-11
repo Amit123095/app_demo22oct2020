@@ -15,7 +15,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 10/6/2017.
  */
-
+/**
+ * Class: PharmacyQuery
+ * Screen: Add Pharmacy
+ * A class that manages Pharmacy Table CRUD Operations
+ */
 public class PharmacyQuery {
     public static final String TABLE_NAME = "Pharmacy";
     public static final String COL_USER_ID = "UserId";

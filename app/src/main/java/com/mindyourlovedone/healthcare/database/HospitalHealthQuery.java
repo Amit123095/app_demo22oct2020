@@ -15,7 +15,11 @@ import java.util.ArrayList;
 /**
  * Created by V@iBh@V on 10/23/2017.
  */
-
+/**
+ * Class: HospitalHealthQuery
+ * Screen: Add HospitalHealth
+ * A class that manages HospitalHealth Table CRUD Operations
+ */
 public class HospitalHealthQuery {
     public static final String TABLE_NAME = "HospitalHealth";
     public static final String COL_USER_ID = "UserId";

@@ -23,45 +23,41 @@ import com.mindyourlovedone.healthcare.webservice.WebService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
+/**
+ * Class: FaxActivity
+ * Screen: Send Fax Screen
+ * A class that manages to send fax report
+ * implements OnclickListener for onClick event on views
+ */
 public class FaxActivity extends AppCompatActivity implements View.OnClickListener {
-    private Context context=this;
-
-
+    private Context context = this;
     Preferences preferences;
-
-    private String path="";
-    private String number="";
-    private String to="";
-    private String from="";
-    private String subject="";
-    private String reply="";
+    private String path = "";
+    private String number = "";
+    private String to = "";
+    private String from = "";
+    private String subject = "";
+    private String reply = "";
     TextView textmsg;
     ImageView imgHome, imgBack;
-
-
-
-    private TextView txtSave,etFaxnumber,etTo,etFrom,etSub,etReply;
-
-
-    RelativeLayout rlMain;
-    ScrollView scroll;
+    private TextView txtSave, etFaxnumber, etTo, etFrom, etSub, etReply;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fax);
+        //Initialize UI and View
         initUi();
+        //Initialize database, get primary data and set data
         initComponent();
+        //Register a callback to be invoked when this views are clicked.
         initListener();
-
     }
 
     private void initComponent() {
-        Intent i=getIntent();
-        if (i.getExtras()!=null)
-        {
-            path=i.getExtras().getString("PATH");
+        Intent i = getIntent();
+        if (i.getExtras() != null) {
+            path = i.getExtras().getString("PATH");
         }
         int lastIndex = path.lastIndexOf("/");
         //  int prevIndex = path.lastIndexOf("/", lastIndex);
@@ -73,6 +69,10 @@ public class FaxActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         imgHome.setOnClickListener(this);
         imgBack.setOnClickListener(this);
@@ -82,8 +82,6 @@ public class FaxActivity extends AppCompatActivity implements View.OnClickListen
 
     private void initUi() {
         preferences = new Preferences(context);
-
-
         etFaxnumber = findViewById(R.id.etFaxnumber);
         etTo = findViewById(R.id.etTo);
         etFrom = findViewById(R.id.etFrom);
@@ -91,14 +89,17 @@ public class FaxActivity extends AppCompatActivity implements View.OnClickListen
         etReply = findViewById(R.id.etReply);
         imgHome = findViewById(R.id.imgHome);
         imgBack = findViewById(R.id.imgBack);
-
         txtSave = findViewById(R.id.txtSave);
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.imgBack:
                 finish();
                 break;
@@ -112,24 +113,12 @@ public class FaxActivity extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.txtSave:
                 if (validation()) {
-                   // finish();
-
                     new ServiceAsyncTask().execute();
-                    // WebService.uploadFile(path, number, to, from, subject,
-                    // context);
-                    // if(editnumber.getText().length()==0){
-
-                    // }
-
-                    // textmsg.setTextColor(context.getResources().getColor(R.color.red_color));
-
-                    // Toast.makeText(context, "Please enter fax number",
-                    // Toast.LENGTH_LONG).show();
-
                 }
                 break;
         }
     }
+
     private void keyboardKeyboard() {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etFaxnumber.getWindowToken(), 0);
@@ -181,7 +170,6 @@ public class FaxActivity extends AppCompatActivity implements View.OnClickListen
 
         @Override
         protected String doInBackground(String... params) {
-            //Shradha
             return WebService.uploadFile(path, "001" + number, to, from, subject, reply,
                     context);
         }
@@ -206,7 +194,7 @@ public class FaxActivity extends AppCompatActivity implements View.OnClickListen
                         String respmsg = jObj1.optString("respMsg");
                         Log.v("RES", respmsg);
                         System.out.println("" + respmsg);
-                        CustomDialog.createCustomDialog(context, "Note", respmsg,"close")
+                        CustomDialog.createCustomDialog(context, "Note", respmsg, "close")
                                 .show();
 
                     } else {
@@ -217,14 +205,14 @@ public class FaxActivity extends AppCompatActivity implements View.OnClickListen
                                 .show();
 
                     }
-                }else{
+                } else {
                     CustomDialog.createCustomDialog(context, "Note", "Unable to send fax, Please try again later!", "")
                             .show();
                 }
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-              //  Toast.makeText(context,"server issue",Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(context,"server issue",Toast.LENGTH_SHORT).show();
             }
         }
     }

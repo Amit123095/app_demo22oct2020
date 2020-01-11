@@ -18,7 +18,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 12/8/2017.
  */
-
+/**
+ * Class: DocumentPdfNew
+ * Screen: Document Sections
+ * A class that manages pdf creation of Document Section
+ */
 public class DocumentPdfNew {
 
     public static ArrayList<String> messageAdvance = new ArrayList<String>();
@@ -26,6 +30,9 @@ public class DocumentPdfNew {
     public static ArrayList<String> messageRecord = new ArrayList<String>();
     Font BlackFont;
 
+    /**
+     * Function: Set Font
+     */
     private void DocumentNewFont() {
         try {
         BaseFont base = BaseFont.createFont("assets/Lato-Regular.ttf", "UTF-8",BaseFont.EMBEDDED);
@@ -35,6 +42,11 @@ public class DocumentPdfNew {
     }
     }
 
+    /**
+     * Function: Create Advance Directive PDF
+     * @param adList
+     * @param ppys
+     */
     public DocumentPdfNew(ArrayList<Document> adList, Image ppys) {
             DocumentNewFont();
             try {
@@ -187,7 +199,12 @@ public class DocumentPdfNew {
         }
 
 
-
+    /**
+     * Function: Create Oter Document PDF
+     * @param otherList
+     * @param y
+     * @param ppys
+     */
     public DocumentPdfNew(ArrayList<Document> otherList, int y, Image ppys) {
             DocumentNewFont();
             try {
@@ -348,6 +365,12 @@ public class DocumentPdfNew {
             }
     }
 
+    /**
+     * Function: Create Medical Record PDF
+     * @param recordList
+     * @param record
+     * @param ppys
+     */
     public DocumentPdfNew(ArrayList<Document> recordList, String record, Image ppys) {
 
             DocumentNewFont();

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 /**
  * Created by V@iBh@V on 11/18/2017.
+ * Adapterb for set video link to list
  */
 public class LinkAdapter extends BaseAdapter {
     Context context;

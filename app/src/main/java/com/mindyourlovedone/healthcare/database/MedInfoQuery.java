@@ -10,7 +10,11 @@ import com.mindyourlovedone.healthcare.model.MedInfo;
 /**
  * Created by welcome on 9/24/2017.
  */
-
+/**
+ * Class: MedInfoQuery
+ * Screen: Add MedInfo
+ * A class that manages MedInfo Table CRUD Operations
+ */
 public class MedInfoQuery {
 
     public static final String TABLE_NAME = "MedInfo";

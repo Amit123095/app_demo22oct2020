@@ -16,7 +16,11 @@ import static com.mindyourlovedone.healthcare.database.AllergyQuery.COL_TREATMEN
 /**
  * Created by welcome on 9/25/2017.
  */
-
+/**
+ * Class: PetQuery
+ * Screen: Add PetInfo
+ * A class that manages PetInfo Table CRUD Operations
+ */
 public class PetQuery {
     public static final String TABLE_NAME = "PetInfo";
     public static final String COL_ID = "Id";

@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
-import com.mindyourlovedone.healthcare.InsuranceHealthCare.FragmentAids;
 import com.mindyourlovedone.healthcare.InsuranceHealthCare.FragmentFinance;
 import com.mindyourlovedone.healthcare.InsuranceHealthCare.FragmentHospital;
 import com.mindyourlovedone.healthcare.InsuranceHealthCare.FragmentInsurance;
@@ -24,12 +23,17 @@ import com.mindyourlovedone.healthcare.InsuranceHealthCare.FragmentPrescriptionI
 import com.mindyourlovedone.healthcare.InsuranceHealthCare.FragmentSpecialist;
 import com.mindyourlovedone.healthcare.InsuranceHealthCare.FragmentVitalSigns;
 
+/**
+ * Class: InsuranceActivity
+ * Screen: Speciality Contacts SubSection Screen
+ * A class that manages to display list of subsection of Speciality Contacts
+ * implements OnclickListener for onClick event on views
+ */
 public class InsuranceActivity extends AppCompatActivity implements View.OnClickListener {
     public static FragmentManager fragmentManager;
     public FragmentTransaction fragmentTransaction;
     FragmentInsurance fragmentInsurance = null;
     FragmentSpecialist fragmentSpecialist = null;
-    FragmentAids fragmentAids = null;
     FragmentPharmacy fragmentPharmacy = null;
     FragmentFinance fragmentFinance = null;
     FragmentHospital fragmentHospital = null;
@@ -45,59 +49,52 @@ public class InsuranceActivity extends AppCompatActivity implements View.OnClick
     ImageView imgBack, imgHome;
     RelativeLayout header;
 
-    //  String[] specialist = { "Insurance", "DOCTORS", "HOME HEALTH SERVICES", "FINANCE, INSURANCE & LEGAL" };
-
-
-    @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insurance);
+        //Initialize user interface view and components
         initUI();
 
+        //Register a callback to be invoked when this views are clicked.
         initListener();
+
+        //Initialize Fragments
         fragmentData();
+
+        //Initialize database, get primary data and set data
         initComponent();
-        //  callFragment("INSURANCE", fragmentInsurance);
-        //  if (fragmentManager.findFragmentByTag("INSURANCE") == null) {
-        //    callFragment("INSURANCE", fragmentInsurance);
-        // }
     }
 
+    /**
+     * Function: Initialize Sections fragment,mnet
+     */
     private void initComponent() {
         Intent i = getIntent();
         if (i.getExtras() != null) {
             String fragment = i.getExtras().getString("FRAGMENT");
             switch (fragment) {
-                case "Insurance":
+                case "Insurance"://Insurance Company
                     txtTitle.setText("INSURANCE");
                     callFragment("INSURANCE", fragmentInsurance);
                     break;
-                case "Doctors":
+                case "Doctors"://Doctor
                     header.setBackgroundColor(getResources().getColor(R.color.colorSpecialityYellow));
                     txtTitle.setText("Doctors & Other Health\nCare Professionals");
                     callFragment("SPECIALIST", fragmentSpecialist);
                     break;
 
-                case "Hospitals":
+                case "Hospitals"://Hospitals
                     header.setBackgroundColor(getResources().getColor(R.color.colorSpecialityYellow));
                     txtTitle.setText("Urgent Care, TeleMed, Hospitals, Rehab, Home Care");
                     callFragment("HOSPITAL", fragmentHospital);
                     break;
-                case "Pharmacies":
+                case "Pharmacies"://Pharmacies
                     header.setBackgroundColor(getResources().getColor(R.color.colorSpecialityYellow));
                     txtTitle.setText("Pharmacies & Home\nMedical Equipment");
                     callFragment("PHARMACY", fragmentPharmacy);
                     break;
-                case "Home Health Services":
-                    header.setBackgroundColor(getResources().getColor(R.color.colorSpecialityYellow));
-                    txtTitle.setText("HOME HEALTH SERVICES");
-                    callFragment("AIDS", fragmentAids);
-                    break;
+
                 case "Finance,Insurance and Legal":
                     header.setBackgroundColor(getResources().getColor(R.color.colorSpecialityYellow));
                     txtTitle.setText("Finance, Legal, Other");
@@ -132,10 +129,12 @@ public class InsuranceActivity extends AppCompatActivity implements View.OnClick
         fragmentTransaction.commit();
     }
 
+    /**
+     * Function: Initialize Fragment
+     */
     private void fragmentData() {
         fragmentInsurance = new FragmentInsurance();
         fragmentSpecialist = new FragmentSpecialist();
-        fragmentAids = new FragmentAids();
         fragmentFinance = new FragmentFinance();
         fragmentPharmacy = new FragmentPharmacy();
         fragmentHospital = new FragmentHospital();
@@ -144,59 +143,31 @@ public class InsuranceActivity extends AppCompatActivity implements View.OnClick
         fragmentPrescriptionUpload = new FragmentPrescriptionUpload();
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         imgHome.setOnClickListener(this);
         imgBack.setOnClickListener(this);
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
         header = findViewById(R.id.header);
         header.setBackgroundResource(R.color.colorThree);
         imgBack = findViewById(R.id.imgBack);
         imgHome = findViewById(R.id.imgHome);
         txtTitle = findViewById(R.id.txtTitle);
-        // spinner=(Spinner) findViewById(R.id.spinner);
-
-
-       /* ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,specialist);
-        aa.setDropDownViewResource(android.R.layout.simple_list_item_1);
-        //Setting the ArrayAdapter data on the Spinner
-        spinner.setAdapter(aa);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(),specialist[position] ,Toast.LENGTH_LONG).show();
-                switch (specialist[position] )
-                {
-                    case "Insurance":
-                       // if (fragmentManager.findFragmentByTag("INSURANCE") == null) {
-                            callFragment("INSURANCE", fragmentInsurance);
-                       // }
-                        break;
-                    case "Doctors":
-                      //  if (fragmentManager.findFragmentByTag("SPECIALIST") == null) {
-                            callFragment("SPECIALIST", fragmentSpecialist);
-                     //   }
-                        break;
-                    case "Health Aides":
-                    //    if (fragmentManager.findFragmentByTag("AIDS") == null) {
-                            callFragment("AIDS", fragmentAids);
-                      //  }
-                        break;
-                    case "Finance and Legal":
-                        callFragment("FINANCE", fragmentFinance);
-                        break;
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
     }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

@@ -27,6 +27,10 @@ import java.net.MalformedURLException;
  * Created by varsha on 8/21/2017.
  */
 
+/**
+ * Class: Preference
+ * Create preferenc file and store Primary data into
+ */
 public class Preferences {
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
@@ -56,6 +60,7 @@ public class Preferences {
         editor.putBoolean(this.LOGIN, firstTimeCall);
         editor.commit();
     }
+
     public Boolean getFirstTime() {
         return preferences.getBoolean(PrefConstants.FIRST_TIME, false);
     }
@@ -65,6 +70,7 @@ public class Preferences {
         editor.putBoolean(PrefConstants.FIRST_TIME, frst);
         editor.commit();
     }
+
     public boolean isFirstTimeCall() {
         return preferences.getBoolean(FIRST_TIME_CALL, true);
     }
@@ -230,15 +236,16 @@ public class Preferences {
     }
 
     public Image addFile(String s, Context context) {
-        Image logostreamp=null;
+        Image logostreamp = null;
         try {
-            InputStream logostream=context.getAssets().open(s);
-            logostreamp=addProfile(logostream);
+            InputStream logostream = context.getAssets().open(s);
+            logostreamp = addProfile(logostream);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return logostreamp;
     }
+
     public static Image addProfile(InputStream path) {
         Image image = null;
         try {

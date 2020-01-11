@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Async task to list items in a folder
+ * Async task to list items in a shared folder
  */
 public class ListReceivedFolderTask extends AsyncTask<String, Void, ArrayList<DropBoxFileItem>> {
 

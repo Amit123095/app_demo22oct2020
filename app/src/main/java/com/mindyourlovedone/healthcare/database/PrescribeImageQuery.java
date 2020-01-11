@@ -15,7 +15,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 9/29/2017.
  */
-
+/**
+ * Class: PrescribeImageQuery
+ * Screen: Add PrescriptionImage
+ * A class that manages PrescriptionImage Table CRUD Operations
+ */
 public class PrescribeImageQuery {
     public static final String TABLE_NAME = "PrescriptionImage";
     public static final String COL_ID = "Id";

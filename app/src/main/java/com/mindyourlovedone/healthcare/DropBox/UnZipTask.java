@@ -22,7 +22,7 @@ import java.util.zip.ZipInputStream;
 /**
  * Created by welcome on 12/14/2017.
  */
-
+//Unzip folder
 public class UnZipTask extends AsyncTask<String, Void, String> {
     Context con;
     String outZipPath;
@@ -83,11 +83,7 @@ public class UnZipTask extends AsyncTask<String, Void, String> {
                     } finally {
                         fout.close();
                     }
-            /* if time should be restored as well
-            long time = ze.getTime();
-            if (time > 0)
-                file.setLastModified(time);
-            */
+
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -108,46 +104,7 @@ public class UnZipTask extends AsyncTask<String, Void, String> {
             }
         }
         return "Yes";
-        /*InputStream is;
-        ZipInputStream zis;
-        String file="";
-        try
-        {
-            is = new FileInputStream(inputFolderPath);
-            zis = new ZipInputStream(new BufferedInputStream(is));
-            ZipEntry ze;
 
-            while((ze = zis.getNextEntry()) != null)
-            {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                byte[] buffer = new byte[1024];
-                int count;
-
-                String filename = ze.getName();
-                FileOutputStream fout = new FileOutputStream(filename);
-
-                // reading and writing
-                while((count = zis.read(buffer)) != -1)
-                {
-                    baos.write(buffer, 0, count);
-                    byte[] bytes = baos.toByteArray();
-                    fout.write(bytes);
-                    baos.reset();
-                }
-                file=fout.toString();
-                fout.close();
-                zis.closeEntry();
-            }
-
-            zis.close();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-            return null;
-        }
-
-        return file;*/
     }
 
     @Override

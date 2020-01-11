@@ -29,7 +29,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
+/**
+ * Class: VitalAdpater
+ * Screen: Vital Sign List Screen
+ * A class that manages Adpater for Vital Sign List
+ */
 public class VitalAdpater extends RecyclerSwipeAdapter<VitalAdpater.ViewHolder> {
     Context context;
     ArrayList<VitalSigns> vitalList;

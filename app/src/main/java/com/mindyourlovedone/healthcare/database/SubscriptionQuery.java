@@ -14,7 +14,11 @@ import java.util.ArrayList;
  *
  * Created by Nikita on 10/6/2017. Nikita#Sub - new commit
  */
-
+/**
+ * Class: SubscriptionQuery
+ * Screen: Add Subscription
+ * A class that manages Subscription Table CRUD Operations
+ */
 public class SubscriptionQuery {
     public static final String TABLE_NAME = "Subscription";
     public static final String COL_USER_ID = "UserId";

@@ -12,7 +12,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 9/25/2017.
  */
-
+/**
+ * Class: HospitalQuery
+ * Screen: Add HospitalInfo
+ * A class that manages HospitalInfo Table CRUD Operations
+ */
 public class HospitalQuery {
     public static final String TABLE_NAME = "HospitalInfo";
     public static final String COL_ID = "Id";
@@ -60,8 +64,6 @@ public class HospitalQuery {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor c = db.rawQuery("Select * from " + TABLE_NAME + ";", null);
-
-        // Cursor c = db.rawQuery("Select * from " + TABLE_NAME + " where " + COL_USERID + "='" + userid + "';", null);
         if (c != null && c.getCount() > 0) {
             if (c.moveToFirst()) {
                 do {
@@ -89,19 +91,12 @@ public class HospitalQuery {
     public static Boolean updateHospitalData(int userid, String value, String name) {
         boolean flag;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-
         ContentValues cv = new ContentValues();
-        //cv.put(COL_USERID,userid);
-        cv.put(COL_HOSPITAL, value);
-
-        //int rowid=db.update(TABLE_NAME,cv,COL_IMPLANTS + "='" + value + "' and "+COL_USERID+"=" + userid,null);
         int rowid = db.update(TABLE_NAME,
                 cv,
                 COL_USERID + " = " + userid + " AND " + COL_HOSPITAL + " = '" + name + "'",
                 null);
-
         flag = rowid != 0;
-
         return flag;
     }
 

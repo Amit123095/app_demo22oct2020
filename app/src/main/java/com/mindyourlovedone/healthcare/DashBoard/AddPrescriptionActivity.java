@@ -68,7 +68,12 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
-
+/**
+ * Class: AddPrescriptionActivity
+ * Screen: Add Prescription Screen
+ * A class that manages to Add, Update Prescription details
+ * implements OnclickListener for onClick event on views
+ */
 public class AddPrescriptionActivity extends AppCompatActivity implements View.OnClickListener {
     public static final int RESULT_PRES = 100;
     private static final int REQUEST_CARD = 50;
@@ -104,26 +109,30 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
     DBHelper dbHelper;
     int unique;
     boolean isEdit, isView;//Shradha
-    int id, colid, dosageid, imageid;
+    int id, colid;
     LinearLayout casts_container;
     ImageLoader imageLoader;
     DisplayImageOptions displayImageOptions;
 
     @Override
-    public void onBackPressed() {//Nikita-1-10-19
-//        super.onBackPressed();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_prescription);
+        //Initialize database, get primary data and set data
         initComponent();
+        //Initialize Image loading and displaying at ImageView
         initImageLoader();
+        //Initialize user interface view and components
         initUI();
+
+        //Register a callback to be invoked when this views are clicked.
         initListener();
     }
 
+    /**
+     * Function: Image loading and displaying at ImageView
+     * Presents configuration for ImageLoader & options for image display.
+     */
     private void initImageLoader() {
         displayImageOptions = new DisplayImageOptions.Builder() // resource
                 .resetViewBeforeLoading(true) // default
@@ -143,15 +152,21 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
         imageLoader = ImageLoader.getInstance();
     }
 
+    /**
+     * Function: Initialize Database and Preferences
+     */
     private void initComponent() {
         preferences = new Preferences(context);
         dbHelper = new DBHelper(context, preferences.getString(PrefConstants.CONNECTED_USERDB));
         PrescriptionQuery p = new PrescriptionQuery(context, dbHelper);
         PrescribeImageQuery i = new PrescribeImageQuery(context, dbHelper);
         DosageQuery d = new DosageQuery(context, dbHelper);
-
     }
 
+    /**
+     * Function: Register a callback to be invoked when this views are clicked.
+     * If this views are not clickable, it becomes clickable.
+     */
     private void initListener() {
         llAddPrescription.setOnClickListener(this);
         imgBack.setOnClickListener(this);
@@ -175,10 +190,13 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
 
     }
 
+    /**
+     * Function: Initialize user interface view and components
+     */
     private void initUI() {
 
         view1 = findViewById(R.id.view1);//Shradha
-        casts_container= findViewById(R.id.casts_container);//nikita
+        casts_container = findViewById(R.id.casts_container);//nikita
         txtPhotoHeader = findViewById(R.id.txtPhotoHeader);//Shradha
         txtTitle = findViewById(R.id.txtTitle);
         txtName = findViewById(R.id.txtName);
@@ -202,22 +220,10 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
         txtAddPhoto = findViewById(R.id.txtAddPhoto);
         llAddPrescription = findViewById(R.id.llAddPrescription);
         ListDosage = findViewById(R.id.ListDosage);
-//        ListPhoto = findViewById(R.id.ListPhoto);
         imgDone = findViewById(R.id.imgDone);
         etNote = findViewById(R.id.etNote);
         txtNote = findViewById(R.id.txtNote);
         txtSave = findViewById(R.id.txtSave);
-
-//        ListPhoto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent i = new Intent(context, ViewImageActivity.class);
-//                i.putExtra("Image", imageList.get(position).getImage());
-//                currentImage = imageList.get(position).getImage();
-//                startActivityForResult(i, REQUEST_CARD);
-//                Log.v("@shradha", imageList.get(position).getImage());
-//            }
-//        });
 
         tbPre.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -235,22 +241,11 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
         spinner.setHint("Dosage Form");
 
         tilTitle = findViewById(R.id.tilTitle);
-       /* tilTitle.setHintEnabled(false);
-        txtName.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                tilTitle.setHintEnabled(true);
-                txtName.setFocusable(true);
-
-                return false;
-            }
-        });
-*/
         Intent i = getIntent();
         if (i.getExtras() != null) {
 
             Prescription p = (Prescription) i.getExtras().getSerializable("PrescriptionObject");
-            presc= (Prescription) i.getExtras().getSerializable("PrescriptionObject");
+            presc = (Prescription) i.getExtras().getSerializable("PrescriptionObject");
 
             isView = i.getExtras().getBoolean("IsView");//Shradha
             if (isView == true)//Shradha
@@ -278,11 +273,9 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                 dosageList = p.getDosageList();//Shradha
                 imageList = PrescribeImageQuery.fetchAllImageRecord(p.getUserid(), p.getUnique());//Shradha
                 imageListOld = imageList;//Shradha
-                setDosageData();//Shradha
+               // setDosageData();//Shradha
                 setImageListData();//Shradha
-            }/*else {
-                Toast.makeText(context, "Done changes in Prescription for View", Toast.LENGTH_SHORT).show();
-            }*/
+            }
 
 
             isEdit = i.getExtras().getBoolean("IsEdit");
@@ -297,9 +290,7 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                 etNote.setText(p.getNote());
                 if (p.getPre().equals("YES")) {
                     tbPre.setChecked(true);
-                    //rbYes.setChecked(true);
                 } else if (p.getPre().equals("NO")) {
-                    //rbNo.setChecked(true);
                     tbPre.setChecked(false);
                 }
                 txtRX.setText(p.getRX());
@@ -310,41 +301,14 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                 dosageList = p.getDosageList();
                 imageList = PrescribeImageQuery.fetchAllImageRecord(p.getUserid(), p.getUnique());
                 imageListOld = imageList;
-                setDosageData();
+               // setDosageData();
                 setImageListData();
-            }else {
+            } else {
                 txtTitle.setText("Add Prescription");
             }
         }
 
-        ListDosage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                ImageView imgEdit = view.findViewById(R.id.imgEdit);
-                ImageView imgDelete = view.findViewById(R.id.imgDelete);
-                imgEdit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Dosage a = dosageList.get(position);
-                        showInputDialog(context, a, true);
-                    }
-                });
 
-                imgDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Dosage a = dosageList.get(position);
-                        boolean flag = DosageQuery.deleteRecords(a.getId());
-                        if (flag == true) {
-                            Toast.makeText(context, "Prescription has been deleted succesfully", Toast.LENGTH_SHORT).show();
-                            dosageList.remove(a);
-                            setDosageData();
-                            ListDosage.requestFocus();
-                        }
-                    }
-                });
-            }
-        });
     }
 
     private void disablePrescription() {//Shradha
@@ -364,15 +328,17 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
         txtMedicine.setEnabled(false);//Shradha
     }
 
-    private void getDosageData() {
-        dosageList = DosageQuery.fetchAllDosageRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), unique);
-    }
 
+    /**
+     * Function: Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.imgBack:
+            case R.id.imgBack:// Navgate to previous screen after saving changes
                 String doctors = txtName.getText().toString().trim();
                 String purposes = txtPurpose.getText().toString().trim();
                 String notes = etNote.getText().toString().trim();
@@ -381,15 +347,13 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                 String doses = txtDose.getText().toString().trim();
                 String frequencys = txtFrequency.getText().toString().trim();
                 String medicines = txtMedicine.getText().toString().trim();
-                if(isEdit==false) {
-                    if (doctors.equals("")&&purposes.equals("")&&
-                            notes.equals("")&&dates.equals("")&&
-                            rxs.equals("")&&doses.equals("")&&
-                            frequencys.equals("")&&medicines.equals("")&&pre.equals(""))
-                    {
+                if (isEdit == false) {
+                    if (doctors.equals("") && purposes.equals("") &&
+                            notes.equals("") && dates.equals("") &&
+                            rxs.equals("") && doses.equals("") &&
+                            frequencys.equals("") && medicines.equals("") && pre.equals("")) {
                         finish();
-                    }
-                    else{
+                    } else {
                         android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(context);
                         alert.setTitle("Save");
                         alert.setMessage("Do you want to save information?");
@@ -412,17 +376,14 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                         alert.show();
                     }
 
-                }
-                else{
+                } else {
 
-                    if (presc.getMedicine().equals(medicines)&&presc.getDoctor().equals(doctors)&&
-                            presc.getPurpose().equals(purposes)&&presc.getNote().equals(notes)&&
-                            presc.getDates().equals(dates)&&presc.getPre().equals(pre)&&
-                            presc.getFrequency().equals(frequencys)&&presc.getRX().equals(rxs))
-                    {
+                    if (presc.getMedicine().equals(medicines) && presc.getDoctor().equals(doctors) &&
+                            presc.getPurpose().equals(purposes) && presc.getNote().equals(notes) &&
+                            presc.getDates().equals(dates) && presc.getPre().equals(pre) &&
+                            presc.getFrequency().equals(frequencys) && presc.getRX().equals(rxs)) {
                         finish();
-                    }
-                    else{
+                    } else {
                         android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(context);
                         alert.setTitle("Save");
                         alert.setMessage("Do you want to save information?");
@@ -446,30 +407,8 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                     }
                 }
                 break;
-           /* case R.id.txtDate:
-                Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog dpd = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        Calendar newDate = Calendar.getInstance();
-                        newDate.set(year, month, dayOfMonth);
-                        long selectedMilli = newDate.getTimeInMillis();
 
-                        Date datePickerDate = new Date(selectedMilli);
-                        String reportDate=new SimpleDateFormat("d-MMM-yyyy").format(datePickerDate);
-
-                        DateClass d=new DateClass();
-                        d.setDate(reportDate);
-                        txtDate.setText(reportDate);
-                    }
-                }, year, month, day);
-                dpd.show();
-                break;*/
-
-            case R.id.txtSave:
+            case R.id.txtSave://Save Prescription details
                 String doctor = txtName.getText().toString().trim();
                 String purpose = txtPurpose.getText().toString().trim();
                 String note = etNote.getText().toString().trim();
@@ -502,25 +441,11 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                     }
 
                     Intent i = new Intent();
-               /* i.putExtra("Name",txtName.getText().toString().trim());
-                i.putExtra("Date",txtDate.getText().toString().trim());
-                i.putExtra("Dosage", dosageList);
-                i.putExtra("Image",imageList);*/
-               /*String date=txtDate.getText().toString().trim();
-                Prescription p=new Prescription();
-                p.setPrescriptionImageList(imageList);
-                p.setDoctor(txtName.getText().toString().trim());
-                p.setDates(date);
-                p.setDosageList(dosageList);
-                i.putExtra("PrObj", p);
-*/
                     setResult(RESULT_PRES, i);
                     finish();
                 }
                 break;
-            case R.id.imgAddDosage:
-                showInputDialog(context, null, false);
-                break;
+
             case R.id.txtAddPhoto:
                 final Dialog dialog = new Dialog(context);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -546,9 +471,13 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                 dialog.getWindow().setAttributes(lp);
                 dialog.show();
                 textOption1.setOnClickListener(new View.OnClickListener() {
+                    /**
+                     * Function: Called when a view has been clicked.
+                     *
+                     * @param v The view that was clicked.
+                     */
                     @Override
                     public void onClick(View v) {
-                        // dispatchTakePictureIntent();
                         values = new ContentValues();
                         values.put(MediaStore.Images.Media.TITLE, "New Picture");
                         values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
@@ -556,7 +485,6 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
 
                         imageUriProfile = getContentResolver().insert(
                                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                        //  intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUriProfile);
 
                         startActivityForResult(intent, RESULT_CAMERA_IMAGE);
@@ -565,6 +493,11 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                     }
                 });
                 textOption2.setOnClickListener(new View.OnClickListener() {
+                    /**
+                     * Function: Called when a view has been clicked.
+                     *
+                     * @param v The view that was clicked.
+                     */
                     @Override
                     public void onClick(View v) {
                         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -573,7 +506,7 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                         dialog.dismiss();
                     }
                 });
-                //shradha:Code for remove picture.
+
                 textOption3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -586,7 +519,6 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                                 Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
                                 imageList.remove(a);
                                 setImageListData();
-//                                ListPhoto.requestFocus();
                             } else {
                                 Toast.makeText(context, "Record not found", Toast.LENGTH_SHORT).show();
                             }
@@ -595,6 +527,11 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                     }
                 });
                 textCancel.setOnClickListener(new View.OnClickListener() {
+                    /**
+                     * Function: Called when a view has been clicked.
+                     *
+                     * @param v The view that was clicked.
+                     */
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
@@ -651,89 +588,6 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
         return image;
     }
 
-    private void showInputDialog(final Context context, final Dosage a, final boolean b) {
-        final Dialog customDialog;
-        customDialog = new Dialog(context);
-        customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        customDialog.setContentView(R.layout.dialog_input_dose);
-        customDialog.setCancelable(false);
-        final EditText etMedicine = customDialog.findViewById(R.id.etMedicine);
-        final EditText etDose = customDialog.findViewById(R.id.etDose);
-        final EditText etFrequency = customDialog.findViewById(R.id.etFrequency);
-        final EditText etRX = customDialog.findViewById(R.id.etRX);
-        TextView txtMedicine = customDialog.findViewById(R.id.txtMedicine);
-        TextView txtDose = customDialog.findViewById(R.id.txtDose);
-
-        if (b == true) {
-            if (a != null) {
-                etMedicine.setText(a.getMedicine());
-                etDose.setText(a.getDose());
-                etFrequency.setText(a.getFrequency());
-                etRX.setText(a.getRx());
-            }
-        }
-        TextView btnAdd = customDialog.findViewById(R.id.btnYes);
-        TextView btnCancel = customDialog.findViewById(R.id.btnNo);
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                customDialog.dismiss();
-            }
-        });
-
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String dose = etDose.getText().toString();
-                String medicine = etMedicine.getText().toString();
-                String frequency = etFrequency.getText().toString();
-                String rx = etRX.getText().toString();
-               /* SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-                String currentDateandTime = sdf.format(new Date());*/
-                if (b == true) {
-                    if (medicine.length() != 0) {
-
-                        a.setDose(dose);
-                        a.setMedicine(medicine);
-                        a.setFrequency(frequency);
-                        a.setRx(rx);
-                        //dosageList.add(dosage);
-                        customDialog.dismiss();
-                        setDosageData();
-                    } else {
-                        Toast.makeText(context, "Enter Medicine", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-
-                    if (medicine.length() != 0) {
-                        Dosage dosage = new Dosage();
-                        dosage.setDose(dose);
-                        dosage.setMedicine(medicine);
-                        dosage.setFrequency(frequency);
-                        dosage.setRx(rx);
-                        dosageList.add(dosage);
-                        customDialog.dismiss();
-                        setDosageData();
-                    } else {
-                        Toast.makeText(context, "Enter Medicine", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-        customDialog.show();
-    }
-
-    private void setDosageData() {
-        if (dosageList.size() != 0) {
-            DosageAdapter adapter = new DosageAdapter(context, dosageList);
-            ListDosage.setAdapter(adapter);
-            ListDosage.setVisibility(View.VISIBLE);
-        } else {
-            ListDosage.setVisibility(View.GONE);
-        }
-    }
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // ImageView profileImage = (ImageView) findViewById(R.id.imgProfile);
@@ -748,83 +602,14 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                 e.printStackTrace();
             }
 
-           /* try {
-                final Uri imageUri = data.getData();
-                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                selectedImage.compress(Bitmap.CompressFormat.PNG, 10, stream);
-                byte[] byteArray = stream.toByteArray();
-                PrescribeImage p = new PrescribeImage();
-                p.setImage(byteArray);
-                imageList.add(p);
-                setImageListData();
-                // profileImage.setImageBitmap(selectedImage);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }*/
-
         } else if (requestCode == RESULT_CAMERA_IMAGE) {
             try {
                 Bitmap thumbnail = MediaStore.Images.Media.getBitmap(
                         getContentResolver(), imageUriProfile);
-                //  String imageurl = getRealPathFromURI(imageUriProfile);
-                // Bitmap bitmap = imageOreintationValidator(thumbnail, imageurl);
-                //  imageLoader.displayImage(imageBitmap,profileImage,displayImageOptions);
-                //   profileImage.setImageBitmap(thumbnail);
                 storeImage(thumbnail, "Profile");
-
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
-/*
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            ByteArrayOutputStream streams = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.PNG, 10, streams);
-            byte[] byteArrays = streams.toByteArray();
-            PrescribeImage p = new PrescribeImage();
-            p.setImage(byteArrays);
-            imageList.add(p);
-            setImageListData();
-            // imageLoader.displayImage(imageBitmap,profileImage,displayImageOptions);
-
-            FileOutputStream outStream = null;
-            File file = new File(Environment.getExternalStorageDirectory(),
-                    "/MHCWPrescription/");
-            String path = file.getAbsolutePath();
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-
-
-            if (file.isDirectory()) {
-                String[] children = file.list();
-                for (int i = 0; i < children.length; i++) {
-                    new File(file, children[i]).delete();
-                }
-            }
-            try {
-
-                imagepath = path + "/MHCWPrescription_" + String.valueOf(System.currentTimeMillis())
-                        + ".jpg";
-                // Write to SD Card
-                outStream = new FileOutputStream(imagepath);
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                //imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-
-                outStream.write(byteArray);
-                outStream.close();
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-
-            }*/
         } else if (requestCode == REQUEST_CARD) {
             if (data != null) {
                 if (data.getExtras().getString("Prescription").equals("Delete")) {
@@ -833,11 +618,6 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                         if (imageList.get(i).getImage().equals(photo)) {
                             boolean flag = PrescribeImageQuery.deleteImageRecord(imageList.get(i).getId());
                             if (flag == true) {
-//                                File imgFile = new File(preferences.getString(PrefConstants.CONNECTED_PATH) + imageList.get(i).getImage());//nikita
-//                                if (imgFile.exists()) {
-//                                    imgFile.delete();
-//                                }
-
                                 Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
                                 imageList.remove(imageList.get(i));
                                 setImageListData();
@@ -845,12 +625,15 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                         }
                     }
 
-                    // setImageListData();
                 }
             }
         }
     }
-
+    /**
+     * Function: Store Image in application storage folder
+     * @param selectedImage
+     * @param profile
+     */
     private void storeImage(Bitmap selectedImage, String profile) {
 
         FileOutputStream outStream = null;
@@ -891,6 +674,9 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
         }
     }
 
+    /**
+     * Function: Set Images in list
+     */
     private void setImageListData() {
 
         casts_container.removeAllViews();
@@ -917,11 +703,7 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                 thumbnailImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        PrescribeImage pp = (PrescribeImage)view.getTag();
-//                        Intent i = new Intent(context, ViewImageActivity.class);
-//                        i.putExtra("Image", pp.getImage());
-//                        currentImage = pp.getImage();
-//                        startActivityForResult(i, REQUEST_CARD);
+                        PrescribeImage pp = (PrescribeImage) view.getTag();
                         showFloatDialog(pp.getImage());
                     }
                 });
@@ -929,7 +711,7 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                 imgdelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        PrescribeImage pp = (PrescribeImage)view.getTag();
+                        PrescribeImage pp = (PrescribeImage) view.getTag();
                         boolean flag = PrescribeImageQuery.deleteImageRecord(pp.getId());
                         if (flag == true) {
                             Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
@@ -938,8 +720,6 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                         }
                     }
                 });
-//        ImageAdapter adapter = new ImageAdapter(context, imageList);
-//        ListPhoto.setAdapter(adapter);
 
                 casts_container.addView(clickableColumn);
             }
@@ -947,31 +727,27 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
     }
 
     File imgFile;
+
     private void showFloatDialog(String path) {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        LayoutInflater lf = (LayoutInflater)this
+        LayoutInflater lf = (LayoutInflater) this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogview = lf.inflate(R.layout.activity_add_form, null);
         final RelativeLayout rlView = dialogview.findViewById(R.id.rlView);
         final FloatingActionButton floatCancel = dialogview.findViewById(R.id.floatCancel);
         final FloatingActionButton floatContact = dialogview.findViewById(R.id.floatContact);
-        //floatContact.setImageResource(R.drawable.closee);
         final FloatingActionButton floatNew = dialogview.findViewById(R.id.floatNew);
-        // floatNew.setImageResource(R.drawable.eyee);
-
         dialog.setContentView(dialogview);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
-        // int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.95);
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        //lp.gravity = Gravity.CENTER;
         dialog.getWindow().setAttributes(lp);
 
 
-        ImageView  imgBack,  imgDot;
+        ImageView imgBack, imgDot;
         TextView txtTitle;
         TouchImageView imgDoc;
         Preferences preferences;
@@ -995,6 +771,11 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
             imgDoc.setImageBitmap(myBitmap);
 
             imgBack.setOnClickListener(new View.OnClickListener() {
+                /**
+                 * Function: Called when a view has been clicked.
+                 *
+                 * @param v The view that was clicked.
+                 */
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
@@ -1002,6 +783,11 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
             });
 
             imgDot.setOnClickListener(new View.OnClickListener() {
+                /**
+                 * Function: Called when a view has been clicked.
+                 *
+                 * @param v The view that was clicked.
+                 */
                 @Override
                 public void onClick(View v) {
 
@@ -1030,6 +816,12 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
 
         }
     }
+    /**
+     * Function: Prepare email body with attachment file for share
+     * @param f
+     * @param context
+     * @param s
+     */
     private void emailAttachement(File f, Context context, String s) {
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 
@@ -1059,7 +851,6 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
             uri = Uri.fromFile(f);
         }
         emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
-//emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
         emailIntent.setType("application/email");
 
         context.startActivity(Intent.createChooser(emailIntent, "Send mail..."));

@@ -10,7 +10,11 @@ import java.util.ArrayList;
 /**
  * Created by welcome on 9/25/2017.
  */
-
+/**
+ * Class: MedicalConditionQuery
+ * Screen: Add Medical Condition Activity
+ * A class that manages ConditionInfo Table CRUD Operations
+ */
 public class MedicalConditionQuery {
     public static final String TABLE_NAME = "ConditionInfo";
     public static final String COL_ID = "Id";
