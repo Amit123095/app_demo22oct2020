@@ -24,6 +24,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.itextpdf.text.Image;
 import com.mindyourlovedone.healthcare.DashBoard.AddPrescriptionActivity;
 import com.mindyourlovedone.healthcare.DashBoard.FaxActivity;
@@ -34,6 +35,7 @@ import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.HospitalHealthQuery;
 import com.mindyourlovedone.healthcare.database.PrescriptionQuery;
+import com.mindyourlovedone.healthcare.model.Document;
 import com.mindyourlovedone.healthcare.model.Hospital;
 import com.mindyourlovedone.healthcare.model.PrescribeImage;
 import com.mindyourlovedone.healthcare.model.Prescription;
@@ -47,6 +49,8 @@ import com.mindyourlovedone.healthcare.utility.Preferences;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class FragmentPrescriptionInfo extends Fragment implements View.OnClickListener {
 
@@ -65,6 +69,9 @@ public class FragmentPrescriptionInfo extends Fragment implements View.OnClickLi
     TextView txthelp;
     ImageView imghelp;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
+
     /**
      * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
      * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
@@ -75,23 +82,32 @@ public class FragmentPrescriptionInfo extends Fragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_pres_info, null);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+
         //Initialize database, get primary data and set data
         initComponent();
         getData();
         //Initialize user interface view and components
-initUI();
+        initUI();
 
         //Register a callback to be invoked when this views are clicked.
-initListener();
+        initListener();
 
         return rootview;
     }
 
-   /**
+    /**
      * Function: Set Contact data on list
      */
     private void setListData() {
         if (PrescriptionList.size() != 0) {
+            Collections.sort(PrescriptionList, new Comparator<Prescription>() {
+                @Override
+                public int compare(Prescription o1, Prescription o2) {
+                    return o1.getMedicine().compareToIgnoreCase(o2.getMedicine());
+                }
+            });
             PrescriptionInfoAdapter hospitalAdapter = new PrescriptionInfoAdapter(getActivity(), PrescriptionList, FragmentPrescriptionInfo.this);
             lvPrescriptionInfo.setAdapter(hospitalAdapter);
             lvPrescriptionInfo.setVisibility(View.VISIBLE);
@@ -150,7 +166,7 @@ initListener();
 
     }
 
-   /**
+    /**
      * Function: Initialize user interface view and components
      */
     private void initUI() {
@@ -204,12 +220,12 @@ initListener();
         txtFTU = rootview.findViewById(R.id.txtFTU);
         txtFTU.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
                 Intent intentEmerInstruc = new Intent(getActivity(), InstructionActivity.class);
                 intentEmerInstruc.putExtra("From", "PrescriptionInstruction");
                 startActivity(intentEmerInstruc);
@@ -311,6 +327,10 @@ initListener();
                 showFloatOption();
                 break;
             case R.id.imgRight:
+               /* Bundle bundle = new Bundle();
+                bundle.putInt("PrescriptionInformation_Instruction", 1);
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
+*/
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "PrescriptionInstruction");
                 startActivity(i);
@@ -381,23 +401,23 @@ initListener();
         rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         floatCancel.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
         floatfax.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
                         + "/mylopdf/"
                         + "/Prescription.pdf";
@@ -412,12 +432,12 @@ initListener();
         });
         floatNew.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
                 String path = Environment.getExternalStorageDirectory()
                         + "/mylopdf/"
                         + "/Prescription.pdf";
@@ -431,12 +451,12 @@ initListener();
 
         floatContact.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
 
 
                 String path = Environment.getExternalStorageDirectory()
@@ -456,7 +476,7 @@ initListener();
         });
     }
 
-      /**
+    /**
      * Function: To display floating menu for add new profile
      */
     private void showFloatDialog() {
@@ -492,24 +512,24 @@ initListener();
         rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         floatCancel.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
 
         floatNew.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
                 Toast.makeText(getActivity(), "Please wait still in progress..!!", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
@@ -517,12 +537,12 @@ initListener();
 
         floatContact.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
                 Toast.makeText(getActivity(), "Please wait still in progress..!!", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }

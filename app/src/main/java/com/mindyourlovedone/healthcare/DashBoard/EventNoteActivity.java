@@ -26,6 +26,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.itextpdf.text.Image;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
@@ -33,6 +34,7 @@ import com.mindyourlovedone.healthcare.SwipeCode.DividerItemDecoration;
 import com.mindyourlovedone.healthcare.SwipeCode.VerticalSpaceItemDecoration;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.EventNoteQuery;
+import com.mindyourlovedone.healthcare.model.Card;
 import com.mindyourlovedone.healthcare.model.Note;
 import com.mindyourlovedone.healthcare.pdfCreation.EventPdfNew;
 import com.mindyourlovedone.healthcare.pdfCreation.MessageString;
@@ -42,10 +44,12 @@ import com.mindyourlovedone.healthcare.utility.PrefConstants;
 import com.mindyourlovedone.healthcare.utility.Preferences;
 
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -69,11 +73,17 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
     ScrollView scrollvw;
     ImageView floatAdd, floatOptions;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_note);
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
 
         //Initialize database, get primary data and set data
         initComponent();
@@ -270,9 +280,28 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
             lvNote.setVisibility(View.GONE);
             scrollvw.setVisibility(View.GONE);
         }
-        Collections.reverse(noteList);
-        NoteAdapter adapter = new NoteAdapter(context, noteList);
-        lvNote.setAdapter(adapter);
+        // Collections.reverse(noteList);
+        if (noteList.size() != 0) {
+            Collections.sort(noteList, new Comparator<Note>() {
+                SimpleDateFormat f = new SimpleDateFormat("d MMM yyyy - hh:mm a");
+
+                @Override
+                public int compare(Note o1, Note o2) {
+                    try {
+                        String date1=o2.getTxtDate();
+                        String date2=o1.getTxtDate();
+                        return f.parse(date1).compareTo(f.parse(date2));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    return 0;
+                }
+
+            });
+            //Collections.reverse(noteList);
+            NoteAdapter adapter = new NoteAdapter(context, noteList);
+            lvNote.setAdapter(adapter);
+        }
     }
 
     /**
@@ -444,11 +473,14 @@ public class EventNoteActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.imgRight://Instructions
+                /*Bundle bundle = new Bundle();
+                bundle.putInt("EventNotes_Instruction", 1);
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
+*/
                 Intent i = new Intent(context, InstructionActivity.class);
                 i.putExtra("From", "EventNotesInstruction");
                 startActivity(i);
                 break;
-
         }
     }
 

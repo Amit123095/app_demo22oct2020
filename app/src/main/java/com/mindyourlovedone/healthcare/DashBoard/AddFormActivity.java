@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.utility.PrefConstants;
 import com.mindyourlovedone.healthcare.utility.Preferences;
@@ -36,6 +37,7 @@ import java.io.File;
  * implements OnclickListener for onClick event on views
  */
 public class AddFormActivity extends AppCompatActivity {
+    private FirebaseAnalytics mFirebaseAnalytics;
     private static final int RESULT_CARD = 50;
     final String dialog_items[] = {"Email"};
     ImageView imgDoc, imgBack, imgDelete, imgDot;
@@ -53,6 +55,9 @@ public class AddFormActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_form);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         //Initialize Image loading and displaying at ImageView
         initImageLoader();
 

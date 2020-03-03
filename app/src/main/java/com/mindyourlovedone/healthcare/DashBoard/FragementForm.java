@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.itextpdf.text.Image;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
@@ -31,6 +32,7 @@ import com.mindyourlovedone.healthcare.SwipeCode.VerticalSpaceItemDecoration;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.FormQuery;
 import com.mindyourlovedone.healthcare.database.InsuranceQuery;
+import com.mindyourlovedone.healthcare.model.Card;
 import com.mindyourlovedone.healthcare.model.Document;
 import com.mindyourlovedone.healthcare.model.Form;
 import com.mindyourlovedone.healthcare.model.Insurance;
@@ -43,6 +45,8 @@ import com.mindyourlovedone.healthcare.utility.Preferences;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by shradha on 8/02/2019.
@@ -74,6 +78,9 @@ public class FragementForm extends Fragment implements View.OnClickListener {
     TextView txthelp;
     ImageView imghelp;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
+
     /**
      * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
      * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
@@ -84,6 +91,9 @@ public class FragementForm extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_insurance_form, null);
+// Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+
 
         //Initialize database, get primary data and set data
         initComponent();
@@ -112,6 +122,12 @@ public class FragementForm extends Fragment implements View.OnClickListener {
      */
     public void setListData() {
         if (documentList.size() != 0) {
+            Collections.sort(documentList, new Comparator<Form>() {
+                @Override
+                public int compare(Form o1, Form o2) {
+                    return o1.getName().compareToIgnoreCase(o2.getName());
+                }
+            });
             DocumentsAdapter insuranceAdapter = new DocumentsAdapter(getActivity(), documentList, FragementForm.this);
             lvDoc.setAdapter(insuranceAdapter);
             lvDoc.setVisibility(View.VISIBLE);
@@ -281,6 +297,11 @@ public class FragementForm extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.imgRight://Instructions
+                /*Bundle bundle = new Bundle();
+                bundle.putInt("InsuranceForm_Instruction",1);
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
+*/
+
                 Intent ib = new Intent(getActivity(), InstructionActivity.class);
                 ib.putExtra("From", "FormInstruction");
                 startActivity(ib);

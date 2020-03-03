@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.text.Spannable;
@@ -35,6 +36,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +46,8 @@ import com.dropbox.core.v2.sharing.FileMemberActionResult;
 import com.dropbox.core.v2.sharing.MemberSelector;
 import com.dropbox.core.v2.sharing.SharedFileMetadata;
 import com.dropbox.core.v2.users.FullAccount;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.mindyourlovedone.healthcare.Connections.RelationActivity;
 import com.mindyourlovedone.healthcare.DropBox.DropBoxFileItem;
 import com.mindyourlovedone.healthcare.DropBox.DropboxActivity;
 import com.mindyourlovedone.healthcare.DropBox.DropboxClientFactory;
@@ -89,6 +93,9 @@ public class DropboxLoginActivity extends DropboxActivity {
     private static final String APP_KEY = "428h5i4dsj95eeh";
     private static final String APP_SECRET = "6vlowskz2x12xil";
     private static final int REQUEST_CALL_PERMISSION = 100;
+    public static final int REQUEST_REMINDER = 80;
+    TextView txtSettingValue;
+    LinearLayout llSetting;
     Context context = this;
     Button btnLogin, btnShare;
     Button btnBackup, btnRestore;
@@ -100,10 +107,13 @@ public class DropboxLoginActivity extends DropboxActivity {
     String todo = "";
     String todoWhat = "";
     RelativeLayout rlBackup;
+    boolean isSilentBackup=false;
     String id = "";
     int Fun_Type = 0;
     int isFile = 0;
 
+
+    private FirebaseAnalytics mFirebaseAnalytics;
     // For to Delete the directory inside list of files and inner Directory //nikita
     public static boolean deleteDir(File dir) {//nikita
         if (dir.isDirectory()) {
@@ -124,12 +134,21 @@ public class DropboxLoginActivity extends DropboxActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dropbox);
         preferences = new Preferences(context);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+       /* Bundle bundle = new Bundle();
+        //bundle.putString("Backup", "Preofile Screen-Getting Started");
+        mFirebaseAnalytics.logEvent("BackupRestoreFunctionality", bundle);
+*/
         preferences.putString(PrefConstants.RESULT, "");
         preferences.putString(PrefConstants.URI, "");
         preferences.putString(PrefConstants.SHARE, "");
         preferences.putString(PrefConstants.FILE, "");
         preferences.putString(PrefConstants.WOLE, "Default");
         preferences.putString(PrefConstants.MYACCESS, "");
+        if (preferences.getString(PrefConstants.REMINDER).equals("")) {
+            preferences.putString(PrefConstants.REMINDER, "Off");
+        }
         //Check for runtime permission
         accessPermission();
 
@@ -205,10 +224,20 @@ public class DropboxLoginActivity extends DropboxActivity {
         preferences.putString(PrefConstants.ACCESS, "Default");
         Intent intent = getIntent();
         if (intent.getExtras() != null) {
-            from = intent.getExtras().getString("FROM");
-            todo = intent.getExtras().getString("ToDo");
-            todoWhat = intent.getExtras().getString("ToDoWhat");
+            if (intent.getExtras().containsKey("FROM")) {
+                from = intent.getExtras().getString("FROM");
+                todo = intent.getExtras().getString("ToDo");
+                todoWhat = intent.getExtras().getString("ToDoWhat");
+            }
+            if (intent.getExtras().containsKey("SilentBackup")) {
+                if (intent.getExtras().getBoolean("SilentBackup") == true) {
+                    //isSilentBackup=intent.getExtras().getBoolean("SilentBackup");
+                    showEmailDialog("Backup");
+                }
+            }
+
             //Check from which screen request it came from
+
             if (from.equals("Document")) {
                 rlBackup.setVisibility(View.GONE);
             } else if (from.equals("Backup")) {
@@ -249,19 +278,8 @@ public class DropboxLoginActivity extends DropboxActivity {
              */
             @Override
             public void onClick(View v) {// Login from dropbox
-                SharedPreferences prefs = getSharedPreferences("dropbox-sample", MODE_PRIVATE);
-                if (prefs.contains("access-token")) {
-                    prefs.edit().remove("access-token").apply();
-                    com.dropbox.core.android.AuthActivity.result = null;
-                    DropboxClientFactory.revokeClient(new DropboxClientFactory.CallBack() {
-                        @Override
-                        public void onRevoke() {
-                            Auth.startOAuth2Authentication(DropboxLoginActivity.this, APP_KEY);
-                        }
-                    });
-                } else {
-                    Auth.startOAuth2Authentication(DropboxLoginActivity.this, APP_KEY);
-                }
+                loginDrop();
+
             }
         });
 
@@ -299,14 +317,15 @@ public class DropboxLoginActivity extends DropboxActivity {
             @Override
             public void onClick(View v) {
                 //Process Backup on Dropbox
-                SharedPreferences prefs = getSharedPreferences("dropbox-sample", MODE_PRIVATE);
+                showEmailDialog("Backup");
+               /* SharedPreferences prefs = getSharedPreferences("dropbox-sample", MODE_PRIVATE);
                 if (prefs.contains("access-token")) {
                     showEmailDialog("Backup");
                 } else {
                     Fun_Type = 1;
                     preferences.putString(PrefConstants.WOLE, "Backup");
                     Auth.startOAuth2Authentication(DropboxLoginActivity.this, APP_KEY);
-                }
+                }*/
             }
         });
 
@@ -382,7 +401,35 @@ public class DropboxLoginActivity extends DropboxActivity {
                 btnShare.setVisibility(View.VISIBLE);
             }
         }
+        txtSettingValue = findViewById(R.id.txtSettingValue);
+        txtSettingValue.setText(preferences.getString(PrefConstants.REMINDER));
+        llSetting = findViewById(R.id.llSetting);
+        llSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, RelationActivity.class);
+                i.putExtra("Category", "Reminder");
+                i.putExtra("Selected", txtSettingValue.getText().toString());
+                startActivityForResult(i, REQUEST_REMINDER);
+            }
+        });
 
+    }
+
+    public void loginDrop() {
+        SharedPreferences prefs = getSharedPreferences("dropbox-sample", MODE_PRIVATE);
+        if (prefs.contains("access-token")) {
+            prefs.edit().remove("access-token").apply();
+            com.dropbox.core.android.AuthActivity.result = null;
+            DropboxClientFactory.revokeClient(new DropboxClientFactory.CallBack() {
+                @Override
+                public void onRevoke() {
+                    Auth.startOAuth2Authentication(DropboxLoginActivity.this, APP_KEY);
+                }
+            });
+        } else {
+            Auth.startOAuth2Authentication(DropboxLoginActivity.this, APP_KEY);
+        }
     }
 
     @SuppressLint("ResourceAsColor")
@@ -733,7 +780,7 @@ public class DropboxLoginActivity extends DropboxActivity {
         if (preferences.getString(PrefConstants.MSG) != null) {
             message = preferences.getString(PrefConstants.MSG);
         }
-        if (preferences.getString(PrefConstants.FILE).equals("MYLO.zip")) {
+        /*if (preferences.getString(PrefConstants.FILE).equals("MYLO.zip")) {
             Calendar c = Calendar.getInstance();
             c.getTime();
             c.add(Calendar.MONTH, 1);
@@ -741,7 +788,7 @@ public class DropboxLoginActivity extends DropboxActivity {
             String date = df.format(c.getTime());
             preferences.putString(PrefConstants.BACKUPDATE, date);
             preferences.putBoolean(PrefConstants.NOTIFIED, true);
-        }
+        }*/
 
         final AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle("Backup Stored successfully");
@@ -768,7 +815,7 @@ public class DropboxLoginActivity extends DropboxActivity {
     /**
      * Function: Display dialog for input of dropbox File name from user for sharing backup
      */
-    private void showEmailDialog(final String from) {
+    public void showEmailDialog(final String from) {
         final Dialog customDialog;
         customDialog = new Dialog(context);
         customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -798,11 +845,6 @@ public class DropboxLoginActivity extends DropboxActivity {
         });
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
-            /**
-             * Function: Called when a view has been clicked.
-             *
-             * @param v The view that was clicked.
-             */
             @Override
             public void onClick(View v) {
                 String username = etNote.getText().toString().trim();
@@ -834,4 +876,16 @@ public class DropboxLoginActivity extends DropboxActivity {
 
         customDialog.show();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_REMINDER && data != null) {
+            String frequency = data.getExtras().getString("Reminder");
+            txtSettingValue.setText(frequency);
+            Toast.makeText(context,frequency +" backup setting is saved",Toast.LENGTH_SHORT).show();
+            preferences.putString(PrefConstants.REMINDER, frequency);
+        }
+    }
 }
+

@@ -26,12 +26,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.itextpdf.text.Image;
 import com.mindyourlovedone.healthcare.DashBoard.AddPrescriptionActivity;
 import com.mindyourlovedone.healthcare.DashBoard.FaxActivity;
 import com.mindyourlovedone.healthcare.DashBoard.InstructionActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
+import com.mindyourlovedone.healthcare.HomeActivity.SplashNewActivity;
 import com.mindyourlovedone.healthcare.customview.NonScrollListView;
 import com.mindyourlovedone.healthcare.database.AideQuery;
 import com.mindyourlovedone.healthcare.database.AllergyQuery;
@@ -118,6 +120,8 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
     DBHelper dbHelper;
     ImageView floatOptions, floatOptions2;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
     /**
      * Activity callback method for initialize variables views
@@ -128,9 +132,11 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specialists);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         //Initialize database, get primary data and set data
-         initComponent();
+        initComponent();
 
         //Initialize user interface view and components
         initUi();
@@ -155,6 +161,7 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
         if (i.getExtras() != null) {
             from = i.getExtras().getString("FROM");
             if (from.equals("Speciality")) {
+                mFirebaseAnalytics.setCurrentScreen(SpecialistsActivity.this,"Specialty contacts Sub Section List",null);
                 txtTitle.setText("Specialty Contacts");
                 txtName.setBackgroundColor(getResources().getColor(R.color.colorSpecialitySub));
                 txtUser.setVisibility(View.GONE);
@@ -164,6 +171,7 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
                 isEmergency = false;
                 isInsurance = false;
             } else if (from.equals("Emergency")) {
+                mFirebaseAnalytics.setCurrentScreen(SpecialistsActivity.this,"Personal,Medical Sub Section List",null);
                 txtName.setBackgroundColor(getResources().getColor(R.color.colorEmerSubGreen));
                 txtUser.setVisibility(View.GONE);
                 txtTitle.setText("Personal & Medical Profile & Emergency Contacts");
@@ -173,6 +181,7 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
                 profile = new int[]{R.drawable.pp, R.drawable.emergency_two, R.drawable.emergency_three, R.drawable.emergency_four};
                 specialist = new String[]{"Personal Profile", "Medical Profile", "Emergency Contacts & Health Care Proxy Agents", "Primary Physician"};
             } else if (from.equals("Insurance")) {
+                mFirebaseAnalytics.setCurrentScreen(SpecialistsActivity.this,"Insurance Sub Section List",null);
                 txtUser.setVisibility(View.GONE);
                 txtTitle.setText("Insurance");
                 txtName.setBackgroundColor(getResources().getColor(R.color.colorInsuaranceSub));
@@ -182,6 +191,7 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
                 isEmergency = false;
                 isInsurance = true;
             } else if (from.equals("Event")) {
+                mFirebaseAnalytics.setCurrentScreen(SpecialistsActivity.this,"Notes,Routin Appts Sub Section List",null);
                 txtName.setBackgroundColor(getResources().getColor(R.color.colorEventSubPink));
                 txtUser.setVisibility(View.GONE);
                 txtUser.setVisibility(View.GONE);
@@ -192,6 +202,7 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
                 isEmergency = false;
                 isInsurance = false;
             } else if (from.equals("Prescription")) {
+                mFirebaseAnalytics.setCurrentScreen(SpecialistsActivity.this,"Prescription Sub Section List",null);
                 floatOptions.setVisibility(View.VISIBLE);
                 floatOptions2.setVisibility(View.GONE);
                 txtName.setBackgroundColor(getResources().getColor(R.color.colorPrescriptionGray));
@@ -330,22 +341,44 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
 
             case R.id.imgRight: //Question Mark Icon-User instructions
                 if (from.equals("Speciality")) {
+
+                   /* Bundle bundles = new Bundle();
+                    bundles.putInt("SpecialitySection_Instruction", 1);
+                    mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundles);
+*/
                     Intent ia = new Intent(context, InstructionActivity.class);
                     ia.putExtra("From", "SpecialitySection");
                     startActivity(ia);
                 } else if (from.equals("Emergency")) {
+                   /* Bundle bundlee = new Bundle();
+                    bundlee.putInt("PersonalAndMedicalSection_Instruction", 1);
+                    mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundlee);
+*/
                     Intent ia = new Intent(context, InstructionActivity.class);
                     ia.putExtra("From", "EmergencySection");
                     startActivity(ia);
                 } else if (from.equals("Insurance")) {
+
+                    /*Bundle bundlef = new Bundle();
+                    bundlef.putInt("InsuranceSection_Instruction", 1);
+                    mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundlef);
+*/
                     Intent ia = new Intent(context, InstructionActivity.class);
                     ia.putExtra("From", "InsuranceSection");
                     startActivity(ia);
                 } else if (from.equals("Event")) {
+                    /*Bundle bundleg = new Bundle();
+                    bundleg.putInt("NotesSection_Instruction", 1);
+                    mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundleg);
+*/
                     Intent ia = new Intent(context, InstructionActivity.class);
                     ia.putExtra("From", "EventSection");
                     startActivity(ia);
                 } else if (from.equals("Prescription")) {
+                    /*Bundle bundler = new Bundle();
+                    bundler.putInt("PrescriptionSection_Instruction", 1);
+                    mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundler);
+*/
                     Intent ia = new Intent(context, InstructionActivity.class);
                     ia.putExtra("From", "PrescriptionSection");
                     startActivity(ia);
@@ -378,7 +411,7 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
      * Common code for Generate PDF before select any option i.e view,email,fax
      * Code differentiated according sub screens
      **/
-      /**
+    /**
      * Function: To display floating menu for add new profile
      */
     private void showFloatDialog() {
@@ -606,24 +639,24 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
 
         floatCancel.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
 
         floatEmail.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
                 if (from.equals("Speciality")) {
                     File f = new File(Environment.getExternalStorageDirectory()
                             + "/mylopdf/" + "/Specialty.pdf");
@@ -655,12 +688,12 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
 
         floatViewPdf.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
                 if (from.equals("Speciality")) {
                     StringBuffer result = new StringBuffer();
                     result.append(new MessageString().getDoctorsInfo());

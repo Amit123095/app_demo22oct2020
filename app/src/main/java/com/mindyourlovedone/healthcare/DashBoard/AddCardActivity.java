@@ -30,6 +30,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mindyourlovedone.healthcare.Connections.RelationActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
@@ -59,6 +60,7 @@ import java.io.InputStream;
  * implements OnclickListener for onClick event on views
  */
 public class AddCardActivity extends AppCompatActivity implements View.OnClickListener {
+    private FirebaseAnalytics mFirebaseAnalytics;
     private static final int REQUEST_CARD = 50;
     private static int RESULT_CAMERA_IMAGE1 = 1;
     private static int RESULT_SELECT_PHOTO1 = 2;
@@ -92,6 +94,9 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_card);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         //Initialize database, get primary data and set data
         initComponent();
 
@@ -322,6 +327,9 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                     if (isEdit == false) {
                         boolean flag = CardQuery.insertInsuranceCardData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, type, imagePathFront, imagePathBack, oter);
                         if (flag) {
+                           /* Bundle bundle = new Bundle();
+                            bundle.putInt("Add_InsuranceCard", 1);
+                            mFirebaseAnalytics.logEvent("OnClick_Save_InsuranceCard", bundle);*/
                             Toast.makeText(context, "Insurance Card Information has been saved successfully", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
@@ -331,6 +339,10 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                     } else if (isEdit == true) {
                         boolean flag = CardQuery.updateInsuranceCardData(id, name, type, imagePathFront, imagePathBack, oter);
                         if (flag) {
+                            /*Bundle bundle = new Bundle();
+                            bundle.putInt("Edit_InsuranceCard",1);
+                            mFirebaseAnalytics.logEvent("OnClick_Save_InsuranceCard", bundle);
+*/
                             Toast.makeText(context, "Insurance Card Information has been updated successfully", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {

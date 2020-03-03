@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.InsuranceHealthCare.FaxCustomDialog;
 import com.mindyourlovedone.healthcare.database.DBHelper;
@@ -82,11 +83,15 @@ public class PrescriptionUploadActivity extends AppCompatActivity implements Vie
     String date = "";
     String Goto = "";
     int id;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prescription_upload);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         //Initialize database, get primary data and set data
         initComponent();
 
@@ -528,6 +533,10 @@ public class PrescriptionUploadActivity extends AppCompatActivity implements Vie
                     if (Goto.equals("Edit")) {
                         Boolean flag = PrescriptionUpload.updateDocumentData(id, name, photo, documentPath, date);
                         if (flag == true) {
+                            /*Bundle bundle = new Bundle();
+                            bundle.putInt("Add_PrescriptionUpload", 1);
+                            mFirebaseAnalytics.logEvent("OnClick_Save_PrescriptionUpload",bundle);
+*/
                             Toast.makeText(context, "Prescription upload has been updated succesfully", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
@@ -536,6 +545,10 @@ public class PrescriptionUploadActivity extends AppCompatActivity implements Vie
                     } else {
                         Boolean flag = PrescriptionUpload.insertDocumentData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, photo, documentPath, date);
                         if (flag == true) {
+                            /*Bundle bundle = new Bundle();
+                            bundle.putInt("Edit_PrescriptionUpload",1);
+                            mFirebaseAnalytics.logEvent("OnClick_Save_PrescriptionUpload",bundle);
+*/
                             Toast.makeText(context, "Prescription upload has been saved succesfully", Toast.LENGTH_SHORT).show();
                             try {
                                 InputMethodManager inm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);

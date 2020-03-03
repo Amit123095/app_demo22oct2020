@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mindyourlovedone.healthcare.DashBoard.DateClass;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
@@ -49,10 +50,16 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
     boolean isUpdate=false;
     FragmentVitalSigns fragmentVitalSigns = null;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_vital_signs);
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         //Initialize database, get primary data and set data
         initComponent();
 
@@ -108,6 +115,8 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
         txtLocation = findViewById(R.id.txtLocation);
         txtDate = findViewById(R.id.txtDate);
         txtTime = findViewById(R.id.txtTime);
+        txtDate.setFocusable(false);
+        txtTime.setFocusable(false);
         txtBP = findViewById(R.id.txtBP);
         txtHeart = findViewById(R.id.txtHeart);
         txtTemperature = findViewById(R.id.txtTemperature);
@@ -241,7 +250,6 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
 
                 }
                 else{
-
                     if (vitalSigns.getLocation().equals(location)&&vitalSigns.getBp().equals(bp)&&
                             vitalSigns.getHeartRate().equals(heart)&&vitalSigns.getTemperature().equals(temperature)&&
                             vitalSigns.getPulseRate().equals(pulse)&&vitalSigns.getRespRate().equals(respiratory)&&
@@ -259,7 +267,6 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 txtSave.performClick();
-
                             }
                         });
 
@@ -281,6 +288,10 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
                     if (isUpdate == false) {
                         Boolean flag = VitalQuery.insertVitalData(preferences.getInt(PrefConstants.CONNECTED_USERID), location, Date, time, bp, heart, temperature, pulse, respiratory, note,oter,col);
                         if (flag == true) {
+                           /* Bundle bundle = new Bundle();
+                            bundle.putInt("Add_VitalSign",1);
+                            mFirebaseAnalytics.logEvent("OnClick_Save_VitalSign", bundle);
+*/
                             Toast.makeText(context, "Vital Signs has been saved successfully", Toast.LENGTH_SHORT).show();
                             DialogManager.closeKeyboard(AddVitalSignsActivity.this);
                             clearData();
@@ -293,6 +304,10 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
                     } else if (isUpdate == true) {
                         Boolean flag = VitalQuery.updateVitalData(colid, location, Date, time, bp, heart, temperature, pulse, respiratory, note,oter,col);
                         if (flag == true) {
+                            /*Bundle bundle = new Bundle();
+                            bundle.putInt("Edit_VitalSign", 1);
+                            mFirebaseAnalytics.logEvent("OnClick_Save_VitalSign", bundle);
+*/
                             Toast.makeText(context, "Vital Signs has been updated successfully", Toast.LENGTH_SHORT).show();
                             DialogManager.closeKeyboard(AddVitalSignsActivity.this);
                             clearData();
@@ -306,10 +321,18 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
                 }
 
                 break;
+           /* case R.id.txtDate://Change date
+                showDateDialog();
+                break;
+
+            case R.id.txtTime://Change Time
+                break;*/
+
+
         }
     }
 
-   /**
+    /**
      * Function: Validation of data input by user
      * @return boolean, True if given input is valid, false otherwise.
      */

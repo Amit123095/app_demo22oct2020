@@ -28,6 +28,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.itextpdf.text.Image;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
@@ -36,6 +37,7 @@ import com.mindyourlovedone.healthcare.SwipeCode.VerticalSpaceItemDecoration;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.DocumentQuery;
 import com.mindyourlovedone.healthcare.model.Document;
+import com.mindyourlovedone.healthcare.model.Hospital;
 import com.mindyourlovedone.healthcare.pdfCreation.MessageString;
 import com.mindyourlovedone.healthcare.pdfCreation.PDFDocumentProcess;
 import com.mindyourlovedone.healthcare.pdfdesign.DocumentPdfNew;
@@ -50,6 +52,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Class: CarePlanListActivity
@@ -74,11 +78,16 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
     DBHelper dbHelper;
     ImageView floatProfile, floatOptions, floatAdd;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_careplan);
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         //Initialize database, get primary data and set data
         initComponent();
 
@@ -108,6 +117,12 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
     public void setDocuments() {
         if (documentListOld.size() != 0) {
             lvDoc.setVisibility(View.VISIBLE);
+            Collections.sort(documentListOld, new Comparator<Document>() {
+                @Override
+                public int compare(Document o1, Document o2) {
+                    return o1.getType().compareToIgnoreCase(o2.getType());
+                }
+            });
             DocumentAdapter documentAdapter = new DocumentAdapter(context, documentListOld);
             lvDoc.setAdapter(documentAdapter);
             lvDoc.setVisibility(View.VISIBLE);
@@ -347,16 +362,30 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
             case R.id.imgRight:
                 switch (From) {
                     case "AD":
+
+                       /* Bundle bundle = new Bundle();
+                        bundle.putInt("AdvanceDirective_Instruction", 1);
+                        mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
+*/
                         Intent iN = new Intent(context, InstructionActivity.class);
                         iN.putExtra("From", "AdvanceInstruction");
                         startActivity(iN);
                         break;
                     case "Record":
+                        /*Bundle bundles = new Bundle();
+                        bundles.putInt("MedicalRecord_Instruction",1);
+                        mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundles);
+*/
                         Intent ir = new Intent(context, InstructionActivity.class);
                         ir.putExtra("From", "MedicalInfoInstruction");
                         startActivity(ir);
                         break;
                     case "Other":
+                        /*Bundle bundless = new Bundle();
+                        bundless.putInt("OtherDocuments_Instruction", 1);
+                        mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundless);
+*/
+
                         Intent iS = new Intent(context, InstructionActivity.class);
                         iS.putExtra("From", "OtherInstruction");
                         startActivity(iS);

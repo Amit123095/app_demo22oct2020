@@ -50,4 +50,6 @@ public class PrefConstants {
     public static final String MSG = "BackupMessage";
     public static final String ZIPFILE = "Zipname";
     public static final String CONNECTED_OtherRELATION = "OtherRelation";
+    public static final String REMINDER ="Reminder" ;
+    public static final String BACKUPDONE ="BackupDone" ;
 }

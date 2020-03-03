@@ -34,7 +34,7 @@ public class FragmentSponsor extends Fragment {
 
     private void initUi() {
         txtTitle = getActivity().findViewById(R.id.txtTitle);
-        txtTitle.setText("Sponsor");
+        txtTitle.setText("In Cooperation With");
         imgHelp = getActivity().findViewById(R.id.imgRight);
         imgHelp.setVisibility(View.GONE);
     }

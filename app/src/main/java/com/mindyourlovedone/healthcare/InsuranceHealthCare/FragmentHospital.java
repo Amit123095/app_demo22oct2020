@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.itextpdf.text.Image;
 import com.mindyourlovedone.healthcare.Connections.GrabConnectionActivity;
 import com.mindyourlovedone.healthcare.DashBoard.InstructionActivity;
@@ -35,6 +36,7 @@ import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.HospitalHealthQuery;
 import com.mindyourlovedone.healthcare.model.ContactData;
 import com.mindyourlovedone.healthcare.model.Hospital;
+import com.mindyourlovedone.healthcare.model.Pharmacy;
 import com.mindyourlovedone.healthcare.pdfCreation.MessageString;
 import com.mindyourlovedone.healthcare.pdfCreation.PDFDocumentProcess;
 import com.mindyourlovedone.healthcare.pdfdesign.HeaderNew;
@@ -45,6 +47,8 @@ import com.mindyourlovedone.healthcare.utility.Preferences;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by V@iBh@V on 10/23/2017.
@@ -75,6 +79,9 @@ public class FragmentHospital extends Fragment implements View.OnClickListener {
     TextView txthelp;
     ImageView imghelp;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
+
     /**
      * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
      * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
@@ -85,6 +92,9 @@ public class FragmentHospital extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_hospital, null);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+
         //Initialize database, get primary data and set data
         initComponent();
         getData();
@@ -111,6 +121,12 @@ public class FragmentHospital extends Fragment implements View.OnClickListener {
      */
     private void setListData() {
         if (hospitalList.size() != 0) {
+            Collections.sort(hospitalList, new Comparator<Hospital>() {
+                @Override
+                public int compare(Hospital o1, Hospital o2) {
+                    return o1.getCategory().compareToIgnoreCase(o2.getCategory());
+                }
+            });
             HospitalAdapter hospitalAdapter = new HospitalAdapter(getActivity(), hospitalList, FragmentHospital.this);
             lvHospital.setAdapter(hospitalAdapter);
             lvHospital.setVisibility(View.VISIBLE);
@@ -419,6 +435,10 @@ public class FragmentHospital extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.imgRight://Instruction
+               /* Bundle bundle = new Bundle();
+                bundle.putInt("Hospital_Instruction", 1);
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
+*/
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "HospitalInstruction");
                 startActivity(i);

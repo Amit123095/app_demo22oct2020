@@ -17,14 +17,14 @@ import java.io.InputStream;
 /**
  * Async task to upload a file to a directory
  */
-class UploadFileTask extends AsyncTask<String, Void, FileMetadata> {
+public class UploadFileTask extends AsyncTask<String, Void, FileMetadata> {
 
     private final Context mContext;
     private final DbxClientV2 mDbxClient;
     private final Callback mCallback;
     private Exception mException;
 
-    UploadFileTask(Context context, DbxClientV2 dbxClient, Callback callback) {
+    public UploadFileTask(Context context, DbxClientV2 dbxClient, Callback callback) {
         mContext = context;
         mDbxClient = dbxClient;
         mCallback = callback;

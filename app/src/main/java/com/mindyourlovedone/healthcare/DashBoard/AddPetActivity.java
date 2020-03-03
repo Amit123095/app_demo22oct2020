@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.database.DBHelper;
@@ -50,13 +51,18 @@ public class AddPetActivity extends AppCompatActivity {
     DBHelper dbHelper;
     Pet p;
     Pet pet;
-   TextView txtVeteranAd,txtCareAd;
-   EditText txtCarePh,txtVeteranPh;
+    TextView txtVeteranAd,txtCareAd;
+    EditText txtCarePh,txtVeteranPh;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_pet);
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         //Initialize view
         initUi();
     }
@@ -92,12 +98,12 @@ public class AddPetActivity extends AppCompatActivity {
 
         imgHome.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
                 Intent intentHome = new Intent(context, BaseActivity.class);
                 intentHome.putExtra("c", 1);
                 intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -163,58 +169,58 @@ public class AddPetActivity extends AppCompatActivity {
             }
 
         }
-txtDelete.setOnClickListener(new View.OnClickListener() {
-    /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
-        boolean flag = PetQuery.deleteRecord(p.getId());
-        if (flag == true) {
-            Toast.makeText(context, "Pet has been deleted succesfully", Toast.LENGTH_SHORT).show();
-            finish();
-        }
-    }
-});
-  txtPetBirthDate.setOnClickListener(new View.OnClickListener() {
-      /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
-          final Calendar calendar = Calendar.getInstance();
-          int year = calendar.get(Calendar.YEAR);
-          int month = calendar.get(Calendar.MONTH);
-          int day = calendar.get(Calendar.DAY_OF_MONTH);
-          DatePickerDialog dpd = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-              @Override
-              public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                  Calendar newDate = Calendar.getInstance();
-                  newDate.set(year, month, dayOfMonth);
-                  long selectedMilli = newDate.getTimeInMillis();
+        txtDelete.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
+                boolean flag = PetQuery.deleteRecord(p.getId());
+                if (flag == true) {
+                    Toast.makeText(context, "Pet has been deleted succesfully", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+        });
+        txtPetBirthDate.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
+                final Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog dpd = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, month, dayOfMonth);
+                        long selectedMilli = newDate.getTimeInMillis();
 
-                  Date datePickerDate = new Date(selectedMilli);
-                  String reportDate = new SimpleDateFormat("d-MMM-yyyy").format(datePickerDate);
+                        Date datePickerDate = new Date(selectedMilli);
+                        String reportDate = new SimpleDateFormat("d-MMM-yyyy").format(datePickerDate);
 
-                  DateClass d = new DateClass();
-                  d.setDate(reportDate);
-                  if (datePickerDate.after(calendar.getTime())) {
-                      Toast.makeText(context, "Birthdate should be greater than today's date", Toast.LENGTH_SHORT).show();
-                  } else {
-                      txtPetBirthDate.setText(reportDate);
-                  }
-              }
-          }, year, month, day);
-          dpd.show();
-      }
-  });
+                        DateClass d = new DateClass();
+                        d.setDate(reportDate);
+                        if (datePickerDate.after(calendar.getTime())) {
+                            Toast.makeText(context, "Birthdate should be greater than today's date", Toast.LENGTH_SHORT).show();
+                        } else {
+                            txtPetBirthDate.setText(reportDate);
+                        }
+                    }
+                }, year, month, day);
+                dpd.show();
+            }
+        });
         imgBack.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
                 getVales();
                 name = txtName.getText().toString();
                 breed = txtBreed.getText().toString();
@@ -289,21 +295,27 @@ txtDelete.setOnClickListener(new View.OnClickListener() {
             }
         });
         txtSave.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
                 //Validate if user input is valid or not, If true then goes for next task
                 if (validate()) {
 
                     if (isUpdate == false) {
                         Boolean flag = PetQuery.insertPetData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, breed, color, chip, veterain, care, bdate, notes, veterain_add, veterain_ph, care_add, care_ph);
                         if (flag == true) {
-                            Toast.makeText(context, "Pet has been saved succesfully", Toast.LENGTH_SHORT).show();
+                           /* Bundle bundle = new Bundle();
+                            bundle.putInt("Add_Pet",1);
+                            mFirebaseAnalytics.logEvent("OnClick_SavePet", bundle);
+                            */Toast.makeText(context, "Pet has been saved succesfully", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                         }
                     } else if (isUpdate == true) {
                         Boolean flag = PetQuery.updatePetData(pet.getId(), name, breed, color, chip, veterain, care, bdate, notes, veterain_add, veterain_ph, care_add, care_ph);
                         if (flag == true) {
+                            /*Bundle bundle = new Bundle();
+                            bundle.putInt("Edit_Pet",1);
+                            mFirebaseAnalytics.logEvent("OnClick_SavePet", bundle);*/
                             Toast.makeText(context, "Pet has been updated succesfully", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
@@ -333,7 +345,7 @@ txtDelete.setOnClickListener(new View.OnClickListener() {
         notes = txtPetNotes.getText().toString();
     }
 
-   /**
+    /**
      * Function: Validation of data input by user
      * @return boolean, True if given input is valid, false otherwise.
      */
@@ -359,7 +371,7 @@ txtDelete.setOnClickListener(new View.OnClickListener() {
         }  else return true;
         return false;
     }
-     /**
+    /**
      * Class: CustomTextWatcher
      * Screen: Personal Profile Screen
      * A class that manages hypens from contact number

@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.itextpdf.text.Image;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
@@ -31,6 +32,7 @@ import com.mindyourlovedone.healthcare.database.HospitalHealthQuery;
 import com.mindyourlovedone.healthcare.database.PrescriptionUpload;
 import com.mindyourlovedone.healthcare.model.Form;
 import com.mindyourlovedone.healthcare.model.Hospital;
+import com.mindyourlovedone.healthcare.model.Prescription;
 import com.mindyourlovedone.healthcare.pdfCreation.MessageString;
 import com.mindyourlovedone.healthcare.pdfCreation.PDFDocumentProcess;
 import com.mindyourlovedone.healthcare.pdfdesign.HeaderNew;
@@ -41,6 +43,8 @@ import com.mindyourlovedone.healthcare.utility.Preferences;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Class: FragmentPrescriptionUpload
@@ -63,6 +67,7 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
     ArrayList<Form> documentList = new ArrayList<>();
     TextView txthelp;
     ImageView imghelp;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     /**
      * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
@@ -74,6 +79,9 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_pres_upload, null);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+
         //Initialize database, get primary data and set data
         initComponent();
         getData();
@@ -100,6 +108,12 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
      */
     private void setListData() {
         if (documentList.size() != 0) {
+            Collections.sort(documentList, new Comparator<Form>() {
+                @Override
+                public int compare(Form o1, Form o2) {
+                    return o1.getName().compareToIgnoreCase(o2.getName());
+                }
+            });
             PresDocumentsAdapter insuranceAdapter = new PresDocumentsAdapter(getActivity(), documentList, FragmentPrescriptionUpload.this);
             lvPrescriptionUpload.setAdapter(insuranceAdapter);
             lvPrescriptionUpload.setVisibility(View.VISIBLE);
@@ -445,6 +459,10 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
                 showFloatOption();
                 break;
             case R.id.imgRight://Instructions
+                /*Bundle bundle = new Bundle();
+                bundle.putInt("PrescriptionUpload_Instruction", 1);
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
+*/
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "PrescriptionUploadInstruction");
                 startActivity(i);

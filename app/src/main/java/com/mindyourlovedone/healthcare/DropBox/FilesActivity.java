@@ -133,12 +133,12 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
         ImageView imgBack = findViewById(R.id.imgBack);
         imgBack.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
                 preferences.putString(PrefConstants.FINIS, "true");
                 finish();
             }
@@ -146,16 +146,65 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
 
         imgBack2.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
                 preferences.putString(PrefConstants.FINIS, "true");
                 finish();
             }
         });
+        initComponent();
+        rlBackup.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
+                SharedPreferences prefs = getSharedPreferences("dropbox-sample", MODE_PRIVATE);
+                if (prefs.contains("access-token")) {
+                    performWithPermissions(FilesActivity.FileAction.UPLOAD);
+                } else {
+                    preferences.putString(PrefConstants.ACCESS, "Backup");
+                    Auth.startOAuth2Authentication(FilesActivity.this, APP_KEY);
+                }
+            }
+        });
+
+        mSharedFilesAdapter = new SharedFilesAdapter(FilesActivity.this, PicassoClient.getPicasso(), new SharedFilesAdapter.Callback() {
+            @Override
+            public void onFolderClicked(DropBoxFileItem folder) {
+                if (folder.getShared() == 1) {
+                    startActivity(FilesActivity.getIntent(FilesActivity.this, folder.getSharefmd().getPathLower()));
+                } else {
+                    startActivity(FilesActivity.getIntent(FilesActivity.this, folder.getFilemd().getPathLower()));
+                }
+            }
+
+            @Override
+            public void onFolderClicked(FolderMetadata folder) {
+                startActivity(FilesActivity.getIntent(FilesActivity.this, folder.getPathLower()));
+            }
+
+
+            @Override
+            public void onFileClicked(DropBoxFileItem file) {
+                sSelectedFile = file;
+                performWithPermissions(FilesActivity.FileAction.DOWNLOAD);
+            }
+
+
+        });
+        srecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        srecyclerView.setAdapter(mSharedFilesAdapter);
+        sSelectedFile = null;
+    }
+
+    public void initComponent() {
         preferences.putString(PrefConstants.ACCESS, "Default");
         String from = preferences.getString(PrefConstants.STORE);
         if (from.equals("Document")) {
@@ -209,51 +258,6 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
             imgRight.setVisibility(View.VISIBLE);
 
         }
-        rlBackup.setOnClickListener(new View.OnClickListener() {
-            /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
-                SharedPreferences prefs = getSharedPreferences("dropbox-sample", MODE_PRIVATE);
-                if (prefs.contains("access-token")) {
-                    performWithPermissions(FilesActivity.FileAction.UPLOAD);
-                } else {
-                    preferences.putString(PrefConstants.ACCESS, "Backup");
-                    Auth.startOAuth2Authentication(FilesActivity.this, APP_KEY);
-                }
-            }
-        });
-
-        mSharedFilesAdapter = new SharedFilesAdapter(FilesActivity.this, PicassoClient.getPicasso(), new SharedFilesAdapter.Callback() {
-            @Override
-            public void onFolderClicked(DropBoxFileItem folder) {
-                if (folder.getShared() == 1) {
-                    startActivity(FilesActivity.getIntent(FilesActivity.this, folder.getSharefmd().getPathLower()));
-                } else {
-                    startActivity(FilesActivity.getIntent(FilesActivity.this, folder.getFilemd().getPathLower()));
-                }
-            }
-
-            @Override
-            public void onFolderClicked(FolderMetadata folder) {
-                startActivity(FilesActivity.getIntent(FilesActivity.this, folder.getPathLower()));
-            }
-
-
-            @Override
-            public void onFileClicked(DropBoxFileItem file) {
-                sSelectedFile = file;
-                performWithPermissions(FilesActivity.FileAction.DOWNLOAD);
-            }
-
-
-        });
-        srecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        srecyclerView.setAdapter(mSharedFilesAdapter);
-        sSelectedFile = null;
     }
 
     /**
@@ -293,7 +297,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                 }
             }
             new ZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder.getAbsolutePath()).execute();
-           } else {
+        } else {
 
             File folder = new File(Environment.getExternalStorageDirectory() + "/MYLO/");
             if (!folder.exists()) {
@@ -678,7 +682,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                             e.printStackTrace();
                                         }
 
-                                      } else {
+                                    } else {
                                         Log.v("FILESF",newname+"-"+"Profile exists");
                                         AlertDialog.Builder alerts = new AlertDialog.Builder(FilesActivity.this);
                                         alerts.setTitle("Replace?");
@@ -687,7 +691,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
-                                               dialog.dismiss();
+                                                dialog.dismiss();
                                             }
                                         });
 
@@ -706,7 +710,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                 } else {
 
                                     String sd = Environment.getExternalStorageDirectory().getAbsolutePath();
-                                   String backupDBPath = "/Download/" + name;
+                                    String backupDBPath = "/Download/" + name;
                                     String newname = name.replace(".zip", "");
                                     final File folder = new File(sd, backupDBPath);
                                     final File destfolder = new File(Environment.getExternalStorageDirectory(),
@@ -888,7 +892,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int which) {
                                                             new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(),FilesActivity.this).execute();//nikita
-                                                           dialog.dismiss();
+                                                            dialog.dismiss();
                                                         }
                                                     });
 
@@ -930,7 +934,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                             e.printStackTrace();
                                         }
 
-                                        } else {
+                                    } else {
 
                                         AlertDialog.Builder alerts = new AlertDialog.Builder(FilesActivity.this);
                                         alerts.setTitle("Replace?");
@@ -957,7 +961,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                                 } else {
 
                                     String sd = Environment.getExternalStorageDirectory().getAbsolutePath();
-                                   String backupDBPath = "/Download/" + name;
+                                    String backupDBPath = "/Download/" + name;
                                     String newname = name.replace(".zip", "");
                                     final File folder = new File(sd, backupDBPath);
                                     final File destfolder = new File(Environment.getExternalStorageDirectory(),
@@ -1179,7 +1183,8 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
      * Function: Upload File On Dropbox
      * @param fileUri
      */
-    private void uploadFile(final String fileUri) {
+    public void uploadFile(final String fileUri) {
+
         // Uri contentUri = null;
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -1213,7 +1218,18 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                     double mbs=((result.getSize()/1024.0)/1024.0);
                     String message = "Backup is stored in: " + result.getName() + "\n\nsize: " + String.format("%.2f", mbs)+" MB" + "\n\nmodified: " +
                             DateFormat.getDateTimeInstance().format(result.getClientModified());
-
+                    String name=result.getName();//whole_MYLO.zip
+                    int l=name.length();
+                    if (l>=10) {
+                        name = name.substring((l - 9), l);
+                    }
+                    if (result.getName().equals("MYLO.zip")||name.equals("_MYLO.zip")) {
+                        Calendar c4 = Calendar.getInstance();
+                        c4.getTime();
+                        DateFormat df4 = new SimpleDateFormat("dd MM yy");
+                        String date4 = df4.format(c4.getTime());
+                        preferences.putString(PrefConstants.BACKUPDATE, date4);
+                    }
                     preferences.putString(PrefConstants.SHARE, result.getId());
                     preferences.putString(PrefConstants.FILE, result.getName());
                     preferences.putString(PrefConstants.MSG, message);
@@ -1224,15 +1240,6 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                     double mbs=((result.getSize()/1024.0)/1024.0);
                     String message = "Backup is stored in: " + result.getName() + "\n\nsize: " + String.format("%.2f", mbs)+" MB" + "\n\nmodified: " +
                             DateFormat.getDateTimeInstance().format(result.getClientModified());
-                    if (result.getName().equals("MYLO.zip")) {
-                        Calendar c = Calendar.getInstance();
-                        c.getTime();
-                        c.add(Calendar.MONTH, 1);
-                        DateFormat df = new SimpleDateFormat("dd MM yy HH:mm:ss");
-                        String date = df.format(c.getTime());
-                        preferences.putString(PrefConstants.BACKUPDATE, date);
-                        preferences.putBoolean(PrefConstants.NOTIFIED, true);
-                    }
 
                     final AlertDialog.Builder alert = new AlertDialog.Builder(FilesActivity.this);
                     alert.setTitle("Backup Stored successfully");
@@ -1258,7 +1265,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
 
                 Log.e(TAG, "Failed to upload file.", e);
                 Toast.makeText(FilesActivity.this,
-                        "An error has occurred",
+                        "An error has occurred"+e.getMessage(),
                         Toast.LENGTH_SHORT)
                         .show();
             }
@@ -1646,3 +1653,4 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
 
     }
 }
+

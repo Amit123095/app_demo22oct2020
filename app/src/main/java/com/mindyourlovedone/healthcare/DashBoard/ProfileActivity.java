@@ -50,6 +50,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.itextpdf.text.Image;
 import com.mindyourlovedone.healthcare.Connections.PetAdapter;
 import com.mindyourlovedone.healthcare.Connections.PhoneAdapter;
@@ -63,6 +64,7 @@ import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.FormQuery;
 import com.mindyourlovedone.healthcare.database.MyConnectionsQuery;
 import com.mindyourlovedone.healthcare.database.PetQuery;
+import com.mindyourlovedone.healthcare.model.Card;
 import com.mindyourlovedone.healthcare.model.ContactData;
 import com.mindyourlovedone.healthcare.model.Pet;
 import com.mindyourlovedone.healthcare.model.RelativeConnection;
@@ -95,6 +97,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -173,10 +176,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     RelativeConnection con;
     FrameLayout flFront;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         preferences = new Preferences(context);
         //Initialize database, get primary data and set data
         initComponent();
@@ -654,7 +663,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     ArrayList<TextView> mTextViewListType = new ArrayList<>();
     ArrayList<ImageView> mImageViewType = new ArrayList<>();
 
-     /**
+    /**
      * Class: CustomTextWatcher
      * Screen: Personal Profile Screen
      * A class that manages hypens from contact number
@@ -703,7 +712,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-   /**
+    /**
      * Function: Delete phone number from list of given position
      */
     public void deletePhone(int position) {// Tricky code to delete required item
@@ -1381,6 +1390,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.imgRight: // Navigate to instruction screen
+                /*Bundle bundle = new Bundle();
+                bundle.putInt("PersonalProfile_Instruction", 1);
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
+*/
                 Intent ia = new Intent(context, InstructionActivity.class);
                 ia.putExtra("From", "Personal");
                 startActivity(ia);
@@ -1446,7 +1459,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     /**
      * Function - Get values from all elements
      */
-      private void getValues() {
+    private void getValues() {
         for (int i = 0; i < phonelist.size(); i++) {
             if (phonelist.get(i).getContactType() == "" && phonelist.get(i).getValue() == "") {
                 phonelist.remove(phonelist.get(i));
@@ -1797,7 +1810,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
                     Boolean flags = MyConnectionsQuery.updateMyConnectionsData(connection.getId(), name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
                     if (flags == true) {
-                        Toast.makeText(context, "Personal Profile has been updated succesfully", Toast.LENGTH_SHORT).show();
+                       /* Bundle bundle = new Bundle();
+                        bundle.putInt("Edit_User_PersonalProfile", 1);
+                        mFirebaseAnalytics.logEvent("OnClick_Save_PersonalProfile", bundle);
+                        */Toast.makeText(context, "Personal Profile has been updated succesfully", Toast.LENGTH_SHORT).show();
                         connection = MyConnectionsQuery.fetchEmailRecord(connection.getId());
                         validateConnection();
                         ContactDataQuery c = new ContactDataQuery(context, dbHelper);
@@ -1849,6 +1865,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 Boolean flags = MyConnectionsQuery.updateMyConnectionsData(1, name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
                 if (flags == true) {
                     preferences.putString(PrefConstants.CONNECTED_PHOTO, imagepath);
+                   /* Bundle bundle = new Bundle();
+                    bundle.putInt("Edit_Connection_PersonalProfile",1);
+                    mFirebaseAnalytics.logEvent("OnClick_Save_PersonalProfile", bundle);
+*/
                     Toast.makeText(context, "Personal Profile has been updated succesfully", Toast.LENGTH_SHORT).show();
                     connection = MyConnectionsQuery.fetchEmailRecord(1);
                     validateConnection();
@@ -1967,7 +1987,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
 
-       //Camera Card Photo
+        //Camera Card Photo
         if (requestCode == RESULT_CAMERA_IMAGE_CARD) {
             try {
                 Bitmap thumbnail = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUriCard);
@@ -2033,6 +2053,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         final ArrayList<Pet> AllargyLists = PetQuery.fetchAllRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
         if (AllargyLists.size() != 0) {
             ListPet.setVisibility(View.VISIBLE);
+            Collections.sort(AllargyLists, new Comparator<Pet>() {
+                @Override
+                public int compare(Pet o1, Pet o2) {
+                    return o1.getName().compareToIgnoreCase(o2.getName());
+                }
+            });
             PetAdapter adapter = new PetAdapter(context, AllargyLists);
             ListPet.setAdapter(adapter);
             ListPet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -2103,7 +2129,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * Rotate Image
-      * @param bitmap
+     * @param bitmap
      * @param path
      * @return
      */
@@ -2131,9 +2157,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         return bitmap;
     }
-  /*
-  *rotate Image
-   */
+    /*
+     *rotate Image
+     */
     private Bitmap rotateImage(Bitmap source, float angle) {
 
         Bitmap bitmap = null;

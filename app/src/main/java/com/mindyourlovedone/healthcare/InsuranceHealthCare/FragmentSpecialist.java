@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.itextpdf.text.Image;
 import com.mindyourlovedone.healthcare.Connections.GrabConnectionActivity;
 import com.mindyourlovedone.healthcare.DashBoard.InstructionActivity;
@@ -77,6 +78,8 @@ public class FragmentSpecialist extends Fragment implements View.OnClickListener
     TextView txthelp;
     ImageView imghelp;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     /**
      * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
      * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
@@ -87,6 +90,9 @@ public class FragmentSpecialist extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_specialist, null);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+
 
         //Initialize database, get primary data and set data
         initComponent();
@@ -300,6 +306,10 @@ public class FragmentSpecialist extends Fragment implements View.OnClickListener
                 break;
 
             case R.id.imgRight:// Instructions
+               /* Bundle bundle = new Bundle();
+                bundle.putInt("Doctors_Instruction", 1);
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
+*/
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "DoctorInstruction");
                 startActivity(i);

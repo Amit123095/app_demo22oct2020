@@ -10,8 +10,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="center">
-
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lvFinance"
             android:layout_width="match_parent"
@@ -318,20 +316,20 @@
             android:layout_marginRight="@dimen/dimension15dp"
             />
 
-<!--
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/llAddFinance"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dimension20dp"
-            android:src="@drawable/ic_add"
-            android:tint="@android:color/white"
-            android:visibility="visible"
-            app:backgroundTint="@color/colorRegisteredGreen"
-            app:fabSize="normal" />
--->
+        <!--
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/floatAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/llAddFinance"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dimension20dp"
+                    android:src="@drawable/ic_add"
+                    android:tint="@android:color/white"
+                    android:visibility="visible"
+                    app:backgroundTint="@color/colorRegisteredGreen"
+                    app:fabSize="normal" />
+        -->
         <ImageView
             android:id="@+id/floatOptions"
             android:layout_width="@dimen/dimension70dp"
@@ -342,19 +340,19 @@
             android:layout_marginLeft="@dimen/dimension15dp"
             />
 
-<!--
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatOptions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/llAddFinance"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="@dimen/dimension20dp"
-            android:src="@drawable/ic_more"
-            android:tint="@android:color/white"
-            app:backgroundTint="@color/colorRegisteredGreen"
-            app:fabSize="normal" />
--->
+        <!--
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/floatOptions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/llAddFinance"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="@dimen/dimension20dp"
+                    android:src="@drawable/ic_more"
+                    android:tint="@android:color/white"
+                    app:backgroundTint="@color/colorRegisteredGreen"
+                    app:fabSize="normal" />
+        -->
 
 
         <android.support.design.widget.FloatingActionButton

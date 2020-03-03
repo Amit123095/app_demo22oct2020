@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.itextpdf.text.Image;
 import com.mindyourlovedone.healthcare.Connections.ConnectionAdapter;
 import com.mindyourlovedone.healthcare.Connections.GrabConnectionActivity;
@@ -33,6 +34,7 @@ import com.mindyourlovedone.healthcare.SwipeCode.VerticalSpaceItemDecoration;
 import com.mindyourlovedone.healthcare.database.ContactDataQuery;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.MyConnectionsQuery;
+import com.mindyourlovedone.healthcare.model.Card;
 import com.mindyourlovedone.healthcare.model.ContactData;
 import com.mindyourlovedone.healthcare.model.Emergency;
 import com.mindyourlovedone.healthcare.pdfCreation.MessageString;
@@ -45,6 +47,8 @@ import com.mindyourlovedone.healthcare.utility.Preferences;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by welcome on 9/14/2017.
@@ -78,6 +82,7 @@ public class FragmentEmergency extends Fragment implements View.OnClickListener 
     ImageView floatAdd, floatOptions;
     TextView txthelp;
     ImageView imghelp;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     /**
      * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
@@ -89,6 +94,10 @@ public class FragmentEmergency extends Fragment implements View.OnClickListener 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_emergency, null);
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+
         //Initialize database, get primary data and set data
         initComponent();
 
@@ -113,11 +122,23 @@ public class FragmentEmergency extends Fragment implements View.OnClickListener 
         ContactDataQuery c = new ContactDataQuery(getActivity(), dbHelper);
     }
 
-   /**
+    /**
      * Function: Set Contact data on list
      */
     private void setListData() {
         if (emergencyList.size() != 0) {
+            final String[] priorityType = {"Primary Emergency Contact", "Primary Health Care Proxy Agent", "Secondary Emergency Contact", "Secondary Health Care Proxy Agent", "Primary Emergency Contact and Health Care Proxy Agent"};
+
+
+
+            Collections.sort(emergencyList, new Comparator<Emergency>() {
+                @Override
+                public int compare(Emergency o1, Emergency o2) {
+                    String o1Priority=priorityType[o1.getIsPrimary()];
+                    String o2Priority=priorityType[o2.getIsPrimary()];
+                    return o1Priority.compareToIgnoreCase(o2Priority);
+                }
+            });
             emergencyAdapter = new EmergencyAdapter(getActivity(), emergencyList, FragmentEmergency.this);//Changes done by nikita on 18/6/18
             lvEmergency.setAdapter(emergencyAdapter);
             imghelp.setVisibility(View.GONE);
@@ -278,6 +299,10 @@ public class FragmentEmergency extends Fragment implements View.OnClickListener 
                 break;
 
             case R.id.imgRight:// Instructions
+                /*Bundle bundle = new Bundle();
+                bundle.putInt("EmergencyContact_Instruction", 1);
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
+*/
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "EmergencyInstruction");
                 startActivity(i);
@@ -405,7 +430,7 @@ public class FragmentEmergency extends Fragment implements View.OnClickListener 
 
     }
 
-      /**
+    /**
      * Function: To display floating menu for add new profile
      */
     private void showFloatDialog() {

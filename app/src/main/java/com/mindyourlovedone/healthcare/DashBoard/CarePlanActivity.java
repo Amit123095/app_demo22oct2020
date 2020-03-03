@@ -30,11 +30,13 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.itextpdf.text.Image;
 import com.mindyourlovedone.healthcare.Fragment.ADInfoActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.InsuranceHealthCare.FaxCustomDialog;
+import com.mindyourlovedone.healthcare.InsuranceHealthCare.SpecialistsActivity;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.DocumentQuery;
 import com.mindyourlovedone.healthcare.model.Document;
@@ -73,13 +75,19 @@ public class CarePlanActivity extends AppCompatActivity implements View.OnClickL
     RelativeLayout rlAD, rlHome, rlMedical, rlInsurance, rlOther, rlLegal, rlMedicalRecord;
     TextView txtOne, txtTwo, txtUserName, txtClick;
     ImageView floatOptions;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_care_plan_new);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setCurrentScreen(CarePlanActivity.this,"Adv_Directive_Docs_SubSection_List",null);
+
         //Initialize database, get primary data and set data
         initComponent();
+
         //Initialize user interface view and components
         initUI();
 
@@ -176,6 +184,10 @@ public class CarePlanActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.imgRight://Instruction Screen
+
+                /*Bundle bundle = new Bundle();
+                bundle.putInt("Directive_Section_Instruction", 1);
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);*/
                 Intent ia = new Intent(context, InstructionActivity.class);
                 ia.putExtra("From", "DirectiveSection");
                 startActivity(ia);

@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mindyourlovedone.healthcare.Activity.RelationshipActivity;
 import com.mindyourlovedone.healthcare.Connections.RelationActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
@@ -65,6 +66,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
     String[] Type3 = {"", "Type of Test", "Blood Work", "Colonoscopy", "CT Scan", "Echocardiogram", "EKG", "Glucose Test"};
     String[] Type1 = {"Hyperthyroid Blood Test", "Hypothyroid Blood Test", "Mammogram", "MRI", "Prostate Specific Antigen (PSA)", "Sonogram", "Thyroid Scan", "",
     };
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     private ArrayList<TypeSpecialist> items;
 
@@ -72,6 +74,10 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_appointment);
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         //Initialize database, get primary data and set data
         initComponent();
 
@@ -381,6 +387,11 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
                     Boolean flag = AppointmentQuery.insertAppointmentData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, date, note, type, frequency, otherType, otherFrequency, dateList, unique);
                     if (flag == true) {
                         hideSoftKeyboard();
+                       /* Bundle bundle = new Bundle();
+                        bundle.putInt("Add_Appointment", 1);
+                        mFirebaseAnalytics.logEvent("OnClick_Save_Appointment", bundle);
+*/
+
                         Toast.makeText(context, "Routine Appointment has been saved successfully", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
@@ -390,6 +401,10 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
                     Boolean flag = AppointmentQuery.updateAppointmentData(p.getId(), name, date, note, type, frequency, otherType, otherFrequency, dateList, p.getUnique());
                     if (flag == true) {
                         hideSoftKeyboard();
+                       /* Bundle bundle = new Bundle();
+                        bundle.putInt("Edit_Appointment", 1);
+                        mFirebaseAnalytics.logEvent("OnClick_Save_Appointment", bundle);
+*/
                         Toast.makeText(context, "Routine Appointment has been updated successfully", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {

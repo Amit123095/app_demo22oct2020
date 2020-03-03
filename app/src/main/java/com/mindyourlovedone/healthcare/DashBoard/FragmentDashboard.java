@@ -19,8 +19,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 
+import com.mindyourlovedone.healthcare.HomeActivity.SplashNewActivity;
 import com.mindyourlovedone.healthcare.InsuranceHealthCare.SpecialistsActivity;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.MedInfoQuery;
@@ -58,6 +60,8 @@ public class FragmentDashboard extends Fragment implements View.OnClickListener 
     ImageLoader imageLoader;
     DisplayImageOptions displayImageOptions;
     ImageView imgBacks;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
     /**
      * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
@@ -70,6 +74,11 @@ public class FragmentDashboard extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_dashboard_news, null);
         preferences = new Preferences(getActivity());
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        mFirebaseAnalytics.setCurrentScreen(getActivity(),"Dashboard Screen",null);
+
         //Check for runtime permission
         accessPermission();
 
@@ -113,7 +122,7 @@ public class FragmentDashboard extends Fragment implements View.OnClickListener 
     }
 
 
-        /**
+    /**
      * Function: Image loading and displaying at ImageView
      * Presents configuration for ImageLoader & options for image display.
      */
@@ -136,7 +145,7 @@ public class FragmentDashboard extends Fragment implements View.OnClickListener 
     }
 
 
-   /**
+    /**
      * Function: Initialize user interface view and components
      */
     private void initUI() {
@@ -304,6 +313,11 @@ public class FragmentDashboard extends Fragment implements View.OnClickListener 
                 startActivity(intentPrescription);
                 break;
             case R.id.imgRight: //User instructions(Question Mark on top right)
+
+               /* Bundle bundle = new Bundle();
+                bundle.putInt("DashboardInstruction", 1);
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
+*/
                 Intent intentUserIns = new Intent(getActivity(), UserInsActivity.class);
                 intentUserIns.putExtra("From", "Dashboard");
                 startActivity(intentUserIns);
@@ -370,7 +384,7 @@ public class FragmentDashboard extends Fragment implements View.OnClickListener 
      * @param permissions  String: The requested permissions. Never null.
      * @param grantResults int: The grant results for the corresponding permissions which is either PERMISSION_GRANTED or PERMISSION_DENIED. Never null.
      */
-        /**
+    /**
      * Function: Callback for the result from requesting permissions.
      *
      * @param requestCode  int: The request code passed in requestPermissions(android.app.Activity, String[], int)
@@ -385,7 +399,7 @@ public class FragmentDashboard extends Fragment implements View.OnClickListener 
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 } else {
                     //Check for runtime permission
-        accessPermission();
+                    accessPermission();
                 }
                 return;
             }

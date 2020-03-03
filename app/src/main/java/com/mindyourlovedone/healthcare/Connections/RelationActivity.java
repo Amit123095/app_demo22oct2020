@@ -46,6 +46,8 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
     public static final int REQUEST_LANGUAGE = 24;
     private static final int RESULT_SPECIALTY_NETWORK = 17;
     private static final int RESULT_HOSPITAL_NETWORK = 18;
+    public static final int REQUEST_REMINDER = 80;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,12 +98,12 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
                 RelationsAdapter rd = new RelationsAdapter(context, healthSpeciality, selected);
                 listRelation.setAdapter(rd);
             } else if (category.equalsIgnoreCase("SpecialtyNetwork")) {
-            titleheaders.setBackgroundColor(getResources().getColor(R.color.colorSpecialityYellow));
-            txtTitles.setText("Network Status");
-            String[] healthSpeciality = {"In-Network", "Out-of-Network"};
-            RelationsAdapter rd = new RelationsAdapter(context, healthSpeciality, selected);
-            listRelation.setAdapter(rd);
-        } else if (category.equalsIgnoreCase("Category")) {
+                titleheaders.setBackgroundColor(getResources().getColor(R.color.colorSpecialityYellow));
+                txtTitles.setText("Network Status");
+                String[] healthSpeciality = {"In-Network", "Out-of-Network"};
+                RelationsAdapter rd = new RelationsAdapter(context, healthSpeciality, selected);
+                listRelation.setAdapter(rd);
+            } else if (category.equalsIgnoreCase("Category")) {
                 titleheaders.setBackgroundColor(getResources().getColor(R.color.colorSpecialityYellow));
                 txtTitles.setText("Category");
                 String[] HospitalType = {"Home Health Care Agency", "Home Health Care Aide","Hospital", "Rehabilitation Center", "TeleMed", "Urgent Care", "Other"};
@@ -180,8 +182,16 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
                 String[] implantList = {"Aneurysm Stent or Aneurysm Clip", "Artifical Limbs", "Artificial Heart Value", "Body Art/Tattoos", "Coronary Stents(Drug Coated/Bare Metal/Unknown)", "Metal Crowns, Fillings, Implants", "Gastric Band", "Body Piercing", "Implanted Cardio Defibrilator (ICD)", "Implanted Devices/Pumps/Stimulator", "Joint Replacements (specify)", "Lens Implants", "Metal Implants", "Middle Ear Prosthesis", "None", "Pacemaker", "Penile Implant", "Pins/Rods/Screws", "Prosthetic Eye", "Renal or other Stents", "Tracheotomy", "Other"};
                 RelationsAdapter rd = new RelationsAdapter(context, implantList, selected);
                 listRelation.setAdapter(rd);
+            }else if (category.equalsIgnoreCase("Reminder")) {
+                titleheaders.setBackgroundColor(getResources().getColor(R.color.colorNewHereBlue));
+                txtTitles.setText("Backup Setting Reminder");
+                String[] ReminderList = {"Daily","Monthly","Off","Weekly", "Yearly"};
+                RelationsAdapter rd = new RelationsAdapter(context, ReminderList, selected);
+                listRelation.setAdapter(rd);
             }
         }
+
+
 
         listRelation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -248,6 +258,11 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
                     i.putExtra("Medical", txtRel.getText().toString());
                     setResult(REQUEST_BLOOD, i);
                 }
+                else if (category.equalsIgnoreCase("Reminder")) {
+                    i.putExtra("Reminder", txtRel.getText().toString());
+                    setResult(REQUEST_REMINDER, i);
+                }
+
                 finish();
             }
         });

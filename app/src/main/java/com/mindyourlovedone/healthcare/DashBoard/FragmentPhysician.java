@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.itextpdf.text.Image;
 import com.mindyourlovedone.healthcare.Connections.GrabConnectionActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
@@ -80,6 +81,7 @@ public class FragmentPhysician extends Fragment implements View.OnClickListener 
     ImageView floatAdd, floatOptions;
     TextView txthelp;
     ImageView imghelp;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     /**
      * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
@@ -91,6 +93,9 @@ public class FragmentPhysician extends Fragment implements View.OnClickListener 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_physician, null);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+
         //Initialize database, get primary data and set data
         initComponent();
 
@@ -116,7 +121,7 @@ public class FragmentPhysician extends Fragment implements View.OnClickListener 
         SpecialistQuery s = new SpecialistQuery(getActivity(), dbHelper);
     }
 
-   /**
+    /**
      * Function: Set Contact data on list
      */
     private void setListData() {
@@ -287,6 +292,10 @@ public class FragmentPhysician extends Fragment implements View.OnClickListener 
                 startActivity(intentDashboard);
                 break;
             case R.id.imgRight://Instruction
+               /* Bundle bundle = new Bundle();
+                bundle.putInt("PrimaryPhysician_Instruction", 1);
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
+*/
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "PhysicianInstruction");
                 startActivity(i);

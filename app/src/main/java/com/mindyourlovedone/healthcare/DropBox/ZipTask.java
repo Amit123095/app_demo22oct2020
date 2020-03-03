@@ -1,9 +1,12 @@
 package com.mindyourlovedone.healthcare.DropBox;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -32,14 +35,26 @@ public class ZipTask extends AsyncTask<String, Void, String> {
         con = filesActivity;
     }
 
+    public ZipTask(BaseActivity filesActivity, String absolutePath, String path) {
+        inputFolderPath = absolutePath;
+        outZipPath = path;
+        context = (ZipListner) filesActivity;
+    }
+
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        dialog = new ProgressDialog(con);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setCancelable(false);
-        dialog.setMessage("Zipping");
-        dialog.show();
+        if (con!=null) {
+            dialog = new ProgressDialog(con);
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            dialog.setCancelable(false);
+            dialog.setMessage("Zipping");
+            dialog.show();
+        }
+        else{
+            context.setNameFile("PROGRESS");
+        }
     }
 
     @Override
@@ -85,11 +100,11 @@ public class ZipTask extends AsyncTask<String, Void, String> {
         }
         return true;
     }
-/*
- *
- * Zips a subfolder
- *
- */
+    /*
+     *
+     * Zips a subfolder
+     *
+     */
 
     private void zipSubFolder(ZipOutputStream out, File folder,
                               int basePathLength) throws IOException {
@@ -138,8 +153,10 @@ public class ZipTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        if (dialog.isShowing()) {
-            dialog.dismiss();
+        if (con!=null) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
         }
         context.getFile(s);
     }

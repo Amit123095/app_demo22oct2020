@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.itextpdf.text.Image;
 import com.mindyourlovedone.healthcare.Connections.MedAdapter;
 import com.mindyourlovedone.healthcare.Connections.RelationActivity;
@@ -131,6 +132,9 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
     private static int RESULT_BLOOD = 1;
     RelativeLayout headAllergy, headPre, headImplants, headHistory, headHospital, headBlood, headTeeath, headDiet, headOrgan, headTobaco, headDrug, headDrink;
     RelativeLayout headVision, headAids, headVaccine;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
+
 
     /**
      * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
@@ -143,6 +147,10 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_medical_info, null);
         preferences = new Preferences(getActivity());
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+
         //Initialize database, get primary data and set data
         initComponent();
         //Initialize user interface view and components
@@ -1038,7 +1046,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
     /**
      * Function: To display floating menu for Reports
      */
-      /**
+    /**
      * Function: To display floating menu for add new profile
      */
     private void showFloatDialog() {
@@ -1216,6 +1224,10 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.imgRight: //Instruction
+               /* Bundle bundle = new Bundle();
+                bundle.putInt("MedicalInformation_Instruction", 1);
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
+*/
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "Medical");
                 startActivity(i);
@@ -1470,8 +1482,13 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
             case R.id.txtSave://Save information
                 getValues();
 
+               /* Bundle bundles = new Bundle();
+                bundles.putInt("Edit_MedicalInfo", 1);
+                mFirebaseAnalytics.logEvent("OnClick_Save_MedicalInfo", bundles);
+*/
                 Boolean flag = MedInfoQuery.insertMedInfoData(preferences.getInt(PrefConstants.CONNECTED_USERID), blood, glass, lense, falses, implants, aid, donor, note, mouth, mouthnote, visionnote, Aidenote, dietnote, blind, speech, allergynote, tobaco, t_type, t_amt, t_year, drink, drink_amt, drug, drug_type, drug_amt, drug_year, drink_year, functionnote, historynote, vaccinenote, implantsnote);
                 if (flag == true) {
+
                     Toast.makeText(getActivity(), "Medical Profile has been updated succesfully", Toast.LENGTH_SHORT).show();
                     medInfo = MedInfoQuery.fetchOneRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
                     hideSoftKeyboard();
@@ -1491,7 +1508,7 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.imgBack:
-                 // navigate previous screen after checking data modification done or not, if yes it ask user to save
+                // navigate previous screen after checking data modification done or not, if yes it ask user to save
                 getValues();
 
                 if ((medInfo.getGlass().equalsIgnoreCase(glass) || medInfo.getGlass().equals("")) &&

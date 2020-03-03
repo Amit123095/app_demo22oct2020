@@ -24,6 +24,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.itextpdf.text.Image;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
@@ -71,6 +72,7 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
     TextView txtMsg, txtFTU, txtAdd, txthelp;
     ScrollView scrollvw;
     ImageView floatProfile, floatAdd, floatOptions;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     public static String getFormattedDate(Date date) {
         Calendar cal = Calendar.getInstance();
@@ -94,6 +96,9 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medical_appoint);
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         //Initialize database, get primary data and set data
         initComponent();
@@ -265,7 +270,7 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
             }
         }
 
-        for (int j = 0; j < noteList.size(); j++) {
+       /* for (int j = 0; j < noteList.size(); j++) {
 
             Collections.sort(noteList, new Comparator<Appoint>() {
                 SimpleDateFormat f = new SimpleDateFormat("dd MMM yyyy");
@@ -280,7 +285,13 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
                     return 0;
                 }
             });
-        }
+        }*/
+        Collections.sort(noteList, new Comparator<Appoint>() {
+            @Override
+            public int compare(Appoint o1, Appoint o2) {
+                return o1.getType().compareToIgnoreCase(o2.getType());
+            }
+        });
         AppointAdapter adapter = new AppointAdapter(context, noteList);
         lvNote.setAdapter(adapter);
     }
@@ -468,6 +479,10 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
                 startActivity(i);
                 break;
             case R.id.imgRight://Instructions
+                /*Bundle bundle = new Bundle();
+                bundle.putInt("RoutineAppointment_Instruction", 1);
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
+*/
                 Intent ih = new Intent(context, InstructionActivity.class);
                 ih.putExtra("From", "CheckListInstruction");
                 startActivity(ih);

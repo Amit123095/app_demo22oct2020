@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mindyourlovedone.healthcare.util.IabHelper;
 import com.mindyourlovedone.healthcare.util.IabResult;
 import com.mindyourlovedone.healthcare.util.Inventory;
@@ -49,6 +50,7 @@ import io.fabric.sdk.android.Fabric;
  */
 
 public class SplashNewActivity extends AppCompatActivity implements View.OnClickListener {
+    private FirebaseAnalytics mFirebaseAnalytics;
     static final String TAG = "TrivialDrive";
     static final String SKU_INFINITE_GAS = "subscribe_app";   //$9.99
     private static final int REQUEST_CALL_PERMISSION = 100;
@@ -86,6 +88,10 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
         //Initialize Image loading and displaying at ImageView
         initImageLoader(); // Initialize image loader for load and set image
 
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setCurrentScreen(SplashNewActivity.this,"Splash Screen",null);
+
         if (isTablet(context)) {
             String imageUri = "drawable://" + R.drawable.sp_tabnew;
             imageLoader.displayImage(String.valueOf(imageUri), imageView, displayImageOptions);
@@ -99,6 +105,12 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
 
         //Check for runtime permission
         accessPermission();
+
+        /*Bundle bundle = new Bundle();
+        bundle.putString("Entry", "SplashScreen");
+        mFirebaseAnalytics.logEvent("Enter_Mylo_app", bundle);
+        mFirebaseAnalytics.setCurrentScreen(this, "Splash Screen", null *//* class override *//*);
+         */
     }
 
     /**
@@ -196,11 +208,11 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
         }
 
         //Check for crashlytics
-        final Fabric fabric = new Fabric.Builder(this)
+       /* final Fabric fabric = new Fabric.Builder(this)
                 .kits(new Crashlytics())
                 .debuggable(true)           // Enables Crashlytics debugger
                 .build();
-        Fabric.with(fabric);
+        Fabric.with(fabric);*/
 
 
     }
@@ -366,7 +378,7 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.txtWelcome: //Welcome Back
-               onClickWelcome();
+                onClickWelcome();
                 break;
 
             case R.id.imgForword: //Next

@@ -39,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mindyourlovedone.healthcare.Connections.GrabConnectionActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.customview.MySpinner;
@@ -113,11 +114,16 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
     LinearLayout casts_container;
     ImageLoader imageLoader;
     DisplayImageOptions displayImageOptions;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_prescription);
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         //Initialize database, get primary data and set data
         initComponent();
         //Initialize Image loading and displaying at ImageView
@@ -273,7 +279,7 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                 dosageList = p.getDosageList();//Shradha
                 imageList = PrescribeImageQuery.fetchAllImageRecord(p.getUserid(), p.getUnique());//Shradha
                 imageListOld = imageList;//Shradha
-               // setDosageData();//Shradha
+                // setDosageData();//Shradha
                 setImageListData();//Shradha
             }
 
@@ -301,7 +307,7 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                 dosageList = p.getDosageList();
                 imageList = PrescribeImageQuery.fetchAllImageRecord(p.getUserid(), p.getUnique());
                 imageListOld = imageList;
-               // setDosageData();
+                // setDosageData();
                 setImageListData();
             } else {
                 txtTitle.setText("Add Prescription");
@@ -425,6 +431,10 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                         unique = generateRandom();
                         Boolean flag = PrescriptionQuery.insertPrescriptionData(preferences.getInt(PrefConstants.CONNECTED_USERID), doctor, purpose, note, date, dosageList, imageList, unique, pre, rx, dose, frequency, medicine);
                         if (flag == true) {
+                            /*Bundle bundle = new Bundle();
+                            bundle.putInt("Add_PrescriptionInformation", 1);
+                            mFirebaseAnalytics.logEvent("OnClick_Save_PrescriptionInformation", bundle);
+*/
                             Toast.makeText(context, "Prescription has been saved succesfully", Toast.LENGTH_SHORT).show();
                             DialogManager.closeKeyboard(AddPrescriptionActivity.this);
                         } else {
@@ -433,6 +443,10 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                     } else {
                         Boolean flag = PrescriptionQuery.updatePrescriptionData(colid, uniqID, doctor, purpose, note, date, dosageList, imageList, preferences.getInt(PrefConstants.CONNECTED_USERID), pre, rx, dose, frequency, medicine, imageListOld);
                         if (flag == true) {
+                            /*Bundle bundle = new Bundle();
+                            bundle.putInt("Edit_PrescriptionInformation",1);
+                            mFirebaseAnalytics.logEvent("OnClick_Save_PrescriptionInformation", bundle);
+*/
                             Toast.makeText(context, "Prescription has been updated succesfully", Toast.LENGTH_SHORT).show();
                             DialogManager.closeKeyboard(AddPrescriptionActivity.this);
                         } else {

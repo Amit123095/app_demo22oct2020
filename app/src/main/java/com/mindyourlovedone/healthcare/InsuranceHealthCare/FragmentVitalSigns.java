@@ -22,15 +22,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.itextpdf.text.Image;
 import com.mindyourlovedone.healthcare.Activity.AddVitalSignsActivity;
 import com.mindyourlovedone.healthcare.DashBoard.InstructionActivity;
+import com.mindyourlovedone.healthcare.DashBoard.NoteAdapter;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.SwipeCode.DividerItemDecoration;
 import com.mindyourlovedone.healthcare.SwipeCode.VerticalSpaceItemDecoration;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.VitalQuery;
+import com.mindyourlovedone.healthcare.model.Note;
 import com.mindyourlovedone.healthcare.model.VitalSigns;
 import com.mindyourlovedone.healthcare.pdfCreation.EventPdfNew;
 import com.mindyourlovedone.healthcare.pdfCreation.MessageString;
@@ -40,8 +43,11 @@ import com.mindyourlovedone.healthcare.utility.PrefConstants;
 import com.mindyourlovedone.healthcare.utility.Preferences;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class FragmentVitalSigns extends Fragment implements View.OnClickListener {
     final String dialog_items[] = {"View", "Email", "User Instructions"};
@@ -54,9 +60,12 @@ public class FragmentVitalSigns extends Fragment implements View.OnClickListener
     DBHelper dbHelper;
     RelativeLayout rlGuide;
     TextView txtMsg, txtFTU;
-    TextView txthelp; ImageView imghelp;
+    TextView txthelp;
+    ImageView imghelp;
     FloatingActionButton floatProfile;
     ImageView floatAdd, floatOption;
+
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     /**
      * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
@@ -68,13 +77,16 @@ public class FragmentVitalSigns extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_vital_signs, null);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+
         //Initialize database, get primary data and set data
         initComponent();
         //Initialize user interface view and components
-initUI();
+        initUI();
 
         //Register a callback to be invoked when this views are clicked.
-initListener();
+        initListener();
         getData();
         setListData();
         return rootview;
@@ -87,19 +99,39 @@ initListener();
     }
 
     public void setListData() {
-        if (vitalList !=null && !vitalList.isEmpty()) {
-            Collections.reverse(vitalList);
-            VitalAdpater vitalAdapter = new VitalAdpater(getActivity(), vitalList, FragmentVitalSigns.this);
-            lvVital.setAdapter(vitalAdapter);
+        if (vitalList != null && !vitalList.isEmpty()) {
+            //Collections.reverse(vitalList);
+            //VitalAdpater vitalAdapter = new VitalAdpater(getActivity(), vitalList, FragmentVitalSigns.this);
+            // lvVital.setAdapter(vitalAdapter);
             lvVital.setSystemUiVisibility(View.VISIBLE);
             rlGuide.setVisibility(View.GONE);
-            imghelp .setVisibility(View.GONE);
+            imghelp.setVisibility(View.GONE);
             txthelp.setVisibility(View.GONE);
         } else {
             lvVital.setSystemUiVisibility(View.GONE);
             rlGuide.setVisibility(View.VISIBLE);
-            imghelp .setVisibility(View.VISIBLE);
+            imghelp.setVisibility(View.VISIBLE);
             txthelp.setVisibility(View.VISIBLE);
+        }
+        if (vitalList != null && !vitalList.isEmpty()) {
+            Collections.sort(vitalList, new Comparator<VitalSigns>() {
+                SimpleDateFormat f = new SimpleDateFormat("dd MMM yyyy hh:mm a");
+
+                @Override
+                public int compare(VitalSigns o1, VitalSigns o2) {
+                    try {
+                        String date1 = o2.getDate() + " " + o2.getTime();
+                        String date2 = o1.getDate() + " " + o1.getTime();
+                        return f.parse(date1).compareTo(f.parse(date2));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    return 0;
+                }
+
+            });
+            VitalAdpater vitalAdapter = new VitalAdpater(getActivity(), vitalList, FragmentVitalSigns.this);
+            lvVital.setAdapter(vitalAdapter);
         }
     }
 
@@ -115,7 +147,7 @@ initListener();
         floatOption.setOnClickListener(this);
     }
 
-   /**
+    /**
      * Function: Initialize user interface view and components
      */
     private void initUI() {
@@ -129,12 +161,12 @@ initListener();
         txtFTU = rootview.findViewById(R.id.txtFTU);
         txtFTU.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
                 Intent intentEmerInstruc = new Intent(getActivity(), InstructionActivity.class);
                 intentEmerInstruc.putExtra("From", "VitalInstruction");
                 startActivity(intentEmerInstruc);
@@ -189,15 +221,16 @@ initListener();
         });
         alert.show();
     }
+
     /**
      * Function: Fetch all Vital sin record
      */
     public void getData() {
-        vitalList=new ArrayList<>();
+        vitalList = new ArrayList<>();
         vitalList = VitalQuery.fetchAllVitalRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
     }
 
-      /**
+    /**
      * Function: To display floating menu for add new profile
      */
     private void showFloatDialog() {
@@ -211,22 +244,22 @@ initListener();
             file.delete();
         }
 
-        Image pdflogo = null,calendar= null,profile= null,calendarWite= null,profileWite= null;
-        pdflogo=preferences.addFile("pdflogo.png", getActivity());
-        calendar=preferences.addFile("calpdf.png", getActivity());
-        calendarWite=preferences.addFile("calpdf_wite.png", getActivity());
-        profile=preferences.addFile("profpdf.png", getActivity());
-        profileWite=preferences.addFile("profpdf_wite.png", getActivity());
+        Image pdflogo = null, calendar = null, profile = null, calendarWite = null, profileWite = null;
+        pdflogo = preferences.addFile("pdflogo.png", getActivity());
+        calendar = preferences.addFile("calpdf.png", getActivity());
+        calendarWite = preferences.addFile("calpdf_wite.png", getActivity());
+        profile = preferences.addFile("profpdf.png", getActivity());
+        profileWite = preferences.addFile("profpdf_wite.png", getActivity());
 
         new HeaderNew().createPdfHeaders(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME),preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO),pdflogo,calendar,profile,"VITAL SIGNS",calendarWite,profileWite);
+                "" + preferences.getString(PrefConstants.CONNECTED_NAME), preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO), pdflogo, calendar, profile, "VITAL SIGNS", calendarWite, profileWite);
 
         HeaderNew.addusereNameChank("VITAL SIGNS");//preferences.getString(PrefConstants.CONNECTED_NAME));
         HeaderNew.addEmptyLine(1);
         Image pp = null;
-        pp=preferences.addFile("eve_four.png", getActivity());
+        pp = preferences.addFile("eve_four.png", getActivity());
         ArrayList<VitalSigns> HospitalList = VitalQuery.fetchAllVitalRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        new EventPdfNew("Vital", HospitalList,pp);
+        new EventPdfNew("Vital", HospitalList, pp);
         HeaderNew.document.close();
 //--------------------------------------------------------------------------------------
         final Dialog dialog = new Dialog(getActivity());
@@ -261,24 +294,24 @@ initListener();
         rlView.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         floatCancel.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
 
         floatNew.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
 
                 String path = Environment.getExternalStorageDirectory()
                         + "/mylopdf/"
@@ -293,12 +326,12 @@ initListener();
 
         floatContact.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
 
                 String path = Environment.getExternalStorageDirectory()
                         + "/mylopdf/"
@@ -352,6 +385,10 @@ initListener();
                 startActivity(i);
                 break;
             case R.id.imgRight:
+              /*  Bundle bundle = new Bundle();
+                bundle.putInt("VitalSigns_Instruction", 1);
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
+*/
                 Intent ifd = new Intent(getActivity(), InstructionActivity.class);
                 ifd.putExtra("From", "VitalInstruction");
                 startActivity(ifd);

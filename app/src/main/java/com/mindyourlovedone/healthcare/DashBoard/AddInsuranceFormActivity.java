@@ -34,6 +34,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.InsuranceHealthCare.FaxCustomDialog;
 import com.mindyourlovedone.healthcare.database.DBHelper;
@@ -64,6 +65,8 @@ import java.util.Date;
  * implements OnclickListener for onClick event on views
  */
 public class AddInsuranceFormActivity extends AppCompatActivity implements View.OnClickListener {
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     private static final int RESULTCODE = 200;
     private static final int RQUESTCODE = 400;
     final CharSequence[] alert_items = {"Phone Storage", "Dropbox"};
@@ -94,6 +97,10 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_insurance_form);
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
 
         //Initialize database, get primary data and set data
         initComponent();
@@ -529,6 +536,10 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                     if (Goto.equals("Edit")) {
                         Boolean flag = FormQuery.updateDocumentData(id, name, photo, documentPath, date);
                         if (flag == true) {
+                            /*Bundle bundle=new Bundle();
+                            bundle.putInt("Edit_InsuranceForm", 1);
+                            mFirebaseAnalytics.logEvent("OnClick_Save_InsuranceForm", bundle);
+*/
                             Toast.makeText(context, "Insurance Form has been updated succesfully", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
@@ -537,6 +548,10 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                     } else {
                         Boolean flag = FormQuery.insertDocumentData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, photo, documentPath, date);
                         if (flag == true) {
+                           /* Bundle bundle=new Bundle();
+                            bundle.putInt("Add_InsuranceForm", 1);
+                            mFirebaseAnalytics.logEvent("OnClick_Save_InsuranceForm", bundle);
+*/
                             Toast.makeText(context, "Insurance Form has been saved succesfully", Toast.LENGTH_SHORT).show();
                             try {
                                 InputMethodManager inm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);

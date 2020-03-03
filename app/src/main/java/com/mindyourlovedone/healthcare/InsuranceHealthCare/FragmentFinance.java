@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.itextpdf.text.Image;
 import com.mindyourlovedone.healthcare.Connections.GrabConnectionActivity;
 import com.mindyourlovedone.healthcare.DashBoard.InstructionActivity;
@@ -35,6 +36,7 @@ import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.FinanceQuery;
 import com.mindyourlovedone.healthcare.model.ContactData;
 import com.mindyourlovedone.healthcare.model.Finance;
+import com.mindyourlovedone.healthcare.model.Hospital;
 import com.mindyourlovedone.healthcare.pdfCreation.MessageString;
 import com.mindyourlovedone.healthcare.pdfCreation.PDFDocumentProcess;
 import com.mindyourlovedone.healthcare.pdfdesign.HeaderNew;
@@ -45,6 +47,8 @@ import com.mindyourlovedone.healthcare.utility.Preferences;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by varsha on 8/28/2017.
@@ -74,6 +78,8 @@ public class FragmentFinance extends Fragment implements View.OnClickListener {
     ImageView floatAdd, floatOptions;
     TextView txthelp;
     ImageView imghelp;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
     /**
      * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
@@ -85,6 +91,9 @@ public class FragmentFinance extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_finance, null);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+
         //Initialize database, get primary data and set data
         initComponent();
         getData();
@@ -109,6 +118,12 @@ public class FragmentFinance extends Fragment implements View.OnClickListener {
      */
     private void setListData() {
         if (FinanceList.size() != 0) {
+            Collections.sort(FinanceList, new Comparator<Finance>() {
+                @Override
+                public int compare(Finance o1, Finance o2) {
+                    return o1.getCategory().compareToIgnoreCase(o2.getCategory());
+                }
+            });
             FinanceAdapter financeAdapter = new FinanceAdapter(getActivity(), FinanceList, FragmentFinance.this);
             lvFinance.setAdapter(financeAdapter);
             lvFinance.setVisibility(View.VISIBLE);
@@ -411,6 +426,10 @@ public class FragmentFinance extends Fragment implements View.OnClickListener {
                 showFloatPdfDialog();
                 break;
             case R.id.imgRight://Instructions
+                /*Bundle bundle = new Bundle();
+                bundle.putInt("Finance_Instruction", 1);
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
+*/
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "FinanceInstruction");
                 startActivity(i);

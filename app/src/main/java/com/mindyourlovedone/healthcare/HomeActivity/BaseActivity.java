@@ -10,6 +10,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -33,6 +34,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,14 +43,20 @@ import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
+import com.crashlytics.android.Crashlytics;
+import com.dropbox.core.android.Auth;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crash.FirebaseCrash;
 import com.mindyourlovedone.healthcare.Connections.FragmentConnectionNew;
+import com.mindyourlovedone.healthcare.Connections.UploadFiles;
 import com.mindyourlovedone.healthcare.DashBoard.AddDocumentActivity;
 import com.mindyourlovedone.healthcare.DashBoard.AddInsuranceFormActivity;
 import com.mindyourlovedone.healthcare.DashBoard.CustomArrayAdapter;
 import com.mindyourlovedone.healthcare.DashBoard.DropboxLoginActivity;
 import com.mindyourlovedone.healthcare.DashBoard.FragmentDashboard;
 import com.mindyourlovedone.healthcare.DashBoard.PrescriptionUploadActivity;
+import com.mindyourlovedone.healthcare.DropBox.DropboxActivity;
+import com.mindyourlovedone.healthcare.DropBox.ZipListner;
 import com.mindyourlovedone.healthcare.Fragment.FragmentContactUs;
 import com.mindyourlovedone.healthcare.Fragment.FragmentResourcesNew;
 import com.mindyourlovedone.healthcare.Fragment.FragmentSetting;
@@ -67,6 +75,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -75,10 +84,12 @@ import java.util.List;
  * A class that manages Profile, Dashboard, Drawer and Drawer fragments
  * implements OnclickListener for onClick event on views
  */
-public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
+public class BaseActivity extends DropboxActivity implements View.OnClickListener , ZipListner {
     private static final int REQUEST_CALL_PERMISSION = 600;
+    private FirebaseAnalytics mFirebaseAnalytics;
     public static FragmentManager fragmentManager;
     public FragmentTransaction fragmentTransaction;
+    private static final String APP_KEY = "428h5i4dsj95eeh";
     Context context = this;
     FragmentDashboard fragmentDashboard = null;
     FragmentResources fragmentResources = null;
@@ -93,6 +104,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     FrameLayout flLogout;
     Preferences preferences;
     ImageView txtDrawer;
+    ProgressBar progressBar;
     TextView txtPrivacyPolicy, txtEULA;
     RelativeLayout rlBackup, rlSettings, rlWebsite, rlProfiles, rlHome, rlContactUs, rlSponsor, rlResources, rlPrivacy, rlMarketPlace, rlVideos, rlResourcesDetail, rlMarketDetail, rlPrivacyDetail;
     TextView txtBackup, txtSettings, txtProfiles, txtHome, txtContactUs, txtSponsor, txtResources, txtPrivacy, txtMarketPlace, txtVideos, txtResourcesDetail, txtMarketDetail, txtPrivacyDetail;
@@ -108,7 +120,10 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
-        //    Crashlytics.getInstance().crash(); // Force a crash
+        //  Crashlytics.getInstance().crash(); // Force a crash
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setCurrentScreen(this, "Profile_And_Menu_Screen", null /* class override */);
 
         //Initialize Image loading and displaying at ImageView
         initImageLoader();
@@ -215,11 +230,11 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         txtName = findViewById(R.id.txtName);
         txtRel = findViewById(R.id.txtRel);
 
-        txtBank = findViewById(R.id.txtBank);
+        /*txtBank = findViewById(R.id.txtBank);
         txtForm = findViewById(R.id.txtForm);
         txtSenior = findViewById(R.id.txtSenior);
-        txtAdvance = findViewById(R.id.txtAdvance);
-
+        txtAdvance = findViewById(R.id.txtAdvance);*/
+        progressBar=findViewById(R.id.progressBar);
         drawerLayout = findViewById(R.id.drawerLayout);
         leftDrawer = findViewById(R.id.leftDrawer);
         header = findViewById(R.id.header);
@@ -227,10 +242,10 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         imgDrawerProfile = leftDrawer.findViewById(R.id.imgDrawerProfile);
         imgDrawerProfile.setVisibility(View.VISIBLE);
         imgRight = leftDrawer.findViewById(R.id.imgRight);
-        rlWebsite = leftDrawer.findViewById(R.id.rlWebsite);
+       /* rlWebsite = leftDrawer.findViewById(R.id.rlWebsite);
         txtPrivacyPolicy = leftDrawer.findViewById(R.id.txtPrivacyPolicy);
         txtEULA = leftDrawer.findViewById(R.id.txtEULA);
-        txtPodcast = leftDrawer.findViewById(R.id.txtPodcast);
+        txtPodcast = leftDrawer.findViewById(R.id.txtPodcast);*/
     }
 
 
@@ -414,7 +429,9 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                         .setInputData(inputData).build();// Use this when you want to add initial delay or schedule initial work to `OneTimeWorkRequest` e.g. setInitialDelay(2, TimeUnit.HOURS)
         String id = mywork.getId().toString();
         System.out.println("NIKITA WORK ID: " + id);
-        WorkManager.getInstance().enqueue(mywork);
+        if(mywork!=null) {
+            WorkManager.getInstance().enqueue(mywork);
+        }
     }
 
 
@@ -437,7 +454,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Function: Load initial Data for fragment and drawer
      */
-    private void loadData() {
+    private void loadDatadata() {
         FirebaseCrash.report(new Exception("My first Android non-fatal error"));
 //                    //I'm also creating a log message, which we'll look at in more detail later//
         FirebaseCrash.log("MainActivity started");
@@ -562,7 +579,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 } else if (p == 6) {
                     imgProfile.setVisibility(View.GONE);
                     txtTitle.setVisibility(View.VISIBLE);
-                    txtTitle.setText("Sponsor");
+                    txtTitle.setText("In Cooperation With");
                     callFragmentData(new FragmentSponsor());
 
                     //nikita
@@ -682,6 +699,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.txtDrawer://Oopen Drawer
+                Bundle bundle = new Bundle();
+                mFirebaseAnalytics.logEvent("OnClick_Menu_Drawer", bundle);
                 drawerLayout.openDrawer(leftDrawer);
                 break;
 
@@ -702,6 +721,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.rlResources://Resources
+                /*Bundle bundles = new Bundle();
+                mFirebaseAnalytics.logEvent("OnClick_Resources", bundles);*/
                 Intent intentResources = new Intent(context, BaseActivity.class);
                 intentResources.putExtra("c", 2);
                 intentResources.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -771,6 +792,9 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.rlVideos://Video
+                /*Bundle bundless = new Bundle();
+                mFirebaseAnalytics.logEvent("OnClick_How_to_Videos", bundless);
+*/
                 drawerLayout.closeDrawer(leftDrawer);
                 dialogCommingSoon();
 
@@ -864,6 +888,11 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             bginit = 1;
             initBGProcess();
         }
+    }
+
+    @Override
+    protected void loadData() {
+        //fragmentConnection.getlogin();
     }
 
     /**
@@ -966,6 +995,51 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void getFile(String res) {
+        // fragmentConnection.getFile(res,progressBar);
+        {
+            if (progressBar.getVisibility()==View.VISIBLE) {
+                progressBar.setVisibility(View.GONE);
+            }
+            // Toast.makeText(getActivity(),"Frag Getfile",Toast.LENGTH_SHORT).show();
+            final File destfolder = new File(Environment.getExternalStorageDirectory(), preferences.getString(PrefConstants.ZIPFILE)+".zip");
+            if (!destfolder.exists()) {
+                try {
+                    destfolder.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+            SharedPreferences prefs = getSharedPreferences("dropbox-sample", MODE_PRIVATE);
+            if (prefs.contains("access-token")) {
+                Uri contentUri = null;
+                contentUri = Uri.fromFile(destfolder);
+                uploadFile(contentUri.toString());
+
+            }else{
+                Auth.startOAuth2Authentication(context, APP_KEY);
+            }
+
+        }
+    }
+
+    private void uploadFile(String fileUri) {
+        UploadFiles f=new UploadFiles(fileUri,preferences,BaseActivity.this,progressBar);
+        f.upload();
+        progressBar.setVisibility(View.VISIBLE);
+
+
+    }
+
+    @Override
+    public void setNameFile(String dirName) {
+        //fragmentConnection.setNameFile(dirName);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
 
     public class AsynData extends AsyncTask {
 
@@ -976,7 +1050,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Object o) {
-            loadData();
+            loadDatadata();
             super.onPostExecute(o);
         }
     }

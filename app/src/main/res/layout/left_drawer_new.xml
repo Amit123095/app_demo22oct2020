@@ -37,7 +37,7 @@
                     android:layout_marginTop="@dimen/dimension10dp"
                     android:text="Martha Matheson"
                     android:textAllCaps="true"
-                   android:textStyle="bold"
+                    android:textStyle="bold"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/dimension22dp"
                     android:fontFamily="@font/lato"
@@ -413,13 +413,13 @@
                     android:textColor="@color/colorBlackDark"
                     android:textSize="@dimen/dimension16dp" />
 
-                <View
+               <!-- <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimension1dp"
                     android:layout_below="@+id/txtWebsite"
                     android:layout_toRightOf="@id/imgWebsite"
                     android:background="@color/colorLightGrays"
-                    android:visibility="gone"></View>
+                    android:visibility="gone"></View>-->
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>

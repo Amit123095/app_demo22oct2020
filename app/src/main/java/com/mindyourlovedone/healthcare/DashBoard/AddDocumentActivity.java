@@ -38,6 +38,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mindyourlovedone.healthcare.Connections.RelationActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
@@ -72,6 +73,7 @@ import java.util.List;
  * implements OnclickListener for onClick event on views
  */
 public class AddDocumentActivity extends AppCompatActivity implements View.OnClickListener {
+    private FirebaseAnalytics mFirebaseAnalytics;
     private static final int RQUESTCODE = 400;
     private static final int RESULTCODE = 200;
     private static final int RESULT_ADVANCE = 20;
@@ -123,8 +125,11 @@ public class AddDocumentActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_add_document);
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         //Initialize database, get primary data and set data
         initComponent();
 
@@ -546,7 +551,7 @@ public class AddDocumentActivity extends AppCompatActivity implements View.OnCli
         } else {
 
         }
-
+        mFirebaseAnalytics.setCurrentScreen(AddDocumentActivity.this,"Add_Document_Screen",null);
 
     }
 
@@ -842,6 +847,21 @@ public class AddDocumentActivity extends AppCompatActivity implements View.OnCli
                     if (Goto.equals("Edit")) {
                         Boolean flag = DocumentQuery.updateDocumentData(id, name, category, date, location, holder, photo, documentPath, docType, From, person, principle, otherCategory, Hosp, otherDocType, locator, note);
                         if (flag == true) {
+                            Bundle bundle = new Bundle();
+                            if (From.equals("AD"))
+                            {
+                               /* bundle.putInt("Edit_Document",1);
+                                mFirebaseAnalytics.logEvent("OnClick_Save_Document", bundle);*/
+                            }else if (From.equals("Other"))
+                            {
+                               /* bundle.putInt("Edit_Document", 1);
+                                mFirebaseAnalytics.logEvent("OnClick_Save_Document", bundle);*/
+                            } else if (From.equals("Record"))
+                            {
+                              /*  bundle.putInt("Edit_Document",1);
+                                mFirebaseAnalytics.logEvent("OnClick_Save_Document", bundle);*/
+                            }
+
                             Toast.makeText(context, "Document has been updated successfully", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
@@ -850,6 +870,21 @@ public class AddDocumentActivity extends AppCompatActivity implements View.OnCli
                     } else {
                         Boolean flag = DocumentQuery.insertDocumentData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, category, date, location, holder, photo, documentPath, docType, From, person, principle, otherCategory, Hosp, otherDocType, locator, note);
                         if (flag == true) {
+                            Bundle bundle = new Bundle();
+                            if (From.equals("AD"))
+                            {
+                               /* bundle.putInt("Add_AdvanceDocument",1);
+                                mFirebaseAnalytics.logEvent("OnClick_Save_Document", bundle);*/
+                            }else if (From.equals("Other"))
+                            {
+                                /*bundle.putInt("Add_OtherDocument",1);
+                                mFirebaseAnalytics.logEvent("OnClick_Save_Document", bundle);*/
+                            } else if (From.equals("Record"))
+                            {
+                                /*bundle.putInt("Add_MedicalDocument", 1);
+                                mFirebaseAnalytics.logEvent("OnClick_Save_Document", bundle);*/
+                            }
+
                             Toast.makeText(context, "Document has been saved successfully", Toast.LENGTH_SHORT).show();
                             if (external_flag == true) {
                                 Intent i = new Intent(AddDocumentActivity.this, CarePlanListActivity.class);

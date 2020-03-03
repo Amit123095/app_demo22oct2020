@@ -131,21 +131,25 @@ class CardAdapter extends RecyclerSwipeAdapter<CardAdapter.Holder> {
         });
 
         holder.txtProvider.setText(cardList.get(position).getName());
-        holder.txtType.setText(cardList.get(position).getType());
+        if (cardList.get(position).getType().equals("Other"))
+        {
+            holder.txtType.setText(cardList.get(position).getType()+ " - " + cardList.get(position).getOtertype());
+        }else{
+            holder.txtType.setText(cardList.get(position).getType());
+        }
 
         holder.rlCard.setOnClickListener(new View.OnClickListener() {
             /**
-     * Function: Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
                 Intent i = new Intent(context, AddCardActivity.class);
                 i.putExtra("CardObject", cardList.get(position));
                 i.putExtra("IsEdit", true);
                 context.startActivity(i);
-
             }
         });
     }

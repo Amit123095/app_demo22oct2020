@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.itextpdf.text.Image;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
@@ -33,6 +34,7 @@ import com.mindyourlovedone.healthcare.SwipeCode.VerticalSpaceItemDecoration;
 import com.mindyourlovedone.healthcare.database.CardQuery;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.model.Card;
+import com.mindyourlovedone.healthcare.model.Insurance;
 import com.mindyourlovedone.healthcare.pdfCreation.MessageString;
 import com.mindyourlovedone.healthcare.pdfCreation.PDFDocumentProcess;
 import com.mindyourlovedone.healthcare.pdfdesign.HeaderNew;
@@ -47,6 +49,8 @@ import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by shradha on 9/2/2019.
@@ -78,6 +82,9 @@ public class FragementInsuarnceCard extends Fragment implements View.OnClickList
     TextView txthelp;
     ImageView imghelp;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
+
     /**
      * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
      * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
@@ -88,6 +95,9 @@ public class FragementInsuarnceCard extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.activity_insurance_card, null);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+
         //Initialize database, get primary data and set data
         initComponent();
 
@@ -217,6 +227,12 @@ public class FragementInsuarnceCard extends Fragment implements View.OnClickList
      */
     private void setCardData() {
         if (CardList.size() != 0) {
+            Collections.sort(CardList, new Comparator<Card>() {
+                @Override
+                public int compare(Card o1, Card o2) {
+                    return o1.getType().compareToIgnoreCase(o2.getType());
+                }
+            });
             rlGuide.setVisibility(View.GONE);
             imghelp.setVisibility(View.GONE);
             txthelp.setVisibility(View.GONE);
@@ -299,6 +315,10 @@ public class FragementInsuarnceCard extends Fragment implements View.OnClickList
                 break;
 
             case R.id.imgRight://Instructions
+                /*Bundle bundle = new Bundle();
+                bundle.putInt("InsuranceCard_Instruction", 1);
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
+*/
                 Intent ie = new Intent(getActivity(), InstructionActivity.class);
                 ie.putExtra("From", "CardInstruction");
                 startActivity(ie);

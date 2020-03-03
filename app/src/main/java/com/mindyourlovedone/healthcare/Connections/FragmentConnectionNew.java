@@ -1,6 +1,6 @@
 package com.mindyourlovedone.healthcare.Connections;
 
-import android.annotation.SuppressLint;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
@@ -13,6 +13,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -26,6 +27,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,21 +38,29 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dropbox.core.android.Auth;
+import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.sharing.FileMemberActionResult;
 import com.dropbox.core.v2.sharing.MemberSelector;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mindyourlovedone.healthcare.DashBoard.DropboxLoginActivity;
 import com.mindyourlovedone.healthcare.DashBoard.FragmentDashboard;
 import com.mindyourlovedone.healthcare.DashBoard.ProfileActivity;
 import com.mindyourlovedone.healthcare.DashBoard.UserInsActivity;
 import com.mindyourlovedone.healthcare.DropBox.DropboxClientFactory;
+import com.mindyourlovedone.healthcare.DropBox.FilesActivity;
 import com.mindyourlovedone.healthcare.DropBox.ShareFileTask;
+import com.mindyourlovedone.healthcare.DropBox.UploadFileTask;
 import com.mindyourlovedone.healthcare.DropBox.ZipListner;
+import com.mindyourlovedone.healthcare.DropBox.ZipTask;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
+import com.mindyourlovedone.healthcare.HomeActivity.SplashNewActivity;
 import com.mindyourlovedone.healthcare.SwipeCode.DividerItemDecoration;
 import com.mindyourlovedone.healthcare.SwipeCode.VerticalSpaceItemDecoration;
 import com.mindyourlovedone.healthcare.database.ContactDataQuery;
@@ -84,6 +94,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by varsha on 8/26/2017.
  */
@@ -95,7 +107,9 @@ import java.util.List;
  * facilitate for backup,share profile database,delete profile
  * Provision for add new profile contacts by selecting option i.e. from contacts,create new,import from dropbox
  */
-public class FragmentConnectionNew extends Fragment implements View.OnClickListener {
+public class FragmentConnectionNew extends Fragment implements View.OnClickListener ,ZipListner{
+    private static final String APP_KEY = "428h5i4dsj95eeh";
+    private FirebaseAnalytics mFirebaseAnalytics;
     View rootview;
     GridView lvConnection;
     RecyclerView lvSelf, rlselflist;
@@ -114,7 +128,11 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
     RelativeConnection connection;
     TextView txthelp, txtYour;
     ImageView imghelp;
-
+    ProgressBar progressBar;
+    Date oldBackup=null;
+    public final static String EXTRA_PATH = "FilesActivity_Path";
+    private String mPath;
+    boolean flags=false;
     /**
      * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
      * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
@@ -125,6 +143,10 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_connection_new, null);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        mFirebaseAnalytics.setCurrentScreen(getActivity(),"All Profile Listing Screen",null);
+
         //Initialize database, get primary data and set data
         initComponent();
 
@@ -168,6 +190,26 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         preferences = new Preferences(getActivity());
         dbHelper = new DBHelper(getActivity(), "MASTER");
         MyConnectionsQuery m = new MyConnectionsQuery(getActivity(), dbHelper);
+        //preferences.putString(PrefConstants.BACKUPDONE, "true");
+        String path = getActivity().getIntent().getStringExtra(EXTRA_PATH);
+        mPath = path == null ? "" : path;
+        FilesActivity.getIntent(getActivity(),"");
+
+
+        SharedPreferences prefs = getActivity().getSharedPreferences("dropbox-sample", MODE_PRIVATE);
+        if (prefs.contains("access-token")) {
+            DropboxClientFactory.init(prefs.getString("access-token", ""));
+            if (DropboxClientFactory.getClient() == null) {
+                prefs.edit().remove("access-token").apply();
+                com.dropbox.core.android.AuthActivity.result = null;
+                DropboxClientFactory.revokeClient(new DropboxClientFactory.CallBack() {
+                    @Override
+                    public void onRevoke() {
+                        // Auth.startOAuth2Authentication(DropboxLoginActivity.this, APP_KEY);
+                    }
+                });
+            }
+        }
     }
 
     /**
@@ -186,6 +228,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         imgR.setVisibility(View.GONE);
         imgRight = getActivity().findViewById(R.id.imgRight);
         imgRight.setVisibility(View.VISIBLE);
+        progressBar=getActivity().findViewById(R.id.progressBar);
         rlMsg = rootview.findViewById(R.id.rlMsg);
         txtFTU = rootview.findViewById(R.id.txtFTU);
         txtFTU.setOnClickListener(new View.OnClickListener() {
@@ -233,6 +276,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         rlselflist.addItemDecoration(new VerticalSpaceItemDecoration(0));
         rlselflist.addItemDecoration(
                 new DividerItemDecoration(getActivity(), R.drawable.divider));
+
 
     }
 
@@ -331,6 +375,9 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
                 break;
 
             case R.id.imgRight: //Navigate to User Instruction Screen -Profile Screen Getting started
+               /* Bundle bundle = new Bundle();
+                bundle.putInt("AllProfileScreen", 1);
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);*/
                 Intent intentUserIns = new Intent(getActivity(), UserInsActivity.class);
                 intentUserIns.putExtra("From", "Profile");
                 startActivity(intentUserIns);
@@ -367,7 +414,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
     /**
      * Function: To display floating menu for add new profile
      */
-      /**
+    /**
      * Function: To display floating menu for add new profile
      */
     private void showFloatDialog() {
@@ -500,8 +547,22 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         } else if (preferences.getString(PrefConstants.FINIS).equals("Backup")) {
             preferences.putString(PrefConstants.FINIS, "False");
             showBackupDialog();
+            Log.v("FINDATA","FIN");
         }
+        progressBar=getActivity().findViewById(R.id.progressBar);
+        // if(preferences.getBoolean(PrefConstants.NOTIFIED)==true) {
         validateBackupDate();
+        //}
+
+
+        if ( preferences.getString(PrefConstants.BACKUPDATE).equals("")) {
+            Calendar c4 = Calendar.getInstance();
+            c4.getTime();
+            DateFormat df4 = new SimpleDateFormat("dd MM yy");
+            String date4 = df4.format(c4.getTime());
+            preferences.putString(PrefConstants.BACKUPDATE, date4);
+        }
+        //   Toast.makeText(getActivity(),preferences.getString(PrefConstants.BACKUPDATE),Toast.LENGTH_SHORT).show();
     }
 
 
@@ -513,7 +574,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         if (preferences.getString(PrefConstants.MSG) != null) {
             message = preferences.getString(PrefConstants.MSG);
         }
-        if (preferences.getString(PrefConstants.FILE).equals("MYLO.zip")) {
+       /* if (preferences.getString(PrefConstants.FILE).equals("MYLO.zip")) {
             Calendar c = Calendar.getInstance();
             c.getTime();
             c.add(Calendar.MONTH, 1);
@@ -521,7 +582,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
             String date = df.format(c.getTime());
             preferences.putString(PrefConstants.BACKUPDATE, date);
             preferences.putBoolean(PrefConstants.NOTIFIED, true);
-        }
+        }*/
 
         final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setTitle("Backup Stored successfully");
@@ -539,25 +600,166 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
      * Function: Display reminder for your data backup
      */
     private void validateBackupDate() {
-        DateFormat df = new SimpleDateFormat("dd MM yy HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("dd MM yy");
         if (preferences.getString(PrefConstants.BACKUPDATE) != null || !preferences.getString(PrefConstants.BACKUPDATE).equals("")) {
-            String backupdatestring = preferences.getString(PrefConstants.BACKUPDATE);
-            Date backupDate = null;
+            String newbackupdatestring="";
+            if (preferences.getString(PrefConstants.REMINDER) != null) {
+                String frequency = preferences.getString(PrefConstants.REMINDER);
+                String backupdatestring =preferences.getString(PrefConstants.BACKUPDATE);
+                Date backupDate = null;
+                try {
+                    backupDate = df.parse(backupdatestring);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                if (backupDate!=null) {
+                    switch (frequency) {
+                        case "Daily":
+                            Calendar c1 = Calendar.getInstance();
+                            c1.setTime(backupDate);
+                            c1.add(Calendar.DATE, 1);
+                            DateFormat df1 = new SimpleDateFormat("dd MM yy");
+                            newbackupdatestring = df1.format(c1.getTime());
+                            // preferences.putBoolean(PrefConstants.NOTIFIED, true);
+                            break;
+
+                        case "Weekly":
+                            Calendar c5 = Calendar.getInstance();
+                            c5.setTime(backupDate);
+                            c5.add(Calendar.WEEK_OF_MONTH, 1);
+                            DateFormat df5 = new SimpleDateFormat("dd MM yy");
+                            newbackupdatestring = df5.format(c5.getTime());
+                            //  preferences.putBoolean(PrefConstants.NOTIFIED, true);
+                            break;
+
+                        case "Monthly":
+                            Calendar c = Calendar.getInstance();
+                            c.setTime(backupDate);
+                            c.add(Calendar.MONTH, 1);
+                            DateFormat dfs = new SimpleDateFormat("dd MM yy");
+                            newbackupdatestring = dfs.format(c.getTime());
+                            // preferences.putBoolean(PrefConstants.NOTIFIED, true);
+                            break;
+
+                        case "Yearly":
+                            Calendar c2 = Calendar.getInstance();
+                            c2.setTime(backupDate);
+                            c2.add(Calendar.YEAR, 1);
+                            DateFormat df2 = new SimpleDateFormat("dd MM yy");
+                            newbackupdatestring = df2.format(c2.getTime());
+                            //  preferences.putBoolean(PrefConstants.NOTIFIED, true);
+                            break;
+
+                        case "Off":
+                            newbackupdatestring = "";
+                            break;
+                    }
+                }
+            }
+
+            Date newbackupDate=null;
             try {
-                backupDate = df.parse(backupdatestring);
+                newbackupDate = df.parse(newbackupdatestring);
+                //  Toast.makeText(getActivity(),newbackupdatestring,Toast.LENGTH_SHORT).show();
+                Log.v("TAFy",newbackupdatestring+" " +preferences.getString(PrefConstants.REMINDER));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+
             Calendar cal = Calendar.getInstance();
-            Date currentDate = cal.getTime();
-            if (backupDate != null) {
-                if (currentDate.after(backupDate)) {
-                    if (preferences.getBoolean(PrefConstants.NOTIFIED) == true) {
-                        sendNotification();
+            final Date currentDate = cal.getTime();
+            if (newbackupDate != null) {
+                if (currentDate.after(newbackupDate)) {
+
+                    SimpleDateFormat dft = new SimpleDateFormat("dd MM yy");
+                    final String formattedDatecurrentdate = dft.format(currentDate);
+
+                    if (!preferences.getString(PrefConstants.BACKUPDONE).equals(formattedDatecurrentdate)) {
+                        Toast.makeText(getActivity(),preferences.getString(PrefConstants.REMINDER) + " auto backup is started....", Toast.LENGTH_LONG).show();
+                        // askForBackupDialog(newbackupdatestring,newbackupDate,currentDate);
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
+                                Date date = Calendar.getInstance().getTime();
+                                SimpleDateFormat dft = new SimpleDateFormat("MMddyyyy");
+                                String formattedDate = dft.format(date);
+                                String username = "MYLO" + "_" + formattedDate;
+                                preferences.putString(PrefConstants.TODO, "Backup");
+                                preferences.putString(PrefConstants.TODOWHAT, "Share");
+                                preferences.putString(PrefConstants.STORE, "Backup");
+                                preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/");
+                                preferences.putString(PrefConstants.ZIPFILE, username + "_MYLO");
+                                preferences.putString(PrefConstants.BACKUPDONE, formattedDatecurrentdate);
+                                //FilesActivity f=new FilesActivity();
+                                //  f.uploadFile(preferences.getString(PrefConstants.CONNECTED_PATH));
+
+                                //  startActivity(FilesActivity.getIntent(getActivity(), ""));
+                                {
+
+                                    File folder = new File(Environment.getExternalStorageDirectory() + "/MYLO/");
+                                    if (!folder.exists()) {
+                                        try {
+                                            folder.createNewFile();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                    }
+
+                                    File destfolder = new File(Environment.getExternalStorageDirectory(), "/" + preferences.getString(PrefConstants.ZIPFILE) + ".zip");
+                                    if (!destfolder.exists()) {
+                                        try {
+                                            destfolder.createNewFile();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+
+                                    }
+                                    new ZipTask((BaseActivity) getActivity(), folder.getPath(), destfolder.getPath()).execute();
+                                }
+                            }
+                        }, 1000);
+
+
+                        //Auto Backup
+                  /*  Intent i=new Intent(getActivity(),DropboxLoginActivity.class);
+                    i.putExtra("SilentBackup",true);
+                    getActivity().startActivity(i);*/
                     }
                 }
             }
         }
+    }
+
+    private void askForBackupDialog(String newbackupdatestring, final Date newbackupDate, final Date currentDate) {
+        preferences.putBoolean(PrefConstants.NOTIFIED,true);
+        final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle("It's time to "+preferences.getString(PrefConstants.REMINDER)+" backup");
+        // alert.setMessage("It's time to "+preferences.getString(PrefConstants.REMINDER)+" Backup");
+        alert.setPositiveButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Calendar c4 = Calendar.getInstance();
+                c4.getTime();
+                DateFormat df4 = new SimpleDateFormat("dd MM yy");
+                String date4 = df4.format(c4.getTime());
+                preferences.putString(PrefConstants.BACKUPDATE, date4);
+                dialog.dismiss();
+            }
+        });
+        alert.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent i=new Intent(getActivity(),DropboxLoginActivity.class);
+                i.putExtra("SilentBackup",true);
+                getActivity().startActivity(i);
+                dialog.dismiss();
+
+            }
+        });
+        alert.setCancelable(false);
+        alert.show();
     }
 
     /**
@@ -625,6 +827,74 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
             InputMethodManager inm = (InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
             inm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
         }
+    }
+    /**
+     * Function: Display dialog for input of dropbox File name from user for sharing backup
+     */
+    public void showWholeEmailDialog(final String from) {
+        final Dialog customDialog;
+        customDialog = new Dialog(getActivity());
+        customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        customDialog.setContentView(R.layout.dialog_input_zip);
+        customDialog.setCancelable(false);
+        final EditText etNote = customDialog.findViewById(R.id.etNote);
+        TextView btnAdd = customDialog.findViewById(R.id.btnYes);
+        TextView btnCancel = customDialog.findViewById(R.id.btnNo);
+        TextView txtnote = customDialog.findViewById(R.id.txtnote);
+        txtnote.setVisibility(View.VISIBLE);
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("MMddyyyy");
+        String formattedDate = df.format(date);
+        etNote.setText("MYLO" + "_" + formattedDate);
+        etNote.setSelection(etNote.getText().length());
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
+                customDialog.dismiss();
+
+            }
+        });
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Function: Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
+                String username = etNote.getText().toString().trim();
+                username = username.replace(".", "_");
+                username = username.replace("@", "_");
+                username = username.replace(" ", "_");
+                if (username.equals("")) {
+                    etNote.setError("Please enter file name");
+                    DialogManager.showAlert("Please enter file name", getActivity());
+                } else {
+                    customDialog.dismiss();
+                    Intent i = new Intent( getActivity(), DropboxLoginActivity.class);
+                    if (from.equalsIgnoreCase("Share")) {
+                        i.putExtra("FROM", "Share");
+                    } else if (from.equalsIgnoreCase("Backup")) {
+                        i.putExtra("FROM", "Backup");
+                    }
+
+                    i.putExtra("ToDo", "Individual");
+                    i.putExtra("ToDoWhat", "Share");
+                    preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/");
+                    preferences.putString(PrefConstants.ZIPFILE, username + "_MYLO");
+                    startActivity(i);
+
+                }
+            }
+        });
+
+        customDialog.show();
     }
 
     String txt = "Profile";
@@ -720,4 +990,81 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         customDialog.show();
     }
 
+
+    @Override
+    public void getFile(String res) {
+        if (progressBar.getVisibility()==View.VISIBLE) {
+            progressBar.setVisibility(View.GONE);
+        }
+        // Toast.makeText(getActivity(),"Frag Getfile",Toast.LENGTH_SHORT).show();
+        final File destfolder = new File(Environment.getExternalStorageDirectory(), preferences.getString(PrefConstants.ZIPFILE)+".zip");
+        if (!destfolder.exists()) {
+            try {
+                destfolder.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        SharedPreferences prefs = getActivity().getSharedPreferences("dropbox-sample", MODE_PRIVATE);
+        if (prefs.contains("access-token")) {
+            Uri contentUri = null;
+            contentUri = Uri.fromFile(destfolder);
+            uploadFile(contentUri.toString());
+
+        }else{
+            Auth.startOAuth2Authentication(getActivity(), APP_KEY);
+        }
+
+    }
+
+    private void uploadFile(String fileUri)
+    {
+        UploadFiles f=new UploadFiles(fileUri,preferences,getActivity(),progressBar);
+        f.upload();
+        progressBar.setVisibility(View.VISIBLE);
+
+
+    }
+
+    @Override
+    public void setNameFile(String dirName) {
+        //    progressBar=getActivity().findViewById(R.id.progressBar);
+        // progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    public void getFile(String res, ProgressBar progressBar) {
+        Preferences preferences=new Preferences(getActivity());
+        if (progressBar.getVisibility()==View.VISIBLE) {
+            progressBar.setVisibility(View.GONE);
+        }
+        // Toast.makeText(getActivity(),"Frag Getfile",Toast.LENGTH_SHORT).show();
+        final File destfolder = new File(Environment.getExternalStorageDirectory(), preferences.getString(PrefConstants.ZIPFILE)+".zip");
+        if (!destfolder.exists()) {
+            try {
+                destfolder.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        SharedPreferences prefs = getActivity().getSharedPreferences("dropbox-sample", MODE_PRIVATE);
+        if (prefs.contains("access-token")) {
+            Uri contentUri = null;
+            contentUri = Uri.fromFile(destfolder);
+            uploadFile(contentUri.toString());
+
+        }else{
+            Auth.startOAuth2Authentication(getActivity(), APP_KEY);
+        }
+
+    }
 }

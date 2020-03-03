@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.itextpdf.text.Image;
 import com.mindyourlovedone.healthcare.Connections.GrabConnectionActivity;
 import com.mindyourlovedone.healthcare.DashBoard.InstructionActivity;
@@ -34,6 +35,7 @@ import com.mindyourlovedone.healthcare.database.ContactDataQuery;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.PharmacyQuery;
 import com.mindyourlovedone.healthcare.model.ContactData;
+import com.mindyourlovedone.healthcare.model.Emergency;
 import com.mindyourlovedone.healthcare.model.Pharmacy;
 import com.mindyourlovedone.healthcare.pdfCreation.MessageString;
 import com.mindyourlovedone.healthcare.pdfCreation.PDFDocumentProcess;
@@ -45,6 +47,8 @@ import com.mindyourlovedone.healthcare.utility.Preferences;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by varsha on 8/28/2017.
@@ -75,6 +79,8 @@ public class FragmentPharmacy extends Fragment implements View.OnClickListener {
     TextView txthelp;
     ImageView imghelp;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     /**
      * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
      * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
@@ -85,6 +91,10 @@ public class FragmentPharmacy extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_pharmacy, null);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+
+
         //Initialize database, get primary data and set data
         initComponent();
         getData();
@@ -110,6 +120,12 @@ public class FragmentPharmacy extends Fragment implements View.OnClickListener {
      */
     private void setListData() {
         if (PharmacyList.size() != 0) {
+            Collections.sort(PharmacyList, new Comparator<Pharmacy>() {
+                @Override
+                public int compare(Pharmacy o1, Pharmacy o2) {
+                    return o1.getName().compareToIgnoreCase(o2.getName());
+                }
+            });
             PharmacyAdapter pharmacyAdapter = new PharmacyAdapter(getActivity(), PharmacyList, FragmentPharmacy.this);
             lvPharmacy.setAdapter(pharmacyAdapter);
             lvPharmacy.setVisibility(View.VISIBLE);
@@ -426,6 +442,10 @@ public class FragmentPharmacy extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.imgRight://Instructions
+               /* Bundle bundle = new Bundle();
+                bundle.putInt("Pharmacy_Instruction", 1);
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
+*/
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "PharmacyInstruction");
                 startActivity(i);
