@@ -394,10 +394,10 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
                 showViewDialog(context, msg, title);
                 break;
             case R.id.imgRight://Instructions
-               /* Bundle bundles = new Bundle();
+                Bundle bundles = new Bundle();
                 bundles.putInt("ADL_Instruction", 1);
                 mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundles);
-*/
+
                 Intent i = new Intent(context, InstructionActivity.class);
                 i.putExtra("From", "LivingInstruction");
                 startActivity(i);
@@ -406,9 +406,9 @@ public class LivingActivity extends AppCompatActivity implements View.OnClickLis
                 getValues();
                 Boolean flag = LivingQuery.insertLivingData(preferences.getInt(PrefConstants.CONNECTED_USERID), finance, prepare, shop, use, bath, continence, dress, feed, toileting, transfer, transport, pets, drive, keep, medication, functionnote, fouctionOther, instaNote, instaOther, remote, alert, computer);
                 if (flag == true) {
-                   /* Bundle bundle = new Bundle();
+                    Bundle bundle = new Bundle();
                     bundle.putInt("Edit_ADL", 1);
-                    mFirebaseAnalytics.logEvent("OnClick_Save_ADL", bundle);*/
+                    mFirebaseAnalytics.logEvent("OnClick_Save_ADL", bundle);
                     Toast.makeText(context, "Activity Living has been updated succesfully", Toast.LENGTH_SHORT).show();
                     medInfo = LivingQuery.fetchOneRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
                     hideSoftKeyboard();

@@ -315,10 +315,10 @@ public class FragementInsuarnceCard extends Fragment implements View.OnClickList
                 break;
 
             case R.id.imgRight://Instructions
-                /*Bundle bundle = new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putInt("InsuranceCard_Instruction", 1);
                 mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
-*/
+
                 Intent ie = new Intent(getActivity(), InstructionActivity.class);
                 ie.putExtra("From", "CardInstruction");
                 startActivity(ie);

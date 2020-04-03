@@ -243,7 +243,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dimension10dp"
             android:layout_marginTop="@dimen/dimension10dp"
-            android:text="Sponsored by:"
+            android:text="In Cooperation with:"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/dimension12dp"
             android:textStyle="normal" />

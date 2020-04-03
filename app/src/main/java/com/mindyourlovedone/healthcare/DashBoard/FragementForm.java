@@ -297,10 +297,10 @@ public class FragementForm extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.imgRight://Instructions
-                /*Bundle bundle = new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putInt("InsuranceForm_Instruction",1);
                 mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
-*/
+
 
                 Intent ib = new Intent(getActivity(), InstructionActivity.class);
                 ib.putExtra("From", "FormInstruction");

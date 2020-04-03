@@ -387,10 +387,10 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
                     Boolean flag = AppointmentQuery.insertAppointmentData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, date, note, type, frequency, otherType, otherFrequency, dateList, unique);
                     if (flag == true) {
                         hideSoftKeyboard();
-                       /* Bundle bundle = new Bundle();
+                       Bundle bundle = new Bundle();
                         bundle.putInt("Add_Appointment", 1);
                         mFirebaseAnalytics.logEvent("OnClick_Save_Appointment", bundle);
-*/
+
 
                         Toast.makeText(context, "Routine Appointment has been saved successfully", Toast.LENGTH_SHORT).show();
                         finish();
@@ -401,10 +401,10 @@ public class AddAppointmentActivity extends AppCompatActivity implements View.On
                     Boolean flag = AppointmentQuery.updateAppointmentData(p.getId(), name, date, note, type, frequency, otherType, otherFrequency, dateList, p.getUnique());
                     if (flag == true) {
                         hideSoftKeyboard();
-                       /* Bundle bundle = new Bundle();
+                        Bundle bundle = new Bundle();
                         bundle.putInt("Edit_Appointment", 1);
                         mFirebaseAnalytics.logEvent("OnClick_Save_Appointment", bundle);
-*/
+
                         Toast.makeText(context, "Routine Appointment has been updated successfully", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {

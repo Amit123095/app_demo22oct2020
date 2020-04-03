@@ -327,10 +327,10 @@ public class FragmentPrescriptionInfo extends Fragment implements View.OnClickLi
                 showFloatOption();
                 break;
             case R.id.imgRight:
-               /* Bundle bundle = new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putInt("PrescriptionInformation_Instruction", 1);
                 mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
-*/
+
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "PrescriptionInstruction");
                 startActivity(i);

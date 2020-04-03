@@ -479,10 +479,10 @@ public class MedicalAppointActivity extends AppCompatActivity implements View.On
                 startActivity(i);
                 break;
             case R.id.imgRight://Instructions
-                /*Bundle bundle = new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putInt("RoutineAppointment_Instruction", 1);
                 mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
-*/
+
                 Intent ih = new Intent(context, InstructionActivity.class);
                 ih.putExtra("From", "CheckListInstruction");
                 startActivity(ih);

@@ -431,10 +431,10 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                         unique = generateRandom();
                         Boolean flag = PrescriptionQuery.insertPrescriptionData(preferences.getInt(PrefConstants.CONNECTED_USERID), doctor, purpose, note, date, dosageList, imageList, unique, pre, rx, dose, frequency, medicine);
                         if (flag == true) {
-                            /*Bundle bundle = new Bundle();
+                            Bundle bundle = new Bundle();
                             bundle.putInt("Add_PrescriptionInformation", 1);
                             mFirebaseAnalytics.logEvent("OnClick_Save_PrescriptionInformation", bundle);
-*/
+
                             Toast.makeText(context, "Prescription has been saved succesfully", Toast.LENGTH_SHORT).show();
                             DialogManager.closeKeyboard(AddPrescriptionActivity.this);
                         } else {
@@ -443,10 +443,10 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
                     } else {
                         Boolean flag = PrescriptionQuery.updatePrescriptionData(colid, uniqID, doctor, purpose, note, date, dosageList, imageList, preferences.getInt(PrefConstants.CONNECTED_USERID), pre, rx, dose, frequency, medicine, imageListOld);
                         if (flag == true) {
-                            /*Bundle bundle = new Bundle();
+                            Bundle bundle = new Bundle();
                             bundle.putInt("Edit_PrescriptionInformation",1);
                             mFirebaseAnalytics.logEvent("OnClick_Save_PrescriptionInformation", bundle);
-*/
+
                             Toast.makeText(context, "Prescription has been updated succesfully", Toast.LENGTH_SHORT).show();
                             DialogManager.closeKeyboard(AddPrescriptionActivity.this);
                         } else {

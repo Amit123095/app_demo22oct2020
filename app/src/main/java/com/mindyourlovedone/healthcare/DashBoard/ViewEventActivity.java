@@ -191,10 +191,10 @@ public class ViewEventActivity extends AppCompatActivity implements View.OnClick
                     String date = txtDate.getText().toString();
                     Boolean flag = EventNoteQuery.updateEvent(id, note, date);
                     if (flag == true) {
-                       /* Bundle bundle = new Bundle();
+                        Bundle bundle = new Bundle();
                         bundle.putInt("Edit_Event",1);
                         mFirebaseAnalytics.logEvent("OnClick_Save_EventNote", bundle);
-*/
+
                         Toast.makeText(context, "Event Note has been updated succesfully", Toast.LENGTH_SHORT).show();
                         try {
                             InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -213,10 +213,10 @@ public class ViewEventActivity extends AppCompatActivity implements View.OnClick
                     if (note.length() != 0) {
                         Boolean flag = EventNoteQuery.insertNoteData(new Preferences(ViewEventActivity.this).getInt(PrefConstants.CONNECTED_USERID), note, currentDateandTime);
                         if (flag == true) {
-                           /* Bundle bundle = new Bundle();
+                            Bundle bundle = new Bundle();
                             bundle.putInt("Add_Event",1);
                             mFirebaseAnalytics.logEvent("OnClick_Save_EventNote", bundle);
-*/
+
                             Toast.makeText(context, "Event Note has been saved succesfully", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {

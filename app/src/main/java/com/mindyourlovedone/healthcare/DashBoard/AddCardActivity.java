@@ -327,9 +327,9 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                     if (isEdit == false) {
                         boolean flag = CardQuery.insertInsuranceCardData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, type, imagePathFront, imagePathBack, oter);
                         if (flag) {
-                           /* Bundle bundle = new Bundle();
+                            Bundle bundle = new Bundle();
                             bundle.putInt("Add_InsuranceCard", 1);
-                            mFirebaseAnalytics.logEvent("OnClick_Save_InsuranceCard", bundle);*/
+                            mFirebaseAnalytics.logEvent("OnClick_Save_InsuranceCard", bundle);
                             Toast.makeText(context, "Insurance Card Information has been saved successfully", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
@@ -339,10 +339,10 @@ public class AddCardActivity extends AppCompatActivity implements View.OnClickLi
                     } else if (isEdit == true) {
                         boolean flag = CardQuery.updateInsuranceCardData(id, name, type, imagePathFront, imagePathBack, oter);
                         if (flag) {
-                            /*Bundle bundle = new Bundle();
+                            Bundle bundle = new Bundle();
                             bundle.putInt("Edit_InsuranceCard",1);
                             mFirebaseAnalytics.logEvent("OnClick_Save_InsuranceCard", bundle);
-*/
+
                             Toast.makeText(context, "Insurance Card Information has been updated successfully", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {

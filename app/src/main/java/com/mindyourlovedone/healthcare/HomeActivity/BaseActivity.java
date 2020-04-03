@@ -721,8 +721,8 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                 break;
 
             case R.id.rlResources://Resources
-                /*Bundle bundles = new Bundle();
-                mFirebaseAnalytics.logEvent("OnClick_Resources", bundles);*/
+                Bundle bundles = new Bundle();
+                mFirebaseAnalytics.logEvent("OnClick_Resources", bundles);
                 Intent intentResources = new Intent(context, BaseActivity.class);
                 intentResources.putExtra("c", 2);
                 intentResources.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -792,9 +792,9 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                 break;
 
             case R.id.rlVideos://Video
-                /*Bundle bundless = new Bundle();
+                Bundle bundless = new Bundle();
                 mFirebaseAnalytics.logEvent("OnClick_How_to_Videos", bundless);
-*/
+
                 drawerLayout.closeDrawer(leftDrawer);
                 dialogCommingSoon();
 

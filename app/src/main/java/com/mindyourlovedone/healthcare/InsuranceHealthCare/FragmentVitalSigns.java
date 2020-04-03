@@ -385,10 +385,10 @@ public class FragmentVitalSigns extends Fragment implements View.OnClickListener
                 startActivity(i);
                 break;
             case R.id.imgRight:
-              /*  Bundle bundle = new Bundle();
+               Bundle bundle = new Bundle();
                 bundle.putInt("VitalSigns_Instruction", 1);
                 mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
-*/
+
                 Intent ifd = new Intent(getActivity(), InstructionActivity.class);
                 ifd.putExtra("From", "VitalInstruction");
                 startActivity(ifd);

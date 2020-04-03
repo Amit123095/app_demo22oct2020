@@ -850,16 +850,16 @@ public class AddDocumentActivity extends AppCompatActivity implements View.OnCli
                             Bundle bundle = new Bundle();
                             if (From.equals("AD"))
                             {
-                               /* bundle.putInt("Edit_Document",1);
-                                mFirebaseAnalytics.logEvent("OnClick_Save_Document", bundle);*/
+                                bundle.putInt("Edit_Document",1);
+                                mFirebaseAnalytics.logEvent("OnClick_Save_Document", bundle);
                             }else if (From.equals("Other"))
                             {
-                               /* bundle.putInt("Edit_Document", 1);
-                                mFirebaseAnalytics.logEvent("OnClick_Save_Document", bundle);*/
+                                bundle.putInt("Edit_Document", 1);
+                                mFirebaseAnalytics.logEvent("OnClick_Save_Document", bundle);
                             } else if (From.equals("Record"))
                             {
-                              /*  bundle.putInt("Edit_Document",1);
-                                mFirebaseAnalytics.logEvent("OnClick_Save_Document", bundle);*/
+                                bundle.putInt("Edit_Document",1);
+                                mFirebaseAnalytics.logEvent("OnClick_Save_Document", bundle);
                             }
 
                             Toast.makeText(context, "Document has been updated successfully", Toast.LENGTH_SHORT).show();
@@ -873,16 +873,16 @@ public class AddDocumentActivity extends AppCompatActivity implements View.OnCli
                             Bundle bundle = new Bundle();
                             if (From.equals("AD"))
                             {
-                               /* bundle.putInt("Add_AdvanceDocument",1);
-                                mFirebaseAnalytics.logEvent("OnClick_Save_Document", bundle);*/
+                                bundle.putInt("Add_AdvanceDocument",1);
+                                mFirebaseAnalytics.logEvent("OnClick_Save_Document", bundle);
                             }else if (From.equals("Other"))
                             {
-                                /*bundle.putInt("Add_OtherDocument",1);
-                                mFirebaseAnalytics.logEvent("OnClick_Save_Document", bundle);*/
+                                bundle.putInt("Add_OtherDocument",1);
+                                mFirebaseAnalytics.logEvent("OnClick_Save_Document", bundle);
                             } else if (From.equals("Record"))
                             {
-                                /*bundle.putInt("Add_MedicalDocument", 1);
-                                mFirebaseAnalytics.logEvent("OnClick_Save_Document", bundle);*/
+                                bundle.putInt("Add_MedicalDocument", 1);
+                                mFirebaseAnalytics.logEvent("OnClick_Save_Document", bundle);
                             }
 
                             Toast.makeText(context, "Document has been saved successfully", Toast.LENGTH_SHORT).show();

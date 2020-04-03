@@ -1224,10 +1224,10 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.imgRight: //Instruction
-               /* Bundle bundle = new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putInt("MedicalInformation_Instruction", 1);
                 mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
-*/
+
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "Medical");
                 startActivity(i);
@@ -1482,10 +1482,10 @@ public class FragmentMedicalInfo extends Fragment implements View.OnClickListene
             case R.id.txtSave://Save information
                 getValues();
 
-               /* Bundle bundles = new Bundle();
+                Bundle bundles = new Bundle();
                 bundles.putInt("Edit_MedicalInfo", 1);
                 mFirebaseAnalytics.logEvent("OnClick_Save_MedicalInfo", bundles);
-*/
+
                 Boolean flag = MedInfoQuery.insertMedInfoData(preferences.getInt(PrefConstants.CONNECTED_USERID), blood, glass, lense, falses, implants, aid, donor, note, mouth, mouthnote, visionnote, Aidenote, dietnote, blind, speech, allergynote, tobaco, t_type, t_amt, t_year, drink, drink_amt, drug, drug_type, drug_amt, drug_year, drink_year, functionnote, historynote, vaccinenote, implantsnote);
                 if (flag == true) {
 

@@ -533,10 +533,10 @@ public class PrescriptionUploadActivity extends AppCompatActivity implements Vie
                     if (Goto.equals("Edit")) {
                         Boolean flag = PrescriptionUpload.updateDocumentData(id, name, photo, documentPath, date);
                         if (flag == true) {
-                            /*Bundle bundle = new Bundle();
+                            Bundle bundle = new Bundle();
                             bundle.putInt("Add_PrescriptionUpload", 1);
                             mFirebaseAnalytics.logEvent("OnClick_Save_PrescriptionUpload",bundle);
-*/
+
                             Toast.makeText(context, "Prescription upload has been updated succesfully", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
@@ -545,10 +545,10 @@ public class PrescriptionUploadActivity extends AppCompatActivity implements Vie
                     } else {
                         Boolean flag = PrescriptionUpload.insertDocumentData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, photo, documentPath, date);
                         if (flag == true) {
-                            /*Bundle bundle = new Bundle();
+                            Bundle bundle = new Bundle();
                             bundle.putInt("Edit_PrescriptionUpload",1);
                             mFirebaseAnalytics.logEvent("OnClick_Save_PrescriptionUpload",bundle);
-*/
+
                             Toast.makeText(context, "Prescription upload has been saved succesfully", Toast.LENGTH_SHORT).show();
                             try {
                                 InputMethodManager inm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);

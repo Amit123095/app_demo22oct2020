@@ -426,10 +426,10 @@ public class FragmentFinance extends Fragment implements View.OnClickListener {
                 showFloatPdfDialog();
                 break;
             case R.id.imgRight://Instructions
-                /*Bundle bundle = new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putInt("Finance_Instruction", 1);
                 mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
-*/
+
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "FinanceInstruction");
                 startActivity(i);

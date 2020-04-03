@@ -2,6 +2,7 @@ package com.mindyourlovedone.healthcare.Activity;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -288,10 +290,10 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
                     if (isUpdate == false) {
                         Boolean flag = VitalQuery.insertVitalData(preferences.getInt(PrefConstants.CONNECTED_USERID), location, Date, time, bp, heart, temperature, pulse, respiratory, note,oter,col);
                         if (flag == true) {
-                           /* Bundle bundle = new Bundle();
+                           Bundle bundle = new Bundle();
                             bundle.putInt("Add_VitalSign",1);
                             mFirebaseAnalytics.logEvent("OnClick_Save_VitalSign", bundle);
-*/
+
                             Toast.makeText(context, "Vital Signs has been saved successfully", Toast.LENGTH_SHORT).show();
                             DialogManager.closeKeyboard(AddVitalSignsActivity.this);
                             clearData();
@@ -304,10 +306,10 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
                     } else if (isUpdate == true) {
                         Boolean flag = VitalQuery.updateVitalData(colid, location, Date, time, bp, heart, temperature, pulse, respiratory, note,oter,col);
                         if (flag == true) {
-                            /*Bundle bundle = new Bundle();
+                            Bundle bundle = new Bundle();
                             bundle.putInt("Edit_VitalSign", 1);
                             mFirebaseAnalytics.logEvent("OnClick_Save_VitalSign", bundle);
-*/
+
                             Toast.makeText(context, "Vital Signs has been updated successfully", Toast.LENGTH_SHORT).show();
                             DialogManager.closeKeyboard(AddVitalSignsActivity.this);
                             clearData();
@@ -321,15 +323,77 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
                 }
 
                 break;
-           /* case R.id.txtDate://Change date
+                case R.id.txtDate://Change date
                 showDateDialog();
                 break;
 
             case R.id.txtTime://Change Time
-                break;*/
+                showTimeDialog();
+                break;
 
 
         }
+    }
+
+    private void showTimeDialog() {
+        Calendar c=Calendar.getInstance();
+        int h=c.get(Calendar.HOUR);
+        int m=c.get(Calendar.MINUTE);
+
+        TimePickerDialog tpd=new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                int hour,minutes;
+                hour = hourOfDay;
+                minutes = minute;
+                String timeSet = "";
+                if (hour > 12) {
+                    hour -= 12;
+                    timeSet = "PM";
+                } else if (hour == 0) {
+                    hour += 12;
+                    timeSet = "AM";
+                } else if (hour == 12){
+                    timeSet = "PM";
+                }else{
+                    timeSet = "AM";
+                }
+
+                String min = "";
+                if (minutes < 10)
+                    min = "0" + minutes ;
+                else
+                    min = String.valueOf(minutes);
+
+                String mTime = new StringBuilder().append(hour).append(':')
+                        .append(min ).append(" ").append(timeSet).toString();
+                txtTime.setText(mTime);
+              /*  String am_pm = "";
+                Calendar c=Calendar.getInstance();
+                c.set(Calendar.HOUR,hourOfDay);
+                c.set(Calendar.MINUTE,minute);
+
+
+
+                if (c.get(Calendar.AM_PM) == Calendar.AM)
+                    am_pm = "am";
+                else if (c.get(Calendar.AM_PM) == Calendar.PM)
+                    am_pm = "pm";
+*//*
+                String strHrsToShow = (c.get(Calendar.HOUR) == 0) ?"12":c.get(Calendar.HOUR)+"";
+*//*
+                long selectedMilli = c.getTimeInMillis();
+                java.util.Date datePickerDate = new Date(selectedMilli);
+                String reportDate = new SimpleDateFormat("hh:mm").format(datePickerDate);
+
+                DateClass d = new DateClass();
+                d.setDate(reportDate);
+                //txtTime.setText(strHrsToShow+":"+c.get(Calendar.MINUTE)+" "+am_pm );
+                txtTime.setText(reportDate+ " "+am_pm);*/
+            }
+        },h,m,false);
+        tpd.show();
+
     }
 
     /**
@@ -372,7 +436,13 @@ public class AddVitalSignsActivity extends AppCompatActivity implements View.OnC
         DatePickerDialog dpd = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
+               /* Calendar newDate = Calendar.getInstance();
+                newDate.set(year, month, dayOfMonth);
+                SimpleDateFormat df = new SimpleDateFormat("dd MMM yyyy");
+                String formattedDate = df.format(newDate);
+                txtDate.setText(formattedDate);*/
+
+               Calendar newDate = Calendar.getInstance();
                 newDate.set(year, month, dayOfMonth);
                 long selectedMilli = newDate.getTimeInMillis();
 

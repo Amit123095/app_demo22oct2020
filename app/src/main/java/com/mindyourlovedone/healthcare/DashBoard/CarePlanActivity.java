@@ -185,9 +185,9 @@ public class CarePlanActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.imgRight://Instruction Screen
 
-                /*Bundle bundle = new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putInt("Directive_Section_Instruction", 1);
-                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);*/
+                mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
                 Intent ia = new Intent(context, InstructionActivity.class);
                 ia.putExtra("From", "DirectiveSection");
                 startActivity(ia);

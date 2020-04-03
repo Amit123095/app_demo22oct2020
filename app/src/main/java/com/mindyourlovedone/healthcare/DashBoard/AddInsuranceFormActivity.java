@@ -536,10 +536,10 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                     if (Goto.equals("Edit")) {
                         Boolean flag = FormQuery.updateDocumentData(id, name, photo, documentPath, date);
                         if (flag == true) {
-                            /*Bundle bundle=new Bundle();
+                            Bundle bundle=new Bundle();
                             bundle.putInt("Edit_InsuranceForm", 1);
                             mFirebaseAnalytics.logEvent("OnClick_Save_InsuranceForm", bundle);
-*/
+
                             Toast.makeText(context, "Insurance Form has been updated succesfully", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
@@ -548,10 +548,10 @@ public class AddInsuranceFormActivity extends AppCompatActivity implements View.
                     } else {
                         Boolean flag = FormQuery.insertDocumentData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, photo, documentPath, date);
                         if (flag == true) {
-                           /* Bundle bundle=new Bundle();
+                           Bundle bundle=new Bundle();
                             bundle.putInt("Add_InsuranceForm", 1);
                             mFirebaseAnalytics.logEvent("OnClick_Save_InsuranceForm", bundle);
-*/
+
                             Toast.makeText(context, "Insurance Form has been saved succesfully", Toast.LENGTH_SHORT).show();
                             try {
                                 InputMethodManager inm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);

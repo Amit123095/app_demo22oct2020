@@ -459,10 +459,10 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
                 showFloatOption();
                 break;
             case R.id.imgRight://Instructions
-                /*Bundle bundle = new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putInt("PrescriptionUpload_Instruction", 1);
                 mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
-*/
+
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "PrescriptionUploadInstruction");
                 startActivity(i);

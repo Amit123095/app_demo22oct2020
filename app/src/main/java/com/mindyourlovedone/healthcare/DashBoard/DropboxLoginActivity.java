@@ -136,10 +136,10 @@ public class DropboxLoginActivity extends DropboxActivity {
         preferences = new Preferences(context);
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-       /* Bundle bundle = new Bundle();
+        Bundle bundle = new Bundle();
         //bundle.putString("Backup", "Preofile Screen-Getting Started");
         mFirebaseAnalytics.logEvent("BackupRestoreFunctionality", bundle);
-*/
+
         preferences.putString(PrefConstants.RESULT, "");
         preferences.putString(PrefConstants.URI, "");
         preferences.putString(PrefConstants.SHARE, "");

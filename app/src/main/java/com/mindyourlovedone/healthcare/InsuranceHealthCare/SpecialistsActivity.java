@@ -342,43 +342,43 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
             case R.id.imgRight: //Question Mark Icon-User instructions
                 if (from.equals("Speciality")) {
 
-                   /* Bundle bundles = new Bundle();
+                    Bundle bundles = new Bundle();
                     bundles.putInt("SpecialitySection_Instruction", 1);
                     mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundles);
-*/
+
                     Intent ia = new Intent(context, InstructionActivity.class);
                     ia.putExtra("From", "SpecialitySection");
                     startActivity(ia);
                 } else if (from.equals("Emergency")) {
-                   /* Bundle bundlee = new Bundle();
+                    Bundle bundlee = new Bundle();
                     bundlee.putInt("PersonalAndMedicalSection_Instruction", 1);
                     mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundlee);
-*/
+
                     Intent ia = new Intent(context, InstructionActivity.class);
                     ia.putExtra("From", "EmergencySection");
                     startActivity(ia);
                 } else if (from.equals("Insurance")) {
 
-                    /*Bundle bundlef = new Bundle();
+                    Bundle bundlef = new Bundle();
                     bundlef.putInt("InsuranceSection_Instruction", 1);
                     mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundlef);
-*/
+
                     Intent ia = new Intent(context, InstructionActivity.class);
                     ia.putExtra("From", "InsuranceSection");
                     startActivity(ia);
                 } else if (from.equals("Event")) {
-                    /*Bundle bundleg = new Bundle();
+                    Bundle bundleg = new Bundle();
                     bundleg.putInt("NotesSection_Instruction", 1);
                     mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundleg);
-*/
+
                     Intent ia = new Intent(context, InstructionActivity.class);
                     ia.putExtra("From", "EventSection");
                     startActivity(ia);
                 } else if (from.equals("Prescription")) {
-                    /*Bundle bundler = new Bundle();
+                    Bundle bundler = new Bundle();
                     bundler.putInt("PrescriptionSection_Instruction", 1);
                     mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundler);
-*/
+
                     Intent ia = new Intent(context, InstructionActivity.class);
                     ia.putExtra("From", "PrescriptionSection");
                     startActivity(ia);

@@ -303,19 +303,19 @@ public class AddPetActivity extends AppCompatActivity {
                     if (isUpdate == false) {
                         Boolean flag = PetQuery.insertPetData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, breed, color, chip, veterain, care, bdate, notes, veterain_add, veterain_ph, care_add, care_ph);
                         if (flag == true) {
-                           /* Bundle bundle = new Bundle();
+                            Bundle bundle = new Bundle();
                             bundle.putInt("Add_Pet",1);
                             mFirebaseAnalytics.logEvent("OnClick_SavePet", bundle);
-                            */Toast.makeText(context, "Pet has been saved succesfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Pet has been saved succesfully", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                         }
                     } else if (isUpdate == true) {
                         Boolean flag = PetQuery.updatePetData(pet.getId(), name, breed, color, chip, veterain, care, bdate, notes, veterain_add, veterain_ph, care_add, care_ph);
                         if (flag == true) {
-                            /*Bundle bundle = new Bundle();
+                            Bundle bundle = new Bundle();
                             bundle.putInt("Edit_Pet",1);
-                            mFirebaseAnalytics.logEvent("OnClick_SavePet", bundle);*/
+                            mFirebaseAnalytics.logEvent("OnClick_SavePet", bundle);
                             Toast.makeText(context, "Pet has been updated succesfully", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();

@@ -314,10 +314,10 @@ public class FragmentDashboard extends Fragment implements View.OnClickListener 
                 break;
             case R.id.imgRight: //User instructions(Question Mark on top right)
 
-               /* Bundle bundle = new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putInt("DashboardInstruction", 1);
                 mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
-*/
+
                 Intent intentUserIns = new Intent(getActivity(), UserInsActivity.class);
                 intentUserIns.putExtra("From", "Dashboard");
                 startActivity(intentUserIns);

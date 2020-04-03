@@ -420,10 +420,10 @@ public class FragmentInsurance extends Fragment implements View.OnClickListener 
                 break;
 
             case R.id.imgRight://Instructiopn
-              /*  Bundle bundle = new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putInt("InsuranceCompany_Instruction", 1);
                 mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
-*/
+
                 Intent i = new Intent(getActivity(), InstructionActivity.class);
                 i.putExtra("From", "InsuranceInstruction");
                 startActivity(i);

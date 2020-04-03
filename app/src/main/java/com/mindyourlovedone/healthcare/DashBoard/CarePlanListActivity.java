@@ -363,28 +363,28 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
                 switch (From) {
                     case "AD":
 
-                       /* Bundle bundle = new Bundle();
+                        Bundle bundle = new Bundle();
                         bundle.putInt("AdvanceDirective_Instruction", 1);
                         mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
-*/
+
                         Intent iN = new Intent(context, InstructionActivity.class);
                         iN.putExtra("From", "AdvanceInstruction");
                         startActivity(iN);
                         break;
                     case "Record":
-                        /*Bundle bundles = new Bundle();
+                        Bundle bundles = new Bundle();
                         bundles.putInt("MedicalRecord_Instruction",1);
                         mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundles);
-*/
+
                         Intent ir = new Intent(context, InstructionActivity.class);
                         ir.putExtra("From", "MedicalInfoInstruction");
                         startActivity(ir);
                         break;
                     case "Other":
-                        /*Bundle bundless = new Bundle();
+                        Bundle bundless = new Bundle();
                         bundless.putInt("OtherDocuments_Instruction", 1);
                         mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundless);
-*/
+
 
                         Intent iS = new Intent(context, InstructionActivity.class);
                         iS.putExtra("From", "OtherInstruction");

@@ -692,10 +692,10 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
         switch (source) {
             case "Connection":
                 if (validate("Connection")) {//Save New Profile
-                   /* Bundle bundle = new Bundle();
+                    Bundle bundle = new Bundle();
                     bundle.putInt("Create_New_Profile", 1);
-                    mFirebaseAnalytics.logEvent("OnClick_Save_Profile", bundle);*/
-                    //  mFirebaseAnalytics.setCurrentScreen(getActivity(), "Profile_And_Menu_Screen", null /* class override */);
+                    mFirebaseAnalytics.logEvent("OnClick_Save_Profile", bundle);
+                      mFirebaseAnalytics.setCurrentScreen(getActivity(), "Profile_And_Menu_Screen", null /* class override */);
 
                     for (int i = 0; i < phonelist.size(); i++) {
                         if (phonelist.get(i).getContactType() == "" && phonelist.get(i).getValue() == "") {
@@ -775,9 +775,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                     Boolean flag = MyConnectionsQuery.insertMyConnectionsData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, email, address, mobile, phone, workphone, relation, imagepath, note, 2, prior, otherRelation, cardPath, has_card);
                     RelativeConnection con = MyConnectionsQuery.fetchConnectionRecordforImport(email);
                     if (flag == true) {
-                       /* Bundle bundle = new Bundle();
+                        Bundle bundle = new Bundle();
                         bundle.putInt("Add_Emergency", 1);
-                        mFirebaseAnalytics.logEvent("OnClick_Save_Emergency", bundle);*/
+                        mFirebaseAnalytics.logEvent("OnClick_Save_Emergency", bundle);
                         Toast.makeText(getActivity(), "Emergency Contact has been saved successfully", Toast.LENGTH_SHORT).show();
 
                         ContactDataQuery c = new ContactDataQuery(context, dbHelper);
@@ -809,9 +809,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
 
                     Boolean flag = MyConnectionsQuery.updateMyConnectionsData(id, name, email, address, mobile, phone, workphone, relation, imagepath, note, 2, prior, otherRelation, "", "", "", "", "", "", "", "", "", "", "", "", cardPath, "", "", "", "", "", "", "", "", "", "", "", "", "", has_card, "");
                     if (flag == true) {
-                       /* Bundle bundle = new Bundle();
+                        Bundle bundle = new Bundle();
                         bundle.putInt("Edit_Emergency", 1);
-                        mFirebaseAnalytics.logEvent("OnClick_Save_Emergency", bundle);*/
+                        mFirebaseAnalytics.logEvent("OnClick_Save_Emergency", bundle);
                         Toast.makeText(getActivity(), "Emergency Contact has been updated successfully", Toast.LENGTH_SHORT).show();
                         ContactDataQuery c = new ContactDataQuery(context, dbHelper);
                         boolean flagf = ContactDataQuery.deleteRecord("Emergency", id);
@@ -843,9 +843,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
 
                     Boolean flag = SpecialistQuery.insertPhysicianData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, website, address, mobile, phone, workphone, speciality, imagepath, fax, practice_name, network, affil, note, 1, lastseen, cardPath, otherDoctor, locator, has_card);
                     if (flag == true) {
-                        /*Bundle bundle = new Bundle();
+                        Bundle bundle = new Bundle();
                         bundle.putInt("Add_Physician", 1);
-                        mFirebaseAnalytics.logEvent("OnClick_Save_Physician", bundle);*/
+                        mFirebaseAnalytics.logEvent("OnClick_Save_Physician", bundle);
                         Toast.makeText(getActivity(), "Primary Physician Contact has been saved successfully", Toast.LENGTH_SHORT).show();
                         Specialist con = new Specialist();
                         ArrayList<Specialist> connectionList = SpecialistQuery.getPhysician(preferences.getInt(PrefConstants.CONNECTED_USERID), name, speciality, 1);
@@ -884,9 +884,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
 
                     Boolean flag = SpecialistQuery.insertPhysicianData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, website, address, mobile, phone, workphone, speciality, imagepath, fax, practice_name, network, affil, note, 2, lastseen, cardPath, otherDoctor, locator, has_card);
                     if (flag == true) {
-                        /*Bundle bundle = new Bundle();
+                        Bundle bundle = new Bundle();
                         bundle.putInt("Add_Doctor", 1);
-                        mFirebaseAnalytics.logEvent("OnClick_Save_Doctor", bundle);*/
+                        mFirebaseAnalytics.logEvent("OnClick_Save_Doctor", bundle);
                         Toast.makeText(getActivity(), "Doctor Contact has been saved successfully", Toast.LENGTH_SHORT).show();
                         Specialist con = new Specialist();
                         ArrayList<Specialist> connectionList = SpecialistQuery.getDoctor(preferences.getInt(PrefConstants.CONNECTED_USERID), name, speciality, 2);
@@ -919,9 +919,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                     if (isPhysician == 1) {
                         Boolean flag = SpecialistQuery.updatePhysicianData(id, name, website, address, mobile, phone, workphone, speciality, imagepath, fax, practice_name, network, affil, note, 1, lastseen, cardPath, otherDoctor, locator, has_card);
                         if (flag == true) {
-                         /*   Bundle bundle = new Bundle();
+                            Bundle bundle = new Bundle();
                             bundle.putInt("Edit_Physician", 1);
-                            mFirebaseAnalytics.logEvent("OnClick_Save_Physician", bundle);*/
+                            mFirebaseAnalytics.logEvent("OnClick_Save_Physician", bundle);
                             Toast.makeText(getActivity(), "Primary Physician Contact has been updated successfully", Toast.LENGTH_SHORT).show();
                             ContactDataQuery c = new ContactDataQuery(context, dbHelper);
                             boolean flagf = ContactDataQuery.deleteRecord("Primary", id);
@@ -942,9 +942,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                     } else if (isPhysician == 2) {
                         Boolean flag = SpecialistQuery.updatePhysicianData(id, name, website, address, mobile, phone, workphone, speciality, imagepath, fax, practice_name, network, affil, note, 2, lastseen, cardPath, otherDoctor, locator, has_card);
                         if (flag == true) {
-                            /*Bundle bundle = new Bundle();
+                            Bundle bundle = new Bundle();
                             bundle.putInt("Edit_Doctor", 1);
-                            mFirebaseAnalytics.logEvent("OnClick_Save_Doctor", bundle);*/
+                            mFirebaseAnalytics.logEvent("OnClick_Save_Doctor", bundle);
                             Toast.makeText(getActivity(), "Doctor Contact has been updated successfully", Toast.LENGTH_SHORT).show();
                             ContactDataQuery c = new ContactDataQuery(context, dbHelper);
                             boolean flagf = ContactDataQuery.deleteRecord("Doctor", id);
@@ -977,9 +977,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                     if (isPhysician == 1) {
                         Boolean flag = SpecialistQuery.updatePhysicianData(id, name, website, address, mobile, phone, workphone, speciality, imagepath, fax, practice_name, network, affil, note, 1, lastseen, cardPath, otherDoctor, locator, has_card);
                         if (flag == true) {
-                           /* Bundle bundle = new Bundle();
+                            Bundle bundle = new Bundle();
                             bundle.putInt("Edit_Physician", 1);
-                            mFirebaseAnalytics.logEvent("OnClick_Save_Physician", bundle);*/
+                            mFirebaseAnalytics.logEvent("OnClick_Save_Physician", bundle);
                             Toast.makeText(getActivity(), "Primary Physician Contact has been updated successfully", Toast.LENGTH_SHORT).show();
                             ContactDataQuery c = new ContactDataQuery(context, dbHelper);
                             boolean flagf = ContactDataQuery.deleteRecord("Primary", id);
@@ -1002,9 +1002,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                     } else if (isPhysician == 2) {
                         Boolean flag = SpecialistQuery.updatePhysicianData(id, name, website, address, mobile, phone, workphone, speciality, imagepath, fax, practice_name, network, affil, note, 2, lastseen, cardPath, otherDoctor, locator, has_card);
                         if (flag == true) {
-                            /*Bundle bundle = new Bundle();
+                            Bundle bundle = new Bundle();
                             bundle.putInt("Edit_Doctor", 1);
-                            mFirebaseAnalytics.logEvent("OnClick_Save_Doctor", bundle);*/
+                            mFirebaseAnalytics.logEvent("OnClick_Save_Doctor", bundle);
                             ContactDataQuery c = new ContactDataQuery(context, dbHelper);
                             boolean flagf = ContactDataQuery.deleteRecord("Doctor", id);
                             if (flagf == true) {
@@ -1031,9 +1031,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 if (validate("Pharmacy")) {//Save New Pharmacy Contact
                     Boolean flag = PharmacyQuery.insertPharmacyData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, website, address, phone, imagepath, fax, note, cardPath, locator, has_card);
                     if (flag == true) {
-                        /*Bundle bundle = new Bundle();
+                        Bundle bundle = new Bundle();
                         bundle.putInt("Add_Pharmacy", 1);
-                        mFirebaseAnalytics.logEvent("OnClick_Save_Pharmacy", bundle);*/
+                        mFirebaseAnalytics.logEvent("OnClick_Save_Pharmacy", bundle);
                         Toast.makeText(getActivity(), "Pharmacy Contact has been saved successfully", Toast.LENGTH_SHORT).show();
                         Pharmacy con = new Pharmacy();
                         con = getLastPharmacy();
@@ -1066,9 +1066,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 if (validate("Pharmacy")) {//update Pharmacy Contact
                     Boolean flag = PharmacyQuery.updatePharmacyData(id, name, website, address, phone, imagepath, fax, note, cardPath, locator, has_card);
                     if (flag == true) {
-                       /* Bundle bundle = new Bundle();
+                       Bundle bundle = new Bundle();
                         bundle.putInt("Edit_Pharmacy", 1);
-                        mFirebaseAnalytics.logEvent("OnClick_Save_Pharmacy", bundle);*/
+                        mFirebaseAnalytics.logEvent("OnClick_Save_Pharmacy", bundle);
                         Toast.makeText(getActivity(), "Pharmacy Contact has been updated successfully", Toast.LENGTH_SHORT).show();
                         ContactDataQuery c = new ContactDataQuery(context, dbHelper);
                         boolean flagf = ContactDataQuery.deleteRecord("Pharmacy", id);
@@ -1095,9 +1095,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 if (validate("Hospital")) {//Save New hospital Contact
                     Boolean flag = HospitalHealthQuery.insertHospitalHealthData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, website, address, mobile, phone, workphone, speciality, imagepath, fax, practice_name, note, lastseen, otherCategory, cardPath, location, locator, has_card);
                     if (flag == true) {
-                        /*Bundle bundle = new Bundle();
+                        Bundle bundle = new Bundle();
                         bundle.putInt("Add_Hospital", 1);
-                        mFirebaseAnalytics.logEvent("OnClick_Save_Hospital", bundle);*/
+                        mFirebaseAnalytics.logEvent("OnClick_Save_Hospital", bundle);
                         Toast.makeText(getActivity(), "Health Service Contact has been saved successfully", Toast.LENGTH_SHORT).show();
                         Hospital con = new Hospital();
                         con = HospitalHealthQuery.getLastHopital();
@@ -1132,9 +1132,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 if (validate("Hospital")) {//update hospital Contact
                     Boolean flag = HospitalHealthQuery.updateHospitalHealthData(id, name, website, address, mobile, phone, workphone, speciality, imagepath, fax, practice_name, note, lastseen, otherCategory, cardPath, location, locator, has_card);
                     if (flag == true) {
-                       /* Bundle bundle = new Bundle();
+                       Bundle bundle = new Bundle();
                         bundle.putInt("Edit_Hospital", 1);
-                        mFirebaseAnalytics.logEvent("OnClick_Save_Hospital", bundle);*/
+                        mFirebaseAnalytics.logEvent("OnClick_Save_Hospital", bundle);
                         Toast.makeText(getActivity(), "Health Service Contact has been updated successfully", Toast.LENGTH_SHORT).show();
                         ContactDataQuery c = new ContactDataQuery(context, dbHelper);
                         boolean flagf = ContactDataQuery.deleteRecord("Hospital", id);
@@ -1160,9 +1160,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 if (validate("Finance")) {//Save New finance Contact
                     Boolean flag = FinanceQuery.insertFinanceData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, website, address, mobile, phone, workphone, speciality, imagepath, fax, practice_name, note, lastseen, otherCategory, cardPath, email, location, contactName, has_card);
                     if (flag == true) {
-                        /*Bundle bundle = new Bundle();
+                        Bundle bundle = new Bundle();
                         bundle.putInt("Add_Finance", 1);
-                        mFirebaseAnalytics.logEvent("OnClick_Save_Finance", bundle);*/
+                        mFirebaseAnalytics.logEvent("OnClick_Save_Finance", bundle);
                         Toast.makeText(getActivity(), "Finance Contact has been saved successfully", Toast.LENGTH_SHORT).show();
                         Finance con = new Finance();
                         con = FinanceQuery.getLastFinance();
@@ -1196,9 +1196,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
 
                     Boolean flag = FinanceQuery.updateFinanceData(id, name, website, address, mobile, phone, workphone, speciality, imagepath, fax, practice_name, note, lastseen, otherCategory, cardPath, email, location, contactName, has_card);
                     if (flag == true) {
-                       /* Bundle bundle = new Bundle();
+                       Bundle bundle = new Bundle();
                         bundle.putInt("Edit_Finance", 1);
-                        mFirebaseAnalytics.logEvent("OnClick_Save_Finance", bundle);*/
+                        mFirebaseAnalytics.logEvent("OnClick_Save_Finance", bundle);
                         Toast.makeText(getActivity(), "Finance Contact has been updated successfully", Toast.LENGTH_SHORT).show();
                         ContactDataQuery c = new ContactDataQuery(context, dbHelper);
                         boolean flagf = ContactDataQuery.deleteRecord("Finance", id);
@@ -1233,10 +1233,10 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
 
                     Boolean flag = InsuranceQuery.insertInsuranceData(preferences.getInt(PrefConstants.CONNECTED_USERID), name, website, type, phone, imagepath, fax, note, member, group, subscriber, email, otherInsurance, agent, cardPath, aentEmail, aentPhone, has_card);
                     if (flag == true) {
-                       /* Bundle bundle = new Bundle();
+                        Bundle bundle = new Bundle();
                         bundle.putInt("Add_Insurance", 1);
                         mFirebaseAnalytics.logEvent("OnClick_Save_InsuranceCompany", bundle);
-                        */Toast.makeText(getActivity(), "Insurance company has been saved successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Insurance company has been saved successfully", Toast.LENGTH_SHORT).show();
                         Insurance con = new Insurance();
                         con = getLastInsurance();
                         ContactDataQuery c = new ContactDataQuery(context, dbHelper);
@@ -1271,9 +1271,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 if (validate("Insurance")) {//Update insurance Contact
                     Boolean flag = InsuranceQuery.updateInsuranceData(id, name, website, type, phone, imagepath, fax, note, member, group, subscriber, email, otherInsurance, agent, cardPath, aentEmail, aentPhone, has_card);
                     if (flag == true) {
-                       /* Bundle bundle = new Bundle();
+                        Bundle bundle = new Bundle();
                         bundle.putInt("Edit_Insurance",1);
-                        mFirebaseAnalytics.logEvent("OnClick_Save_InsuranceCompany", bundle);*/
+                        mFirebaseAnalytics.logEvent("OnClick_Save_InsuranceCompany", bundle);
                         Toast.makeText(getActivity(), "Insurance company has been updated successfully", Toast.LENGTH_SHORT).show();
                         ContactDataQuery c = new ContactDataQuery(context, dbHelper);
                         boolean flagf = ContactDataQuery.deleteRecord("Insurance", id);
@@ -4387,10 +4387,10 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
             } else if (phonelist.get(i).getContactType() == "" && phonelist.get(i).getValue() != "") {
                 DialogManager.showAlert("Please add Phone number with Type", context);
                 return false;
-            } else if (phonelist.get(i).getValue().length() < 12 || phonelist.get(i).getValue().length() > 12) {
+            } /*else if (phonelist.get(i).getValue().length() < 12 || phonelist.get(i).getValue().length() > 12) {
                 DialogManager.showAlert("Phone number needs to be 10 digits", context);
                 return false;
-            }
+            }*/
         }
 
         if (screen.equals("Connection")) {

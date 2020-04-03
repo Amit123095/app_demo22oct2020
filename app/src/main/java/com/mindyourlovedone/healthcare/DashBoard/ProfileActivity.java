@@ -1390,10 +1390,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.imgRight: // Navigate to instruction screen
-                /*Bundle bundle = new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putInt("PersonalProfile_Instruction", 1);
                 mFirebaseAnalytics.logEvent("OnClick_QuestionMark", bundle);
-*/
+
                 Intent ia = new Intent(context, InstructionActivity.class);
                 ia.putExtra("From", "Personal");
                 startActivity(ia);
@@ -1733,10 +1733,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             } else if (phonelist.get(i).getContactType() == "" && phonelist.get(i).getValue() != "") {
                 DialogManager.showAlert("Please add Phone number with Type", context);
                 return false;
-            } else if (phonelist.get(i).getValue().length() < 12 || phonelist.get(i).getValue().length() > 12) {
+            } /*else if (phonelist.get(i).getValue().length() < 12 || phonelist.get(i).getValue().length() > 12) {
                 DialogManager.showAlert("Phone number needs to be 10 digits", context);
                 return false;
-            }
+            }*/
         }
 
         if (tbCard.isChecked() && (CardMap == null && imgEditCard.getVisibility() != View.VISIBLE)) {
@@ -1810,10 +1810,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     MyConnectionsQuery m = new MyConnectionsQuery(context, dbHelper);
                     Boolean flags = MyConnectionsQuery.updateMyConnectionsData(connection.getId(), name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
                     if (flags == true) {
-                       /* Bundle bundle = new Bundle();
+                        Bundle bundle = new Bundle();
                         bundle.putInt("Edit_User_PersonalProfile", 1);
                         mFirebaseAnalytics.logEvent("OnClick_Save_PersonalProfile", bundle);
-                        */Toast.makeText(context, "Personal Profile has been updated succesfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Personal Profile has been updated succesfully", Toast.LENGTH_SHORT).show();
                         connection = MyConnectionsQuery.fetchEmailRecord(connection.getId());
                         validateConnection();
                         ContactDataQuery c = new ContactDataQuery(context, dbHelper);
@@ -1865,10 +1865,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 Boolean flags = MyConnectionsQuery.updateMyConnectionsData(1, name, email, address, phone, homePhone, workPhone, relation, imagepath, "", 1, 2, otherRelation, height, weight, eyes, profession, employed, language, marital_status, religion, veteran, idnumber, pet, manager_phone, cardpath, english, child, friend, grandParent, parent, spouse, other, liveOther, live, OtherLang, bdate, gender, sibling, has_card, people);
                 if (flags == true) {
                     preferences.putString(PrefConstants.CONNECTED_PHOTO, imagepath);
-                   /* Bundle bundle = new Bundle();
+                    Bundle bundle = new Bundle();
                     bundle.putInt("Edit_Connection_PersonalProfile",1);
                     mFirebaseAnalytics.logEvent("OnClick_Save_PersonalProfile", bundle);
-*/
+
                     Toast.makeText(context, "Personal Profile has been updated succesfully", Toast.LENGTH_SHORT).show();
                     connection = MyConnectionsQuery.fetchEmailRecord(1);
                     validateConnection();

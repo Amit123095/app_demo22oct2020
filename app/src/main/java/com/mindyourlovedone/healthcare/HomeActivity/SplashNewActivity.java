@@ -106,11 +106,11 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
         //Check for runtime permission
         accessPermission();
 
-        /*Bundle bundle = new Bundle();
+        Bundle bundle = new Bundle();
         bundle.putString("Entry", "SplashScreen");
         mFirebaseAnalytics.logEvent("Enter_Mylo_app", bundle);
-        mFirebaseAnalytics.setCurrentScreen(this, "Splash Screen", null *//* class override *//*);
-         */
+        mFirebaseAnalytics.setCurrentScreen(this, "Splash Screen", null );
+
     }
 
     /**
