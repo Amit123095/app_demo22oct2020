@@ -162,7 +162,13 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
             from = i.getExtras().getString("FROM");
             if (from.equals("Speciality")) {
                 mFirebaseAnalytics.setCurrentScreen(SpecialistsActivity.this,"Specialty contacts Sub Section List",null);
-                txtTitle.setText("Specialty Contacts");
+               if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+                {
+                    txtTitle.setText("Healthcare & Other Contacts");
+                }else{
+                    txtTitle.setText("Specialty Contacts");
+                }
+
                 txtName.setBackgroundColor(getResources().getColor(R.color.colorSpecialitySub));
                 txtUser.setVisibility(View.GONE);
                 header.setBackgroundResource(R.color.colorSpecialityYellow);
@@ -179,15 +185,26 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
                 isEmergency = true;
                 isInsurance = false;
                 profile = new int[]{R.drawable.pp, R.drawable.emergency_two, R.drawable.emergency_three, R.drawable.emergency_four};
-                specialist = new String[]{"Personal Profile", "Medical Profile", "Emergency Contacts & Health Care Proxy Agents", "Primary Physician"};
-            } else if (from.equals("Insurance")) {
+                if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+                {
+                    specialist = new String[]{"Personal Profile", "Medical Profile", "Emergent Contacts", "Primary Physician"};
+                }else{
+                    specialist = new String[]{"Personal Profile", "Medical Profile", "Emergency Contacts & Health Care Proxy Agents", "Primary Physician"};
+                }
+               } else if (from.equals("Insurance")) {
                 mFirebaseAnalytics.setCurrentScreen(SpecialistsActivity.this,"Insurance Sub Section List",null);
                 txtUser.setVisibility(View.GONE);
                 txtTitle.setText("Insurance");
                 txtName.setBackgroundColor(getResources().getColor(R.color.colorInsuaranceSub));
                 header.setBackgroundResource(R.color.colorFive);
-                profile = new int[]{R.drawable.insu_three, R.drawable.insu_two, R.drawable.insu_one};
-                specialist = new String[]{"Insurance Companies", "Insurance Cards", "Insurance Forms"};
+               if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+                {
+                    profile = new int[]{R.drawable.insu_three, R.drawable.insu_two};
+                    specialist = new String[]{"Insurance Companies", "Insurance Cards"};
+                }else{
+                   profile = new int[]{R.drawable.insu_three, R.drawable.insu_two, R.drawable.insu_one};
+                   specialist = new String[]{"Insurance Companies", "Insurance Cards", "Insurance Forms"};
+               }
                 isEmergency = false;
                 isInsurance = true;
             } else if (from.equals("Event")) {
@@ -435,8 +452,13 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
             }
             new HeaderNew().createPdfHeaders(file.getAbsolutePath(),
                     "" + preferences.getString(PrefConstants.CONNECTED_NAME), preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO), pdflogo, calendar, profile, "SPECIALTY CONTACTS", calendarWite, profileWite);
-
-            HeaderNew.addusereNameChank("SPECIALTY CONTACTS");//preferences.getString(PrefConstants.CONNECTED_NAME));
+            if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+            {
+                HeaderNew.addusereNameChank("HEATHCARE AND OTHER CONTACTS");//preferences.getString(PrefConstants.CONNECTED_NAME));
+            }else
+            {
+                HeaderNew.addusereNameChank("SPECIALTY CONTACTS");//preferences.getString(PrefConstants.CONNECTED_NAME));
+            }
             HeaderNew.addEmptyLine(1);
 
             pp1 = preferences.addFile("sp_one.png", context);
@@ -494,7 +516,7 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
 
             final ArrayList<ContactData> phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), -1, "Personal Profile");
 
-            new IndividualNew(personalInfoList, PetList, phonelist, pp1);
+            new IndividualNew(personalInfoList, PetList, phonelist, pp1,context);
 
             final ArrayList<Allergy> AllargyLists = AllergyQuery.fetchAllRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
             final ArrayList<Implant> implantsList = MedicalImplantsQuery.fetchAllRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
@@ -509,7 +531,7 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
             ArrayList<Emergency> emergencyList = MyConnectionsQuery.fetchAllEmergencyRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), 2);
             for (int i = 0; i < emergencyList.size(); i++) {
                 final ArrayList<ContactData> phonelistd = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), emergencyList.get(i).getId(), "Emergency");
-                new IndividualNew("Emergency", emergencyList.get(i), phonelistd, i, pp3);
+                new IndividualNew("Emergency", emergencyList.get(i), phonelistd, i, pp3,context);
             }
             ArrayList<Specialist> specialistsList = SpecialistQuery.fetchAllPhysicianRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), 1);
             for (int i = 0; i < specialistsList.size(); i++) {
@@ -543,10 +565,15 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
             for (int i = 0; i < insuranceList.size(); i++) {
                 final ArrayList<ContactData> phonelists = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), insuranceList.get(i).getId(), "Insurance");
                 final ArrayList<ContactData> aphonelists = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), insuranceList.get(i).getId(), "Agent");
-                new InsurancePdfNew(insuranceList.get(i), "Insurance", phonelists, i, aphonelists, pp3);
+                new InsurancePdfNew(insuranceList.get(i), "Insurance", phonelists, i, aphonelists, pp3,context);
             }
             new InsurancePdfNew(CardList, 1, pp2);
-            new InsurancePdfNew(formList, "form", pp1);
+            if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+            {
+            }else
+            {
+                new InsurancePdfNew(formList, "form", pp1);
+            }
 
             HeaderNew.document.close();
         } else if (from.equals("Event")) {
@@ -599,7 +626,7 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
             pp2 = preferences.addFile("pres_two.png", context);
             // pp3=preferences.addFile("dir_three.png", context);
             ArrayList<Prescription> prescriptionList = PrescriptionQuery.fetchAllPrescrptionRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-            new PrescriptionPdfNew(prescriptionList, pp1);
+            new PrescriptionPdfNew(prescriptionList, pp1,context);
             ArrayList<Form> prescriptionLists = PrescriptionUpload.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
             new PrescriptionPdfNew(prescriptionLists, 1, pp2);
 
@@ -660,7 +687,14 @@ public class SpecialistsActivity extends AppCompatActivity implements View.OnCli
                 if (from.equals("Speciality")) {
                     File f = new File(Environment.getExternalStorageDirectory()
                             + "/mylopdf/" + "/Specialty.pdf");
-                    emailAttachement(f, "Speciality");
+                    if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+                    {
+                        emailAttachement(f, "Healthcare and Other Contacts");
+                    }else
+                    {
+                        emailAttachement(f, "Speciality");
+                    }
+
                 } else if (from.equals("Emergency")) {
                     File f = new File(Environment.getExternalStorageDirectory()
                             + "/mylopdf/" + "/Profile.pdf");

@@ -234,6 +234,8 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
     RelativeLayout rlInsured;
     ScrollView scroll;
     private FirebaseAnalytics mFirebaseAnalytics;
+    TextInputLayout tilId;
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_new_contact, null);
         preferences = new Preferences(getActivity());
@@ -1692,8 +1694,17 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 flPr.setVisibility(View.VISIBLE);
                 tilPriority.setVisibility(View.VISIBLE);
                 imgprio.setVisibility(View.VISIBLE);
-                txtAdd.setText("Add Emergency Contact & Proxy Agent");
-                txtTitle.setText("Add Emergency Contact");
+                if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+                {
+                    txtAdd.setText("Add Emergent Contact");
+                    txtTitle.setText("Add Emergent Contact");
+                }else
+                {
+                    txtAdd.setText("Add Emergency Contact & Proxy Agent");
+                    txtTitle.setText("Add Emergency Contact");
+                }
+
+
                 tilName.setHint("Name");
                 tilName.setHintEnabled(false);
                 txtName.setOnTouchListener(new View.OnTouchListener() {
@@ -1785,8 +1796,16 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                 imgprio.setVisibility(View.VISIBLE);
                 txtPriority.setVisibility(View.VISIBLE);
                 txtDelete.setVisibility(View.GONE);
-                txtAdd.setText("Update Emergency Contact & Proxy Agent");
-                txtTitle.setText("Update Emergency Contact & Proxy Agent");
+                if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+                {
+                    txtAdd.setText("Update Emergent Contact");
+                    txtTitle.setText("Update Emergent Contact");
+                }else
+                {
+                    txtAdd.setText("Update Emergency Contact & Proxy Agent");
+                    txtTitle.setText("Update Emergency Contact & Proxy Agent");
+                }
+
                 Intent EmergencyIntents = getActivity().getIntent();
                 if (EmergencyIntents.getExtras() != null) {
                     rel = (Emergency) EmergencyIntents.getExtras().getSerializable("EmergencyObject");
@@ -3544,6 +3563,15 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
         spinnerRelation.setVisibility(View.GONE);
         rlRelation.setVisibility(View.GONE);
         rlConnection.setVisibility(View.GONE);
+        if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+        {
+            txtGroup.setVisibility(View.GONE);
+            tilId.setHint("Policy Number");
+        }else
+        {
+            txtGroup.setVisibility(View.VISIBLE);
+            tilId.setHint("Member ID (Policy Number)");
+        }
         rlDoctor.setVisibility(View.GONE);
         rlInsurance.setVisibility(View.VISIBLE);
         rlAids.setVisibility(View.GONE);
@@ -3591,7 +3619,7 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
      * Function: Initialize user interface view and components
      */
     private void initUI() {
-
+        tilId=rootview.findViewById(R.id.tilId);
         imgBack = getActivity().findViewById(R.id.imgBack);
         scroll = rootview.findViewById(R.id.scroll);
         scroll.smoothScrollTo(0, rootview.getTop());

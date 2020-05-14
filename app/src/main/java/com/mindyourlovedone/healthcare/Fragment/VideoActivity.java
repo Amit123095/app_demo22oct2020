@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.model.Links;
+import com.mindyourlovedone.healthcare.utility.PrefConstants;
+import com.mindyourlovedone.healthcare.utility.Preferences;
 
 import java.util.ArrayList;
 
@@ -29,11 +31,13 @@ public class VideoActivity extends AppCompatActivity {
     ListView list;
     TextView txtTitle, txtName;
     ImageView imgNoti, imgProfile, imgBack, imgPdf;
+    Preferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
+        preferences=new Preferences(context);
         //Initialize user interface view and components
         initUI();
 
@@ -57,32 +61,48 @@ public class VideoActivity extends AppCompatActivity {
      * Function: Define all Video link list
      */
     private void getData() {
-        UrlList = new ArrayList<>();
-        Links l1 = new Links();
-        l1.setName("Overview | Aging Matters | NPT Reports");
-        l1.setUrl("https://www.youtube.com/watch?v=CyIepl3V4Ro");
-        UrlList.add(l1);
+        if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+        {
+            UrlList = new ArrayList<>();
 
-        Links l2 = new Links();
-        l2.setName("Introduction to MYLO");
-        l2.setUrl("https://youtu.be/FSHKcKzecTQ");
-        UrlList.add(l2);
+            Links l2 = new Links();
+            l2.setName("Introduction to MYLO");
+            l2.setUrl("https://youtu.be/FSHKcKzecTQ");
+            UrlList.add(l2);
 
-        Links l3 = new Links();
-        l3.setName("How to choose a health care proxy agent");
-        l3.setUrl("https://youtu.be/iTxv-20ULwQ");
-        UrlList.add(l3);
+            Datalist = new ArrayList<>();
+            Datalist.add("Introduction to MYLO");
 
-        Links l4 = new Links();
-        l4.setName("How to Choose a Health Care Proxy & How to Be a Health Care Proxy");
-        l4.setUrl("https://youtu.be/fOhg2KrzL_I");
-        UrlList.add(l4);
+        }else
+        {
+            UrlList = new ArrayList<>();
+            Links l1 = new Links();
+            l1.setName("Overview | Aging Matters | NPT Reports");
+            l1.setUrl("https://www.youtube.com/watch?v=CyIepl3V4Ro");
+            UrlList.add(l1);
 
-        Datalist = new ArrayList<>();
-        Datalist.add("Overview | Aging Matters | NPT Reports");
-        Datalist.add("Introduction to MYLO");
-        Datalist.add("How to choose a health care proxy agent");
-        Datalist.add("How to Choose a Health Care Proxy & How to Be a Health Care Proxy");
+            Links l2 = new Links();
+            l2.setName("Introduction to MYLO");
+            l2.setUrl("https://youtu.be/FSHKcKzecTQ");
+            UrlList.add(l2);
+
+            Links l3 = new Links();
+            l3.setName("How to choose a health care proxy agent");
+            l3.setUrl("https://youtu.be/iTxv-20ULwQ");
+            UrlList.add(l3);
+
+            Links l4 = new Links();
+            l4.setName("How to Choose a Health Care Proxy & How to Be a Health Care Proxy");
+            l4.setUrl("https://youtu.be/fOhg2KrzL_I");
+            UrlList.add(l4);
+
+            Datalist = new ArrayList<>();
+            Datalist.add("Overview | Aging Matters | NPT Reports");
+            Datalist.add("Introduction to MYLO");
+            Datalist.add("How to choose a health care proxy agent");
+            Datalist.add("How to Choose a Health Care Proxy & How to Be a Health Care Proxy");
+
+        }
 
     }
 

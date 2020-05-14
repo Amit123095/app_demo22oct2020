@@ -253,7 +253,7 @@ public class FragmentInsurance extends Fragment implements View.OnClickListener 
         for (int i = 0; i < insuranceList.size(); i++) {
             final ArrayList<ContactData> phonelists = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), insuranceList.get(i).getId(), "Insurance");
             final ArrayList<ContactData> aphonelists = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), insuranceList.get(i).getId(), "Agent");
-            new InsurancePdfNew(insuranceList.get(i), "Insurance", phonelists, i, aphonelists, pp);
+            new InsurancePdfNew(insuranceList.get(i), "Insurance", phonelists, i, aphonelists, pp,getActivity());
         }
         HeaderNew.document.close();
 

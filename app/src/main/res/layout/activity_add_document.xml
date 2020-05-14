@@ -580,7 +580,7 @@ android:visibility="gone"
                             android:id="@+id/txtLocator"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Electronic Health Record (add web address, username and password)"
+
                             android:imeOptions="actionNext"
                             android:fontFamily="@font/lato"
                             android:includeFontPadding="true"

@@ -52,4 +52,5 @@ public class PrefConstants {
     public static final String CONNECTED_OtherRELATION = "OtherRelation";
     public static final String REMINDER ="Reminder" ;
     public static final String BACKUPDONE ="BackupDone" ;
+    public static final String REGION ="Region" ;
 }

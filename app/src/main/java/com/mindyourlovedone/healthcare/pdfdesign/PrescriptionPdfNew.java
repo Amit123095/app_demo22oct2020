@@ -1,5 +1,7 @@
 package com.mindyourlovedone.healthcare.pdfdesign;
 
+import android.content.Context;
+
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
@@ -11,9 +13,12 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.draw.DottedLineSeparator;
+import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.model.Form;
 import com.mindyourlovedone.healthcare.model.PrescribeImage;
 import com.mindyourlovedone.healthcare.model.Prescription;
+import com.mindyourlovedone.healthcare.utility.PrefConstants;
+import com.mindyourlovedone.healthcare.utility.Preferences;
 
 import java.util.ArrayList;
 
@@ -46,8 +51,10 @@ public class PrescriptionPdfNew {
      * Function: Create Prescription Information PDF
      * @param prescriptionList
      * @param pp
+     * @param context
      */
-    public PrescriptionPdfNew(ArrayList<Prescription> prescriptionList, Image pp) {
+    public PrescriptionPdfNew(ArrayList<Prescription> prescriptionList, Image pp, Context context) {
+        Preferences preferences=new Preferences(context);
         PrescriptionNewFont();
         try {
             // HeaderNew.addEmptyLine(1);
@@ -167,12 +174,18 @@ public class PrescriptionPdfNew {
                 if (prescriptionList.get(i).getPre() != null) {
                     counter = prescriptionList.get(i).getPre();
                 }
-                //    cell = new PdfPCell(new Phrase("Over-the-counter:" + counter));
-                cell = new PdfPCell();
-                HeaderNew.cellDesign(cell, table, "Over-the-counter:", counter);
-                table.addCell(cell);
-                messagePrescription.add("Over-the-counter :");
-                messagePrescription.add(counter);
+                if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(context.getResources().getString(R.string.India)))
+                {
+
+                }else
+                {
+                    //    cell = new PdfPCell(new Phrase("Over-the-counter:" + counter));
+                    cell = new PdfPCell();
+                    HeaderNew.cellDesign(cell, table, "Over-the-counter:", counter);
+                    table.addCell(cell);
+                    messagePrescription.add("Over-the-counter :");
+                    messagePrescription.add(counter);
+                }
 
 
 

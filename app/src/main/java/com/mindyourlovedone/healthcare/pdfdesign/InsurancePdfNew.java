@@ -1,5 +1,8 @@
 package com.mindyourlovedone.healthcare.pdfdesign;
 
+import android.app.Activity;
+import android.content.Context;
+
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
@@ -11,10 +14,13 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.draw.DottedLineSeparator;
+import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.model.Card;
 import com.mindyourlovedone.healthcare.model.ContactData;
 import com.mindyourlovedone.healthcare.model.Form;
 import com.mindyourlovedone.healthcare.model.Insurance;
+import com.mindyourlovedone.healthcare.utility.PrefConstants;
+import com.mindyourlovedone.healthcare.utility.Preferences;
 
 import java.util.ArrayList;
 
@@ -434,9 +440,12 @@ public class InsurancePdfNew {
      * @param i
      * @param aphonelists
      * @param pp
+     * @param context
      */
-    public InsurancePdfNew(Insurance s, String insurance1, ArrayList<ContactData> phonelists, int i, ArrayList<ContactData> aphonelists, Image pp) {
-      InsuranceNewFont();
+    public InsurancePdfNew(Insurance s, String insurance1, ArrayList<ContactData> phonelists, int i, ArrayList<ContactData> aphonelists, Image pp, Context context) {
+        Preferences preferences=new Preferences(context);
+
+        InsuranceNewFont();
         try {
             // HeaderNew.addEmptyLine(1);
             if (i==0) {
@@ -514,23 +523,43 @@ public class InsurancePdfNew {
                 if (s.getMember() != null) {
                     memberId = s.getMember();
                 }
-            //    cell = new PdfPCell(new Phrase("Member Id (Policy Number):" + memberId));
-            cell = new PdfPCell();
-            HeaderNew.cellDesign(cell,table1,"Member Id (Policy Number):",memberId);
-            table.addCell(cell);
+            if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(context.getResources().getString(R.string.India)))
+            {
+///    cell = new PdfPCell(new Phrase("Member Id (Policy Number):" + memberId));
+                cell = new PdfPCell();
+                HeaderNew.cellDesign(cell,table1,"Policy Number:",memberId);
+                table.addCell(cell);
+                messageInsurance.add("Policy Number:");
+                messageInsurance.add(memberId);
+
+            }else
+            {
+                //    cell = new PdfPCell(new Phrase("Member Id (Policy Number):" + memberId));
+                cell = new PdfPCell();
+                HeaderNew.cellDesign(cell,table1,"Member Id (Policy Number):",memberId);
+                table.addCell(cell);
                 messageInsurance.add("Member Id (Policy Number) :");
                 messageInsurance.add(memberId);
+
+            }
+
 
                 String group = "";
                 if ("" + s.getGroup() != null) {
                     group = "" + s.getGroup();
                 }
-               // cell = new PdfPCell(new Phrase("Group #:" + group));
-            cell = new PdfPCell();
-            HeaderNew.cellDesign(cell,table1,"Group #:",group);
-            table.addCell(cell);
+            if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(context.getResources().getString(R.string.India)))
+            {
+
+            }else{
+                // cell = new PdfPCell(new Phrase("Group #:" + group));
+                cell = new PdfPCell();
+                HeaderNew.cellDesign(cell,table1,"Group #:",group);
+                table.addCell(cell);
                 messageInsurance.add("Group # :");
                 messageInsurance.add(group);
+
+            }
 
 
                 String providerEmail = "";

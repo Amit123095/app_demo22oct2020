@@ -28,6 +28,7 @@ import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.MyConnectionsQuery;
 import com.mindyourlovedone.healthcare.database.PersonalInfoQuery;
@@ -170,10 +171,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         FileUtils.deleteDirectory(file);
                         f.mkdirs();
                     } catch (IOException e) {
+                        FirebaseCrash.report(e);
                         e.printStackTrace();
                     }
                 }
             } catch (Exception e) {
+                FirebaseCrash.report(e);
                 e.printStackTrace();
             }
         }
@@ -401,6 +404,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
             }
         } catch (JSONException e) {
+            FirebaseCrash.report(e);
             e.printStackTrace();
         }
 
@@ -424,6 +428,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 return false;
             }
         } catch (Exception ex) {
+            FirebaseCrash.report(ex);
             ex.printStackTrace();
         }
         return false;
@@ -746,6 +751,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         RC_REQUEST, mPurchaseFinishedListener, payload);
             } catch (IllegalStateException ex) {
                 Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
+                FirebaseCrash.report(ex);
                 mHelper.flagEndAsync();
             }
         }

@@ -5,16 +5,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mindyourlovedone.healthcare.HomeActivity.R;
+import com.mindyourlovedone.healthcare.model.Contact;
+
+import java.util.ArrayList;
+
 /**
  * Class: RelationAdapter
  * Screen: List of cateories like relation,priority,network,insurance type etc
  * A class that manages listing Categories for list
  */
-public class RelationsAdapter extends BaseAdapter {
+public class RelationsAdapter extends BaseAdapter implements Filterable {
 
     Context context;
     String[] relationship;
@@ -22,7 +28,10 @@ public class RelationsAdapter extends BaseAdapter {
     LayoutInflater lf;
     ViewHolder holder;
     int pos;
+    String[] mOriginalValues;
+
     public RelationsAdapter(Context context, String[] relationship, String selected) {
+        this.mOriginalValues=relationship;
         this.context=context;
         this.relationship=relationship;
         this.selected=selected;
@@ -79,4 +88,58 @@ public class RelationsAdapter extends BaseAdapter {
         TextView txtRel;
         ImageView imgCheck;
     }
+
+    @Override
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+
+                relationship = (String[]) results.values; // has the filtered values
+                notifyDataSetChanged();  // notifies the data with new filtered values
+            }
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();        // Holds the results of a filtering operation in values
+                ArrayList<String> FilteredArrList = new ArrayList<String>();
+
+                if (mOriginalValues == null) {
+                    mOriginalValues = relationship; // saves the original data in mOriginalValues
+                }
+
+                /********
+                 *
+                 *  If constraint(CharSequence that is received) is null returns the mOriginalValues(Original) values
+                 *  else does the Filtering and returns FilteredArrList(Filtered)
+                 *
+                 ********/
+                if (constraint == null || constraint.length() == 0) {
+
+                    // set the Original result to return
+                    results.count = mOriginalValues.length;
+                    results.values = mOriginalValues;
+                } else {
+                    constraint = constraint.toString().toLowerCase();
+                    for (int i = 0; i < mOriginalValues.length; i++) {
+                        String data = mOriginalValues[i];
+                        if (data.toLowerCase().contains(constraint.toString())) {
+                            FilteredArrList.add(mOriginalValues[i]);
+                        }
+                    }
+
+                    String[] filterAr=new String[FilteredArrList.size()];
+                    filterAr=FilteredArrList.toArray(filterAr);
+                    // set the Filtered result to return
+                    results.count = filterAr.length;
+                    results.values = filterAr;
+                }
+                return results;
+            }
+        };
+        return filter;
+    }
+
 }

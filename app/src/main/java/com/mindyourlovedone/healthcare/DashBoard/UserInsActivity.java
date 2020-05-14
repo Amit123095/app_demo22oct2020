@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
+import com.mindyourlovedone.healthcare.utility.PrefConstants;
+import com.mindyourlovedone.healthcare.utility.Preferences;
 import com.mindyourlovedone.healthcare.utility.UIEmails;
 
 /**
@@ -32,11 +34,13 @@ public class UserInsActivity extends AppCompatActivity implements View.OnClickLi
     Context context = this;
     FloatingActionButton floatProfile;
     String UI = "", From = "";
+    Preferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_ins);
+        preferences=new Preferences(context);
 
         initUi();
         //Register a callback to be invoked when this views are clicked.
@@ -90,7 +94,12 @@ public class UserInsActivity extends AppCompatActivity implements View.OnClickLi
         if (From.equalsIgnoreCase("Profile")) {
             txtHeader.setText(R.string.prof_inst);
             txtStep1.setText(Html.fromHtml("<b>The Profiles Screen.</b> The Profiles screen is home base. Users can set up as many profiles as they want. To access MYLO’s functionality, click anywhere on the Profile cell and the User will be brought to the Dashboard screen. The file folder on the Profile cell represents the Dashboard. "));
-            txtStep2.setText(Html.fromHtml("<b>The Dashboard.</b> Within each Profile is a Dashboard. The Dashboard is where a User will input and store information, business cards and documents. There are six sections within the Dashboard,  and within each section are sub-sections. The main sections are (1) Personal, Medical & Emergency Contacts; (2) Specialty Contacts; (3) Notes & Appointments; (4) Advance Directives & Other Documents; (5) Insurance; and (6) Prescriptions. "));
+            if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+            {
+                txtStep2.setText(Html.fromHtml("<b>The Dashboard.</b> Within each Profile is a Dashboard. The Dashboard is where a User will input and store information, business cards and documents. There are six sections within the Dashboard,  and within each section are sub-sections. The main sections are (1) Personal, Medical & Emergency Contacts; (2) Healthcare & Other Contacts; (3) Notes & Appointments; (4) Medical & Other Important Documents; (5) Insurance; and (6) Prescriptions. "));
+            }else{
+                txtStep2.setText(Html.fromHtml("<b>The Dashboard.</b> Within each Profile is a Dashboard. The Dashboard is where a User will input and store information, business cards and documents. There are six sections within the Dashboard,  and within each section are sub-sections. The main sections are (1) Personal, Medical & Emergency Contacts; (2) Specialty Contacts; (3) Notes & Appointments; (4) Advance Directives & Other Documents; (5) Insurance; and (6) Prescriptions. "));
+            }
             txtStep3.setText(Html.fromHtml("<b>User Instructions.</b> Each section and sub-section have First-time User instructions as well as standing instructions. User instructions are available by clicking the Question Mark on the top right corner of the screen. To forward instructions click the Share icon on the right top corner of the screen. To exit User instructions, click the back Arrow on the top left corner of the screen.  The Menu Bar also contains “How-to Videos” for many of the sections. "));
             txtStep4.setText(Html.fromHtml("<b>Create a new Profile.</b> To create a Profile for a loved one click the green Plus icon located at the bottom right corner of the screen.  Users will be given a choice to “Create New” or “Import from Dropbox”.  “Create New” allows Users to initiate a new Profile. Users can automatically import data from their contacts, or type in new information.  The minimum amount of information needed to create a profile is the person’s name, the User’s relationship to the person, and their email address. To access the Dashboard click anywhere on the profile cell. "));
             txtStep5.setText(Html.fromHtml("<b>Import from Dropbox.</b> This functionality may be used when restoring a Profile or uploading a Profile shared by another person. Instructions regarding Backup, Restore, and Sharing can be found in the Menu Bar under Settings. "));
@@ -117,7 +126,12 @@ public class UserInsActivity extends AppCompatActivity implements View.OnClickLi
 
         } else if (From.equalsIgnoreCase("Dashboard")) {
             txtHeader.setText("Dashboard Instructions");
-            txtStep1.setText(Html.fromHtml("<b>Function.</b> The Dashboard is where Users will input and store information, business cards and documents. There are six sections on the Dashboard and within each section are sub-sections. The main sections are (1) Personal, Medical and Emergency Contacts; (2) Specialty Contacts; (3) Notes and Appointments; (4) Advance Directives and Other Documents; (5) Insurance; and (6) Prescriptions. "));
+            if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+            {
+                txtStep1.setText(Html.fromHtml("<b>Function.</b> The Dashboard is where Users will input and store information, business cards and documents. There are six sections on the Dashboard and within each section are sub-sections. The main sections are (1) Personal, Medical and Emergency Contacts; (2) Healthcare & Other Contacts; (3) Notes and Appointments; (4) Medical & Other Important Documents; (5) Insurance; and (6) Prescriptions. "));
+            }else{
+                txtStep1.setText(Html.fromHtml("<b>Function.</b> The Dashboard is where Users will input and store information, business cards and documents. There are six sections on the Dashboard and within each section are sub-sections. The main sections are (1) Personal, Medical and Emergency Contacts; (2) Specialty Contacts; (3) Notes and Appointments; (4) Advance Directives and Other Documents; (5) Insurance; and (6) Prescriptions. "));
+            }
             txtStep2.setText(Html.fromHtml("<b>User Instructions.</b> Each section and sub-section have First-time User instructions as well as standing instructions. User instructions are available by clicking the Question Mark on the top right corner of the screen. To forward instructions, click the Up Arrow on the right top corner of the screen. To exit the User instructions, click the back Arrow on the top right corner of the screen. The Menu Bar also contains “How-to Videos” for many of the sections. "));
             txtStep3.setText(Html.fromHtml("<b>Viewing, Sharing and Printing Information (Reports).</B> Users can View, Share or Print a particular sub-section or an entire section by clicking the green circle (with three white dots) located at the bottom of the screen.  Fax capability is available in certain sections to help Users meet HIPAA requirements. "));
             txtStep4.setText(Html.fromHtml("<b>The Menu Bar.</b> The Menu Bar is located on the top left corner of the Dashboard (it’s the three horizontal lines). The Menu Bar is full of important information, including MYLO FAQs, User Guide and Contact Us. Please take a look at the Resource section – it includes information about Advance Care Directives, MYLO forms and templates, and interesting podcasts and videos. To exit the Menu Bar click ALL PROFILES. "));// txtStep5.setText(Html.fromHtml("<b>Instructions.</b>  Many of the sub-screens have first time user instructions.  If you click on the instructions you can send them to yourself by clicking <b>the share button</b> on the top right side of the screen.   <b>To exit the screen</b> click the <b>arrow back button</b> on the top left side of the screen.   If you <b>click the house</b> – you will be brought back to the dashboard of the person’s profile. \n\n"));

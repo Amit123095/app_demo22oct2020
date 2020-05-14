@@ -364,7 +364,7 @@ public class FragmentPrescriptionInfo extends Fragment implements View.OnClickLi
         Image pp = null;
         pp = preferences.addFile("pres_one.png", getActivity());
         ArrayList<Prescription> prescriptionList = PrescriptionQuery.fetchAllPrescrptionRecord(preferences.getInt(PrefConstants.CONNECTED_USERID));
-        new PrescriptionPdfNew(prescriptionList, pp);
+        new PrescriptionPdfNew(prescriptionList, pp,getActivity());
         HeaderNew.document.close();
 //--------------------------------------------------------------------------------------
         final Dialog dialog = new Dialog(getActivity());

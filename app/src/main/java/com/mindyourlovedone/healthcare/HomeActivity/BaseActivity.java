@@ -48,6 +48,7 @@ import com.dropbox.core.android.Auth;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crash.FirebaseCrash;
 import com.mindyourlovedone.healthcare.Connections.FragmentConnectionNew;
+import com.mindyourlovedone.healthcare.Connections.RelationActivity;
 import com.mindyourlovedone.healthcare.Connections.UploadFiles;
 import com.mindyourlovedone.healthcare.DashBoard.AddDocumentActivity;
 import com.mindyourlovedone.healthcare.DashBoard.AddInsuranceFormActivity;
@@ -86,6 +87,7 @@ import java.util.List;
  */
 public class BaseActivity extends DropboxActivity implements View.OnClickListener , ZipListner {
     private static final int REQUEST_CALL_PERMISSION = 600;
+    private static final int REQUEST_REGION =120 ;
     private FirebaseAnalytics mFirebaseAnalytics;
     public static FragmentManager fragmentManager;
     public FragmentTransaction fragmentTransaction;
@@ -96,7 +98,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
     FragmentMarketPlace fragmentMarketPlace = null;
     FragmentVideos fragmentVideos = null;
     FragmentConnectionNew fragmentConnection = null;
-    ImageView imgHelp, imgR, imgDrawer, imgNoti, imgLocationFeed, imgProfile, imgDrawerProfile, imgPdf, imgDoc, imgRight;
+    ImageView imgRegion,imgHelp, imgR, imgDrawer, imgNoti, imgLocationFeed, imgProfile, imgDrawerProfile, imgPdf, imgDoc, imgRight;
     TextView txtTitle, txtName, txtRel, txtDrawerName, txtFname, txtAdd;
     TextView txtBank, txtForm, txtSenior, txtAdvance, txtPodcast;
     DrawerLayout drawerLayout;
@@ -106,8 +108,8 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
     ImageView txtDrawer;
     ProgressBar progressBar;
     TextView txtPrivacyPolicy, txtEULA;
-    RelativeLayout rlBackup, rlSettings, rlWebsite, rlProfiles, rlHome, rlContactUs, rlSponsor, rlResources, rlPrivacy, rlMarketPlace, rlVideos, rlResourcesDetail, rlMarketDetail, rlPrivacyDetail;
-    TextView txtBackup, txtSettings, txtProfiles, txtHome, txtContactUs, txtSponsor, txtResources, txtPrivacy, txtMarketPlace, txtVideos, txtResourcesDetail, txtMarketDetail, txtPrivacyDetail;
+    RelativeLayout rlRegion,rlBackup, rlSettings, rlWebsite, rlProfiles, rlHome, rlContactUs, rlSponsor, rlResources, rlPrivacy, rlMarketPlace, rlVideos, rlResourcesDetail, rlMarketDetail, rlPrivacyDetail;
+    TextView txtRegion,txtBackup, txtSettings, txtProfiles, txtHome, txtContactUs, txtSponsor, txtResources, txtPrivacy, txtMarketPlace, txtVideos, txtResourcesDetail, txtMarketDetail, txtPrivacyDetail;
     ImageView imgBackup, imgSettings, imgProfiles, imgHome, imgContactUs, imgSponsor, imgResources, imgPrivacy, imgMarketPlace, imgVideos, imgResourcesDetail, imgMarketDetail, imgPrivacyDetail;
 
     int p = 0, bginit = 0;
@@ -120,6 +122,8 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+        //FirebaseCrash.report(new Exception("My first Android non-fatal error"));
+        //Crashlytics.getInstance().log("message");
         //  Crashlytics.getInstance().crash(); // Force a crash
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -183,6 +187,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
         container = findViewById(R.id.fragmentContainer);
 
         rlHome = leftDrawer.findViewById(R.id.rlHome);
+        rlRegion=leftDrawer.findViewById(R.id.rlRegion);
         rlProfiles = leftDrawer.findViewById(R.id.rlProfiles);
         rlResources = leftDrawer.findViewById(R.id.rlResources);
         rlSponsor = leftDrawer.findViewById(R.id.rlSponsor);
@@ -198,6 +203,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
         imgSponsor = leftDrawer.findViewById(R.id.imgSponsor);
         imgSettings = leftDrawer.findViewById(R.id.imgSettings);
         imgBackup = leftDrawer.findViewById(R.id.imgBackup);
+        imgRegion=leftDrawer.findViewById(R.id.imgRegion);
         imgContactUs = leftDrawer.findViewById(R.id.imgContactUs);
         imgMarketPlace = leftDrawer.findViewById(R.id.imgMarketPlace);
         imgVideos = leftDrawer.findViewById(R.id.imgVideos);
@@ -208,6 +214,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
         txtSponsor = leftDrawer.findViewById(R.id.txtSponsor);
         txtSettings = leftDrawer.findViewById(R.id.txtSettings);
         txtBackup = leftDrawer.findViewById(R.id.txtBackup);
+        txtRegion = leftDrawer.findViewById(R.id.txtRegion);
         txtContactUs = leftDrawer.findViewById(R.id.txtContactUs);
         txtMarketPlace = leftDrawer.findViewById(R.id.txtMarketPlace);
         txtVideos = leftDrawer.findViewById(R.id.txtVideos);
@@ -265,7 +272,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
         rlSettings.setOnClickListener(this);
         rlBackup.setOnClickListener(this);
         rlContactUs.setOnClickListener(this);
-        // flLogout.setOnClickListener(this);
+        rlRegion.setOnClickListener(this);
 
     }
 
@@ -487,6 +494,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                     imgMarketPlace.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                     imgVideos.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                     imgBackup.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    imgRegion.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
 
                     txtHome.setTypeface(txtHome.getTypeface(), Typeface.BOLD);
                     txtProfiles.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
@@ -494,6 +502,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                     txtSponsor.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtSettings.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtBackup.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
+                    txtRegion.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtContactUs.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtMarketPlace.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtVideos.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
@@ -510,6 +519,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                     imgMarketPlace.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                     imgVideos.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                     imgBackup.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    imgRegion.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
 
 
                     txtHome.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
@@ -518,6 +528,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                     txtSponsor.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtSettings.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtBackup.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
+                    txtRegion.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtContactUs.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtMarketPlace.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtVideos.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
@@ -536,6 +547,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                     imgMarketPlace.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                     imgVideos.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                     imgBackup.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    imgRegion.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
 
 
                     txtHome.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
@@ -544,6 +556,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                     txtSponsor.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtSettings.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtBackup.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
+                    txtRegion.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtContactUs.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtMarketPlace.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtVideos.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
@@ -562,6 +575,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                     imgMarketPlace.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                     imgVideos.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                     imgBackup.setColorFilter(ContextCompat.getColor(context, R.color.colorBlue), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    imgRegion.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
 
 
                     txtHome.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
@@ -570,6 +584,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                     txtSponsor.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtSettings.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtBackup.setTypeface(txtHome.getTypeface(), Typeface.BOLD);
+                    txtRegion.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtContactUs.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtMarketPlace.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtVideos.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
@@ -592,6 +607,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                     imgMarketPlace.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                     imgVideos.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                     imgBackup.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    imgRegion.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
 
 
                     txtHome.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
@@ -600,6 +616,8 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                     txtSponsor.setTypeface(txtHome.getTypeface(), Typeface.BOLD);
                     txtSettings.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtBackup.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
+                    txtRegion.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
+
                     txtContactUs.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtMarketPlace.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtVideos.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
@@ -620,6 +638,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                     imgMarketPlace.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                     imgVideos.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                     imgBackup.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    imgRegion.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
 
 
                     txtHome.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
@@ -628,10 +647,41 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                     txtSponsor.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtSettings.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtBackup.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
+                    txtRegion.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtContactUs.setTypeface(txtHome.getTypeface(), Typeface.BOLD);
                     txtMarketPlace.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                     txtVideos.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
+                }else if (p == 20) {
+                    imgProfile.setVisibility(View.GONE);
+                    txtTitle.setVisibility(View.VISIBLE);
+                    txtTitle.setText("Region");
+                    callFragmentData(new FragmentContactUs());
+
+                    //nikita
+                    imgHome.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    imgProfiles.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    imgResources.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    imgSponsor.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    imgSettings.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    imgContactUs.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    imgMarketPlace.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    imgVideos.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    imgBackup.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    imgRegion.setColorFilter(ContextCompat.getColor(context, R.color.colorBlue), android.graphics.PorterDuff.Mode.MULTIPLY);
+
+
+                    txtHome.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
+                    txtProfiles.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
+                    txtResources.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
+                    txtSponsor.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
+                    txtSettings.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
+                    txtBackup.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
+                    txtRegion.setTypeface(txtHome.getTypeface(), Typeface.BOLD);
+                    txtContactUs.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
+                    txtMarketPlace.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
+                    txtVideos.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                 }
+
 
                 /*Ends here*/
             }
@@ -749,6 +799,17 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                 drawerLayout.closeDrawer(leftDrawer);
                 break;
 
+            case R.id.rlRegion://Settins
+                Intent intentRegion= new Intent(context, RelationActivity.class);
+               // intentRegion.putExtra("c", 20);
+                intentRegion.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intentRegion.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intentRegion.putExtra("Category", "Region");
+                intentRegion.putExtra("Selected", preferences.getString(PrefConstants.REGION));
+                startActivityForResult(intentRegion, REQUEST_REGION);
+                drawerLayout.closeDrawer(leftDrawer);
+                break;
+
             case R.id.rlBackup://Backup,restore
                 Intent intentBackup = new Intent(context, DropboxLoginActivity.class);
                 // intentBackup.putExtra("c", 7);
@@ -779,6 +840,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                 imgMarketPlace.setColorFilter(ContextCompat.getColor(context, R.color.colorBlue), android.graphics.PorterDuff.Mode.MULTIPLY);
                 imgVideos.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                 imgBackup.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
+                imgRegion.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
 
                 txtHome.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                 txtProfiles.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
@@ -786,6 +848,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                 txtSponsor.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                 txtSettings.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                 txtBackup.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
+                txtRegion.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                 txtContactUs.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                 txtMarketPlace.setTypeface(txtHome.getTypeface(), Typeface.BOLD);
                 txtVideos.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
@@ -808,6 +871,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                 imgMarketPlace.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                 imgVideos.setColorFilter(ContextCompat.getColor(context, R.color.colorBlue), android.graphics.PorterDuff.Mode.MULTIPLY);
                 imgBackup.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
+                imgRegion.setColorFilter(ContextCompat.getColor(context, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
 
 
                 txtHome.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
@@ -816,6 +880,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
                 txtSponsor.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                 txtSettings.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                 txtBackup.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
+                txtRegion.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                 txtContactUs.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                 txtMarketPlace.setTypeface(txtHome.getTypeface(), Typeface.NORMAL);
                 txtVideos.setTypeface(txtHome.getTypeface(), Typeface.BOLD);
@@ -1054,5 +1119,6 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
             super.onPostExecute(o);
         }
     }
+
 }
 

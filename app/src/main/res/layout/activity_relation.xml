@@ -71,14 +71,36 @@
             android:visibility="gone" />
 
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rlSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBlueTrans"
+        android:padding="@dimen/dimension10dp"
+        android:layout_below="@+id/headers"
+        android:visibility="gone"
+        >
 
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/gray_white_corner_border"
+            android:drawableLeft="@drawable/ic_search"
+            android:drawablePadding="@dimen/dimension15dp"
+
+            android:hint="Search"
+            android:padding="@dimen/dimension10dp"
+            android:textSize="@dimen/dimension22dp" />
+    </RelativeLayout>
    <ListView
        android:layout_marginTop="@dimen/dimension10dp"
        android:divider="@null"
         android:id="@+id/listRelation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/headers"
+        android:layout_below="@+id/rlSearch"
        android:layout_marginBottom="@dimen/dimension10dp"
         ></ListView>
 

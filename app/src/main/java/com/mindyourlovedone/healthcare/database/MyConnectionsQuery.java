@@ -2,9 +2,12 @@ package com.mindyourlovedone.healthcare.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteReadOnlyDatabaseException;
 
+import com.mindyourlovedone.healthcare.DashBoard.ProfileActivity;
 import com.mindyourlovedone.healthcare.model.Emergency;
 import com.mindyourlovedone.healthcare.model.Proxy;
 import com.mindyourlovedone.healthcare.model.RelativeConnection;
@@ -422,7 +425,13 @@ public class MyConnectionsQuery {
 
     public static Boolean updateMyConnectionsData(int id, String name, String email, String address, String mobile, String homephone, String workphone, String relation, String photo, String note, int connectionflag, int isPrimary, String otherRelation, String height, String weight, String eyes, String profession, String employed, String language, String marital_status, String religion, String veteran, String idnumber, String pet, String manager_phone, String photoCard, String english, String child, String friend, String grandParent, String parent, String spouse, String other, String liveOther, String live, String otherLang, String bdate, String gender, String sibling, String has_card, String people) {
         boolean flag;
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db =null;
+        try {
+             db = dbHelper.getWritableDatabase();
+        }catch (SQLiteReadOnlyDatabaseException e)
+        {
+            context.startActivity(new Intent(context, ProfileActivity.class));
+        }
 
         ContentValues cv = new ContentValues();
 

@@ -389,7 +389,7 @@
                 android:id="@+id/rlContactUs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rlSettings"
+                android:layout_below="@+id/rlRegion"
                 android:background="@color/colorWhite">
 
                 <ImageView
@@ -421,6 +421,44 @@
                     android:background="@color/colorLightGrays"
                     android:visibility="gone"></View>-->
             </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rlRegion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlSettings"
+                android:background="@color/colorWhite"
+
+                >
+
+                <ImageView
+                    android:id="@+id/imgRegion"
+                    android:layout_width="@dimen/dimension45dp"
+                    android:layout_height="@dimen/dimension45dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dimension5dp"
+                    android:padding="@dimen/dimension10dp"
+                    android:src="@drawable/n_region" />
+
+                <TextView
+                    android:fontFamily="@font/lato"
+                    android:id="@+id/txtRegion"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimension50dp"
+                    android:layout_toRightOf="@+id/imgRegion"
+                    android:gravity="center_vertical"
+                    android:text="@string/Region"
+                    android:textColor="@color/colorBlackDark"
+                    android:textSize="@dimen/dimension16dp" />
+
+                <View
+                     android:layout_width="match_parent"
+                     android:layout_height="@dimen/dimension1dp"
+                     android:layout_below="@+id/txtRegion"
+                     android:layout_toRightOf="@id/imgRegion"
+                     android:background="@color/colorLightGrays"
+                    ></View>
+            </RelativeLayout>
+
         </RelativeLayout>
     </ScrollView>
 

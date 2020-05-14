@@ -149,7 +149,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
 
         //Initialize database, get primary data and set data
         initComponent();
-
+//Toast.makeText(getActivity(),preferences.getString(PrefConstants.REGION),Toast.LENGTH_SHORT).show();
         //Initialize user interface view and components
         initUI();
 

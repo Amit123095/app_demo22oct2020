@@ -1,5 +1,7 @@
 package com.mindyourlovedone.healthcare.pdfdesign;
 
+import android.content.Context;
+
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Element;
@@ -13,6 +15,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.draw.DottedLineSeparator;
+import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.model.Allergy;
 import com.mindyourlovedone.healthcare.model.ContactData;
 import com.mindyourlovedone.healthcare.model.Emergency;
@@ -26,6 +29,8 @@ import com.mindyourlovedone.healthcare.model.Proxy;
 import com.mindyourlovedone.healthcare.model.RelativeConnection;
 import com.mindyourlovedone.healthcare.model.Specialist;
 import com.mindyourlovedone.healthcare.model.Vaccine;
+import com.mindyourlovedone.healthcare.utility.PrefConstants;
+import com.mindyourlovedone.healthcare.utility.Preferences;
 
 import java.util.ArrayList;
 
@@ -88,8 +93,8 @@ public class IndividualNew {
      * @param phonelist
      * @param ppys
      */
-    public IndividualNew(RelativeConnection connection, ArrayList<Pet> Petlist, ArrayList<ContactData> phonelist, Image ppys) {
-
+    public IndividualNew(RelativeConnection connection, ArrayList<Pet> Petlist, ArrayList<ContactData> phonelist, Image ppys, Context context) {
+        Preferences preferences=new Preferences(context);
         try {
             // Font
             IndividualNewFont();
@@ -546,12 +551,25 @@ public class IndividualNew {
                 religionNote = connection.getReligion();
             }
             // cellr = new PdfPCell(new Phrase("Religious Affiliation & Notes: " + religionNote));
-            cell1 = new PdfPCell();
-            HeaderNew.cellDesign(cell1, table1, "Religious Affiliation & Notes:", religionNote);
-            table1.addCell(cell1);
+            if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(context.getResources().getString(R.string.India)))
+            {
+                cell1 = new PdfPCell();
+                HeaderNew.cellDesign(cell1, table1, "Religion:", religionNote);
+                table1.addCell(cell1);
 
-            messageInfo2.add("Religious Affiliation & Notes :");
-            messageInfo2.add(religionNote);
+                messageInfo2.add("Religion :");
+                messageInfo2.add(religionNote);
+
+            }else
+            {
+                cell1 = new PdfPCell();
+                HeaderNew.cellDesign(cell1, table1, "Religious Affiliation & Notes:", religionNote);
+                table1.addCell(cell1);
+
+                messageInfo2.add("Religious Affiliation & Notes :");
+                messageInfo2.add(religionNote);
+            }
+
 
            /* cell1 = new PdfPCell();
             HeaderNew.cellDesign(cell1,table1,"","Empty");
@@ -567,13 +585,27 @@ public class IndividualNew {
             if (connection.getVeteran() != null) {
                 Veteran = connection.getVeteran();
             }
-            //cell4 = new PdfPCell(new Phrase("Veteran:" + Veteran));
-            cell1 = new PdfPCell();
-            HeaderNew.cellDesign(cell1, table1, "Veteran:", Veteran);
-            table1.addCell(cell1);
+            if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(context.getResources().getString(R.string.India)))
+            {
+                //cell4 = new PdfPCell(new Phrase("Veteran:" + Veteran));
+                cell1 = new PdfPCell();
+                HeaderNew.cellDesign(cell1, table1, "Ex - Defence Personal:", Veteran);
+                table1.addCell(cell1);
 
-            messageInfo2.add("Veteran :");
-            messageInfo2.add(Veteran);
+                messageInfo2.add("Ex - Defence Personal");
+                messageInfo2.add(Veteran);
+
+            }else
+            {
+                //cell4 = new PdfPCell(new Phrase("Veteran:" + Veteran));
+                cell1 = new PdfPCell();
+                HeaderNew.cellDesign(cell1, table1, "Veteran:", Veteran);
+                table1.addCell(cell1);
+
+                messageInfo2.add("Veteran :");
+                messageInfo2.add(Veteran);
+            }
+
 
             if (connection.getIdnumber() != null) {
                 idNumber = connection.getIdnumber();
@@ -4394,16 +4426,29 @@ public class IndividualNew {
      * @param phonelist
      * @param i
      * @param ppys
+     * @param context
      */
     public IndividualNew(String emergency1, Emergency e, ArrayList<ContactData> phonelist,
-                         int i, Image ppys) {
+                         int i, Image ppys, Context context) {
+        Preferences preferences=new Preferences(context);
         // Font
         IndividualNewFont();
         try {
             // HeaderNew.addEmptyLine(1);
             if (i == 0) {
-                HeaderNew.addNewChank("Emergency Contacts & Health Care Proxy Agents", ppys);
-                messageEmergency.add("Emergency Contacts & Health Care Proxy Agents");
+                if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(context.getResources().getString(R.string.India)))
+                {
+
+                    HeaderNew.addNewChank("Emergent Contacts", ppys);
+                    messageEmergency.add("Emergent Contacts");
+
+                }else
+                {
+                    HeaderNew.addNewChank("Emergency Contacts & Health Care Proxy Agents", ppys);
+                    messageEmergency.add("Emergency Contacts & Health Care Proxy Agents");
+                }
+
+
                 HeaderNew.addEmptyLine(1);
             }
 
@@ -4430,6 +4475,7 @@ public class IndividualNew {
             table.setKeepTogether(false);
             table.setSplitLate(false);
             table.setWidthPercentage(100);
+
 
 
             PdfPCell cell;

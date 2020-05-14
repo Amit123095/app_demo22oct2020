@@ -120,6 +120,10 @@ public class SpecialistContactAdapter extends BaseAdapter {
                         fragment = "Emergency";
                         break;
 
+                    case "Emergent Contacts":
+                        fragment = "Emergency";
+                        break;
+
                     case "Primary Physician":
                         fragment = "Physician";
                         break;

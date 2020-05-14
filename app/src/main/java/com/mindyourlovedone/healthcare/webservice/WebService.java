@@ -5,6 +5,8 @@ import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -160,12 +162,12 @@ public class WebService {
 
 
         } catch (MalformedURLException ex) {
-
+            FirebaseCrash.report(ex);
             ex.printStackTrace();
 
             Log.e("Upload file to server", "error: " + ex.getMessage(), ex);
         } catch (Exception e) {
-
+            FirebaseCrash.report(e);
             e.printStackTrace();
 
             Log.e("Upload fileException",
@@ -197,9 +199,10 @@ public class WebService {
 
             Log.e("Response**** WebService", result);
         } catch (IOException e) {
-
+            FirebaseCrash.report(e);
             Log.e("Buffer Error", "Problem reading a line " + e.toString());
         } catch (Exception e) {
+            FirebaseCrash.report(e);
             Log.e("Buffer Error", "Error converting result " + e.toString());
             return "exception";
 
@@ -217,6 +220,7 @@ public class WebService {
                     "ISO-8859-5");
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
+            FirebaseCrash.report(e);
             e.printStackTrace();
             Log.e("Response**** WebService", "String decode Exception");
 
@@ -262,8 +266,10 @@ public class WebService {
                 }
 
             } catch (ClientProtocolException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } catch (IOException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } finally {
 
@@ -306,8 +312,10 @@ public class WebService {
                 }
 
             } catch (ClientProtocolException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } catch (IOException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } finally {
                 if (conn != null) {
@@ -347,8 +355,10 @@ public class WebService {
                 }
 
             } catch (ClientProtocolException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } catch (IOException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } finally {
 
@@ -385,8 +395,10 @@ public class WebService {
                 }
 
             } catch (ClientProtocolException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } catch (IOException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } finally {
                 if (conn != null) {
@@ -439,8 +451,10 @@ public class WebService {
                 }
 
             } catch (ClientProtocolException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } catch (IOException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } finally {
 
@@ -484,8 +498,10 @@ public class WebService {
                 }
 
             } catch (ClientProtocolException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } catch (IOException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } finally {
                 if (conn != null) {
@@ -526,8 +542,10 @@ public class WebService {
                 }
 
             } catch (ClientProtocolException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } catch (IOException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } finally {
 
@@ -564,8 +582,10 @@ public class WebService {
                 }
 
             } catch (ClientProtocolException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } catch (IOException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } finally {
                 if (conn != null) {
@@ -616,8 +636,10 @@ public class WebService {
                 }
 
             } catch (ClientProtocolException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } catch (IOException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } finally {
 
@@ -656,8 +678,10 @@ public class WebService {
                 }
 
             } catch (ClientProtocolException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } catch (IOException e) {
+                FirebaseCrash.report(e);
                 return "exception";
             } finally {
                 if (conn != null) {

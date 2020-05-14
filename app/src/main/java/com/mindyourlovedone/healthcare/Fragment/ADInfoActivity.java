@@ -15,6 +15,8 @@ import com.mindyourlovedone.healthcare.DashBoard.AddInfoActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.LinkAdapter;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.model.Links;
+import com.mindyourlovedone.healthcare.utility.PrefConstants;
+import com.mindyourlovedone.healthcare.utility.Preferences;
 import com.mindyourlovedone.healthcare.utility.WebPDFActivity;
 
 import java.util.ArrayList;
@@ -29,11 +31,15 @@ public class ADInfoActivity extends AppCompatActivity {
     ArrayList<Links> UrlList;
     ListView list;
     ImageView imgBack;
+    Preferences preferences;
+    private TextView txtTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adinfo);
+        preferences=new Preferences(context);
+
         //Initialize user interface view and components
         initUI();
 
@@ -114,6 +120,14 @@ public class ADInfoActivity extends AppCompatActivity {
      * Function: Initialize user interface view and components
      */
     private void initUI() {
+        txtTitle=findViewById(R.id.txtTitle);
+        if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+        {
+            txtTitle.setText("Policy Number");
+        }else
+        {
+            txtTitle.setText("Advance Directive Information");
+        }
         imgBack = findViewById(R.id.imgBack);
         imgBack.setOnClickListener(new View.OnClickListener() {
             /**

@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/MYLO_31_12Dec.iml" filepath="$PROJECT_DIR$/.idea/MYLO_31_12Dec.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Mylo3March.iml" filepath="$PROJECT_DIR$/Mylo3March.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/Mylo3March-app.iml" filepath="$PROJECT_DIR$/app/Mylo3March-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Mylo3March.iml" filepath="$PROJECT_DIR$/Mylo3March.iml" group="Mylo3March" />
+      <module fileurl="file://$PROJECT_DIR$/app/Mylo3March-app.iml" filepath="$PROJECT_DIR$/app/Mylo3March-app.iml" group="Mylo3March/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

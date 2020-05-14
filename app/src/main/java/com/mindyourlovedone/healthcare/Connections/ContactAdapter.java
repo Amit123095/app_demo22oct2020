@@ -121,7 +121,7 @@ public class ContactAdapter extends BaseAdapter implements Filterable {
             holder.txtEmail.setText(contactList.get(position).getEmail());
         }
 
-        if (contactList.get(position).getAddress().equals("")) {
+        if (contactList.get(position).getAddress()!=null&&contactList.get(position).getAddress().equals("")) {
             holder.txtAddress.setVisibility(View.GONE);
         } else {
             holder.txtAddress.setVisibility(View.GONE);

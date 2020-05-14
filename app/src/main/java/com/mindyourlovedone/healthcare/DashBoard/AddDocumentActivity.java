@@ -256,6 +256,14 @@ public class AddDocumentActivity extends AppCompatActivity implements View.OnCli
         tilDate = findViewById(R.id.tilDate);
         txtDate = findViewById(R.id.txtDate);
 
+        if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+        {
+            tilLocator.setHint("Document Provider Name and Website");
+        }else
+        {
+            tilLocator.setHint("Electronic Health Record (add web address, username and password)");
+        }
+
         adapter1 = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, OtherList);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerType.setAdapter(adapter1);

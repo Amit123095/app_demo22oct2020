@@ -205,7 +205,13 @@ public class FragmentEmergency extends Fragment implements View.OnClickListener 
         });
         txtTitle = getActivity().findViewById(R.id.txtTitle);
         txtTitle.setVisibility(View.VISIBLE);
-        txtTitle.setText("Emergency Contacts &\nHealth Care Proxy Agents");
+        if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+        {
+            txtTitle.setText("Emergent Contacts");
+        }else
+        {
+            txtTitle.setText("Emergency Contacts &\nHealth Care Proxy Agents");
+        }
         rlGuide = rootview.findViewById(R.id.rlGuide);
         imgRight = getActivity().findViewById(R.id.imgRight);
         llAddConn = rootview.findViewById(R.id.llAddConn);
@@ -333,15 +339,20 @@ public class FragmentEmergency extends Fragment implements View.OnClickListener 
 
         new HeaderNew().createPdfHeaders(file.getAbsolutePath(),
                 "" + preferences.getString(PrefConstants.CONNECTED_NAME), preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO), pdflogo, calendar, profile, "EMERGENCY CONTACTS & HEALTH CARE PROXY AGENTS", calendarWite, profileWite);
-
-        HeaderNew.addusereNameChank("EMERGENCY CONTACTS & HEALTH CARE PROXY AGENTS");//preferences.getString(PrefConstants.CONNECTED_NAME));
+        if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+        {
+            HeaderNew.addusereNameChank("EMERGENT CONTACTS");//preferences.getString(PrefConstants.CONNECTED_NAME));
+        }else
+        {
+            HeaderNew.addusereNameChank("EMERGENCY CONTACTS & HEALTH CARE PROXY AGENTS");//preferences.getString(PrefConstants.CONNECTED_NAME));
+        }
         HeaderNew.addEmptyLine(1);
         Image pp = null;
         pp = preferences.addFile("emergency_three.png", getActivity());
         ArrayList<Emergency> emergencyList = MyConnectionsQuery.fetchAllEmergencyRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), 2);
         for (int i = 0; i < emergencyList.size(); i++) {
             final ArrayList<ContactData> phonelist = ContactDataQuery.fetchContactRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), emergencyList.get(i).getId(), "Emergency");
-            new IndividualNew("Emergency", emergencyList.get(i), phonelist, i, pp);
+            new IndividualNew("Emergency", emergencyList.get(i), phonelist, i, pp,getActivity());
         }
         HeaderNew.document.close();
 
@@ -400,7 +411,12 @@ public class FragmentEmergency extends Fragment implements View.OnClickListener 
                         + "/mylopdf/"
                         + "/EMERGENCYCONTACTS.pdf";
                 File f = new File(path);
-                preferences.emailAttachement(f, getActivity(), "Emergency Contact");
+                if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+                {
+                    preferences.emailAttachement(f, getActivity(), "Emergent Contacts"); }else
+                {
+                    preferences.emailAttachement(f, getActivity(), "Emergency Contacts"); }
+
                 dialog.dismiss();
 
             }

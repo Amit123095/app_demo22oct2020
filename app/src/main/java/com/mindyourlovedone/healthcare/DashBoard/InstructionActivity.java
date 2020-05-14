@@ -22,6 +22,8 @@ import android.widget.Toast;
 import com.google.android.gms.plus.Plus;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
+import com.mindyourlovedone.healthcare.utility.PrefConstants;
+import com.mindyourlovedone.healthcare.utility.Preferences;
 import com.mindyourlovedone.healthcare.utility.UIEmails;
 
 /**
@@ -40,13 +42,14 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
     String UI = "";
     UIEmails ui = new UIEmails();
     FloatingActionButton floatProfile;
+    Preferences preferences;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instruction);
-
+        preferences=new Preferences(context);
 
         initUI();
         //Register a callback to be invoked when this views are clicked.
@@ -1704,8 +1707,12 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 img622.setVisibility(View.GONE);
 
                 txtTitle.setText("User Instructions");
-                txtHeader.setText("Specialty Contacts");
-
+               if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+                {
+                    txtHeader.setText("Healthcare & Other Contacts");
+                }else{
+                    txtHeader.setText("Specialty Contacts");
+                }
                 break;
 
             case "InsuranceSection":
@@ -1897,7 +1904,13 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 img622.setVisibility(View.GONE);
 
                 txtTitle.setText("User Instructions");
-                txtHeader.setText("Advance Directives & Documents");
+               if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+                {
+                    txtHeader.setText("Medical & Other Important Documents");
+                }else
+                {
+                    txtHeader.setText("Advance Directives & Documents");
+                }
 
                 break;
 
@@ -2072,8 +2085,14 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 } else if (From.equals("AdvanceInstruction")) {
                     ui.emailAttachement(InstructionActivity.this, "Instructions for Advance Directives", UI);
                 } else if (From.equals("SpecialitySection")) {
-                    ui.emailAttachement(InstructionActivity.this, "Instructions for Specialty Contacts", UI);
-                } else if (From.equals("EmergencySection")) {
+                    if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+                    {
+                        ui.emailAttachement(InstructionActivity.this, "Instructions for Healthcare & Other Contacts", UI);
+                    }else
+                    {
+                        ui.emailAttachement(InstructionActivity.this, "Instructions for Specialty Contacts", UI);
+                    }
+                 } else if (From.equals("EmergencySection")) {
                     ui.emailAttachement(InstructionActivity.this, "Instructions for Personal & Medical Profile & Emergency Contacts   ", UI);
                 } else if (From.equals("InsuranceSection")) {
                     ui.emailAttachement(InstructionActivity.this, "Instructions for Insurance Companies ", UI);
@@ -2082,7 +2101,12 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
                 } else if (From.equals("PrescriptionSection")) {
                     ui.emailAttachement(InstructionActivity.this, "Instructions for Prescriptions", UI);
                 } else if (From.equals("DirectiveSection")) {
-                    ui.emailAttachement(InstructionActivity.this, "Instructions for Advance Directives & Documents", UI);
+                    if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+                    {
+                        ui.emailAttachement(InstructionActivity.this, "Instructions for Medical & Other Important Documents", UI);
+                    }else{
+                        ui.emailAttachement(InstructionActivity.this, "Instructions for Advance Directives & Documents", UI);
+                    }
                 } else {
                     Toast.makeText(context, "Some thing went wrong...!!", Toast.LENGTH_SHORT).show();
                 }

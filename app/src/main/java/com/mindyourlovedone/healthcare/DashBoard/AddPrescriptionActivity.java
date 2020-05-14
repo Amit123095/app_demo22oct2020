@@ -105,6 +105,7 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
     String[] FormList = {"Capsule", "Cream", "Drops", "Gel", "Liquid", "Lotion", "Pills", "Powder", "Syrup", "Tablet", "Other"};
     String imagepath = "";//
     String counter = "No";
+    RelativeLayout rlPre;
 
     Preferences preferences;
     DBHelper dbHelper;
@@ -230,7 +231,14 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
         etNote = findViewById(R.id.etNote);
         txtNote = findViewById(R.id.txtNote);
         txtSave = findViewById(R.id.txtSave);
-
+        rlPre=findViewById(R.id.rlPre);
+        if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+        {
+            rlPre.setVisibility(View.GONE);
+        }else
+        {
+           rlPre.setVisibility(View.VISIBLE);
+        }
         tbPre.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

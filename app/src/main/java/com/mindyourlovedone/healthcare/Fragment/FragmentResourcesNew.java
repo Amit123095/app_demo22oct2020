@@ -24,6 +24,8 @@ import com.mindyourlovedone.healthcare.InsuranceHealthCare.ResourceAdapter;
 import com.mindyourlovedone.healthcare.model.Links;
 import com.mindyourlovedone.healthcare.model.ResourcesNew;
 import com.mindyourlovedone.healthcare.model.Setting;
+import com.mindyourlovedone.healthcare.utility.PrefConstants;
+import com.mindyourlovedone.healthcare.utility.Preferences;
 import com.mindyourlovedone.healthcare.utility.WebPDFActivity;
 import com.mindyourlovedone.healthcare.webservice.WebService;
 
@@ -45,22 +47,14 @@ public class FragmentResourcesNew extends Fragment {
     ListView lvResources;
     ImageView imgHelp, imgProfile;
     TextView txtTitle;
+    Preferences preferences;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_resources_new, container, false);
-
-        //Initialize user interface view and components
-        initUi();
-
-        //Define list data
-        getData();
-
-        //Set list data
-        setData();
-
-        return rootView;
+        preferences=new Preferences(getActivity());
+               return rootView;
     }
 
     /**
@@ -79,7 +73,14 @@ public class FragmentResourcesNew extends Fragment {
         enduserList = new ArrayList<ResourcesNew>();
 
         ResourcesNew r1 = new ResourcesNew();
-        r1.setName("Advance Directive Information");
+        if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+        {
+            r1.setName("Policy Number");
+        }else
+        {
+            r1.setName("Advance Directive Information");
+        }
+
         r1.setResImage(R.drawable.medical_one);
 
         ResourcesNew l12 = new ResourcesNew();
@@ -168,6 +169,19 @@ public class FragmentResourcesNew extends Fragment {
             }
         });
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //Initialize user interface view and components
+        initUi();
+
+        //Define list data
+        getData();
+
+        //Set list data
+        setData();
     }
 }
 

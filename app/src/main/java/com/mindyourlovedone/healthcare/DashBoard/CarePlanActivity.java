@@ -73,7 +73,7 @@ public class CarePlanActivity extends AppCompatActivity implements View.OnClickL
     DBHelper dbHelper;
 
     RelativeLayout rlAD, rlHome, rlMedical, rlInsurance, rlOther, rlLegal, rlMedicalRecord;
-    TextView txtOne, txtTwo, txtUserName, txtClick;
+    TextView txtOne, txtTwo, txtUserName, txtClick,txtTitle;
     ImageView floatOptions;
     private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -130,6 +130,8 @@ public class CarePlanActivity extends AppCompatActivity implements View.OnClickL
     private void initUI() {
         floatOptions = findViewById(R.id.floatOptions);
         txtClick = findViewById(R.id.txtClick);
+        txtTitle=findViewById(R.id.txtTitle);
+
         txtUserName = findViewById(R.id.txtUserName);
         txtUserName.setBackgroundColor(getResources().getColor(R.color.colorDirectiveSubRed));
         String rel = "";
@@ -153,6 +155,15 @@ public class CarePlanActivity extends AppCompatActivity implements View.OnClickL
         txtOne = findViewById(R.id.txtOne);
         txtTwo = findViewById(R.id.txtTwo);
         rlOther = findViewById(R.id.rlOther);
+
+        if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+        {
+            txtTitle.setText("Medical & Other Important Documents");
+            rlAD.setVisibility(View.GONE);
+        }else{
+            txtTitle.setText("Advance Directives & Documents");
+            rlAD.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -236,8 +247,13 @@ public class CarePlanActivity extends AppCompatActivity implements View.OnClickL
 
         new HeaderNew().createPdfHeaders(file.getAbsolutePath(),
                 "" + preferences.getString(PrefConstants.CONNECTED_NAME), preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO), pdflogo, calendar, profile, "DOCUMENTS", calendarWite, profileWite);
-
-        HeaderNew.addusereNameChank("DOCUMENTS");//preferences.getString(PrefConstants.CONNECTED_NAME));
+        if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+        {
+            HeaderNew.addusereNameChank("MEDICAL & OTHER IMPORTANT DOCUMENTS");//preferences.getString(PrefConstants.CONNECTED_NAME));
+        }else
+        {
+            HeaderNew.addusereNameChank("DOCUMENTS");//preferences.getString(PrefConstants.CONNECTED_NAME));
+        }
         HeaderNew.addEmptyLine(1);
 
         ArrayList<Document> AdList = DocumentQuery.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), "AD");
@@ -247,9 +263,17 @@ public class CarePlanActivity extends AppCompatActivity implements View.OnClickL
         pp1 = preferences.addFile("dir_one.png", context);
         pp2 = preferences.addFile("dir_two.png", context);
         pp3 = preferences.addFile("dir_three.png", context);
-        new DocumentPdfNew(AdList, pp1);
-        new DocumentPdfNew(OtherList, 1, pp2);
-        new DocumentPdfNew(RecordList, "Record", pp3);
+        if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+        {
+            //new DocumentPdfNew(AdList, pp1);
+            new DocumentPdfNew(OtherList, 1, pp2);
+            new DocumentPdfNew(RecordList, "Record", pp3,context);
+        }else
+        {
+            new DocumentPdfNew(AdList, pp1);
+            new DocumentPdfNew(OtherList, 1, pp2);
+            new DocumentPdfNew(RecordList, "Record", pp3,context);
+        }
 
         HeaderNew.document.close();
 
@@ -308,7 +332,14 @@ public class CarePlanActivity extends AppCompatActivity implements View.OnClickL
                         + "/AdvDirectivesOtherDocs.pdf";
 
                 File f = new File(path);
-                preferences.emailAttachement(f, context, "Documents");
+                if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+                {
+                    preferences.emailAttachement(f, context, "Medical & Other Important Documents");
+                }else
+                {
+                    preferences.emailAttachement(f, context, "Documents");
+                }
+
                 dialog.dismiss();
             }
 

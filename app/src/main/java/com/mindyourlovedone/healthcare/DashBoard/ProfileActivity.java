@@ -146,7 +146,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     MySpinner spinner, spinnerRelation, spinnerEyes, spinnerLanguage, spinnerMarital;
     TextInputLayout tilSpinMarital, tilSpinEye, tilSpinLang;
     FrameLayout flrel;
-    TextView txtEyes, txtvGender, txtSpinMarital, txtSpinEye, txtSpinLang;
+    TextView txtEyes, txtvGender, txtSpinMarital, txtSpinEye, txtSpinLang,txtReligious;
     View vgender;
     String[] countryList = {"Canada", "Mexico", "USA", "UK", "California", "India"};
     String imagepath = "", cardpath = "";//
@@ -162,6 +162,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     RadioButton rbMale, rbFemale, rbTrans;
     LinearLayout llAddPhone;
     ToggleButton tbLive, tbEnglish, tbVeteran, tbPet, tbCard;
+    TextView txtVeteran;
 
     TextInputLayout tilBdate, tilName, tilWorkPhone;
     ImageLoader imageLoaderProfile, imageLoaderCard;
@@ -177,6 +178,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     FrameLayout flFront;
 
     private FirebaseAnalytics mFirebaseAnalytics;
+    private TextInputLayout tilreligion;
 
 
     @Override
@@ -423,6 +425,20 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         rbMale = findViewById(R.id.rbMale);
         rbFemale = findViewById(R.id.rbFemale);
         rbTrans = findViewById(R.id.rbTrans);
+        txtVeteran=findViewById(R.id.txtVeteran);
+        tilreligion=findViewById(R.id.tilReligion);
+         if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+        {
+            txtVeteran.setText("Ex – Defense Personal");
+          //  txtReligion.setHint("Religion");
+            tilreligion.setHint("Religion");
+        }else
+        {
+            txtVeteran.setText("Veteran");
+            // txtReligion.setHint("Religious Affiliation & Notes");
+            tilreligion.setHint("Religious Affiliation & Notes");
+        }
+
 
         chkOther.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -1529,7 +1545,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         Image pp = null;
         pp = preferences.addFile("pp.png", context);
-        new IndividualNew(personalInfoList, PetList, phonelist, pp);
+        new IndividualNew(personalInfoList, PetList, phonelist, pp,context);
 
         HeaderNew.document.close();
 

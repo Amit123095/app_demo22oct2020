@@ -479,7 +479,7 @@ public class CarePlanListActivity extends AppCompatActivity implements View.OnCl
                 pp = null;
                 pp = preferences.addFile("dir_three.png", context);
                 ArrayList<Document> RecordList = DocumentQuery.fetchAllDocumentRecord(preferences.getInt(PrefConstants.CONNECTED_USERID), "Record");
-                new DocumentPdfNew(RecordList, "Record", pp);
+                new DocumentPdfNew(RecordList, "Record", pp,context);
                 HeaderNew.document.close();
                 break;
         }

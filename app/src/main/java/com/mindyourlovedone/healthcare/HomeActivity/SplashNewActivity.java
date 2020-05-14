@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -40,6 +42,7 @@ import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -91,14 +94,57 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mFirebaseAnalytics.setCurrentScreen(SplashNewActivity.this,"Splash Screen",null);
-
-        if (isTablet(context)) {
-            String imageUri = "drawable://" + R.drawable.sp_tabnew;
-            imageLoader.displayImage(String.valueOf(imageUri), imageView, displayImageOptions);
-        } else {
-            String imageUri = "drawable://" + R.drawable.sp_new;
-            imageLoader.displayImage(String.valueOf(imageUri), imageView, displayImageOptions);
+        if (preferences == null) {
+            preferences = new Preferences(SplashNewActivity.this);
         }
+        if (preferences.getString(PrefConstants.REGION).equalsIgnoreCase("")){
+            TelephonyManager tm = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
+            String countryCodeValue = tm.getNetworkCountryIso();
+            Locale l = new Locale("", countryCodeValue);
+            String country = l.getDisplayCountry();
+            preferences.putString(PrefConstants.REGION,country);
+
+        }
+        if (isTablet(context)) {
+            if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+            {
+                String imageUri = "drawable://" + R.drawable.sp_tab_in;
+                imageLoader.displayImage(String.valueOf(imageUri), imageView, displayImageOptions);
+            }else
+            {
+                String imageUri = "drawable://" + R.drawable.sp_tabnew;
+                imageLoader.displayImage(String.valueOf(imageUri), imageView, displayImageOptions);
+            }
+            } else {
+            if(SplashNewActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+            {
+                if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+                {
+                    // Portrait Mode
+                    String imageUri = "drawable://" + R.drawable.sp_new_in;
+                    imageLoader.displayImage(String.valueOf(imageUri), imageView, displayImageOptions);
+                }else
+                {
+                    // Portrait Mode
+                    String imageUri = "drawable://" + R.drawable.sp_new;
+                    imageLoader.displayImage(String.valueOf(imageUri), imageView, displayImageOptions);
+                }
+
+            } else {
+                if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+                {
+                    // Landscape Mode
+                    String imageUri = "drawable://" + R.drawable.sp_land_in;
+                    imageLoader.displayImage(String.valueOf(imageUri), imageView, displayImageOptions);
+                }else
+                {
+                    // Landscape Mode
+                    String imageUri = "drawable://" + R.drawable.sp_land;
+                    imageLoader.displayImage(String.valueOf(imageUri), imageView, displayImageOptions);
+                }
+
+            }
+           }
 
         // Execute Code in Background
         new AsynData().execute("");
@@ -356,8 +402,9 @@ public class SplashNewActivity extends AppCompatActivity implements View.OnClick
             } else {
                 llBottom.setVisibility(View.GONE);
                 llSplash.setVisibility(View.VISIBLE);
-            }
+                }
         }
+
     }
 
 

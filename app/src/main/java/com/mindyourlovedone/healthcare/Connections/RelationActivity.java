@@ -4,17 +4,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.model.Emergency;
 import com.mindyourlovedone.healthcare.model.Specialist;
+import com.mindyourlovedone.healthcare.utility.PrefConstants;
+import com.mindyourlovedone.healthcare.utility.Preferences;
+
+import java.util.ArrayList;
+import java.util.Locale;
+
 /**
  * Class: RelationActivity
  * Screen: Select From List value for spinner
@@ -30,6 +40,7 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
     ImageView imgBack,imgHome;
     String category = "";
     String selected = "";
+    Preferences preferences;
     private static int RESULT_RELATION = 10;
     private static int RESULT_PRIORITY = 12;
     private static int RESULT_SPECIALTY = 13;
@@ -47,15 +58,20 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
     private static final int RESULT_SPECIALTY_NETWORK = 17;
     private static final int RESULT_HOSPITAL_NETWORK = 18;
     public static final int REQUEST_REMINDER = 80;
-
+    public static final int REQUEST_REGION = 120;
+EditText etSearch;
+RelativeLayout rlSearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_relation);
+        preferences=new Preferences(context);
         initUi();
     }
 
     private void initUi() {
+        etSearch=findViewById(R.id.etSearch);
+        rlSearch=findViewById(R.id.rlSearch);
         titleheaders=findViewById(R.id.headers);
         txtTitles = findViewById(R.id.txtTitles);
         listRelation = findViewById(R.id.listRelation);
@@ -125,9 +141,18 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
             } else if (category.equalsIgnoreCase("finance")) {
                 titleheaders.setBackgroundColor(getResources().getColor(R.color.colorSpecialityYellow));
                 txtTitles.setText("Category");
-                String[] financeType = {"Accountant", "Attorney", "Broker", "Financial Adviser", "Financial Planner", "Notary", "Other"};
-                RelationsAdapter rd = new RelationsAdapter(context, financeType, selected);
-                listRelation.setAdapter(rd);
+                if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+                {
+                    String[] financeType = {"Accountant", "Attorney", "Broker","Chartered Accountant","Company Secretary", "Financial Adviser", "Financial Planner", "Notary", "Other"};
+                    RelationsAdapter rd = new RelationsAdapter(context, financeType, selected);
+                    listRelation.setAdapter(rd);
+                }else
+                {
+                    String[] financeType = {"Accountant", "Attorney", "Broker", "Financial Adviser", "Financial Planner", "Notary", "Other"};
+                    RelationsAdapter rd = new RelationsAdapter(context, financeType, selected);
+                    listRelation.setAdapter(rd);
+                }
+
             } else if (category.equalsIgnoreCase("Advance")) {
                 titleheaders.setBackgroundColor(getResources().getColor(R.color.colorDirectiveRed));
                 txtTitles.setText("Advance Directive Document Type");
@@ -188,7 +213,41 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
                 String[] ReminderList = {"Daily","Monthly","Off","Weekly", "Yearly"};
                 RelationsAdapter rd = new RelationsAdapter(context, ReminderList, selected);
                 listRelation.setAdapter(rd);
+            }else if (category.equalsIgnoreCase("Region")) {
+                rlSearch.setVisibility(View.VISIBLE);
+                titleheaders.setBackgroundColor(getResources().getColor(R.color.colorNewHereBlue));
+                txtTitles.setText("Region");
+                String[] isoCountryCodes = Locale.getISOCountries();
+                ArrayList<String> countrilist=new ArrayList<>();
+                for (String countryCode : isoCountryCodes) {
+                    Locale locale = new Locale("", countryCode);
+                    String countryName = locale.getDisplayCountry();
+                    countrilist.add(countryName);
+                }
+                String[] ReminderList = new String[countrilist.size()];
+                ReminderList = countrilist.toArray(ReminderList);
+                //String[] ReminderList = (String[]) countrilist.toArray();
+                //String[] ReminderList = {getResources().getString(R.string.USA),getResources().getString(R.string.India)};
+                final RelationsAdapter rd = new RelationsAdapter(context, ReminderList, selected);
+                listRelation.setAdapter(rd);
+
+                etSearch.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        rd.getFilter().filter(s.toString());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                    }
+                });
             }
+
+
         }
 
 
@@ -261,6 +320,12 @@ public class RelationActivity extends AppCompatActivity implements View.OnClickL
                 else if (category.equalsIgnoreCase("Reminder")) {
                     i.putExtra("Reminder", txtRel.getText().toString());
                     setResult(REQUEST_REMINDER, i);
+                }
+                else if (category.equalsIgnoreCase("Region")) {
+                   // i.putExtra("Region", txtRel.getText().toString());
+                   // setResult(REQUEST_REGION, i);
+                    preferences.putString(PrefConstants.REGION,txtRel.getText().toString());
+                    Toast.makeText(context,"Region changed to "+" "+txtRel.getText().toString(),Toast.LENGTH_SHORT).show();
                 }
 
                 finish();

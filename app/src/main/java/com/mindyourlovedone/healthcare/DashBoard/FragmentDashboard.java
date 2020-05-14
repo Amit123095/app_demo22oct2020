@@ -52,7 +52,7 @@ public class FragmentDashboard extends Fragment implements View.OnClickListener 
     TextView txtName, txtRel, txtAddress, txtRelation, txtDrawerName;
     RelativeLayout rlEmergencyContact, rlSpecialist, rlInsuranceCard, rlEmergencyEvent, rlPrescription, rlCarePlan;
     View rootview;
-    TextView txtTitle;
+    TextView txtTitle,txtSpecialist,txtCarePlan;
     Preferences preferences;
     DBHelper dbHelper;
     RelativeLayout leftDrawer;
@@ -182,6 +182,9 @@ public class FragmentDashboard extends Fragment implements View.OnClickListener 
         txtAddress = rootview.findViewById(R.id.txtAddress);
         txtRelation = rootview.findViewById(R.id.txtRelation);
         imgLocationFeed = getActivity().findViewById(R.id.imgLocationFeed);
+        txtSpecialist=rootview.findViewById(R.id.txtSpecialist);
+        txtCarePlan=rootview.findViewById(R.id.txtCarePlan);
+
     }
 
     /**
@@ -353,6 +356,15 @@ public class FragmentDashboard extends Fragment implements View.OnClickListener 
         initComponent();
         getProfile();
         setDrawerProfile();
+        if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+        {
+            txtSpecialist.setText("Healthcare & Other Contacts");
+            txtCarePlan.setText("Medical & Other Important Documents");
+        }else
+        {
+            txtSpecialist.setText("Specialty\nContacts");
+            txtCarePlan.setText("Advance Directives & Documents");
+        }
     }
 
     /**

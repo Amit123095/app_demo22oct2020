@@ -57,7 +57,7 @@
 
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
-            android:value="false" />
+            android:value="true" />
 
         <activity
             android:name=".SplashNewActivity"
@@ -128,7 +128,8 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDnrL_uVeAP-fquYaVGWrWViUce4BGinCY" />
+            android:value="AIzaSyDAoUbI2TffDW4GNFwYB9kAK19YtQjvVk0" />
+        <!--android:value="AIzaSyDnrL_uVeAP-fquYaVGWrWViUce4BGinCY" -->
 
         <provider
             android:name="android.support.v4.content.FileProvider"

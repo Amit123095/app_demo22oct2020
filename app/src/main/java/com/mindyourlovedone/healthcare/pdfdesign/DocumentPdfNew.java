@@ -1,5 +1,7 @@
 package com.mindyourlovedone.healthcare.pdfdesign;
 
+import android.content.Context;
+
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
@@ -11,7 +13,10 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.draw.DottedLineSeparator;
+import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.model.Document;
+import com.mindyourlovedone.healthcare.utility.PrefConstants;
+import com.mindyourlovedone.healthcare.utility.Preferences;
 
 import java.util.ArrayList;
 
@@ -371,8 +376,8 @@ public class DocumentPdfNew {
      * @param record
      * @param ppys
      */
-    public DocumentPdfNew(ArrayList<Document> recordList, String record, Image ppys) {
-
+    public DocumentPdfNew(ArrayList<Document> recordList, String record, Image ppys, Context context) {
+        Preferences preferences=new Preferences(context);
             DocumentNewFont();
             try {
                 // HeaderNew.addEmptyLine(1);
@@ -502,13 +507,26 @@ public class DocumentPdfNew {
                 if (s.getLocator() != null) {
                     locator = s.getLocator();
                 }
-               // cell = new PdfPCell(new Phrase("Electronic Health Record (add web address, username and password):" + locator));
-                    cell = new PdfPCell();
-                    HeaderNew.cellDesign(cell, table, "Electronic Health Record (add web address, username and password):", locator);
-                    table.addCell(cell);
+                    if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(context.getResources().getString(R.string.India)))
+                    {
+// cell = new PdfPCell(new Phrase("Electronic Health Record (add web address, username and password):" + locator));
+                        cell = new PdfPCell();
+                        HeaderNew.cellDesign(cell, table, "Document Provider Name and Website:", locator);
+                        table.addCell(cell);
 
-                messageRecord.add("Electronic Health Record (add web address, username and password) :");
-                messageRecord.add(locator);
+                        messageRecord.add("Document Provider Name and Website:");
+                        messageRecord.add(locator);
+                    }else
+                    {
+                        // cell = new PdfPCell(new Phrase("Electronic Health Record (add web address, username and password):" + locator));
+                        cell = new PdfPCell();
+                        HeaderNew.cellDesign(cell, table, "Electronic Health Record (add web address, username and password):", locator);
+                        table.addCell(cell);
+
+                        messageRecord.add("Electronic Health Record (add web address, username and password) :");
+                        messageRecord.add(locator);
+                    }
+
 
                     String note = "";
                     if (s.getNote() != null) {
