@@ -74,6 +74,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     TextInputLayout tilName;
     String has_card = "NO";
     DBHelper dbHelper;
+    ImageView imgBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +142,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             lastusername = getIntent().getExtras().getString("name");
             lastemail = getIntent().getExtras().getString("email");
         }
+
+        imgBack=findViewById(R.id.imgBack);
+        if(preferences.getString(PrefConstants.REGION).equalsIgnoreCase(getResources().getString(R.string.India)))
+        {
+            imgBack.setImageResource(R.drawable.sin_in);
+         }else
+        {
+            imgBack.setImageResource(R.drawable.sin);
+          }
     }
 
 
