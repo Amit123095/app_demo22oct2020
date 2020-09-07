@@ -818,6 +818,7 @@ public class ImpAgreementActivity extends AppCompatActivity implements View.OnCl
             } catch (IllegalStateException ex) {
                 Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
                 mHelper.flagEndAsync();
+                onInfiniteGasButtonClicked();
             }
         }
     }

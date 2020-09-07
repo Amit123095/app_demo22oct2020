@@ -519,9 +519,10 @@ public class WebService {
      * Function: Get user profile
      * @param name
      * @param email
+     * @param deviceUdId
      * @return
      */
-    public String getProfile(String name, String email) {
+    public String getProfile(String name, String email, String deviceUdId) {
         String result = "";
         InputStream is = null;
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
@@ -531,6 +532,7 @@ public class WebService {
 
                 httppost.setHeader("firstName", name);
                 httppost.setHeader("email", email);
+                httppost.setHeader("deviceUdid", deviceUdId);
 
                 HttpResponse response = httpclient.execute(httppost);
 
@@ -560,6 +562,7 @@ public class WebService {
                 conn = (HttpURLConnection) url.openConnection();
                 Log.e("Encode String", name);
                 Log.e("Encode String", email);
+                Log.e("Encode String", deviceUdId);
 
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setRequestProperty("charset", "utf-8");
@@ -570,8 +573,8 @@ public class WebService {
                 conn.setDoOutput(true);
                 conn.setRequestProperty("firstName", name);
                 conn.setRequestProperty("email", email);
-
-
+                conn.setRequestProperty("deviceUdid", deviceUdId);
+                Log.e("Encode String", conn.toString());
                 conn.connect();
 
                 // get stream

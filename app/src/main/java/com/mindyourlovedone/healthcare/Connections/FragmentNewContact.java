@@ -315,7 +315,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                     et.setSelection(et.getText().length());
                 }
             }
-            phonelist.get(poss).setValue(et.getText().toString());
+            if(!et.getText().toString().equals("")) {
+                phonelist.get(poss).setValue(et.getText().toString());
+            }
         }
 
     }
@@ -415,7 +417,9 @@ public class FragmentNewContact extends Fragment implements View.OnClickListener
                     if (!b) {
                         int poss = Integer.parseInt(mTextViewListValue.get(pos).getTag().toString());
                         final TextView Caption = (TextView) view;
-                        phonelist.get(poss).setValue(Caption.getText().toString());
+                        if(!Caption.getText().toString().equals("")) {
+                            phonelist.get(poss).setValue(Caption.getText().toString());
+                        }
                     }
                 }
             });

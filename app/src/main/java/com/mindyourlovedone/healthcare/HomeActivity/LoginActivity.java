@@ -1,6 +1,7 @@
 package com.mindyourlovedone.healthcare.HomeActivity;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -449,7 +451,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         ProgressDialog pd;
         String name = "";
         String email = "";
-
+        String deviceUdId ="";
         /**
          * Constructor: GetUserAsynk
          * Initializes the variables.
@@ -464,6 +466,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         @Override
         protected void onPreExecute() {
+             deviceUdId = Settings.Secure.getString(getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
             super.onPreExecute();
             // Initialize progress dialog
             pd = new ProgressDialog(context);
@@ -482,7 +486,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         protected String doInBackground(Void... params) {
             //Call to get profile metod for get data from server db{
             WebService webService = new WebService();
-            String result = webService.getProfile(name, email);
+            String result = webService.getProfile(name, email,deviceUdId);
             return result;
         }
 
@@ -530,11 +534,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     void alert(String message) {
-        AlertDialog.Builder bld = new AlertDialog.Builder(this);
+        AlertDialog.Builder bld = new AlertDialog.Builder(LoginActivity.this);
         bld.setMessage(message);
         bld.setNeutralButton("OK", null);
         Log.d(TAG, "Showing alert dialog: " + message);
-        bld.create().show();
+        if(!((Activity) context).isFinishing()) {
+            bld.create().show();
+        }
     }
 
     /**
@@ -763,6 +769,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(this, "Please retry in a few seconds.", Toast.LENGTH_SHORT).show();
                 FirebaseCrash.report(ex);
                 mHelper.flagEndAsync();
+                onInfiniteGasButtonClicked();
             }
         }
     }
