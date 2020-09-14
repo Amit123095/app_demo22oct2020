@@ -62,6 +62,8 @@ import com.mindyourlovedone.healthcare.Fragment.FragmentContactUs;
 import com.mindyourlovedone.healthcare.Fragment.FragmentResourcesNew;
 import com.mindyourlovedone.healthcare.Fragment.FragmentSetting;
 import com.mindyourlovedone.healthcare.Fragment.FragmentSponsor;
+import com.mindyourlovedone.healthcare.backuphistory.BackupHistoryQuery;
+import com.mindyourlovedone.healthcare.backuphistory.DBHelperHistory;
 import com.mindyourlovedone.healthcare.customview.MySpinner;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.MyConnectionsQuery;
@@ -933,6 +935,7 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
+        //Toast.makeText(context,"BaseActivity OnResume Called",Toast.LENGTH_SHORT).show();
         String image = preferences.getString(PrefConstants.USER_PROFILEIMAGE);
         txtDrawerName.setText(preferences.getString(PrefConstants.USER_NAME));
 
@@ -958,6 +961,16 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
     @Override
     protected void loadData() {
         //fragmentConnection.getlogin();
+    }
+
+    @Override
+    public void unzipdata(String absolutePath, String path) {
+
+    }
+
+    @Override
+    public void downloadfileRestore(String fileName, String profile, String fileMetaData) {
+
     }
 
     /**
@@ -1119,6 +1132,29 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
             super.onPostExecute(o);
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+      //  Toast.makeText(context,"BaseActivity OnPause Called",Toast.LENGTH_SHORT).show();
+        if(preferences.getString(PrefConstants.InProgress).equals("true"))
+        {
+            //Update BackupHistory
+            DBHelperHistory sqliteHelper=new DBHelperHistory(context);
+            BackupHistoryQuery backupHistoryQuery=new BackupHistoryQuery(context,sqliteHelper);
+
+            Boolean flagr = BackupHistoryQuery.updateCompletedHistoryData("KILL",preferences.getInt("LASTBACKUPRECORD"),"","Application is closed");
+            if (flagr == true) {
+                preferences.putString(PrefConstants.InProgress,"false");
+                Toast.makeText(context, "Backup History is in pause", Toast.LENGTH_SHORT).show();
+                // ArrayList<BackupHistory> backupHistory=BackupHistoryQuery.fetchAllRecord();
+                // Toast.makeText(context,""+backupHistory.size(),Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
 }
 

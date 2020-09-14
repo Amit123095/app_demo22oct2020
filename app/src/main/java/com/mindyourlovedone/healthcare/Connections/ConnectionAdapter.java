@@ -37,9 +37,14 @@ import com.mindyourlovedone.healthcare.SwipeCode.RecyclerSwipeAdapter;
 import com.mindyourlovedone.healthcare.SwipeCode.SimpleSwipeListener;
 
 import com.mindyourlovedone.healthcare.SwipeCode.SwipeLayout;
+import com.mindyourlovedone.healthcare.backuphistory.BackupHistoryQuery;
+import com.mindyourlovedone.healthcare.backuphistory.DBHelperHistory;
+import com.mindyourlovedone.healthcare.backuphistory.SqliteHelper;
 import com.mindyourlovedone.healthcare.customview.MySpinner;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.MyConnectionsQuery;
+import com.mindyourlovedone.healthcare.database.VaccineQuery;
+import com.mindyourlovedone.healthcare.model.BackupHistory;
 import com.mindyourlovedone.healthcare.model.RelativeConnection;
 import com.mindyourlovedone.healthcare.utility.DialogManager;
 import com.mindyourlovedone.healthcare.utility.PrefConstants;
@@ -52,6 +57,7 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -79,6 +85,7 @@ public class ConnectionAdapter extends RecyclerSwipeAdapter<ConnectionAdapter.Vi
     DisplayImageOptions displayImageOptions;
     String[] Relationship = {"Aunt", "Brother", "Brother-in-law", "Client", "Cousin", "Dad", "Daughter", "Daughter-in-law", "Father-in-law", "Friend", "Granddaughter", "Grandmother", "Grandfather", "Grandson", "Husband", "Mom", "Mother-in-law", "Neighbor", "Nephew", "Niece", "Patient", "Roommate", "Significant Other", "Sister", "Sister-in-law", "Son", "Son-in-law", "Uncle", "Wife", "Other"};
     FragmentConnectionNew fragmentConnectionNew;
+    SqliteHelper sqliteHelper;
 
     /**
      * Constructor: ConnectionAdapter
@@ -92,6 +99,7 @@ public class ConnectionAdapter extends RecyclerSwipeAdapter<ConnectionAdapter.Vi
         this.context = context;
         this.connectionList = connectionList;
         this.fragmentConnectionNew = fragmentConnectionNew;
+       sqliteHelper=new SqliteHelper(context);
         lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //Initialize Image loading and displaying at ImageView
         initImageLoader();
@@ -419,6 +427,7 @@ public class ConnectionAdapter extends RecyclerSwipeAdapter<ConnectionAdapter.Vi
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(context,"Inside code",Toast.LENGTH_SHORT).show();
                 fragmentConnectionNew.hideSoftKeyboard();
                 String mail = connectionList.get(position).getEmail();
                 mail = mail.replace(".", "_");
@@ -432,7 +441,7 @@ public class ConnectionAdapter extends RecyclerSwipeAdapter<ConnectionAdapter.Vi
                     etNote.setError("Please enter file name");
                     DialogManager.showAlert("Please enter file name", context);
                 } else {
-                    customDialog.dismiss();
+
                     Intent i = new Intent(context, DropboxLoginActivity.class);
                     if (from.equalsIgnoreCase("Share")) {
                         i.putExtra("FROM", "Share");
@@ -447,7 +456,27 @@ public class ConnectionAdapter extends RecyclerSwipeAdapter<ConnectionAdapter.Vi
                     preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
                     preferences.putString(PrefConstants.ZIPFILE, username);
 
+                    DBHelperHistory sqliteHelper=new DBHelperHistory(context);
+                    BackupHistoryQuery backupHistoryQuery=new BackupHistoryQuery(context,sqliteHelper);
+                    Calendar c4 = Calendar.getInstance();
+                    c4.getTime();
+                    DateFormat df4 = new SimpleDateFormat("yyyy-M-dd hh:mm:ss");
+                    String date4 = df4.format(c4.getTime());
+                    Boolean flagr = BackupHistoryQuery.insertHistoryData(etNote.getText().toString().trim(),"Manual",date4,"","In Progress","Individual","");
+                    if (flagr == true) {
+                        preferences.putString(PrefConstants.InProgress,"true");
+                        Toast.makeText(context, "Backup history has been saved succesfully", Toast.LENGTH_SHORT).show();
+                        ArrayList<BackupHistory> backupHistory=BackupHistoryQuery.fetchAllRecord();
+                        for (int j=0;j<backupHistory.size();j++) {
+                            preferences.putInt("LASTBACKUPRECORD", backupHistory.get(j).getId());
+                        }
+                        Toast.makeText(context,""+preferences.getInt("LASTBACKUPRECORD"),Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                    }
+
                     context.startActivity(i);
+                    customDialog.dismiss();
                 }
             }
         });

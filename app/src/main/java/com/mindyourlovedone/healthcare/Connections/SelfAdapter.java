@@ -35,9 +35,12 @@ import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.SwipeCode.RecyclerSwipeAdapter;
 import com.mindyourlovedone.healthcare.SwipeCode.SimpleSwipeListener;
 import com.mindyourlovedone.healthcare.SwipeCode.SwipeLayout;
+import com.mindyourlovedone.healthcare.backuphistory.BackupHistoryQuery;
+import com.mindyourlovedone.healthcare.backuphistory.DBHelperHistory;
 import com.mindyourlovedone.healthcare.customview.MySpinner;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.MyConnectionsQuery;
+import com.mindyourlovedone.healthcare.model.BackupHistory;
 import com.mindyourlovedone.healthcare.model.RelativeConnection;
 import com.mindyourlovedone.healthcare.utility.DialogManager;
 import com.mindyourlovedone.healthcare.utility.PrefConstants;
@@ -50,6 +53,7 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -336,6 +340,7 @@ public class SelfAdapter extends RecyclerSwipeAdapter<SelfAdapter.ViewHolder> {
                         i.putExtra("FROM", "Share");
                     }else if (from.equalsIgnoreCase("Backup")) {
                         i.putExtra("FROM", "Backup");
+
                     }
                     i.putExtra("ToDo", "Individual");
                     i.putExtra("ToDoWhat", "Share");
@@ -343,6 +348,25 @@ public class SelfAdapter extends RecyclerSwipeAdapter<SelfAdapter.ViewHolder> {
                     preferences.putString(PrefConstants.CONNECTED_USERDB, mail);
                     preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/" + preferences.getString(PrefConstants.CONNECTED_USERDB) + "/");
                     preferences.putString(PrefConstants.ZIPFILE, username);
+
+                    //Insert BackupHistory
+                    DBHelperHistory sqliteHelper=new DBHelperHistory(context);
+                    BackupHistoryQuery backupHistoryQuery=new BackupHistoryQuery(context,sqliteHelper);
+                    Calendar c4 = Calendar.getInstance();
+                    c4.getTime();
+                    DateFormat df4 = new SimpleDateFormat("yyyy-M-dd hh:mm:ss");
+                    String date4 = df4.format(c4.getTime());
+                    Boolean flagr = BackupHistoryQuery.insertHistoryData(etNote.getText().toString().trim(),"Manual",date4,"","In Progress","Individual","");
+                    if (flagr == true) {
+                        Toast.makeText(context, "Backup history has been saved succesfully", Toast.LENGTH_SHORT).show();
+                        ArrayList<BackupHistory> backupHistory=BackupHistoryQuery.fetchAllRecord();
+                        for (int j=0;j<backupHistory.size();j++) {
+                            preferences.putInt("LASTBACKUPRECORD", backupHistory.get(j).getId());
+                        }
+                        Toast.makeText(context,""+preferences.getInt("LASTBACKUPRECORD"),Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                    }
 
                     context.startActivity(i);
                 }

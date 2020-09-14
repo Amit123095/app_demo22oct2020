@@ -16,7 +16,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.NonNull;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -40,6 +40,8 @@ import com.mindyourlovedone.healthcare.DashBoard.UserInsActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 
 import com.mindyourlovedone.healthcare.HomeActivity.R;
+import com.mindyourlovedone.healthcare.backuphistory.BackupHistoryQuery;
+import com.mindyourlovedone.healthcare.backuphistory.DBHelperHistory;
 import com.mindyourlovedone.healthcare.database.ContactDataQuery;
 import com.mindyourlovedone.healthcare.database.ContactTableQuery;
 import com.mindyourlovedone.healthcare.database.DBHelper;
@@ -66,7 +68,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
 
 import static android.graphics.Color.TRANSPARENT;
 /**
@@ -76,6 +77,7 @@ import static android.graphics.Color.TRANSPARENT;
  * implements OnclickListener for onClick event on views
  */
 public class FilesActivity extends DropboxActivity implements ZipListner {
+    Context context = this;
     private static final String APP_KEY = "428h5i4dsj95eeh";
     public final static String EXTRA_PATH = "FilesActivity_Path";
     private static final String TAG = FilesActivity.class.getName();
@@ -89,7 +91,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
     ImageView imgBack, imgBack2, imgRight;
     RecyclerView recyclerView, srecyclerView;
     ArrayList<DropBoxFileItem> resultListBackup = new ArrayList<>();
-    String dirName="";
+    String dirName = "";
 
     public static Intent getIntent(Context context, String path) {
         Intent filesIntent = new Intent(context, FilesActivity.class);
@@ -98,7 +100,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
     }
 
     public void setNameFile(String dirName) {
-        this.dirName=dirName;
+        this.dirName = dirName;
     }
 
     @SuppressLint("ResourceType")
@@ -309,7 +311,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
             } else {
             }
 
-            File destfolder = new File(Environment.getExternalStorageDirectory(),"/"+ preferences.getString(PrefConstants.ZIPFILE) + ".zip");
+            File destfolder = new File(Environment.getExternalStorageDirectory(), "/" + preferences.getString(PrefConstants.ZIPFILE) + ".zip");
             if (!destfolder.exists()) {
                 try {
                     destfolder.createNewFile();
@@ -381,7 +383,8 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
     }
 
     /**
-     *Function: Upload or Dowanload File Operation
+     * Function: Upload or Dowanload File Operation
+     *
      * @param action
      */
     private void performAction(FileAction action) {
@@ -413,10 +416,10 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
         if (preferences.getString(PrefConstants.ACCESS).equals("Share")) {
             preferences.putString(PrefConstants.ACCESS, "Default");
             performWithPermissions(FilesActivity.FileAction.UPLOAD);
-        }else if (preferences.getString(PrefConstants.ACCESS).equals("Backup")) {
+        } else if (preferences.getString(PrefConstants.ACCESS).equals("Backup")) {
             preferences.putString(PrefConstants.ACCESS, "Default");
             performWithPermissions(FilesActivity.FileAction.UPLOAD);
-        }else {
+        } else {
 
 // Code for Received files
             if (resultListBackup.size() == 0) {
@@ -425,96 +428,149 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                 dialog.setCancelable(false);
                 dialog.setMessage("Loading \nPlease be patient");
                 dialog.show();
-                new ListReceivedFolderTask(FilesActivity.this,DropboxClientFactory.getClient(), new ListReceivedFolderTask.Callback() {//Nikita - new changes for merged data
+                new ListReceivedFolderTask(FilesActivity.this, DropboxClientFactory.getClient(), new ListReceivedFolderTask.Callback() {//Nikita - new changes for merged data
                     @Override
                     public void onDataLoaded(ArrayList<DropBoxFileItem> result) {
                         dialog.dismiss();
-                        ArrayList<DropBoxFileItem> resultList = new ArrayList<>();
-                        resultListBackup=resultList;
-                        for (int i = 0; i < result.size(); i++) {
-                            if (result.get(i).getShared() == 1) {
-                                SharedFileMetadata ss = result.get(i).getSharefmd();
-                                if (preferences.getString(PrefConstants.STORE).equals("Document")) {
-                                    resultList.add(result.get(i));
-                                } else if (preferences.getString(PrefConstants.STORE).equals("Restore")) {
-                                    if (ss.getName().endsWith(".zip")) {
-                                        if (preferences.getString(PrefConstants.TODOWHAT).equals("Import")) {
-                                            if (ss.getName().equals("MYLO.zip")) {
+                        Preferences preferences = new Preferences(context);
+                        if (!preferences.getString(PrefConstants.RESTORE).equals("")) {
 
-                                            } else {
-                                                String name=ss.getName();//whole_MYLO.zip
-                                                int l=name.length();
-                                                if (l>=10){
-                                                    name = name.substring((l - 9),l);
-                                                    if (name.equalsIgnoreCase("_MYLO.zip")) {
-
-                                                    }else{
-                                                        resultList.add(result.get(i));
-                                                    }
-                                                }
-                                            }
+                            for (int i = 0; i < result.size(); i++) {
+                                if (result.get(i).getShared() != 1) {
+                                    String Name = preferences.getString(PrefConstants.RESTORE);
+                                    Metadata ss = result.get(i).getFilemd();
+                                    String name = ss.getName();//whole_MYLO.zip
+                                    int l = name.length();
+                                    if (l >= 10) {
+                                        name = name.substring((l - 9), l);
+                                        if (name.equalsIgnoreCase("_MYLO.zip")) {
+                                            Name = Name.concat(name);
+                                            preferences.putString(PrefConstants.TODO, "Whole");
+                                            preferences.putString(PrefConstants.TODO, "Whole");
                                         } else {
-                                            if (ss.getName().equals("MYLO.zip")) {
-                                                resultList.add(result.get(i));
-                                            } else {
-                                                String name=ss.getName();//whole_MYLO.zip
-                                                int l=name.length();
-                                                if (l>=10){
-                                                    name = name.substring((l - 9),l);
-                                                    if (name.equalsIgnoreCase("_MYLO.zip")) {
-                                                        resultList.add(result.get(i));
-                                                    }
-                                                }
-                                            }
+                                            Name = Name.concat(".zip");
+                                            preferences.putString(PrefConstants.TODO, "Individual");
                                         }
 
+                                    } else {
+                                        Name = Name.concat(".zip");
+                                        preferences.putString(PrefConstants.TODO, "Individual");
                                     }
+                                    Log.v("FILESDT", ss.getName() + " " + Name);
+                                    if (ss.getName().equals(Name)) {
+                                        sSelectedFile = result.get(i);
+                                        performWithPermissions(FileAction.DOWNLOAD);
+                                        Log.v("FILESDT", "DOWNLOAd " + sSelectedFile.getFilemd());
+                                        //break;
+                                    }
+
+
                                 }
-                            } else {
-                                Metadata ss = result.get(i).getFilemd();
-                                if (preferences.getString(PrefConstants.STORE).equals("Document")) {
-                                    resultList.add(result.get(i));
-                                } else if (preferences.getString(PrefConstants.STORE).equals("Restore")) {
-                                    if (ss.getName().endsWith(".zip")) {
-                                        if (preferences.getString(PrefConstants.TODOWHAT).equals("Import")) {
-                                            if (ss.getName().equals("MYLO.zip")) {
-                                                //resultList.add(result.get(i));
-                                            } else {
-                                                String name=ss.getName();//whole_MYLO.zip
-                                                int l=name.length();
-                                                if (l>=10){
-                                                    name = name.substring((l - 9),l);
-                                                    if (name.equalsIgnoreCase("_MYLO.zip")) {
+                                //return;
+                            }
+                            preferences.putString(PrefConstants.RESTORE, "");
+        /*if (result.get(i).getFilemd().equals(preferences.getString(PrefConstants.RESTORE))) {
+            sSelectedFile = result.get(i);
+            performWithPermissions(FileAction.DOWNLOAD);
+            break;
+        }*/
 
-                                                    }else{
-                                                        resultList.add(result.get(i));
+                        } else {
+
+                            ArrayList<DropBoxFileItem> resultList = new ArrayList<>();
+                            resultListBackup = resultList;
+                            for (int i = 0; i < result.size(); i++) {
+                                if (result.get(i).getShared() == 1) {
+                                    SharedFileMetadata ss = result.get(i).getSharefmd();
+                                    if (preferences.getString(PrefConstants.STORE).equals("Document")) {
+                                        resultList.add(result.get(i));
+                                    } else if (preferences.getString(PrefConstants.STORE).equals("Restore")) {
+                                        if (ss.getName().endsWith(".zip")) {
+                                            if (preferences.getString(PrefConstants.TODOWHAT).equals("Import")) {
+                                                if (ss.getName().equals("MYLO.zip")) {
+
+                                                } else {
+                                                    String name = ss.getName();//whole_MYLO.zip
+                                                    int l = name.length();
+                                                    if (l >= 10) {
+                                                        name = name.substring((l - 9), l);
+                                                        if (name.equalsIgnoreCase("_MYLO.zip")) {
+
+                                                        } else {
+                                                            resultList.add(result.get(i));
+                                                        }
                                                     }
                                                 }
-                                            }
-                                        } else {
-                                            if (ss.getName().equals("MYLO.zip")) {
-                                                resultList.add(result.get(i));
                                             } else {
-                                                String name=ss.getName();//whole_MYLO.zip
-                                                int l=name.length();
-                                                if (l>=10){
-                                                    name = name.substring((l - 9),l);
-                                                    if (name.equalsIgnoreCase("_MYLO.zip")) {
-                                                        resultList.add(result.get(i));
+                                                if (ss.getName().equals("MYLO.zip")) {
+                                                    resultList.add(result.get(i));
+                                                } else {
+                                                    String name = ss.getName();//whole_MYLO.zip
+                                                    int l = name.length();
+                                                    if (l >= 10) {
+                                                        name = name.substring((l - 9), l);
+                                                        if (name.equalsIgnoreCase("_MYLO.zip")) {
+                                                            resultList.add(result.get(i));
+                                                        }
                                                     }
                                                 }
                                             }
+
                                         }
-                                        // if (result.getEntries().get(i).getName().endsWith(".pdf")||result.getEntries().get(i).getName().endsWith(".db")) {
+                                    }
+                                } else {
+                                    Metadata ss = result.get(i).getFilemd();
+                                    if (preferences.getString(PrefConstants.STORE).equals("Document")) {
+                                        resultList.add(result.get(i));
+                                    } else if (preferences.getString(PrefConstants.STORE).equals("Restore")) {
+                                        if (ss.getName().endsWith(".zip")) {
+                                            if (preferences.getString(PrefConstants.TODOWHAT).equals("Import")) {
+                                                if (ss.getName().equals("MYLO.zip")) {
+                                                    //resultList.add(result.get(i));
+                                                } else {
+                                                    String name = ss.getName();//whole_MYLO.zip
+                                                    int l = name.length();
+                                                    if (l >= 10) {
+                                                        name = name.substring((l - 9), l);
+                                                        if (name.equalsIgnoreCase("_MYLO.zip")) {
 
+                                                        } else {
+                                                            resultList.add(result.get(i));
+                                                        }
+                                                    }
+                                                }
+                                            } else {
+                                                if (ss.getName().equals("MYLO.zip")) {
+                                                    resultList.add(result.get(i));
+                                                } else {
+                                                    String name = ss.getName();//whole_MYLO.zip
+                                                    int l = name.length();
+                                                    if (l >= 10) {
+                                                        name = name.substring((l - 9), l);
+                                                        if (name.equalsIgnoreCase("_MYLO.zip")) {
+                                                            resultList.add(result.get(i));
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            // if (result.getEntries().get(i).getName().endsWith(".pdf")||result.getEntries().get(i).getName().endsWith(".db")) {
+
+                                        }
                                     }
                                 }
                             }
-                        }
-                        if (resultList.size() != 0) {
-                            mSharedFilesAdapter.setSharedFiles(resultList);
-                        } else {
-                            //   Toast.makeText(FilesActivity.this,"Backup file is not present in your account for restore",Toast.LENGTH_SHORT).show();
+                            if (resultList.size() != 0) {
+                           /* for(int i=0;i<resultList.size();i++) {
+                            if(preferences.getString(PrefConstants.RESTORE).equals(resultList.get(i).filemd.getName()))
+                            {
+
+                                break;
+                            }
+                            }*/
+                                mSharedFilesAdapter.setSharedFiles(resultList);
+                            } else {
+                                //   Toast.makeText(FilesActivity.this,"Backup file is not present in your account for restore",Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
 
@@ -524,21 +580,287 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
 
                         Log.e(TAG, "Failed to list folder.", e);
                         Toast.makeText(FilesActivity.this,
-                                "An error has occurred",
+                                "An error has occurred" + "533" + e.getMessage(),
                                 Toast.LENGTH_SHORT)
                                 .show();
+
                     }
                 }).execute(mPath);
 
             }
         }
+
     }
+
+    @Override
+    public void unzipdata(String absolutePath, String path) {
+        new UnZipTask(FilesActivity.this, absolutePath, path, FilesActivity.this).execute();//nikita
+    }
+
+    @Override
+    public void downloadfileRestore(String fileName, final String profile, String fileMetaData) {
+        String slash = "/";
+        if (profile.equals("Individual")) {
+            fileName = fileName.concat(".zip");
+
+            fileName = slash.concat(fileName);
+        } else {
+            fileName = fileName.concat("_MYLO.zip");
+            fileName = slash.concat(fileName);
+        }
+       /* final ProgressDialog dialog = new ProgressDialog(FilesActivity.this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setCancelable(false);
+        dialog.setMessage("Downloading");
+        dialog.show();*/
+
+        new DownloadHistoryTask(FilesActivity.this, DropboxClientFactory.getClient(), new DownloadHistoryTask.Callback() {
+            @Override
+            public void onDownloadComplete(File result) {
+             //   dialog.dismiss();
+
+                if (result != null) {
+                    //viewFileInExternalApp(result);
+                    AddDocumentActivity a = new AddDocumentActivity();
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    MimeTypeMap mime = MimeTypeMap.getSingleton();
+                    String ext = result.getName().substring(result.getName().indexOf(".") + 1);
+                    String type = mime.getMimeTypeFromExtension(ext);
+                    preferences = new Preferences(FilesActivity.this);
+                    preferences.putString(PrefConstants.URI, result.getAbsolutePath());
+                    preferences.putString(PrefConstants.RESULT, result.getName());
+
+                    Intent i = new Intent();
+                    i.putExtra("URI", result.getAbsolutePath());
+                    i.putExtra("Name", result.getName());
+
+                    if (preferences.getString(PrefConstants.STORE).equals("Document")) {
+                        setResult(45, i);
+                        finish();
+                    } else {
+
+                        final AlertDialog.Builder alert = new AlertDialog.Builder(FilesActivity.this);
+                        alert.setTitle("Restore?");
+                        alert.setMessage("Do you want to unzip and  restore " + preferences.getString(PrefConstants.RESULT) + " database?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                String name = preferences.getString(PrefConstants.RESULT);
+                                Log.v("NAME", name);
+                                if (profile.equals("Individual")) {
+                                    String sd = Environment.getExternalStorageDirectory().getAbsolutePath();
+                                    //  File data=DropboxLoginActivity.this.getDatabasePath(DBHelper.DATABASE_NAME);
+                                    String backupDBPath = "/Download/" + name;
+                                    String newname = name.replace(".zip", "");
+                                    final File folder = new File(sd, backupDBPath);
+                                    final File destfolder = new File(Environment.getExternalStorageDirectory(),
+                                            "/MYLO/" + newname);
+                                    final File destfolder1 = new File(Environment.getExternalStorageDirectory(),
+                                            "/MYLO/");//nikita
+                                    if (!destfolder.exists()) {
+                                        destfolder.mkdir();
+                                        FileInputStream fis = null;
+                                        ZipInputStream zipIs = null;
+                                        ZipEntry zEntry = null;
+                                        try {
+                                            fis = new FileInputStream(folder);
+                                            zipIs = new ZipInputStream(new BufferedInputStream(fis));
+                                            // Log.v("FILESF",zipIs.getNextEntry().getName());
+                                            String fnamelist[] = zipIs.getNextEntry().getName().split("/");
+                                            String fname = fnamelist[0];
+                                            if (fname.equals("")) {
+                                                fname = fnamelist[1];
+                                            }
+
+                                            File[] files = destfolder1.listFiles();
+                                            boolean flag = false;
+                                            boolean nofull = false;
+                                            for (int i = 0; i < files.length; i++) {
+                                                if (files[i].getName().equals(fname)) {
+                                                    flag = true;
+                                                    Log.v("FILESF", files[i].getName() + "-" + fname + "-" + "Profile exists");
+                                                    Toast.makeText(FilesActivity.this, "Profile exists", Toast.LENGTH_SHORT);
+                                                    break;
+                                                }
+
+                                            }
+
+                                            for (int i = 0; i < fnamelist.length; i++) {
+                                                if (fnamelist[i].equalsIgnoreCase("MYLO")) {
+                                                    nofull = true;
+                                                    break;
+                                                }
+                                            }
+
+                                            zipIs.close();
+                                            if (nofull != true) {
+                                                if (flag == true) {
+                                                    AlertDialog.Builder alerts = new AlertDialog.Builder(FilesActivity.this);
+                                                    alerts.setTitle("Replace?");
+                                                    alerts.setMessage("Profile is already exists, Do you want to replace?");
+                                                    alerts.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(), FilesActivity.this).execute();//nikita
+                                                            dialog.dismiss();
+                                                        }
+                                                    });
+
+                                                    alerts.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+
+                                                            dialog.dismiss();
+                                                        }
+                                                    });
+
+                                                    alerts.show();
+                                                } else {
+                                                    new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(), FilesActivity.this).execute();//nikita
+                                                }
+                                            } else {
+                                                AlertDialog.Builder alertf = new AlertDialog.Builder(FilesActivity.this);
+                                                alertf.setTitle("Invalid");
+                                                alertf.setMessage("Invalid Profile Backup");
+                                                alertf.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        try {
+                                                            FileUtils.deleteDirectory(destfolder);
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                        dialog.dismiss();
+                                                    }
+                                                });
+
+                                                alertf.show();
+                                            }
+                                        } catch (FileNotFoundException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        }
+
+                                    } else {
+                                        Log.v("FILESF", newname + "-" + "Profile exists");
+                                        AlertDialog.Builder alerts = new AlertDialog.Builder(FilesActivity.this);
+                                        alerts.setTitle("Replace?");
+                                        alerts.setMessage("Profile is already exists, Do you want to replace?");
+                                        alerts.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), destfolder1.getAbsolutePath(), FilesActivity.this).execute();//nikita
+                                                dialog.dismiss();
+                                            }
+                                        });
+
+                                        alerts.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                dialog.dismiss();
+                                            }
+                                        });
+
+                                        alerts.show();
+
+                                    }
+
+                                } else {
+
+                                    String sd = Environment.getExternalStorageDirectory().getAbsolutePath();
+                                    String backupDBPath = "/Download/" + name;
+                                    String newname = name.replace(".zip", "");
+                                    final File folder = new File(sd, backupDBPath);
+                                    final File destfolder = new File(Environment.getExternalStorageDirectory(),
+                                            newname);
+                                    final File destfolders = new File(Environment.getExternalStorageDirectory(),
+                                            "MYLO");
+
+                                    FileInputStream fis = null;
+                                    ZipInputStream zipIs = null;
+                                    try {
+                                        fis = new FileInputStream(folder);
+                                        zipIs = new ZipInputStream(new BufferedInputStream(fis));
+                                        String fnamelist[] = zipIs.getNextEntry().getName().split("/");
+
+                                        boolean nofull = false;
+
+                                        for (int i = 0; i < fnamelist.length; i++) {
+                                            if (fnamelist[i].equalsIgnoreCase("MYLO")) {
+                                                nofull = true;
+                                                break;
+                                            }
+                                        }
+                                        zipIs.close();
+                                        if (nofull == true) {
+                                            if (destfolders.exists()) {
+                                                try {
+                                                    FileUtils.deleteDirectory(destfolders);
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                            new UnZipTask(FilesActivity.this, folder.getAbsolutePath(), Environment.getExternalStorageDirectory().getAbsolutePath(), FilesActivity.this).execute();//nikita
+
+                                        } else {
+                                            AlertDialog.Builder alertf = new AlertDialog.Builder(FilesActivity.this);
+                                            alertf.setTitle("Invalid");
+                                            alertf.setMessage("Invalid MYLO Whole Backup");
+                                            alertf.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+
+                                            alertf.show();
+                                        }
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                            }
+                        });
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alert.show();
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                //dialog.dismiss();
+
+                Log.e(TAG, "Failed to download file.", e);
+                Toast.makeText(FilesActivity.this,
+                        "An error has occurred" + "793",
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+        }).execute(fileName, fileMetaData);
+
+}
+
 
     /**
      * Function: Download Selected inbox file from list
      * @param file
      */
-    private void downloadFile(FileMetadata file) {
+    public void downloadFile(FileMetadata file) {
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setCancelable(false);
@@ -783,7 +1105,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
 
                 Log.e(TAG, "Failed to download file.", e);
                 Toast.makeText(FilesActivity.this,
-                        "An error has occurred",
+                        "An error has occurred"+ "793",
                         Toast.LENGTH_SHORT)
                         .show();
             }
@@ -1034,7 +1356,7 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
 
                 Log.e(TAG, "Failed to download file.", e);
                 Toast.makeText(FilesActivity.this,
-                        "An error has occurred",
+                        "An error has occurred" + "1044",
                         Toast.LENGTH_SHORT)
                         .show();
             }
@@ -1192,6 +1514,21 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
         dialog.setMessage("Backing up data can take several minutes...\nPlease be patient");
         dialog.show();
 
+  /*      DBHelperHistory sqliteHelper=new DBHelperHistory(context);
+        BackupHistoryQuery backupHistoryQuery=new BackupHistoryQuery(context,sqliteHelper);
+        Calendar c4 = Calendar.getInstance();
+        c4.getTime();
+        DateFormat df4 = new SimpleDateFormat("dd MM yy");
+        String date4 = df4.format(c4.getTime());
+        Boolean flagr = BackupHistoryQuery.insertHistoryData("MYLO","Manual","date","Reason","In Progress");
+        if (flagr == true) {
+            Toast.makeText(context, "Backuphistory has been saved succesfully", Toast.LENGTH_SHORT).show();
+            ArrayList<BackupHistory> backupHistory=BackupHistoryQuery.fetchAllRecord();
+            Toast.makeText(context,""+backupHistory.size(),Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+        }*/
+
         new UploadFileTask(this, DropboxClientFactory.getClient(), new UploadFileTask.Callback() {
             @Override
             public void onUploadComplete(final FileMetadata result) {
@@ -1233,7 +1570,19 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                     preferences.putString(PrefConstants.SHARE, result.getId());
                     preferences.putString(PrefConstants.FILE, result.getName());
                     preferences.putString(PrefConstants.MSG, message);
+                    //Update BackupHistory
+                    DBHelperHistory sqliteHelper=new DBHelperHistory(context);
+                    BackupHistoryQuery backupHistoryQuery=new BackupHistoryQuery(context,sqliteHelper);
 
+                    Boolean flagr = BackupHistoryQuery.updateCompletedHistoryData("Completed",preferences.getInt("LASTBACKUPRECORD"),""+result.getRev(),"");
+                    if (flagr == true) {
+                        preferences.putString(PrefConstants.InProgress,"false");
+                        Toast.makeText(context, "Backuphistory has been update succesfully", Toast.LENGTH_SHORT).show();
+                        // ArrayList<BackupHistory> backupHistory=BackupHistoryQuery.fetchAllRecord();
+                        // Toast.makeText(context,""+backupHistory.size(),Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                    }
                     dialog.dismiss();
                     FilesActivity.this.finish();
                 } else {
@@ -1241,17 +1590,17 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                     String message = "Backup is stored in: " + result.getName() + "\n\nsize: " + String.format("%.2f", mbs)+" MB" + "\n\nmodified: " +
                             DateFormat.getDateTimeInstance().format(result.getClientModified());
 
+
                     final AlertDialog.Builder alert = new AlertDialog.Builder(FilesActivity.this);
                     alert.setTitle("Backup Stored successfully");
                     alert.setMessage(message);
+                    alert.setCancelable(false);
                     alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             preferences.putString(PrefConstants.FINIS, "true");
                             dialog.dismiss();
                             FilesActivity.this.finish();
-
-
                         }
                     });
                     alert.show();
@@ -1268,6 +1617,21 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
                         "An error has occurred"+e.getMessage(),
                         Toast.LENGTH_SHORT)
                         .show();
+
+
+                //Update BackupHistory
+                DBHelperHistory sqliteHelper=new DBHelperHistory(context);
+                BackupHistoryQuery backupHistoryQuery=new BackupHistoryQuery(context,sqliteHelper);
+
+                Boolean flagr = BackupHistoryQuery.updateFailedHistoryData("Fail",e.getMessage(),preferences.getInt("LASTBACKUPRECORD"));
+                if (flagr == true) {
+                    preferences.putString(PrefConstants.InProgress,"false");
+                    Toast.makeText(context, "Backuphistory has been update succesfully", Toast.LENGTH_SHORT).show();
+                    // ArrayList<BackupHistory> backupHistory=BackupHistoryQuery.fetchAllRecord();
+                    // Toast.makeText(context,""+backupHistory.size(),Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                }
             }
         }).execute(fileUri, mPath);
     }
@@ -1651,6 +2015,34 @@ public class FilesActivity extends DropboxActivity implements ZipListner {
 
         }
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    // Toast.makeText(context,"FilesActivity OnPause Called",Toast.LENGTH_SHORT).show();
+     if(preferences.getString(PrefConstants.InProgress).equals("true"))
+        {
+            //Update BackupHistory
+            DBHelperHistory sqliteHelper=new DBHelperHistory(context);
+            BackupHistoryQuery backupHistoryQuery=new BackupHistoryQuery(context,sqliteHelper);
+
+            Boolean flagr = BackupHistoryQuery.updateCompletedHistoryData("KILL",preferences.getInt("LASTBACKUPRECORD"),"","Application is closed");
+            if (flagr == true) {
+                preferences.putString(PrefConstants.InProgress,"false");
+                Toast.makeText(context, "Backup History is in pause", Toast.LENGTH_SHORT).show();
+                // ArrayList<BackupHistory> backupHistory=BackupHistoryQuery.fetchAllRecord();
+                // Toast.makeText(context,""+backupHistory.size(),Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+      //  Toast.makeText(context,"FilesActivity OnResume Called",Toast.LENGTH_SHORT).show();
     }
 }
 

@@ -48,6 +48,7 @@ import com.dropbox.core.v2.sharing.SharedFileMetadata;
 import com.dropbox.core.v2.users.FullAccount;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mindyourlovedone.healthcare.Connections.RelationActivity;
+import com.mindyourlovedone.healthcare.DropBox.DownloadHistoryTask;
 import com.mindyourlovedone.healthcare.DropBox.DropBoxFileItem;
 import com.mindyourlovedone.healthcare.DropBox.DropboxActivity;
 import com.mindyourlovedone.healthcare.DropBox.DropboxClientFactory;
@@ -58,10 +59,15 @@ import com.mindyourlovedone.healthcare.DropBox.ShareFileTask;
 import com.mindyourlovedone.healthcare.DropBox.ZipListner;
 import com.mindyourlovedone.healthcare.HomeActivity.BaseActivity;
 import com.mindyourlovedone.healthcare.HomeActivity.R;
+import com.mindyourlovedone.healthcare.backuphistory.BackupHistoryActivity;
+import com.mindyourlovedone.healthcare.backuphistory.BackupHistoryQuery;
+import com.mindyourlovedone.healthcare.backuphistory.DBHelperHistory;
+import com.mindyourlovedone.healthcare.backuphistory.SqliteHelper;
 import com.mindyourlovedone.healthcare.database.ContactDataQuery;
 import com.mindyourlovedone.healthcare.database.ContactTableQuery;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.MyConnectionsQuery;
+import com.mindyourlovedone.healthcare.model.BackupHistory;
 import com.mindyourlovedone.healthcare.model.RelativeConnection;
 import com.mindyourlovedone.healthcare.utility.DialogManager;
 import com.mindyourlovedone.healthcare.utility.PrefConstants;
@@ -95,7 +101,7 @@ public class DropboxLoginActivity extends DropboxActivity {
     private static final int REQUEST_CALL_PERMISSION = 100;
     public static final int REQUEST_REMINDER = 80;
     TextView txtSettingValue;
-    LinearLayout llSetting;
+    LinearLayout llSetting,llHistory;
     Context context = this;
     Button btnLogin, btnShare;
     Button btnBackup, btnRestore;
@@ -414,8 +420,47 @@ public class DropboxLoginActivity extends DropboxActivity {
             }
         });
 
+        llHistory = findViewById(R.id.llHistory);
+        llHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*DBHelperHistory sqliteHelper=new DBHelperHistory(context);
+                BackupHistoryQuery backupHistoryQuery=new BackupHistoryQuery(context,sqliteHelper);
+                Calendar c4 = Calendar.getInstance();
+                c4.getTime();
+                DateFormat df4 = new SimpleDateFormat("dd MM yy");
+                String date4 = df4.format(c4.getTime());
+                Boolean flagr = BackupHistoryQuery.insertHistoryData("Files","Manual",date4,"Reason","In Progress");
+                if (flagr == true) {
+                    Toast.makeText(context, "Backup history has been saved succesfully", Toast.LENGTH_SHORT).show();
+                    ArrayList<BackupHistory> backupHistory=BackupHistoryQuery.fetchAllRecord();
+                       *//* for (int j=0;j<backupHistory.size();j++) {
+                            preferences.putInt("LASTBACKUPRECORD", backupHistory.get(j).getId());
+                        }
+                  *//*      Toast.makeText(context,""+"inserted",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                }*/
+              Intent intent1=new Intent(context, BackupHistoryActivity.class);
+              startActivity(intent1);
+            }
+        });
     }
-
+          public void onRestore()
+            {
+                SharedPreferences prefs = getSharedPreferences("dropbox-sample", MODE_PRIVATE);
+                if (prefs.contains("access-token")) {
+                    Fun_Type = 4;
+                    preferences.putString(PrefConstants.STORE, "Restore");
+                    preferences.putString(PrefConstants.TODO, todo);
+                    preferences.putString(PrefConstants.TODOWHAT, todoWhat);
+                    startActivity(FilesActivity.getIntent(DropboxLoginActivity.this, ""));
+                } else {
+                    Fun_Type = 2;
+                    preferences.putString(PrefConstants.WOLE, "Restore");
+                    Auth.startOAuth2Authentication(DropboxLoginActivity.this, APP_KEY);
+                }
+            }
     public void loginDrop() {
         SharedPreferences prefs = getSharedPreferences("dropbox-sample", MODE_PRIVATE);
         if (prefs.contains("access-token")) {
@@ -604,6 +649,18 @@ public class DropboxLoginActivity extends DropboxActivity {
 
             }
         }).execute();
+    }
+
+
+
+    @Override
+    public void unzipdata(String absolutePath, String path) {
+
+    }
+
+    @Override
+    public void downloadfileRestore(String fileName, String profile, String fileMetaData) {
+
     }
 
     private void DialogNodata(String msg) {
@@ -868,6 +925,25 @@ public class DropboxLoginActivity extends DropboxActivity {
                     preferences.putString(PrefConstants.TODOWHAT, todoWhat);
                     preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/");
                     preferences.putString(PrefConstants.ZIPFILE, username + "_MYLO");
+
+                    DBHelperHistory sqliteHelper=new DBHelperHistory(context);
+                    BackupHistoryQuery backupHistoryQuery=new BackupHistoryQuery(context,sqliteHelper);
+                    Calendar c4 = Calendar.getInstance();
+                    c4.getTime();
+                    DateFormat df4 = new SimpleDateFormat("yyyy-M-dd hh:mm:ss");
+                    String date4 = df4.format(c4.getTime());
+                    Boolean flagr = BackupHistoryQuery.insertHistoryData(etNote.getText().toString().trim(),"Manual",date4,"","In Progress","Whole","");
+                    if (flagr == true) {
+                        preferences.putString(PrefConstants.InProgress,"true");
+                        Toast.makeText(context, "Backup history has been saved succesfully", Toast.LENGTH_SHORT).show();
+                        ArrayList<BackupHistory> backupHistory=BackupHistoryQuery.fetchAllRecord();
+                        for (int j=0;j<backupHistory.size();j++) {
+                            preferences.putInt("LASTBACKUPRECORD", backupHistory.get(j).getId());
+                        }
+                        Toast.makeText(context,""+preferences.getInt("LASTBACKUPRECORD"),Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                    }
                     startActivity(FilesActivity.getIntent(DropboxLoginActivity.this, ""));
 
                 }

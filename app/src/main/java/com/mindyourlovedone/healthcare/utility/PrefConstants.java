@@ -53,4 +53,6 @@ public class PrefConstants {
     public static final String REMINDER ="Reminder" ;
     public static final String BACKUPDONE ="BackupDone" ;
     public static final String REGION ="Region" ;
+    public static final String RESTORE ="RestoreFile" ;
+    public static String InProgress="InProgrss";
 }

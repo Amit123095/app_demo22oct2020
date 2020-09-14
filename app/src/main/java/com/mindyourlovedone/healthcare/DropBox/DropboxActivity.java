@@ -56,4 +56,8 @@ public abstract class DropboxActivity extends AppCompatActivity {
         DropboxClientFactory.revokeClient(callback);
     }
 
+
+    public abstract void unzipdata(String absolutePath, String path);
+
+    public abstract void downloadfileRestore(String fileName, String profile, String fileMetaData);
 }

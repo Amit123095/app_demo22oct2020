@@ -63,10 +63,13 @@ import com.mindyourlovedone.healthcare.HomeActivity.R;
 import com.mindyourlovedone.healthcare.HomeActivity.SplashNewActivity;
 import com.mindyourlovedone.healthcare.SwipeCode.DividerItemDecoration;
 import com.mindyourlovedone.healthcare.SwipeCode.VerticalSpaceItemDecoration;
+import com.mindyourlovedone.healthcare.backuphistory.BackupHistoryQuery;
+import com.mindyourlovedone.healthcare.backuphistory.DBHelperHistory;
 import com.mindyourlovedone.healthcare.database.ContactDataQuery;
 import com.mindyourlovedone.healthcare.database.ContactTableQuery;
 import com.mindyourlovedone.healthcare.database.DBHelper;
 import com.mindyourlovedone.healthcare.database.MyConnectionsQuery;
+import com.mindyourlovedone.healthcare.model.BackupHistory;
 import com.mindyourlovedone.healthcare.model.RelativeConnection;
 import com.mindyourlovedone.healthcare.utility.DialogManager;
 import com.mindyourlovedone.healthcare.utility.PrefConstants;
@@ -133,12 +136,22 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
     public final static String EXTRA_PATH = "FilesActivity_Path";
     private String mPath;
     boolean flags=false;
+    Context context;
+
+    @Override
+    public void onCreate( Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        context=getActivity();
+    }
+
     /**
      * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
      * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
      * @param savedInstanceState Bundle: If non-null, this fragment is being re-constructed from a previous saved state as given here.
      * @return Return the View for the fragment's UI, or null.
      */
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -587,6 +600,7 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
         final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setTitle("Backup Stored successfully");
         alert.setMessage(message);
+        alert.setCancelable(false);
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -690,6 +704,26 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
                                 preferences.putString(PrefConstants.CONNECTED_PATH, Environment.getExternalStorageDirectory() + "/MYLO/");
                                 preferences.putString(PrefConstants.ZIPFILE, username + "_MYLO");
                                 preferences.putString(PrefConstants.BACKUPDONE, formattedDatecurrentdate);
+
+                                DBHelperHistory sqliteHelper=new DBHelperHistory(context);
+                                BackupHistoryQuery backupHistoryQuery=new BackupHistoryQuery(context,sqliteHelper);
+                                Calendar c4 = Calendar.getInstance();
+                                c4.getTime();
+                                DateFormat df4 = new SimpleDateFormat("yyyy-M-dd hh:mm:ss");
+                                String date4 = df4.format(c4.getTime());
+                                Boolean flagr = BackupHistoryQuery.insertHistoryData(username,"Auto Backup",date4,"","In Progress","Whole","");
+                                if (flagr == true) {
+                                    preferences.putString(PrefConstants.InProgress,"true");
+
+                                    Toast.makeText(context, "Backup history has been saved succesfully", Toast.LENGTH_SHORT).show();
+                                    ArrayList<BackupHistory> backupHistory=BackupHistoryQuery.fetchAllRecord();
+                                    for (int j=0;j<backupHistory.size();j++) {
+                                        preferences.putInt("LASTBACKUPRECORD", backupHistory.get(j).getId());
+                                    }
+                                    Toast.makeText(context,""+preferences.getInt("LASTBACKUPRECORD"),Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                                }
                                 //FilesActivity f=new FilesActivity();
                                 //  f.uploadFile(preferences.getString(PrefConstants.CONNECTED_PATH));
 
@@ -1023,8 +1057,8 @@ public class FragmentConnectionNew extends Fragment implements View.OnClickListe
     {
         UploadFiles f=new UploadFiles(fileUri,preferences,getActivity(),progressBar);
         f.upload();
-        progressBar.setVisibility(View.VISIBLE);
 
+        progressBar.setVisibility(View.VISIBLE);
 
     }
 

@@ -20,7 +20,7 @@ import java.io.OutputStream;
 /**
  * Task to download a file from Dropbox and put it in the Downloads folder
  */
-class DownloadFileTask extends AsyncTask<FileMetadata, Void, File> {
+public class DownloadFileTask extends AsyncTask<FileMetadata, Void, File> {
 
     private final Context mContext;
     private final DbxClientV2 mDbxClient;

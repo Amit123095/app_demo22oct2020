@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:fontFamily="@font/lato"
+        android:id="@+id/txtStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtName"
+        android:gravity="right"
+        android:paddingRight="@dimen/dimension10dp"
+        android:paddingTop="@dimen/dimension3dp"
+
+        android:text="Completed"
+        android:textColor="@color/colorRed"
+        android:textSize="@dimen/dimension17dp" />
+    <LinearLayout
+        android:id="@+id/llCenter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="100"
+        android:orientation="horizontal"
+        android:layout_below="@+id/txtStatus"
+
+        >
+        <ImageView
+            android:id="@+id/imgDropbox"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimension45dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:src="@drawable/ic_dropbox"
+            android:layout_weight="17"
+            />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="63"
+            >
+            <TextView
+                android:fontFamily="@font/lato"
+                android:id="@+id/txtFileName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingRight="@dimen/dimension10dp"
+                android:paddingTop="@dimen/dimension3dp"
+                android:paddingBottom="@dimen/dimension3dp"
+                android:text="Mylo.zip"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlackDark"
+                android:textSize="@dimen/dimension20dp" />
+            <TextView
+                android:fontFamily="@font/lato"
+                android:id="@+id/txtDateTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtName"
+                android:gravity="left"
+                android:paddingRight="@dimen/dimension10dp"
+                android:paddingBottom="@dimen/dimension3dp"
+               android:text="2020 08 25 - 18:35:51"
+                android:textColor="@color/colorGray"
+                android:textSize="@dimen/dimension17dp" />
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/imgDownload"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimension50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:src="@drawable/ic_drop_download"
+            android:layout_weight="20"
+            />
+    </LinearLayout>
+    <TextView
+        android:fontFamily="@font/lato"
+        android:id="@+id/txtReason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llCenter"
+        android:layout_toLeftOf="@+id/txtBackupType"
+        android:gravity="left"
+        android:paddingLeft="@dimen/dimension10dp"
+        android:paddingBottom="@dimen/dimension3dp"
+        android:text=""
+        android:textColor="@color/colorBlackDark"
+        android:textSize="@dimen/dimension15dp" />
+    <TextView
+        android:fontFamily="@font/lato"
+        android:id="@+id/txtBackupType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llCenter"
+        android:gravity="right"
+        android:layout_alignParentRight="true"
+        android:paddingRight="@dimen/dimension10dp"
+
+        android:paddingBottom="@dimen/dimension3dp"
+        android:text="Auto Backup"
+        android:textColor="@color/colorBlackDark"
+        android:textSize="@dimen/dimension17dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimension1dp"
+        android:background="@color/colorGray"
+        android:layout_below="@+id/txtReason"
+
+        android:layout_marginRight="@dimen/dimension10dp"
+        android:layout_marginLeft="@dimen/dimension10dp"
+        ></View>
+</RelativeLayout>

@@ -12,6 +12,8 @@ import com.dropbox.core.v2.files.FileMetadata;
 import com.mindyourlovedone.healthcare.DropBox.DropboxClientFactory;
 import com.mindyourlovedone.healthcare.DropBox.FilesActivity;
 import com.mindyourlovedone.healthcare.DropBox.UploadFileTask;
+import com.mindyourlovedone.healthcare.backuphistory.BackupHistoryQuery;
+import com.mindyourlovedone.healthcare.backuphistory.DBHelperHistory;
 import com.mindyourlovedone.healthcare.utility.PrefConstants;
 import com.mindyourlovedone.healthcare.utility.Preferences;
 
@@ -82,7 +84,19 @@ public class UploadFiles {
                        // showBackupDialog();
                         Log.v("FINDATA", "DONE");
                     //}
+                    //Update BackupHistory
+                    DBHelperHistory sqliteHelper=new DBHelperHistory(context);
+                    BackupHistoryQuery backupHistoryQuery=new BackupHistoryQuery(context,sqliteHelper);
 
+                    Boolean flagr = BackupHistoryQuery.updateFailedHistoryData("Completed","",preferences.getInt("LASTBACKUPRECORD"));
+                    if (flagr == true) {
+                        preferences.putString(PrefConstants.InProgress,"false");
+                        Toast.makeText(context, "Backuphistory has been update succesfully", Toast.LENGTH_SHORT).show();
+                        // ArrayList<BackupHistory> backupHistory=BackupHistoryQuery.fetchAllRecord();
+                        // Toast.makeText(context,""+backupHistory.size(),Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
@@ -95,6 +109,17 @@ public class UploadFiles {
                         "An error has occurred" + e.getMessage(),
                         Toast.LENGTH_SHORT)
                         .show();
+                //Update BackupHistory
+                DBHelperHistory sqliteHelper=new DBHelperHistory(context);
+                BackupHistoryQuery backupHistoryQuery=new BackupHistoryQuery(context,sqliteHelper);
+
+                Boolean flagr = BackupHistoryQuery.updateFailedHistoryData("Fail",e.getMessage(),preferences.getInt("LASTBACKUPRECORD"));
+                if (flagr == true) {
+                    preferences.putString(PrefConstants.InProgress,"false");
+                    Toast.makeText(context, "Backuphistory has been update succesfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                }
             }
         }).execute(fileUri, mPath);
     }

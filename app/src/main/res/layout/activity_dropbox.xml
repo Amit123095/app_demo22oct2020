@@ -670,16 +670,72 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimension15dp"
                 android:layout_below="@+id/llB"
-                android:background="@color/colorOnesGray"></View>
-
-
+               android:background="@color/colorOnesGray"></View>
             -
 
+            <LinearLayout
+                android:id="@+id/llHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewline"
+                android:background="@color/colorWhite"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/dimension20dp"
+                android:paddingTop="@dimen/dimension10dp"
+                android:paddingRight="@dimen/dimension10dp"
+                android:paddingBottom="@dimen/dimension10dp"
+                >
+
+                <TextView
+                    android:id="@+id/txtBackupHistory"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:fontFamily="@font/lato"
+                    android:gravity="left"
+                    android:text="Backup History"
+                    android:textColor="@color/colorBlackDark"
+                    android:textSize="@dimen/dimension18dp" />
+
+                <TextView
+                    android:id="@+id/txtHistoryValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dimension10dp"
+                    android:layout_weight="30"
+                    android:fontFamily="@font/lato"
+                    android:gravity="right"
+                    android:text="Off"
+                    android:textColor="@color/colorBlackDark"
+                    android:textSize="@dimen/dimension18dp"
+                    android:visibility="gone"
+                    />
+
+                <ImageView
+                    android:id="@+id/imgHistory"
+                    android:layout_width="@dimen/dimension30dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="right"
+                    android:src="@drawable/forword" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/viewline_two"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimension15dp"
+                android:layout_below="@+id/llHistory"
+                android:background="@color/colorOnesGray"></View>
+
+            -
             <LinearLayout
                 android:id="@+id/llSetting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/viewline"
+                android:layout_below="@+id/viewline_two"
                 android:background="@color/colorWhite"
                 android:gravity="center"
                 android:orientation="horizontal"
@@ -721,9 +777,6 @@
                     android:src="@drawable/forword" />
 
             </LinearLayout>
-
-
-            -
 
             <LinearLayout
                 android:layout_width="match_parent"
