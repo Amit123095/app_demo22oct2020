@@ -653,7 +653,7 @@ public class TouchImageView extends ImageView {
     }
 
     /**
-     * Set view dimensions based on layout params
+     * Set view dimensions based on row_archivelist params
      *
      * @param mode
      * @param size

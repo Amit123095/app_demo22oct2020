@@ -71,7 +71,9 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
 
     /**
      * @param inflater           LayoutInflater: The LayoutInflater object that can be used to inflate any views in the fragment,
-     * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view. This value may be null.
+     * @param container          ViewGroup: If non-null, this is the parent view that the fragment's UI should be attached to.
+     *                           The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view.
+     *                           This value may be null.
      * @param savedInstanceState Bundle: If non-null, this fragment is being re-constructed from a previous saved state as given here.
      * @return Return the View for the fragment's UI, or null.
      */
@@ -316,7 +318,10 @@ public class FragmentPrescriptionUpload extends Fragment implements View.OnClick
         profileWite = preferences.addFile("profpdf_wite.png", getActivity());
 
         new HeaderNew().createPdfHeaders(file.getAbsolutePath(),
-                "" + preferences.getString(PrefConstants.CONNECTED_NAME), preferences.getString(PrefConstants.CONNECTED_PATH) + preferences.getString(PrefConstants.CONNECTED_PHOTO), pdflogo, calendar, profile, "PRESCRIPTION LIST UPLOAD", calendarWite, profileWite);
+                "" + preferences.getString(PrefConstants.CONNECTED_NAME),
+                preferences.getString(PrefConstants.CONNECTED_PATH) +
+                        preferences.getString(PrefConstants.CONNECTED_PHOTO), pdflogo, calendar, profile,
+                "PRESCRIPTION LIST UPLOAD", calendarWite, profileWite);
 
         HeaderNew.addusereNameChank("PRESCRIPTION LIST UPLOAD");//preferences.getString(PrefConstants.CONNECTED_NAME));
         HeaderNew.addEmptyLine(1);

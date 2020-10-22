@@ -126,4 +126,5 @@ Step 6. TO <b>DELETE</b> A PROFILE. <b>Long press</b> on the profile box. <br><b
     <string name="EmailReports">Email Report</string>
     <string name="ViewReports">View Report</string>
     <string name="ClickDirective"><u><b>Click here</b></u> to learn more about Advance Care Directives – why they are so important and how to complete them.  </string>
+    <string name="lorem_10">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text</string>
 </resources>

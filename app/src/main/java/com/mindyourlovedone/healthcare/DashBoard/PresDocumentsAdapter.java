@@ -1,5 +1,6 @@
 package com.mindyourlovedone.healthcare.DashBoard;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -82,7 +83,7 @@ public class PresDocumentsAdapter extends RecyclerSwipeAdapter<PresDocumentsAdap
     }
 
     @Override
-    public void onBindViewHolder(final PresDocumentsAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final PresDocumentsAdapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         holder.swipeLayout.addSwipeListener(new SimpleSwipeListener() {
             @Override
             public void onOpen(SwipeLayout layout) {

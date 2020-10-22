@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F7"
+    tools:context="com.mindyourlovedone.healthcare.Appointment.AppointmentListDiscp_Activity">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimension70dp"
+        android:background="#D06397">
+
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="@dimen/dimension35dp"
+            android:layout_height="@dimen/dimension45dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimension8dp"
+            android:src="@drawable/backward_arrow" />
+
+        <ImageView
+            android:id="@+id/imgHome"
+            android:layout_width="@dimen/dimension25dp"
+            android:layout_height="@dimen/dimension25dp"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimension8dp"
+            android:layout_toRightOf="@+id/imgBack"
+            android:src="@drawable/homes" />
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/dimension10dp"
+            android:fontFamily="@font/bold_lato"
+            android:text="Appointments"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimension10dp"
+            android:layout_marginRight="@dimen/dimension10dp"
+            android:fontFamily="@font/lato"
+            android:text="save"
+            android:textAllCaps="true"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/dimension20dp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/imgInform"
+            android:layout_width="@dimen/dimension50dp"
+            android:layout_height="@dimen/dimension50dp"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dimension10dp"
+            android:text="edit"
+            android:textSize="@dimen/_15ssp"
+            android:textColor="@android:color/white"
+            android:textAllCaps="true"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/imgDone"
+            android:layout_width="@dimen/dimension30dp"
+            android:layout_height="@dimen/dimension30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dimension15dp"
+            android:src="@drawable/check_mark"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:background="#AD4B7A">
+
+        <TextView
+            android:id="@+id/userName_self"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/dimension8dp"
+            android:layout_marginBottom="@dimen/dimension8dp"
+            android:fontFamily="@font/regular_lato"
+            android:gravity="center_horizontal"
+            android:maxLines="1"
+            android:text="Dr.Bhimrao Ramji Ambedkar"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_below="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimension12dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="@dimen/dimension0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimension5dp"
+                android:layout_gravity="left"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:layout_weight="0.7">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_18ssp"
+                    android:textColor="#485357"
+                    android:text="Yearly"
+                    android:textAlignment="gravity"
+                    android:gravity="left"
+                    android:layout_gravity="left"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/bold_lato"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_18ssp"
+                    android:textColor="#485357"
+                    android:text="Appointment"
+                    android:textAllCaps="true"
+                    android:textAlignment="gravity"
+                    android:gravity="left"
+                    android:layout_gravity="left"
+                    android:textStyle="normal"
+                    android:fontFamily="@font/regular_lato"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="@dimen/dimension0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/bg_green"
+                android:fontFamily="@font/bold_lato"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/dimension8dp"
+                android:text="Add Note"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                android:layout_weight="0.3"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/listRelApp"
+        android:layout_below="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimension8dp"
+        android:padding="@dimen/dimension8dp">
+
+        <ListView
+            android:id="@+id/listViewDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dimension2dp"/>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

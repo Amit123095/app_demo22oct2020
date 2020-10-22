@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/table_bg">
+
+    <RelativeLayout
+        android:id="@+id/btnSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimension12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/dimension2dp"
+            android:weightSum="0.9">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_weight="0.3"
+                android:fontFamily="@font/regular_lato"
+                android:gravity="left"
+                android:text="Cancle"
+                android:textColor="#485357"
+                android:textSize="@dimen/dimension18dp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.3"
+                android:fontFamily="@font/bold_lato"
+                android:gravity="center"
+                android:text="Add Note"
+                android:textColor="#485357"
+                android:textSize="@dimen/dimension18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_weight="0.3"
+                android:fontFamily="@font/bold_lato"
+                android:gravity="right"
+                android:text="Done"
+                android:textColor="#485357"
+                android:textSize="@dimen/dimension18dp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnSection"
+        android:background="#F2F2F7"
+        android:padding="@dimen/dimension12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/dimension2dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimension2dp"
+                    android:fontFamily="@font/regular_lato"
+                    android:text="Last note date"
+                    android:textColor="#8B8B8B"
+                    android:textSize="@dimen/_14ssp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/table_bg"
+                    android:fontFamily="@font/regular_lato"
+                    android:gravity="left"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:padding="@dimen/dimension12dp"
+                    android:text="May 02, 2020"
+                    android:textAlignment="gravity"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_14ssp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimension8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimension2dp"
+                    android:fontFamily="@font/regular_lato"
+                    android:text="Doctor name"
+                    android:textColor="#8B8B8B"
+                    android:textSize="@dimen/_14ssp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/table_bg"
+                    android:fontFamily="@font/regular_lato"
+                    android:gravity="left"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:padding="@dimen/dimension12dp"
+                    android:text="Dr. Glenn Norman"
+                    android:textAlignment="gravity"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_14ssp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimension8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimension2dp"
+                    android:fontFamily="@font/regular_lato"
+                    android:text="Appointment type"
+                    android:textColor="#8B8B8B"
+                    android:textSize="@dimen/_14ssp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimension2dp"
+                    android:orientation="horizontal"
+                    android:weightSum="0.3">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:textSize="@dimen/_14ssp"
+                        android:fontFamily="@font/regular_lato"
+                        android:textStyle="normal"
+                        android:textColor="#B8BBBF"
+                        android:textAllCaps="false"
+                        android:text="New"
+
+                        android:background="@drawable/btn_border"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimension12dp"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="normal"
+                        android:textColor="#B8BBBF"
+                        android:fontFamily="@font/regular_lato"
+                        android:text="Follow Up"
+                        android:textAllCaps="false"
+                        android:layout_weight="0.1"
+                        android:background="@drawable/btn_border"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimension12dp"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="normal"
+                        android:textColor="#fff"
+                        android:text="Completed"
+                        android:fontFamily="@font/regular_lato"
+                        android:layout_weight="0.1"
+                        android:textAllCaps="false"
+                        android:background="@drawable/blue_blue_border"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/dimension8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimension12dp"
+                    android:fontFamily="@font/regular_lato"
+                    android:text="Last appointment note"
+                    android:textColor="#8B8B8B"
+                    android:textSize="@dimen/_14ssp" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lorem_10"
+                    android:textSize="@dimen/_14ssp"
+                    android:textColor="#404041"
+                    android:inputType="textMultiLine"
+                    android:fontFamily="@font/lato"
+                    android:padding="@dimen/dimension12dp"
+                    android:maxLines="20"
+                    android:lines="12"
+                    android:editable="true"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="top|left"
+                    android:scrollbars="vertical"
+                    android:imeOptions="actionDone"
+                    android:background="@drawable/table_bg"
+                    android:contentDescription="Enter Input Here"/>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_green">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:layout_width="@dimen/dimension75dp"
+            android:layout_height="@dimen/dimension75dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dimension18dp"
+            android:background="@drawable/layer_list"
+            android:src="@drawable/tick_round" />
+
+        <TextView
+            android:id="@+id/tv_archive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Archive Prescription"
+            android:textStyle="bold"
+            android:textSize="@dimen/_22ssp"
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/lato_bold"
+            android:textAlignment="gravity"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="@dimen/dimension8dp"
+            android:layout_marginTop="@dimen/dimension8dp"
+            android:layout_marginLeft="@dimen/dimension0dp"
+            android:layout_marginRight="@dimen/dimension0dp"
+            android:maxLines="1"/>
+        <TextView
+            android:id="@+id/tv_archive_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="This will move Prescription from Current to Archive"
+            android:textStyle="normal"
+            android:textSize="@dimen/_16ssp"
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/regular_lato"
+            android:textAlignment="gravity"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="@dimen/dimension2dp"
+            android:paddingLeft="@dimen/dimension10dp"
+            android:paddingRight="@dimen/dimension10dp"
+            android:paddingBottom="@dimen/dimension10dp"
+            android:layout_marginTop="@dimen/dimension5dp"
+            android:layout_marginLeft="@dimen/dimension0dp"
+            android:layout_marginRight="@dimen/dimension0dp"
+            android:maxLines="2"/>
+
+        <LinearLayout
+            android:id="@+id/linear_DatePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dimension5dp"
+            android:layout_marginLeft="@dimen/dimension22dp"
+            android:layout_marginRight="@dimen/dimension22dp"
+            android:layout_marginBottom="@dimen/dimension15dp"
+            android:background="@drawable/table_bg"
+            android:weightSum="1">
+            <TextView
+                android:id="@+id/tv_archive_date"
+                android:layout_width="@dimen/dimension0dp"
+                android:layout_height="wrap_content"
+                android:text="Archive date"
+                android:textStyle="bold"
+                android:textSize="@dimen/_14ssp"
+                android:textColor="#C0C0C2"
+                android:fontFamily="@font/lato_bold"
+                android:textAlignment="gravity"
+                android:layout_gravity="center_vertical"
+                android:gravity="left"
+                android:padding="@dimen/dimension8dp"
+                android:layout_marginTop="@dimen/dimension5dp"
+                android:layout_marginBottom="@dimen/dimension5dp"
+                android:layout_marginLeft="@dimen/dimension15dp"
+                android:maxLines="1"
+                android:layout_weight=".9"/>
+
+            <ImageView
+                android:id="@+id/imgDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/date_logo"
+                android:layout_weight="0.1"
+                android:layout_marginRight="@dimen/dimension5dp"/>
+        </LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimension2dp"
+            android:background="@android:color/white"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_weight="0.49"
+                android:id="@+id/tv_CancelArchive"
+                android:layout_width="@dimen/dimension0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/regular_lato"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="@dimen/dimension10dp"
+                android:text="Cancel"
+                android:textAlignment="gravity"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="normal" />
+
+            <ImageView
+                android:layout_weight="0.005"
+                android:layout_width="@dimen/dimension0dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                />
+
+            <TextView
+
+                android:id="@+id/tv_Archive"
+                android:layout_width="@dimen/dimension0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.49"
+                android:fontFamily="@font/regular_lato"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="@dimen/dimension10dp"
+                android:text="Archive"
+                android:textAlignment="gravity"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

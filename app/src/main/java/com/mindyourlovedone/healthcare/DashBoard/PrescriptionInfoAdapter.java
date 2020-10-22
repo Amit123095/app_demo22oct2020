@@ -1,5 +1,6 @@
 package com.mindyourlovedone.healthcare.DashBoard;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -125,7 +126,7 @@ public class PrescriptionInfoAdapter extends RecyclerSwipeAdapter<PrescriptionIn
     }
 
     @Override
-    public void onBindViewHolder(final PrescriptionInfoAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final PrescriptionInfoAdapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
         holder.swipeLayout.addSwipeListener(new SimpleSwipeListener() {
             @Override

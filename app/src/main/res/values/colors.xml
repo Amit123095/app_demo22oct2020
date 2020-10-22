@@ -9,6 +9,7 @@
 
 
     <color name="colorGrayBackup">#F6F6F9</color>
+    <color name="holo_blue_dark_1">#4399BC</color>
 
     <color name="colorBlack">#575757</color>
     <color name="colorBlackDark">#000000</color>

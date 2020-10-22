@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/underline"
+    android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/textList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimension2dp"
+            android:layout_marginTop="@dimen/dimension1dp"
+            android:layout_marginRight="@dimen/dimension5dp"
+            android:layout_marginBottom="@dimen/dimension0dp"
+            android:fontFamily="@font/regular_lato"
+            android:gravity="left"
+            android:maxLines="1"
+            android:paddingLeft="@dimen/dimension5dp"
+            android:paddingTop="@dimen/dimension12dp"
+            android:paddingRight="@dimen/dimension12dp"
+            android:paddingBottom="@dimen/dimension12dp"
+            android:text=""
+            android:textAlignment="gravity"
+            android:textColor="#484848"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="normal" />
+        <!--<ListView
+            android:id="@+id/dropDownList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimension5dp"
+            android:layout_marginLeft="@dimen/dimension5dp"
+            android:layout_marginRight="@dimen/dimension5dp"
+            android:layout_marginTop="@dimen/dimension0dp"
+            android:paddingTop="@dimen/dimension0dp"
+            android:paddingLeft="@dimen/dimension12dp"
+            android:paddingRight="@dimen/dimension12dp"
+            android:paddingBottom="@dimen/dimension12dp"
+            android:divider="@drawable/list_width_custome"
+            android:dividerHeight="@dimen/dimension0.5dp"/>-->
+</LinearLayout>

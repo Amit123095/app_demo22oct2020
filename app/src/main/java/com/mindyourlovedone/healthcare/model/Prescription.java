@@ -27,6 +27,36 @@ public class Prescription implements Serializable {
     ArrayList<Dosage> dosageList = new ArrayList<>();
     ArrayList<PrescribeImage> prescriptionImageList = new ArrayList<>();
 
+    String doseage = "";
+    String malady ="";
+    String pharmacy = "";
+
+    public String getDoseage() {
+        return doseage;
+    }
+
+    public void setDoseage(String doseage) {
+        this.doseage = doseage;
+    }
+
+    public String getMalady() {
+        return malady;
+    }
+
+    public void setMalady(String malady) {
+        this.malady = malady;
+    }
+
+    public String getPharmacy() {
+        return pharmacy;
+    }
+
+    public void setPharmacy(String pharmacy) {
+        this.pharmacy = pharmacy;
+    }
+
+
+
     public String getRx() {
         return rx;
     }

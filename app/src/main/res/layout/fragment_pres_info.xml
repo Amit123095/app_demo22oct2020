@@ -302,7 +302,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <ImageView  android:layout_marginRight="@dimen/dimension5dp"
+        <ImageView
+            android:layout_marginRight="@dimen/dimension5dp"
             android:tint="@color/colorLightGrays"
             android:id="@+id/imghelp"
             android:layout_toLeftOf="@+id/floatAdd"
@@ -321,21 +322,7 @@
             android:layout_marginRight="@dimen/dimension16dp"
             />
 
-<!--
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="@dimen/dimension20dp"
-            android:layout_marginBottom="@dimen/dimension20dp"
-            android:src="@drawable/ic_add"
-            android:tint="@android:color/white"
-            android:visibility="visible"
-            app:backgroundTint="@color/colorRegisteredGreen"
-            app:fabSize="normal" />
--->
+
         <ImageView
             android:layout_above="@+id/vwbtm"
             android:id="@+id/floatOptions"
@@ -351,20 +338,7 @@
             android:layout_width="match_parent"
             android:background="@color/colorOnesGray"
             android:layout_height="@dimen/dimension15dp"/>
-<!--
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatOptions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/dimension20dp"
-            android:layout_marginBottom="@dimen/dimension20dp"
-            android:src="@drawable/ic_more"
-            android:tint="@android:color/white"
-            app:backgroundTint="@color/colorRegisteredGreen"
-            app:fabSize="normal" />
--->
+
     </RelativeLayout>
 
     <RelativeLayout

@@ -107,7 +107,6 @@
         android:layout_height="@dimen/dimension1dp"
         android:background="@color/colorGray"
         android:layout_below="@+id/txtReason"
-
         android:layout_marginRight="@dimen/dimension10dp"
         android:layout_marginLeft="@dimen/dimension10dp"
         ></View>

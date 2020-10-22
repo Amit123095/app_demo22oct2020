@@ -1,0 +1,734 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mindyourlovedone.healthcare.Prescription.Prescription_Edit_Activity"
+    android:background="#F2F2F7">
+
+
+    <RelativeLayout
+        android:id="@+id/headers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ADAEB3"
+        android:gravity="center_vertical"
+        android:padding="@dimen/dimension3dp"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/imgBacks_s"
+            android:layout_width="@dimen/dimension40dp"
+            android:layout_height="@dimen/dimension50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/backward_arrow" />
+        <TextView
+            android:id="@+id/txtTitles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/dimension20dp"
+            android:fontFamily="@font/lato"
+            android:gravity="center_horizontal"
+            android:text="Prescription"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_marginLeft="@dimen/dimension5dp"
+            android:id="@+id/txtEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dimension10dp"
+            android:paddingLeft="@dimen/dimension5dp"
+            android:fontFamily="@font/lato"
+            android:paddingRight="@dimen/dimension5dp"
+            android:text="Edit"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="normal" />
+
+        <ImageView
+            android:id="@+id/imgDones"
+            android:layout_width="@dimen/dimension30dp"
+            android:layout_height="@dimen/dimension30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dimension15dp"
+            android:src="@drawable/check_mark"
+            android:visibility="gone" />
+        <ImageView
+            android:id="@+id/imgDots"
+            android:layout_width="@dimen/dimension30dp"
+            android:layout_height="@dimen/dimension30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dimension15dp"
+            android:src="@drawable/info_white"
+            android:visibility="gone" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/username_dis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/headers"
+        android:background="#949498">
+        <TextView
+            android:id="@+id/user_Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="120dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="@dimen/dimension8dp"
+            android:layout_marginEnd="120dp"
+            android:layout_marginRight="120dp"
+            android:layout_marginBottom="@dimen/dimension8dp"
+            android:fontFamily="@font/regular_lato"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="Mr.Baks"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="16.8sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/table_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/username_dis">
+        <LinearLayout
+            android:id="@+id/linearview1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/archive_Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="This prescription is archived"
+                android:visibility="visible"
+                android:layout_marginTop="@dimen/dimension15dp"
+                android:layout_marginBottom="@dimen/dimension8dp"
+                android:fontFamily="@font/regular_lato"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textAlignment="center"
+                android:textColor="#63646A"
+                android:textSize="@dimen/_16ssp"
+                android:textStyle="normal"/>
+
+            <TextView
+                android:id="@+id/archive_Date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mar 15, 2020"
+                android:visibility="visible"
+                android:layout_marginTop="@dimen/dimension2dp"
+                android:layout_marginBottom="@dimen/dimension8dp"
+                android:fontFamily="@font/lato_bold"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textAlignment="center"
+                android:textColor="#68696F"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"/>
+
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#F2F2F7">
+
+                <TableLayout
+                    android:id="@+id/table_layout_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimension12dp"
+                    android:layout_marginTop="@dimen/dimension12dp"
+                    android:layout_marginRight="@dimen/dimension12dp"
+                    android:layout_marginBottom="@dimen/dimension12dp"
+                    android:background="#F2F2F7"
+                    android:isScrollContainer="true"
+                    android:orientation="vertical"
+                    android:shrinkColumns="*"
+                    android:stretchColumns="*">
+
+                    <TableRow
+                        android:id="@+id/taleRow_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@drawable/table_bg">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/dimension16dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#8B8B8B"
+                                    android:fontFamily="@font/regular_lato"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:layout_marginBottom="@dimen/dimension2dp"
+                                    android:text="RX Name"/>
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/dimension12dp"
+                                    android:textAlignment="gravity"
+                                    android:gravity="left"
+                                    android:text="Ciprofloxacin"
+                                    android:fontFamily="@font/regular_lato"
+                                    android:textColor="#404041"
+                                    android:inputType="text"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:maxLines="1"
+                                    android:background="@drawable/edittext_custom_bg"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimension5dp"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#8B8B8B"
+                                    android:fontFamily="@font/regular_lato"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:layout_marginBottom="@dimen/dimension2dp"
+                                    android:text="Directions for Use"/>
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/dimension12dp"
+                                    android:textAlignment="gravity"
+                                    android:gravity="left"
+                                    android:text="Yes"
+                                    android:fontFamily="@font/regular_lato"
+                                    android:textColor="#404041"
+                                    android:inputType="text"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:maxLines="1"
+                                    android:background="@drawable/edittext_custom_bg"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginTop="@dimen/dimension5dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#8B8B8B"
+                                    android:fontFamily="@font/regular_lato"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:layout_marginBottom="@dimen/dimension2dp"
+                                    android:text="Frequency"/>
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/dimension12dp"
+                                    android:textAlignment="gravity"
+                                    android:gravity="left"
+                                    android:text="2x"
+                                    android:fontFamily="@font/regular_lato"
+                                    android:textColor="#404041"
+                                    android:inputType="text"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:maxLines="1"
+                                    android:background="@drawable/edittext_custom_bg"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginTop="@dimen/dimension5dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#8B8B8B"
+                                    android:fontFamily="@font/regular_lato"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:layout_marginBottom="@dimen/dimension2dp"
+                                    android:text="Dosage"/>
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/dimension12dp"
+                                    android:textAlignment="gravity"
+                                    android:gravity="left"
+                                    android:text="50gm"
+                                    android:fontFamily="@font/regular_lato"
+                                    android:textColor="#404041"
+                                    android:inputType="text"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:maxLines="1"
+                                    android:background="@drawable/edittext_custom_bg"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginTop="@dimen/dimension5dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#8B8B8B"
+                                    android:fontFamily="@font/regular_lato"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:layout_marginBottom="@dimen/dimension2dp"
+                                    android:text="Treatment for (Malady)"/>
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/dimension12dp"
+                                    android:textAlignment="gravity"
+                                    android:gravity="left"
+                                    android:text="Ciprofloxacin"
+                                    android:fontFamily="@font/regular_lato"
+                                    android:textColor="#404041"
+                                    android:inputType="text"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:maxLines="1"
+                                    android:background="@drawable/edittext_custom_bg"/>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/taleRow_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/dimension12dp"
+                        android:background="@drawable/table_bg">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/dimension16dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginTop="@dimen/dimension5dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#8B8B8B"
+                                    android:fontFamily="@font/regular_lato"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:layout_marginBottom="@dimen/dimension2dp"
+                                    android:text="Prescribing Doctor"/>
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/dimension12dp"
+                                    android:textAlignment="gravity"
+                                    android:textStyle="normal"
+                                    android:gravity="left"
+                                    android:text="Dr.Olga Conner"
+                                    android:fontFamily="@font/regular_lato"
+                                    android:textColor="#404041"
+                                    android:inputType="text"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:maxLines="1"
+                                    android:background="@drawable/edittext_custom_bg"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginTop="@dimen/dimension5dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#8B8B8B"
+                                    android:fontFamily="@font/regular_lato"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:layout_marginBottom="@dimen/dimension2dp"
+                                    android:text="Date of Prescription"/>
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/dimension12dp"
+                                    android:textAlignment="gravity"
+                                    android:gravity="left"
+                                    android:text="Feb 16, 2020"
+                                    android:fontFamily="@font/regular_lato"
+                                    android:textColor="#404041"
+                                    android:inputType="text"
+                                    android:textStyle="normal"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:maxLines="1"
+                                    android:background="@drawable/edittext_custom_bg"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginTop="@dimen/dimension5dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#8B8B8B"
+                                    android:fontFamily="@font/regular_lato"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:layout_marginBottom="@dimen/dimension2dp"
+                                    android:text="Name of Pharmacy"/>
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/dimension12dp"
+                                    android:textAlignment="gravity"
+                                    android:gravity="left"
+                                    android:text="Apollo Pharmacy"
+                                    android:fontFamily="@font/regular_lato"
+                                    android:textColor="#404041"
+                                    android:inputType="text"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:maxLines="1"
+                                    android:background="@drawable/edittext_custom_bg"/>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/taleRow_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/dimension12dp"
+                        android:background="@drawable/table_bg">
+
+                        <LinearLayout
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_margin="@dimen/dimension15dp"
+                            android:weightSum="1">
+
+                            <TextView
+                                android:layout_width="@dimen/dimension0dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="left"
+                                android:layout_weight="0.9"
+                                android:fontFamily="@font/regular_lato"
+                                android:gravity="center_vertical"
+                                android:text="Over-the-counter (OTC)"
+                                android:textAlignment="gravity"
+                                android:textColor="#404041"
+                                android:textSize="@dimen/_14ssp"
+                                android:textStyle="normal" />
+
+                            <Switch
+                                android:id="@+id/switch1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.1"
+                                style="@style/Switch"/>
+
+
+                        </LinearLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/taleRow_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/dimension12dp"
+                        android:background="@drawable/table_bg">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimension15dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginBottom="@dimen/dimension8dp"
+                                android:fontFamily="@font/regular_lato"
+                                android:gravity="left"
+                                android:text="Prescription Notes"
+                                android:textAlignment="gravity"
+                                android:textColor="#8B8B8B"
+                                android:textSize="@dimen/_14ssp" />
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/lorem_10"
+                                android:textSize="@dimen/_14ssp"
+                                android:textColor="#404041"
+                                android:inputType="textMultiLine"
+                                android:fontFamily="@font/lato"
+                                android:padding="@dimen/dimension12dp"
+                                android:maxLines="20"
+                                android:lines="4"
+                                android:editable="true"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="top|left"
+                                android:scrollbars="vertical"
+                                android:imeOptions="actionDone"
+                                android:background="@drawable/edittext_custom_bg"
+                                android:contentDescription="Enter Input Here"/>
+
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/taleRow_5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/dimension12dp"
+                        android:background="@drawable/table_bg">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimension15dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Pictures of prescription"
+                                android:layout_gravity="left"
+                                android:textAlignment="gravity"
+                                android:gravity="left"
+                                android:textColor="#8B8B8B"
+                                android:fontFamily="@font/regular_lato"
+                                android:textSize="@dimen/_14ssp"
+                                android:layout_marginBottom="@dimen/dimension8dp"/>
+
+                            <HorizontalScrollView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:scrollbars="none">
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+                                    <LinearLayout
+                                        android:layout_width="@dimen/dimension165dp"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical"
+                                        android:layout_marginRight="@dimen/dimension18dp">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/dimension165dp"
+                                            android:layout_height="@dimen/dimension200dp"
+                                            android:src="@drawable/p_img"
+                                            android:padding="@dimen/dimension5dp"
+                                            android:background="@drawable/table_bg"/>
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Sep 16, 2020"
+                                            android:textColor="#485357"
+                                            android:textSize="@dimen/_12ssp"
+                                            android:fontFamily="@font/lato"
+                                            android:layout_gravity="center"
+                                            android:gravity="center"
+                                            android:textAlignment="gravity"
+                                            android:textStyle="normal"/>
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="@dimen/dimension165dp"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical"
+                                        android:weightSum="2"
+                                        android:layout_marginRight="@dimen/dimension18dp">
+                                        <ImageView
+                                            android:layout_width="@dimen/dimension165dp"
+                                            android:layout_height="@dimen/dimension200dp"
+                                            android:padding="@dimen/dimension8dp"
+                                            android:src="@drawable/pr_img"
+                                            android:background="@drawable/table_bg"/>
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Sep 16, 2020"
+                                            android:textColor="#485357"
+                                            android:textSize="@dimen/_12ssp"
+                                            android:fontFamily="@font/lato"
+                                            android:layout_gravity="center"
+                                            android:gravity="center"
+                                            android:textAlignment="gravity"
+                                            android:textStyle="normal"/>
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="@dimen/dimension165dp"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical"
+                                        android:layout_marginRight="@dimen/dimension18dp">
+                                        <ImageView
+                                            android:layout_width="@dimen/dimension165dp"
+                                            android:layout_height="@dimen/dimension200dp"
+                                            android:src="@drawable/pre"
+                                            android:padding="@dimen/dimension5dp"
+                                            android:background="@drawable/table_bg"/>
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Sep 16, 2020"
+                                            android:textColor="#485357"
+                                            android:textSize="@dimen/_12ssp"
+                                            android:fontFamily="@font/lato"
+                                            android:layout_gravity="center"
+                                            android:gravity="center"
+                                            android:textAlignment="gravity"
+                                            android:textStyle="normal"/>
+                                    </LinearLayout>
+
+
+                                </LinearLayout>
+                            </HorizontalScrollView>
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/taleRow_6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/dimension20dp"
+                        android:background="#F2F2F7">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:id="@+id/linear_archive"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimension60dp"
+                                android:orientation="horizontal"
+                                android:background="@drawable/bg_green"
+                                android:padding="@dimen/dimension16dp"
+                                android:layout_marginTop="@dimen/dimension10dp"
+                                android:weightSum="2"
+                                android:visibility="gone">
+
+                                <ImageView
+                                    android:layout_width="@dimen/dimension30dp"
+                                    android:layout_height="@dimen/dimension20dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/tick" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/lato"
+                                    android:text="Archive The Prescription"
+                                    android:layout_gravity="center_vertical"
+                                    android:textAlignment="gravity"
+                                    android:layout_marginLeft="@dimen/dimension12dp"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:textStyle="normal" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/linear_copy"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimension60dp"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="@dimen/dimension10dp"
+                                android:background="@drawable/bg_blue"
+                                android:padding="@dimen/dimension16dp"
+                                android:weightSum="2">
+                                <ImageView
+                                    android:layout_width="@dimen/dimension35dp"
+                                    android:layout_height="@dimen/dimension20dp"
+                                    android:src="@drawable/copy_c"
+                                    android:layout_gravity="center" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="@dimen/dimension12dp"
+                                    android:fontFamily="@font/lato"
+                                    android:text="Copy The Prescription"
+                                    android:textAlignment="gravity"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:textStyle="normal" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/linear_delete"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimension60dp"
+                                android:orientation="horizontal"
+                                android:background="@drawable/bg_red"
+                                android:padding="@dimen/dimension16dp"
+                                android:layout_marginTop="@dimen/dimension10dp"
+                                android:layout_marginBottom="@dimen/dimension26dp"
+                                android:weightSum="2">
+
+                                <ImageView
+                                    android:layout_width="@dimen/dimension35dp"
+                                    android:layout_height="@dimen/dimension35dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/delete_n" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="@dimen/dimension12dp"
+                                    android:fontFamily="@font/lato"
+                                    android:text="Delete The Prescription"
+                                    android:textAlignment="gravity"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="@dimen/_14ssp"
+                                    android:textStyle="normal" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                    </TableRow>
+
+                </TableLayout>
+
+            </ScrollView>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+    
+
+
+</RelativeLayout>

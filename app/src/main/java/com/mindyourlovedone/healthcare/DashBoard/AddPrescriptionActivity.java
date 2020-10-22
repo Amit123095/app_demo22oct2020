@@ -103,7 +103,7 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
     RadioGroup rgCounter;
     RadioButton rbYes, rbNo;
     String[] FormList = {"Capsule", "Cream", "Drops", "Gel", "Liquid", "Lotion", "Pills", "Powder", "Syrup", "Tablet", "Other"};
-    String imagepath = "";//
+    String imagepath = "";
     String counter = "No";
     RelativeLayout rlPre;
 
@@ -125,9 +125,9 @@ public class AddPrescriptionActivity extends AppCompatActivity implements View.O
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        //Initialize database, get primary data and set data
-        initComponent();
-        //Initialize Image loading and displaying at ImageView
+        //Initialize database, get primary data and set dat
+        //Initiaa
+        //        initComponent();lize Image loading and displaying at ImageView
         initImageLoader();
         //Initialize user interface view and components
         initUI();

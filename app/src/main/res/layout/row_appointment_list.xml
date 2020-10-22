@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="@dimen/dimension8dp"
+    android:background="@drawable/table_bg">
+
+    <LinearLayout
+        android:id="@+id/linearRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:background="@drawable/table_bg"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/linearDate"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/dimension5dp">
+
+            <TextView
+                android:id="@+id/monthDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/lato_bold"
+                android:padding="@dimen/dimension5dp"
+                android:text="SEP"
+                android:textAllCaps="true"
+                android:textColor="#000000"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="@dimen/_14ssp"
+                app:autoSizeMinTextSize="@dimen/_12ssp"
+                app:autoSizeStepGranularity="@dimen/_1ssp"
+                app:autoSizeTextType="uniform" />
+
+            <TextView
+                android:id="@+id/dayDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/lato_bold"
+                android:padding="@dimen/dimension5dp"
+                android:text="02"
+                android:textColor="#000000"
+                android:textSize="@dimen/_24ssp"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="@dimen/_24ssp"
+                app:autoSizeMinTextSize="@dimen/_20ssp"
+                app:autoSizeStepGranularity="@dimen/_1ssp"
+                app:autoSizeTextType="uniform" />
+
+            <TextView
+                android:id="@+id/yearDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/lato_bold"
+                android:padding="@dimen/dimension5dp"
+                android:text="2020"
+                android:textColor="#000000"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="normal"
+                app:autoSizeMaxTextSize="@dimen/_14ssp"
+                app:autoSizeMinTextSize="@dimen/_12ssp"
+                app:autoSizeStepGranularity="@dimen/_1ssp"
+                app:autoSizeTextType="uniform" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgView"
+            android:layout_width="@dimen/dimension2dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dimension8dp"
+            android:layout_marginBottom="@dimen/dimension8dp"
+            android:background="#E3E3E8" />
+
+        <LinearLayout
+            android:id="@+id/linearCardDiscription"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:weightSum="0.9">
+
+            <LinearLayout
+                android:id="@+id/linearDoctor_Status"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimension0dp"
+                android:layout_marginRight="@dimen/dimension25dp"
+                android:layout_weight="0.3"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/tv_DoctorName"
+                    android:layout_width="@dimen/dimension0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_weight="0.7"
+                    android:fontFamily="@font/lato_bold"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:padding="@dimen/dimension5dp"
+                    android:text="Dr. Agnes Patterson"
+                    android:textAlignment="gravity"
+                    android:textColor="#727272"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="normal"
+                    app:autoSizeMaxTextSize="@dimen/_15ssp"
+                    app:autoSizeMinTextSize="@dimen/_12ssp"
+                    app:autoSizeStepGranularity="@dimen/_2ssp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/tv_Status"
+                    android:layout_width="@dimen/dimension0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="0.3"
+                    android:background="@drawable/border"
+                    android:fontFamily="@font/lato_bold"
+                    android:gravity="center"
+                    android:padding="@dimen/dimension5dp"
+                    android:text="follow up"
+                    android:textAllCaps="true"
+                    android:textColor="#1886F7"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
+                    app:autoSizeMaxTextSize="@dimen/_10ssp"
+                    app:autoSizeMinTextSize="@dimen/_18ssp"
+                    app:autoSizeStepGranularity="@dimen/_1ssp"
+                    app:autoSizeTextType="uniform"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearMalady_Arrow"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimension0dp"
+                android:layout_weight="0.3"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/tv_DiagnosisTypes"
+                    android:layout_width="@dimen/dimension0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:fontFamily="@font/bold_lato"
+                    android:gravity="left"
+                    android:maxLines="1"
+                    android:padding="@dimen/dimension5dp"
+                    android:text="Cosmetic Surgeon"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold"
+                    app:autoSizeMaxTextSize="@dimen/_15ssp"
+                    app:autoSizeMinTextSize="@dimen/_12ssp"
+                    app:autoSizeStepGranularity="@dimen/_2ssp"
+                    app:autoSizeTextType="uniform" />
+
+                <ImageView
+                    android:id="@+id/img_Forward"
+                    android:layout_width="@dimen/dimension0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:layout_weight="0.1"
+                    android:padding="@dimen/dimension5dp"
+                    android:src="@drawable/arrow_right"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_VisitingStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimension0dp"
+                android:layout_gravity="left"
+                android:layout_weight="0.3"
+                android:fontFamily="@font/lato"
+                android:gravity="center_vertical"
+                android:padding="@dimen/dimension5dp"
+                android:text="Monthly"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="normal" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

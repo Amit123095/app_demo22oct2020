@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F7"
+    tools:context="com.mindyourlovedone.healthcare.Appointment.AppointmentEditList">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimension70dp"
+        android:background="#D06397">
+
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="@dimen/dimension35dp"
+            android:layout_height="@dimen/dimension45dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimension8dp"
+            android:src="@drawable/backward_arrow" />
+
+        <ImageView
+            android:id="@+id/imgHome"
+            android:layout_width="@dimen/dimension25dp"
+            android:layout_height="@dimen/dimension25dp"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimension8dp"
+            android:layout_toRightOf="@+id/imgBack"
+            android:src="@drawable/homes" />
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/dimension10dp"
+            android:fontFamily="@font/bold_lato"
+            android:text="Appointments"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimension10dp"
+            android:layout_marginRight="@dimen/dimension10dp"
+            android:fontFamily="@font/lato"
+            android:text="save"
+            android:textAllCaps="true"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/dimension20dp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/imgInform"
+            android:layout_width="@dimen/dimension30dp"
+            android:layout_height="@dimen/dimension50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dimension10dp"
+            android:src="@drawable/information"
+            android:tint="@color/colorWhite"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/imgDone"
+            android:layout_width="@dimen/dimension30dp"
+            android:layout_height="@dimen/dimension30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dimension15dp"
+            android:src="@drawable/check_mark"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:background="#AD4B7A">
+
+        <TextView
+            android:id="@+id/userName_self"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/dimension8dp"
+            android:layout_marginBottom="@dimen/dimension8dp"
+            android:fontFamily="@font/regular_lato"
+            android:gravity="center_horizontal"
+            android:maxLines="1"
+            android:text="Dr.Bhimrao Ramji Ambedkar"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/aCTVAppoint"
+        android:layout_below="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/dimension20dp"
+            android:layout_marginLeft="@dimen/dimension10dp"
+            android:layout_marginRight="@dimen/dimension10dp"
+            android:padding="@dimen/dimension10dp"
+            android:background="@drawable/table_bg">
+
+            <TextView
+                android:id="@+id/appFrequency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_weight="0.7"
+                android:fontFamily="@font/lato_bold"
+                android:gravity="left"
+                android:maxLines="1"
+                android:padding="@dimen/dimension5dp"
+                android:text="Appointment frequency"
+                android:textAlignment="gravity"
+                android:textColor="#727272"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="normal"
+                app:autoSizeMaxTextSize="@dimen/_15ssp"
+                app:autoSizeMinTextSize="@dimen/_12ssp"
+                app:autoSizeStepGranularity="@dimen/_2ssp"
+                app:autoSizeTextType="uniform" />
+
+            <AutoCompleteTextView
+                android:id="@+id/aCTV_SearchBarFeq"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/search_bar"
+                android:clickable="true"
+                android:drawableLeft="@drawable/search_find"
+                android:drawableRight="@drawable/arrow_drop_down"
+                android:drawablePadding="@dimen/dimension5dp"
+                android:focusableInTouchMode="true"
+                android:hint="Yearly"
+                android:textColorHint="#252525"
+                android:maxLines="1"
+                android:padding="@dimen/dimension8dp"
+                android:popupBackground="@drawable/table_bg"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/radioRelFeq"
+        android:layout_below="@+id/aCTVAppoint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimension10dp"
+        android:layout_marginLeft="@dimen/dimension10dp"
+        android:layout_marginRight="@dimen/dimension10dp"
+        android:layout_marginBottom="@dimen/dimension0dp"
+        android:padding="@dimen/dimension10dp">
+
+        <RadioGroup
+            android:id="@+id/radioGrup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <RadioButton
+                android:id="@+id/radiobtnSpecialist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/on_select_radiobtn"
+                android:checked="true"
+                android:fontFamily="@font/lato_bold"
+                android:padding="@dimen/dimension10dp"
+                android:text="Specialist"
+                android:textColor="#485357"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="normal" />
+
+            <RadioButton
+                android:id="@+id/radiobtnTest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimension25dp"
+                android:button="@drawable/on_select_radiobtn"
+                android:checked="false"
+                android:fontFamily="@font/lato_bold"
+                android:padding="@dimen/dimension10dp"
+                android:text="Test"
+                android:textColor="#485357"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="normal" />
+        </RadioGroup>
+
+    </RelativeLayout>
+
+  <RelativeLayout
+      android:id="@+id/bodyList"
+      android:layout_below="@+id/radioRelFeq"
+      android:layout_marginTop="@dimen/dimension0dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+      <LinearLayout
+          android:layout_marginLeft="@dimen/dimension10dp"
+          android:layout_marginRight="@dimen/dimension10dp"
+          android:padding="@dimen/dimension10dp"
+          android:id="@+id/linearview1"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/dimension0dp"
+          android:orientation="vertical"
+          android:background="@drawable/table_bg">
+
+
+          <AutoCompleteTextView
+              android:id="@+id/aCTV_SearchBar"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="@dimen/dimension10dp"
+              android:background="@drawable/search_bar"
+              android:clickable="true"
+              android:drawableLeft="@drawable/search_find"
+              android:drawableRight="@drawable/arrow_drop_down"
+              android:drawablePadding="@dimen/dimension5dp"
+              android:focusableInTouchMode="true"
+              android:hint="Search..."
+              android:maxLines="1"
+              android:padding="@dimen/dimension8dp"
+              android:popupBackground="@drawable/table_bg"
+              android:textSize="16sp" />
+
+
+          <RelativeLayout
+              android:id="@+id/rel"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+              <ListView
+                  android:id="@+id/actvLists"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="@dimen/dimension5dp"
+                  android:padding="@dimen/dimension2dp" />
+
+          </RelativeLayout>
+      </LinearLayout>
+  </RelativeLayout>
+
+
+
+</RelativeLayout>

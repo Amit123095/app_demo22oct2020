@@ -870,7 +870,7 @@ public class SwipeLayout extends FrameLayout {
                 }
                 if (!beforeCheck && mIsBeingDragged) {
                     //let children has one chance to catch the touch, and request the swipe not intercept
-                    //useful when swipeLayout wrap a swipeLayout or other gestural layout
+                    //useful when swipeLayout wrap a swipeLayout or other gestural row_archivelist
                     return false;
                 }
                 break;

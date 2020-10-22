@@ -232,7 +232,7 @@ public class ConnectionAdapter extends RecyclerSwipeAdapter<ConnectionAdapter.Vi
         holder.swipeLayout.addSwipeListener(new SimpleSwipeListener() {
             @Override
             public void onOpen(SwipeLayout layout) {
-                //  YoYo.with(Techniques.Tada).duration(500).delay(100).playOn(layout.findViewById(R.id.trash));
+                //  YoYo.with(Techniques.Tada).duration(500).delay(100).playOn(row_archivelist.findViewById(R.id.trash));
             }
         });
 

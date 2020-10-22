@@ -110,14 +110,18 @@ public class BaseActivity extends DropboxActivity implements View.OnClickListene
     ImageView txtDrawer;
     ProgressBar progressBar;
     TextView txtPrivacyPolicy, txtEULA;
-    RelativeLayout rlRegion,rlBackup, rlSettings, rlWebsite, rlProfiles, rlHome, rlContactUs, rlSponsor, rlResources, rlPrivacy, rlMarketPlace, rlVideos, rlResourcesDetail, rlMarketDetail, rlPrivacyDetail;
-    TextView txtRegion,txtBackup, txtSettings, txtProfiles, txtHome, txtContactUs, txtSponsor, txtResources, txtPrivacy, txtMarketPlace, txtVideos, txtResourcesDetail, txtMarketDetail, txtPrivacyDetail;
-    ImageView imgBackup, imgSettings, imgProfiles, imgHome, imgContactUs, imgSponsor, imgResources, imgPrivacy, imgMarketPlace, imgVideos, imgResourcesDetail, imgMarketDetail, imgPrivacyDetail;
+    RelativeLayout rlRegion,rlBackup, rlSettings, rlWebsite, rlProfiles, rlHome, rlContactUs, rlSponsor, rlResources, rlPrivacy,
+            rlMarketPlace, rlVideos, rlResourcesDetail, rlMarketDetail, rlPrivacyDetail;
+    TextView txtRegion,txtBackup, txtSettings, txtProfiles, txtHome, txtContactUs, txtSponsor, txtResources,
+            txtPrivacy, txtMarketPlace, txtVideos, txtResourcesDetail, txtMarketDetail, txtPrivacyDetail;
+    ImageView imgBackup, imgSettings, imgProfiles, imgHome, imgContactUs, imgSponsor, imgResources, imgPrivacy,
+            imgMarketPlace, imgVideos, imgResourcesDetail, imgMarketDetail, imgPrivacyDetail;
 
     int p = 0, bginit = 0;
     ImageLoader imageLoader;
     DisplayImageOptions displayImageOptions;
-    final CharSequence[] dialog_add = {"Add to Advance Directives", "Add to Other Documents", "Add to Medical Records", "Add to Insurance Forms", "Add to Prescription List"};
+    final CharSequence[] dialog_add = {"Add to Advance Directives", "Add to Other Documents",
+            "Add to Medical Records", "Add to Insurance Forms", "Add to Prescription List"};
     ProgressDialog pd;
 
     @Override
