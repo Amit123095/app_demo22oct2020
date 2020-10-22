@@ -121,12 +121,9 @@ public class Prescription_List_Activity extends AppCompatActivity implements Vie
 
         initUI();
 
-
         initListener();
 
-
-
-        //setAdapter();
+        setAdapter();
 
 
     }
@@ -205,7 +202,7 @@ public class Prescription_List_Activity extends AppCompatActivity implements Vie
 
     private void initListener() {
         //click to list
-        current_presc_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*current_presc_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intentCurrentList = new Intent(Prescription_List_Activity.this, Prescription_detail_Activity.class);
@@ -220,7 +217,7 @@ public class Prescription_List_Activity extends AppCompatActivity implements Vie
                 Prescription_List_Activity.this.startActivity(intentCurrentList);
                 finish();
             }
-        });
+        });*/
         imgBacks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
