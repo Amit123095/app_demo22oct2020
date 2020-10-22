@@ -93,7 +93,7 @@ public class Prescription_List_Activity extends AppCompatActivity implements Vie
     private FrameLayout frameLayout_prescription;
 
     ImageView imgRight;
-    View rootview;
+    
     RelativeLayout llAddPrescriptionInfo;
     Preferences preferences;
     DBHelper dbHelper;
@@ -457,26 +457,26 @@ public class Prescription_List_Activity extends AppCompatActivity implements Vie
         relativeListInfo = findViewById(R.id.relativeListInfo);
         frameLayout_prescription = findViewById(R.id.frameLayout_prescription);
 
-        floatProfile = rootview.findViewById(R.id.floatProfile);
-        floatAdd = rootview.findViewById(R.id.floatAdd);
-        imghelp = rootview.findViewById(R.id.imghelp);
-        txthelp = rootview.findViewById(R.id.txthelp);
+        floatProfile = findViewById(R.id.floatProfile);
+        floatAdd = findViewById(R.id.floatAdd);
+        imghelp = findViewById(R.id.imghelp);
+        txthelp = findViewById(R.id.txthelp);
 
         PrescriptionList = new ArrayList<>();
-        scroll = rootview.findViewById(R.id.scroll);
-        floatOptions = rootview.findViewById(R.id.floatOptions);
+        scroll = findViewById(R.id.scroll);
+        floatOptions = findViewById(R.id.floatOptions);
 
-        final RelativeLayout relMsg = rootview.findViewById(R.id.relMsg);
-        TextView txt61 = rootview.findViewById(R.id.txtPolicy61);
-        TextView txt62 = rootview.findViewById(R.id.txtPolicy62);
-        TextView txt63 = rootview.findViewById(R.id.txtPolicy63);
-        TextView txt64 = rootview.findViewById(R.id.txtPolicy64);
-        TextView txt65 = rootview.findViewById(R.id.txtPolicy65);
-        TextView txt66 = rootview.findViewById(R.id.txtPolicy66);
-        TextView txt67 = rootview.findViewById(R.id.txtPolicy67);
-        TextView txt68 = rootview.findViewById(R.id.txtPolicy68);
-        ImageView img67 = rootview.findViewById(R.id.img67);
-        ImageView img68 = rootview.findViewById(R.id.img68);
+        final RelativeLayout relMsg = findViewById(R.id.relMsg);
+        TextView txt61 = findViewById(R.id.txtPolicy61);
+        TextView txt62 = findViewById(R.id.txtPolicy62);
+        TextView txt63 = findViewById(R.id.txtPolicy63);
+        TextView txt64 = findViewById(R.id.txtPolicy64);
+        TextView txt65 = findViewById(R.id.txtPolicy65);
+        TextView txt66 = findViewById(R.id.txtPolicy66);
+        TextView txt67 = findViewById(R.id.txtPolicy67);
+        TextView txt68 = findViewById(R.id.txtPolicy68);
+        ImageView img67 = findViewById(R.id.img67);
+        ImageView img68 = findViewById(R.id.img68);
 
 
         //shradha
@@ -502,7 +502,7 @@ public class Prescription_List_Activity extends AppCompatActivity implements Vie
                 "To <b>add a picture</b> click the picture of the <b>pencil</b> and" +
                 "either <b>take a photo</b> or grab one from your <b>gallery</b>. To edit or delete the picture click the pencil again.Use the same process to add a business card. It is recommended that you hold your phone horizontal when taking a picture of the business card";
         // txtMsg.setText(Html.fromHtml(msg));
-        txtFTU = rootview.findViewById(R.id.txtFTU);
+        txtFTU = findViewById(R.id.txtFTU);
         txtFTU.setOnClickListener(new View.OnClickListener() {
             /**
              * Function: Called when a view has been clicked.
@@ -518,9 +518,9 @@ public class Prescription_List_Activity extends AppCompatActivity implements Vie
             }
         });
         imgRight = this.findViewById(R.id.imgRight);
-        // imgADMTick= (ImageView) rootview.findViewById(imgADMTick);
-        rlGuide = rootview.findViewById(R.id.rlGuide);
-        llAddPrescriptionInfo = rootview.findViewById(R.id.llAddPrescriptionInfo);
+        // imgADMTick= (ImageView) .findViewById(imgADMTick);
+        rlGuide = findViewById(R.id.rlGuide);
+        llAddPrescriptionInfo = findViewById(R.id.llAddPrescriptionInfo);
 
     }
 
@@ -554,7 +554,7 @@ public class Prescription_List_Activity extends AppCompatActivity implements Vie
                 startActivity(intentDashboard);
                 break;
             case R.id.floatAdd://Add New Contact
-                Intent is = new Intent(Prescription_List_Activity.this, AddPrescriptionActivity.class);
+                Intent is = new Intent(Prescription_List_Activity.this, Prescription_detail_Activity.class);
                 is.putExtra("IsEdit", false);
                 startActivityForResult(is, 100);
                 break;

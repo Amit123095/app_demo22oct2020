@@ -57,7 +57,8 @@
             </intent-filter>
         </activity>
         <activity android:name="com.mindyourlovedone.healthcare.Prescription.Prescription_Edit_Activity" />
-        <activity android:name="com.mindyourlovedone.healthcare.Prescription.Prescription_detail_Activity" />
+        <activity android:name="com.mindyourlovedone.healthcare.Prescription.Prescription_detail_Activity"></activity>
+
         <activity android:name="com.mindyourlovedone.healthcare.backuphistory.BackupHistoryActivity" />
         <activity android:name="com.mindyourlovedone.healthcare.utility.WebPDFActivity" />
         <activity android:name="com.mindyourlovedone.healthcare.DashBoard.ReactionListActivity" />
@@ -81,11 +82,11 @@
             android:configChanges="keyboard|keyboardHidden|uiMode|screenLayout|orientation|screenSize|smallestScreenSize"
             android:windowSoftInputMode="stateHidden">
 
-         <!--   <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--   <intent-filter>
+                   <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+                   <category android:name="android.intent.category.LAUNCHER" />
+               </intent-filter>-->
         </activity>
         <activity
             android:name=".LoginActivity"
